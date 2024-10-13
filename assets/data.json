@@ -1,0 +1,110 @@
+{
+  "data_dialoge": {
+    "sprache": "german",
+      "dialoge": [
+        {
+          "kategorie": "Begrüßungen",
+          "muster": [
+            "Hallo!",
+            "Wie geht's?"
+          ],
+          "antwort": [
+            "Hallo {name}! Mir geht's gut.",
+            "Hi {name}!"
+          ]
+        },
+        {
+          "kategorie": "Verabschiedungen",
+          "muster": [
+            "Auf Wiedersehen!",
+            "Tschüss, bis bald!",
+            "Bis zum nächsten Mal!",
+            "Tschüss!",
+            "Mach's gut! Bis bald!"
+          ],
+          "antwort": [
+            "Mach's gut!",
+            "Tschüss!",
+            "Bis bald!"
+          ]
+        },
+        {
+          "kategorie": "Zeit",
+          "muster": [
+            "Wie spät ist es?",
+            "Könntest du die Uhrzeit sagen?",
+            "Was ist die aktuelle Uhrzeit?"
+          ],
+          "antwort": [
+            "Es ist gerade {zeit} Uhr.",
+            "Heute am {datum}, {zeit} Uhr."
+          ]
+        },
+        {
+          "kategorie": "Wetter",
+          "muster": [
+            "das Wetter [DATUM_EINHEIT] in [ORT]?"
+          ],
+          "antwort": [
+            "{datum_einheit} wird es %%fetch_wetter%% in {ort}."
+          ]
+        },
+        {
+          "kategorie": "Timer",
+          "muster": [
+            "Stellen sie den Timer auf [NUMMER] [ZEIT_EINHEIT]"
+          ],
+          "antwort": [
+            "Der Timer ist auf {nummer} {zeit_einheit} eingestellt"
+          ]
+        },
+        {
+          "kategorie": "Wikipedia",
+          "muster": [
+            "Wer ist",
+            "Was ist"
+          ],
+          "antwort": [
+            "%%fetch_wikipedia%%"
+          ]
+        }
+      ]
+  },
+  "data_datum_einheit": [
+    "heute",
+    "morgen",
+    "übermorgen",
+    "gestern",
+    "letzte Woche",
+    "nächste Woche",
+    "letzter Monat",
+    "nächster Monat",
+    "dieses Jahr",
+    "nächstes Jahr",
+    "letztes Jahr"
+  ],
+  "data_ort": [
+    "Berlin",
+    "Hamburg",
+    "Dresden",
+    "Munich",
+    "Köln",
+    "Frankfurt",
+    "Stuttgart",
+    "Düsseldorf",
+    "Dortmund",
+    "Essen",
+    "Leipzig"
+  ],
+  "data_zeit_einheit": [
+    "Sekunde",
+    "Minute",
+    "Stunde",
+    "Tag",
+    "Woche",
+    "Monat",
+    "Jahr",
+    "Jahrzehnt",
+    "Jahrhundert"
+  ]
+}
