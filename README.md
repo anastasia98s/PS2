@@ -1,7 +1,7 @@
 # Datensatz-Szenarien und Absichten
 
 ## List-Szenario
-- **Anmerkungen**: Produkt
+- **Anmerkungen**: Item
 - **Absichten**: löschen, eingeben
 
 ## Terminplan-Szenario
@@ -106,17 +106,11 @@ Die folgende Python-Klasse implementiert das Szenario "List":
 
 ```python
 class List:
-    def __init__(self, produkt, lst):
-        self.produkt = produkt
-        self.lst = lst
+    def __init__(self):
+        self.items = []
+        
+    def löschen(self, Item):
+        print(f"{Item} wurde aus der Liste entfernt")
 
-    def löschen(self):
-        if self.produkt in self.lst:
-            self.lst.remove(self.produkt)
-            print(f"{self.produkt} wurde aus der Liste entfernt.")
-        else:
-            print(f"{self.produkt} ist nicht in der Liste enthalten.")
-
-    def eingeben(self, neues_produkt):
-        self.lst.append(neues_produkt)
-        print(f"{neues_produkt} wurde zur Liste hinzugefügt.")
+    def eingeben(self, Item):
+        print(f"{Item} wurde zur Liste hinzugefügt.")
