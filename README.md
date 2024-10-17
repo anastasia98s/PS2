@@ -100,7 +100,7 @@
 - **Anmerkungen**: Datum, Uhrzeit
 - **Absichten**: einstellen
 
-##### Python-Klasse: Szenario (Intent)
+### Python-Klasse: Szenario (Intent)
 
 Die folgende Python-Klasse implementiert das Szenario "List":
 
