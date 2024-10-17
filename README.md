@@ -1,6 +1,6 @@
 # Datensatz-Szenarien und Absichten
 
-## Listen-Szenario
+## List-Szenario
 - **Anmerkungen**: Produkt
 - **Absichten**: löschen, eingeben
 
@@ -12,7 +12,7 @@
 - **Anmerkungen**: Datum, Uhrzeit, Aufgabe, Ort
 - **Absichten**: buchen, stornieren
 
-## Lampen-Szenario
+## Licht-Szenario
 - **Anmerkungen**: Ort
 - **Absichten**: dimmen, heller machen, ausschalten, einschalten
 
@@ -36,12 +36,12 @@
 - **Anmerkungen**: URL
 - **Absichten**: öffnen, indizieren
 
-## Nachrichten-Szenario
-- **Anmerkungen**: Telefonnummer/WhatsApp, Nachricht, Empfänger
+## Nachricht-Szenario
+- **Anmerkungen**: Telefonnummer, Nachricht
 - **Absichten**: senden
 
 ## Telefon-Szenario
-- **Anmerkungen**: Telefonnummer, Empfänger
+- **Anmerkungen**: Telefonnummer
 - **Absichten**: anrufen
 
 ## Wetter-Szenario
@@ -69,7 +69,7 @@
 - **Absichten**: einstellen, verringern, erhöhen
 
 ## Wikipedia-Szenario
-- **Anmerkungen**: Satz
+- **Anmerkungen**: (??)
 - **Absichten**: abfragen
 
 ## Daten-Szenario
