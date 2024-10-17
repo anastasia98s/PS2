@@ -1,5 +1,3 @@
-# Private Assistant AI
-
 # Datensatz-Szenarien und Absichten
 
 ## Listen-Szenario
