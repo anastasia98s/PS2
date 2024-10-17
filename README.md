@@ -1,106 +1,106 @@
 # Datensatz-Szenarien und Absichten
 
-## List-Szenario
+* **List-Szenario**
 - **Anmerkungen**: Item
 - **Absichten**: löschen, eingeben
 
-## Terminplan-Szenario
+#### Terminplan-Szenario
 - **Anmerkungen**: Datum, Uhrzeit, Aufgabe
 - **Absichten**: löschen, eingeben
 
-## Termin-Szenario
+#### Termin-Szenario
 - **Anmerkungen**: Datum, Uhrzeit, Aufgabe, Ort
 - **Absichten**: buchen, stornieren
 
-## Licht-Szenario
+#### Licht-Szenario
 - **Anmerkungen**: Ort
 - **Absichten**: dimmen, heller machen, ausschalten, einschalten
 
-## Kamera-Szenario
+#### Kamera-Szenario
 - **Anmerkungen**: Ort
 - **Absichten**: zoom verringern, zoom vergrößern, ausschalten, einschalten, fotografieren, video aufnehmen
 
-## Musik-Szenario
+#### Musik-Szenario
 - **Anmerkungen**: Musik, Person
 - **Absichten**: abspielen, stoppen, ändern
 
-## Filme-Szenario
+#### Filme-Szenario
 - **Anmerkungen**: Film (Name)
 - **Absichten**: abspielen, stoppen
 
-## Video-Szenario
+#### Video-Szenario
 - **Anmerkungen**: URL
 - **Absichten**: abspielen, stoppen
 
-## URL-Szenario
+#### URL-Szenario
 - **Anmerkungen**: URL
 - **Absichten**: öffnen, indizieren
 
-## Nachricht-Szenario
+#### Nachricht-Szenario
 - **Anmerkungen**: Telefonnummer, Nachricht
 - **Absichten**: senden
 
-## Telefon-Szenario
+#### Telefon-Szenario
 - **Anmerkungen**: Telefonnummer
 - **Absichten**: anrufen
 
-## Wetter-Szenario
+#### Wetter-Szenario
 - **Anmerkungen**: Datum, Uhrzeit, Ort
 - **Absichten**: abfragen
 
-## Nachrichten-Szenario
+#### Nachrichten-Szenario
 - **Anmerkungen**: Datum, Kategorie
 - **Absichten**: abfragen
 
-## Aktien-Szenario
+#### Aktien-Szenario
 - **Anmerkungen**: Aktie
 - **Absichten**: verkaufen, abfragen, kaufen
 
-## Transport-Szenario
+#### Transport-Szenario
 - **Anmerkungen**: Transport (Name, z.B. Taxi)
 - **Absichten**: buchen, stornieren
 
-## Alarm-Szenario
+#### Alarm-Szenario
 - **Anmerkungen**: Datum, Uhrzeit
 - **Absichten**: einstellen, entfernen/stoppen
 
-## Audio-Szenario
+#### Audio-Szenario
 - **Anmerkungen**: Lautstärke (Zahl)
 - **Absichten**: einstellen, verringern, erhöhen
 
-## Wikipedia-Szenario
+#### Wikipedia-Szenario
 - **Anmerkungen**: (??)
 - **Absichten**: abfragen
 
-## Daten-Szenario
+#### Daten-Szenario
 - **Anmerkungen**: Pfad, Datei (z.B. main.py)
 - **Absichten**: drucken, lesen, öffnen, löschen, konvertieren
 
-## WLAN-Szenario
+#### WLAN-Szenario
 - **Anmerkungen**: Netzwerk (WLAN-Name)
 - **Absichten**: verbinden, entfernen
 
-## Bluetooth-Szenario
+#### Bluetooth-Szenario
 - **Anmerkungen**: Gerät (Gerätename)
 - **Absichten**: verbinden, entfernen
 
-## Berechnung-Szenario
+#### Berechnung-Szenario
 - **Anmerkungen**: Zahl, Operator
 - **Absichten**: berechnen
 
-## Wiederholung-Szenario
+#### Wiederholung-Szenario
 - **Anmerkungen**: (letzte gespeicherte Absicht)
 - **Absichten**: wiederholen
 
-## Timer-Szenario
+#### Timer-Szenario
 - **Anmerkungen**: Uhrzeit
 - **Absichten**: einstellen
 
-## Alarm-Szenario
+#### Alarm-Szenario
 - **Anmerkungen**: Datum, Uhrzeit
 - **Absichten**: einstellen
 
-### Python-Klasse: Szenario (Intent)
+##### Python-Klasse: Szenario (Intent)
 
 Die folgende Python-Klasse implementiert das Szenario "List":
 
@@ -108,7 +108,7 @@ Die folgende Python-Klasse implementiert das Szenario "List":
 class List:
     def __init__(self):
         self.items = []
-        
+
     def löschen(self, Item):
         print(f"{Item} wurde aus der Liste entfernt")
 
