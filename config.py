@@ -8,10 +8,7 @@ TEXTKLASSIFIZIERUNG_TRAINED_PATH = 'data/result/textklassifizierung.pth'
 TEXTKLASSIFIZIERUNG_META_PATH = 'data/textklassifizierung_meta.bin'
 
 TEXTKLASSIFIZIERUNG_BASE_MODEL = 'dbmdz/bert-base-german-uncased'
-TEXTKLASSIFIZIERUNG_TOKENIZER = transformers.BertTokenizer.from_pretrained(
-    TEXTKLASSIFIZIERUNG_BASE_MODEL,
-    do_lower_case = True
-)
+TEXTKLASSIFIZIERUNG_TOKENIZER = transformers.BertTokenizer.from_pretrained(TEXTKLASSIFIZIERUNG_BASE_MODEL, do_lower_case = True)
 
 TEXTKLASSIFIZIERUNG_MAX_LEN = 70
 TEXTKLASSIFIZIERUNG_TRAIN_BATCH_SIZE = 50
