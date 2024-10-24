@@ -1,116 +1,64 @@
 # Datensatz-Szenarien und Absichten
 
-#### **List-Szenario**
-- **Anmerkungen**: Item
-- **Absichten**: löschen, eingeben
+#### **Alarm-Szenario**
+- **Anmerkungen**: Datum, Zeit, Frequenz, Aktivität
+- **Absichten**: einstellen, entfernen, abfragen
 
-#### Terminplan-Szenario
-- **Anmerkungen**: Datum, Uhrzeit, Aufgabe
-- **Absichten**: löschen, eingeben
+#### **Liste-Szenario**
+- **Anmerkungen**: Artikel, Menge, Thema?
+- **Absichten**: eingeben, löschen, ändern, abfragen
 
-#### Termin-Szenario
-- **Anmerkungen**: Datum, Uhrzeit, Aufgabe, Ort
-- **Absichten**: buchen, stornieren
+#### **Kalender-Szenario**
+- **Anmerkungen**: Datum, Zeit, Ort, Aktivität
+- **Absichten**: einstellen, ändern, löschen, eingeben, abfragen
 
-#### Licht-Szenario
-- **Anmerkungen**: Ort
-- **Absichten**: dimmen, heller machen, ausschalten, einschalten
+#### **DateZeit-Szenario**
+- **Anmerkungen**: Datum, Zeit, Zeitzone, Ort, Thema?
+- **Absichten**: konvertieren, abfragen
 
-#### Kamera-Szenario
-- **Anmerkungen**: Ort
-- **Absichten**: zoom verringern, zoom vergrößern, ausschalten, einschalten, fotografieren, video aufnehmen
+#### **Licht-Szenario**
+- **Anmerkungen**: Farbe, Gerät
+- **Absichten**: einschalten, ausschalten, ändern, verringern, erhöhen
 
-#### Musik-Szenario
-- **Anmerkungen**: Musik, Person
-- **Absichten**: abspielen, stoppen, ändern
+#### **Musik-Szenario**
+- **Anmerkungen**: Musik, Person, Plattform, Liste
+- **Absichten**: spielen, stoppen, pausieren, fortsetzen, abfragen
 
-#### Filme-Szenario
-- **Anmerkungen**: Film (Name)
-- **Absichten**: abspielen, stoppen
-
-#### Video-Szenario
-- **Anmerkungen**: URL
-- **Absichten**: abspielen, stoppen
-
-#### URL-Szenario
-- **Anmerkungen**: URL
-- **Absichten**: öffnen, indizieren
-
-#### Nachricht-Szenario
-- **Anmerkungen**: Telefonnummer, Nachricht
-- **Absichten**: senden
-
-#### Telefon-Szenario
-- **Anmerkungen**: Telefonnummer
-- **Absichten**: anrufen
-
-#### Wetter-Szenario
-- **Anmerkungen**: Datum, Uhrzeit, Ort
+#### **Wetter-Szenario**
+- **Anmerkungen**: Wetterdeskriptor, Ort, Zeit
 - **Absichten**: abfragen
 
-#### Nachrichten-Szenario
-- **Anmerkungen**: Datum, Kategorie
+#### **API-Szenario** (Wikipedia oder andere Quellen)
+- **Anmerkungen**: Thema/Information
 - **Absichten**: abfragen
 
-#### Aktien-Szenario
-- **Anmerkungen**: Aktie
-- **Absichten**: verkaufen, abfragen, kaufen
+#### **IoT-Szenario**
+- **Anmerkungen**: Gerät
+- **Absichten**: einschalten, ausschalten, ändern/einstellen, verbinden, abfragen, erhöhen, verringern
 
-#### Transport-Szenario
-- **Anmerkungen**: Transport (Name, z.B. Taxi)
-- **Absichten**: buchen, stornieren
+#### **System-Szenario** (internal system)
+- **Anmerkungen**: Thema
+- **Absichten**: pausieren, fortsetzen, erhöhen, verringern
 
-#### Alarm-Szenario
-- **Anmerkungen**: Datum, Uhrzeit
-- **Absichten**: einstellen, entfernen/stoppen
+#### **Timer-Szenario**
+- **Anmerkungen**: Zeit, Frequenz
+- **Absichten**: einstellen, stoppen, entfernen, abfragen
 
-#### Audio-Szenario
-- **Anmerkungen**: Lautstärke (Zahl)
-- **Absichten**: einstellen, verringern, erhöhen
-
-#### Wikipedia-Szenario
-- **Anmerkungen**: (??)
+#### **HTW Dresden-Szenario**
+- **Anmerkungen**: Thema, ...
 - **Absichten**: abfragen
-
-#### Daten-Szenario
-- **Anmerkungen**: Pfad, Datei (z.B. main.py)
-- **Absichten**: drucken, lesen, öffnen, löschen, konvertieren
-
-#### WLAN-Szenario
-- **Anmerkungen**: Netzwerk (WLAN-Name)
-- **Absichten**: verbinden, entfernen
-
-#### Bluetooth-Szenario
-- **Anmerkungen**: Gerät (Gerätename)
-- **Absichten**: verbinden, entfernen
-
-#### Berechnung-Szenario
-- **Anmerkungen**: Zahl, Operator
-- **Absichten**: berechnen
-
-#### Timer-Szenario
-- **Anmerkungen**: Uhrzeit
-- **Absichten**: einstellen
-
-#### Alarm-Szenario
-- **Anmerkungen**: Datum, Uhrzeit
-- **Absichten**: einstellen
-
-#### System-Szenario
-- **Anmerkungen**: -
-- **Absichten**: stoppen, pausieren, fortsetzen, wiederholen
 
 ### Python-Klasse: Szenario (Intent)
 
 Die folgende Python-Klasse implementiert das Szenario "List":
 
 ```python
-class List:
+class Liste: # Szenario (Class)
     def __init__(self):
-        self.items = []
+        self.Liste = []
 
-    def löschen(self, Item):
-        print(f"{Item} wurde aus der Liste entfernt")
+    def löschen(self, Artikel, Menge): # Absicht (Funktion) # Anmerkung (Variable) 
+        print(f"{Artikel} wurde aus der Liste entfernt")
 
-    def eingeben(self, Item):
-        print(f"{Item} wurde zur Liste hinzugefügt.")
+    def eingeben(self, Artikel, Menge):
+        print(f"{Artikel} wurde zur Liste hinzugefügt.")

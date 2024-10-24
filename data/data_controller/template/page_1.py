@@ -2,12 +2,17 @@ head = r"""
         <title>Satz</title>
         <script>
             let json_anmerkungen_1 = [];
+            let json_szenario_1 = [];
+            let json_absicht_1 = [];
+            
+            let json_satze = [];
 
             function load_satz_1() {
                 window.pywebview.api.show_satz().then(results => {
                     const satz_list = document.getElementById('satz_list');
                     satz_list.innerHTML = '';
                     results = JSON.parse(results);
+                    json_satze = results;
 
                     const satz_table = document.createElement('table');
                     satz_table.style.border = "1px solid black";
@@ -15,7 +20,7 @@ head = r"""
                     satz_table.style.width = "100%";
 
                     const headerRow = document.createElement('tr');
-                    const headers = ['Satz ID', 'Wort', 'Anmerkung', 'Szenario', 'Absicht', 'Aktion'];
+                    const headers = ['Satz ID', 'Wort', 'Anmerkung', 'Szenario', 'Absicht', 'Delete'];
                     headers.forEach(headerText => {
                         const th = document.createElement('th');
                         th.textContent = headerText;
@@ -26,8 +31,28 @@ head = r"""
                     });
                     satz_table.appendChild(headerRow);
 
+                    let color_array = [
+                        '#D58C8C',
+                        '#A8D8B9',
+                        '#A3C1E0'
+                    ];
+
+                    let current_index_cell_color = 0;
+                    let current_id = 0;
+                    let satz_count = 0;
+
                     results.forEach(result => {
                         const row = document.createElement('tr');
+
+                        if(result.satz_id !== current_id){
+                            satz_count++;
+                            current_index_cell_color++;
+                            if(current_index_cell_color === color_array.length){
+                                current_index_cell_color = 0;
+                            }
+                        }
+
+                        current_id = result.satz_id;
 
                         const satzIdCell = document.createElement('td');
                         satzIdCell.textContent = result.satz_id;
@@ -36,12 +61,17 @@ head = r"""
                         row.appendChild(satzIdCell);
 
                         const wortCell = document.createElement('td');
+                        wortCell.onclick = () => popup_wort_update_1(result.satz_id, result.wort_id, result.wort, result.anmerkung_id);
+                        wortCell.style.cursor = 'pointer';
+                        wortCell.style.backgroundColor = color_array[current_index_cell_color];
                         wortCell.textContent = result.wort;
                         wortCell.style.border = "1px solid black";
                         wortCell.style.padding = "8px";
                         row.appendChild(wortCell);
 
                         const anmerkungCell = document.createElement('td');
+                        anmerkungCell.onclick = () => popup_wort_update_1(result.satz_id, result.wort_id, result.wort, result.anmerkung_id);
+                        anmerkungCell.style.cursor = 'pointer';
                         anmerkungCell.textContent = result.anmerkung || '';
                         anmerkungCell.style.border = "1px solid black";
                         anmerkungCell.style.padding = "8px";
@@ -49,28 +79,39 @@ head = r"""
 
                         const szenarioCell = document.createElement('td');
                         szenarioCell.textContent = result.szenario;
+                        szenarioCell.style.cursor = 'pointer';
+                        szenarioCell.onclick = () => update_satz_1(result.satz_id, result.szenario_id, result.absicht_id);
                         szenarioCell.style.border = "1px solid black";
                         szenarioCell.style.padding = "8px";
                         row.appendChild(szenarioCell);
 
                         const absichtCell = document.createElement('td');
                         absichtCell.textContent = result.absicht;
+                        absichtCell.style.cursor = 'pointer';
+                        absichtCell.onclick = () => update_satz_1(result.satz_id, result.szenario_id, result.absicht_id);
                         absichtCell.style.border = "1px solid black";
                         absichtCell.style.padding = "8px";
                         row.appendChild(absichtCell);
 
+                        const deleteCell = document.createElement('td');
                         const delete_btn = document.createElement('button');
                         delete_btn.textContent = "Delete";
                         delete_btn.onclick = () => delete_satz_1(result.satz_id);
+                        delete_btn.style.color = "white";
+                        delete_btn.style.backgroundColor = "red";
                         delete_btn.style.border = "1px solid black";
                         delete_btn.style.padding = "8px";
                         delete_btn.style.cursor = "pointer";
-                        row.appendChild(delete_btn);
+                        deleteCell.appendChild(delete_btn);
+                        row.appendChild(deleteCell);
 
                         satz_table.appendChild(row);
                     });
 
                     satz_list.appendChild(satz_table);
+
+                    const total_satz = document.getElementById('total_satz');
+                    total_satz.textContent = satz_count;
                 });
             }
 
@@ -80,18 +121,30 @@ head = r"""
                 });
             }
 
+            function option_absicht_1(container){
+                json_absicht_1.forEach(json_absicht => {
+                    const optionElement = document.createElement("option");
+                    optionElement.value = json_absicht.absicht_id;
+                    optionElement.textContent = json_absicht.absicht;
+                    container.appendChild(optionElement);
+                });
+            }
+
+            function option_szenario_1(container){
+                json_szenario_1.forEach(json_szenario => {
+                    const optionElement = document.createElement("option");
+                    optionElement.value = json_szenario.szenario_id;
+                    optionElement.textContent = json_szenario.szenario;
+                    container.appendChild(optionElement);
+                });
+            }
+
             function load_absicht_1() {
                 window.pywebview.api.show_absicht().then(results => {
                     const absicht_select = document.getElementById("absicht_select");
                     absicht_select.innerHTML = '';
-                    json_absichten = JSON.parse(results);
-
-                    json_absichten.forEach(json_absicht => {
-                        const optionElement = document.createElement("option");
-                        optionElement.value = json_absicht.absicht_id;
-                        optionElement.textContent = json_absicht.absicht;
-                        absicht_select.appendChild(optionElement);
-                    });
+                    json_absicht_1 = JSON.parse(results);
+                    option_absicht_1(absicht_select);
                 });
             }
 
@@ -99,14 +152,8 @@ head = r"""
                 window.pywebview.api.show_szenario().then(results => {
                     const szenario_select = document.getElementById("szenario_select");
                     szenario_select.innerHTML = '';
-                    json_szenarios = JSON.parse(results);
-
-                    json_szenarios.forEach(json_szenario => {
-                        const optionElement = document.createElement("option");
-                        optionElement.value = json_szenario.szenario_id;
-                        optionElement.textContent = json_szenario.szenario;
-                        szenario_select.appendChild(optionElement);
-                    });
+                    json_szenario_1 = JSON.parse(results);
+                    option_szenario_1(szenario_select);
                 });
             }
 
@@ -130,7 +177,14 @@ head = r"""
                         array_woerter_value_1.push(wortObject);
 
                         const div = document.createElement('div');
-                        div.textContent = wort;
+                        div.style.display = "flex";
+
+                        const wort_name = document.createElement('span');
+                        wort_name.style.minWidth = "7%";
+                        wort_name.style.fontWeight = 'bold';
+                        wort_name.textContent = wort;
+
+
 
                         const selectElement = document.createElement("select");
 
@@ -149,6 +203,7 @@ head = r"""
                             wortObject.anmerkung_id = selectedAnmerkungId;
                         };
 
+                        div.appendChild(wort_name);
                         div.appendChild(selectElement);
 
                         woerter_array_editor.appendChild(div);
@@ -190,6 +245,102 @@ head = r"""
                 }
             }
 
+            function get_satz_in_array(id) {
+                let satz_result = [];
+                json_satze.forEach(wort_json => {
+                    if (wort_json.satz_id === id) {
+                        satz_result.push(wort_json.wort);
+                    }
+                });
+                return satz_result.join(" ");
+            }
+
+            function update_satz_1(satz_id, szenario_id, absicht_id) {
+                const popup_container = document.getElementById('popup_container');
+                const overlay_container = document.getElementById('overlay_container');
+                popup_container.style.display = 'block';
+                overlay_container.style.display = 'block';
+
+                const popup_inhalt_container = document.getElementById('popup_inhalt_container');
+                popup_inhalt_container.innerHTML = '';
+
+                const satz_result = get_satz_in_array(satz_id);
+
+                const satz_info_container = document.createElement("div");
+                const id_satz = document.createElement("p");
+                const text_satz = document.createElement("p");
+
+                id_satz.style.fontWeight = 'bold';
+                text_satz.style.fontWeight = 'bold';
+
+                id_satz.textContent = "ID: " + satz_id;
+                text_satz.textContent = get_satz_in_array(satz_id);
+
+                satz_info_container.appendChild(id_satz);
+                satz_info_container.appendChild(text_satz);
+
+                const szenario_container = document.createElement("div");
+                szenario_container.style.display = "flex";
+
+                const label_szenario = document.createElement("span");
+                label_szenario.style.fontWeight = 'bold';
+                label_szenario.style.width = "30%";
+                label_szenario.textContent = "Szenario";
+
+                const select_szenario = document.createElement("select");
+                select_szenario.style.padding = "3px";
+                option_szenario_1(select_szenario);
+
+                szenario_container.appendChild(label_szenario);
+                szenario_container.appendChild(select_szenario);
+
+                const absicht_container = document.createElement("div");
+                absicht_container.style.display = "flex";
+
+                const label_absicht = document.createElement("span");
+                label_absicht.style.fontWeight = 'bold';
+                label_absicht.style.width = "30%";
+                label_absicht.textContent = "Absicht";
+
+                const select_absicht = document.createElement("select");
+                select_absicht.style.padding = "3px";
+                option_absicht_1(select_absicht);
+
+                absicht_container.appendChild(label_absicht);
+                absicht_container.appendChild(select_absicht);
+
+                select_szenario.value = szenario_id;
+                
+                select_absicht.value = absicht_id;
+
+                const update_sz_ab_btn = document.createElement("button");
+                update_sz_ab_btn.textContent = "Update";
+
+                update_sz_ab_btn.style.padding = '10px 20px';
+                update_sz_ab_btn.style.backgroundColor = 'green';
+                update_sz_ab_btn.style.color = 'white';
+                update_sz_ab_btn.style.border = 'none';
+                update_sz_ab_btn.style.borderRadius = '5px';
+                update_sz_ab_btn.style.cursor = 'pointer';
+                update_sz_ab_btn.style.marginTop = '10px';
+
+                update_sz_ab_btn.onclick = ()=> {
+                    const confirmUpdate = confirm("Möchten Sie diesen Eintrag wirklich ändern? ID: " + satz_id + "\nSatz: " + satz_result);
+                    if (confirmUpdate) {
+                        window.pywebview.api.update_satz_sz_ab(satz_id, select_szenario.value, select_absicht.value).then(response => {
+                            load_satz_1();
+                            information_bar(response);
+                            popup_schliessen();
+                        });
+                    }
+                }
+
+                popup_inhalt_container.appendChild(satz_info_container);
+                popup_inhalt_container.appendChild(szenario_container);
+                popup_inhalt_container.appendChild(absicht_container);
+                popup_inhalt_container.appendChild(update_sz_ab_btn);
+            }
+
             function start_init_1() {
                 load_anmerkung_1();
                 load_absicht_1();
@@ -200,37 +351,114 @@ head = r"""
             window.onload = function () {
                 setTimeout(start_init_1, 100);
             };
+
+            function popup_wort_update_1(satz_id, wort_id, wort, anmerkung_id) {
+                const popup_container = document.getElementById('popup_container');
+                const overlay_container = document.getElementById('overlay_container');
+                popup_container.style.display = 'block';
+                overlay_container.style.display = 'block';
+
+                const popup_inhalt_container = document.getElementById('popup_inhalt_container');
+                popup_inhalt_container.innerHTML = '';
+
+                const wort_info = document.createElement("div");
+
+                const id_satz = document.createElement("p");
+                const text_satz = document.createElement("p");
+
+                id_satz.style.fontWeight = 'bold';
+                text_satz.style.fontWeight = 'bold';
+
+                id_satz.textContent = "ID: " + satz_id;
+                text_satz.textContent = get_satz_in_array(satz_id);
+
+                wort_info.appendChild(id_satz);
+                wort_info.appendChild(text_satz);
+
+                const inputElement = document.createElement("input");
+                inputElement.placeholder = "Wort";
+                inputElement.value = wort;
+
+                inputElement.style.padding = "5px";
+                inputElement.style.width = "100%";
+                inputElement.style.marginBottom = "5px";
+
+                const selectElement = document.createElement("select");
+
+                selectElement.style.padding = "5px";
+                selectElement.style.width = "100%";
+                selectElement.style.marginBottom = "5px";
+
+                json_anmerkungen_1.forEach(json_anmerkung => {
+                    const optionElement = document.createElement("option");
+                    optionElement.value = json_anmerkung.anmerkung_id;
+                    optionElement.textContent = json_anmerkung.anmerkung;
+                    selectElement.appendChild(optionElement);
+                });
+
+                selectElement.value = anmerkung_id;
+
+                const update_anmerkung_btn = document.createElement("button");
+                update_anmerkung_btn.textContent = "Update";
+
+                update_anmerkung_btn.style.padding = '10px 20px';
+                update_anmerkung_btn.style.backgroundColor = 'green';
+                update_anmerkung_btn.style.color = 'white';
+                update_anmerkung_btn.style.border = 'none';
+                update_anmerkung_btn.style.borderRadius = '5px';
+                update_anmerkung_btn.style.cursor = 'pointer';
+                update_anmerkung_btn.style.marginTop = '10px';
+
+                update_anmerkung_btn.onclick = ()=> {
+                    const confirmUpdate = confirm("Möchten Sie diesen Eintrag wirklich ändern?");
+                    if (confirmUpdate) {
+                        window.pywebview.api.update_wort(wort_id, selectElement.value, inputElement.value.trim().replace(/\s+/g, ' ')).then(response => {
+                            load_satz_1();
+                            information_bar(response);
+                            popup_schliessen();
+                        });
+                    }
+                }
+
+                popup_inhalt_container.appendChild(wort_info);
+                popup_inhalt_container.appendChild(inputElement);
+                popup_inhalt_container.appendChild(selectElement);
+                popup_inhalt_container.appendChild(update_anmerkung_btn);
+            }
         </script>
     """
 
 body = r"""
-            <h1 style="text-align: center;">Satz</h1>
+            <div style="max-width:800px; margin-left:auto; margin-right:auto; padding: 5px;">
+                <h1>Datenkontrolle</h1>
 
-            <div style="text-align: center; margin-bottom: 20px;">
-                <button onclick="start_init_1()" style="padding: 10px 15px; border: 1px solid black; cursor: pointer;">Seite neu starten</button>
-                <button onclick="goToPage(2)" style="padding: 10px 15px; cursor: pointer; margin-right: 10px;">Page 2</button>
-            </div>
-
-            <div style="padding: 5px; margin: 0 auto;">
-                <form id="form_satz" onsubmit="event.preventDefault(); text_to_woerter_1();" style="margin-bottom: 20px;">
-                    <input type="text" name="satz_text" placeholder="Satz" required style="padding: 10px; width: calc(100% - 20px); border: 1px solid #ccc; border-radius: 4px;">
-                    <button type="submit" style="width: 100%; padding: 10px 15px; cursor: pointer; margin-top: 10px;">Split</button>
-                </form>
-
-                <div id="woerter_array_editor" style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 4px;"></div>
-
-                <div style="margin-bottom: 20px; display: flex; gap: 10px">
-                    <h3>Absicht</h3>
-                    <select id="absicht_select" style="padding: 10px; width: 100%; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 10px;"></select>
-                </div>
-                <div style="margin-bottom: 20px; display: flex; gap: 10px">
-                    <h3>Szenario</h3>
-                    <select id="szenario_select" style="padding: 10px; width: 100%; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 10px;"></select>
+                <div style="display: flex; margin-bottom: 10px; justify-content: space-between;">
+                    <button onclick="start_init_1()" style="padding: 10px 15px; border: 1px solid black; cursor: pointer;">Seite neu starten</button>
+                    <button onclick="goToPage(2)" style="padding: 10px 15px; cursor: pointer;">Seite 2</button>
                 </div>
 
-                <button id="submit_satz" onclick="upload_satz_1()" style="width: 100%; padding: 10px 15px; cursor: pointer;">Upload</button>
+                <div>
+                    <form id="form_satz" onsubmit="event.preventDefault(); text_to_woerter_1();" style="margin-bottom: 20px;">
+                        <input type="text" name="satz_text" placeholder="Satz" required style="padding: 10px; width: calc(100% - 20px); border: 1px solid #ccc; border-radius: 4px;">
+                        <button type="submit" style="width: 100%; padding: 10px 15px; cursor: pointer; margin-top: 10px;">Split</button>
+                    </form>
+
+                    <div id="woerter_array_editor" style="margin-bottom: 20px; padding: 10px;"></div>
+
+                    <div style="margin-bottom: 20px; display: flex; gap: 10px">
+                        <h3 style="width:15%">Absicht</h3>
+                        <select id="absicht_select" style="padding: 10px; width: 100%; margin-bottom: 10px;"></select>
+                    </div>
+                    <div style="margin-bottom: 20px; display: flex; gap: 10px">
+                        <h3 style="width:15%">Szenario</h3>
+                        <select id="szenario_select" style="padding: 10px; width: 100%; margin-bottom: 10px;"></select>
+                    </div>
+
+                    <button id="submit_satz" onclick="upload_satz_1()" style="width: 100%; padding: 10px 15px; cursor: pointer;">Upload</button>
+                </div>
             </div>
+            
+            <div style="margin-top:10px; margin-left: 5px;"><b>Total:</b> <span id="total_satz">0</span></div>
 
-            <div id="satz_list" style="margin-top: 20px; margin: 20px auto; padding: 10px; border: 1px solid #ccc; border-radius: 4px;"></div>
-
+            <div id="satz_list" style="margin: 0; padding: 2px 5px 10px 5px; overflow:visible"></div>
         """

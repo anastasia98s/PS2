@@ -3,20 +3,31 @@ import torch
 
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-DATASET_PATH  = 'data/dataset/data.db'
-TRAINED_PATH = 'data/result/trained_data.pth'
-META_PATH = 'data/meta_data.bin'
+TEXTKLASSIFIZIERUNG_DATASET_PATH  = 'data/dataset/textklassifizierung.db'
+TEXTKLASSIFIZIERUNG_TRAINED_PATH = 'data/result/textklassifizierung.pth'
+TEXTKLASSIFIZIERUNG_META_PATH = 'data/textklassifizierung_meta.bin'
 
-BASE_MODEL = 'dbmdz/bert-base-german-uncased'
-TOKENIZER = transformers.BertTokenizer.from_pretrained(
-    BASE_MODEL,
+TEXTKLASSIFIZIERUNG_BASE_MODEL = 'dbmdz/bert-base-german-uncased'
+TEXTKLASSIFIZIERUNG_TOKENIZER = transformers.BertTokenizer.from_pretrained(
+    TEXTKLASSIFIZIERUNG_BASE_MODEL,
     do_lower_case = True
 )
 
-MAX_LEN = 50
-TRAIN_BATCH_SIZE = 50
-TEST_BATCH_SIZE = 50
-EPOCHS = 50
+TEXTKLASSIFIZIERUNG_MAX_LEN = 70
+TEXTKLASSIFIZIERUNG_TRAIN_BATCH_SIZE = 50
+TEXTKLASSIFIZIERUNG_VALIDATION_BATCH_SIZE = 50
+TEXTKLASSIFIZIERUNG_EPOCHS = 50
 
-SAVE_MODEL = True
-RETRAIN_MODEL = False
+TEXTKLASSIFIZIERUNG_SAVE_MODEL = True
+TEXTKLASSIFIZIERUNG_RETRAIN_MODEL = False
+
+AUTHENTIFIZIERUNG_SAVE_MODEL = True
+AUTHENTIFIZIERUNG_RETRAIN_MODEL = False
+AUTHENTIFIZIERUNG_DATASET_PATH  = 'data/dataset/authentifizierung.csv'
+AUTHENTIFIZIERUNG_TRAINED_PATH = 'data/result/authentifizierung.pth'
+AUTHENTIFIZIERUNG_META_PATH = 'data/authentifizierung_meta.bin'
+AUTHENTIFIZIERUNG_TRAIN_BATCH_SIZE = 50
+AUTHENTIFIZIERUNG_VALIDATION_BATCH_SIZE = 50
+AUTHENTIFIZIERUNG_EPOCHS = 50
+AUTHENTIFIZIERUNG_HIDDEN_UNITS_1 = 20
+AUTHENTIFIZIERUNG_HIDDEN_UNITS_2 = 10

@@ -1,6 +1,7 @@
 import torch.nn as nn
 import transformers
-import config 
+import config
+
 class Model(nn.Module):
     def __init__(self, num_anmerkung, num_absicht, num_szenario):
         super(Model, self).__init__()
@@ -10,12 +11,12 @@ class Model(nn.Module):
         self.num_szenario = num_szenario
 
         self.bert = transformers.BertModel.from_pretrained(
-            config.BASE_MODEL
+            config.TEXTKLASSIFIZIERUNG_BASE_MODEL
         )
 
-        self.drop_1 = nn.Dropout(0.3)
-        self.drop_2 = nn.Dropout(0.3)
-        self.drop_3 = nn.Dropout(0.3)
+        self.drop_1 = nn.Dropout(0.5)
+        self.drop_2 = nn.Dropout(0.5)
+        self.drop_3 = nn.Dropout(0.5)
 
         self.out_anmerkung = nn.Linear(768, self.num_anmerkung)
         self.out_absicht = nn.Linear(768, self.num_absicht)

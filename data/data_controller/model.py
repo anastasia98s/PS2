@@ -8,10 +8,10 @@ class Model:
         self.create_table()
     
     def connect_db(self):
-        return sqlite3.connect(config.DATASET_PATH)
+        return sqlite3.connect(config.TEXTKLASSIFIZIERUNG_DATASET_PATH)
 
     def create_table(self):
-        dataset_dir = os.path.dirname(config.DATASET_PATH)
+        dataset_dir = os.path.dirname(config.TEXTKLASSIFIZIERUNG_DATASET_PATH)
         if not os.path.exists(dataset_dir):
             os.makedirs(dataset_dir)
             
@@ -63,174 +63,76 @@ class Model:
 
         anmerkung_array = [
             "-",
-            "Item-b",
-            "Datum-b",
-            "Zeit-b",
-            "Zeiteinheit-b",
-            "Gewichtseinheit-b",
-            "Längeneinheit-b",
-            "Temperatureinheit-b",
-            "Währung-b",
-            "Aufgabe-b",
-            "Aktion-b",
-            "Ort-b",
-            "Musik-b",
-            "Person-b",
-            "Film-b",
-            "URL-b",
-            "Telefonnummer-b",
-            "Nachricht-b",
-            "Kategorie-b",
-            "Aktie-b",
-            "Transport-b",
-            "Lautstärke-b",
-            "Zahl-b",
-            "Operator-b",
-            "Pfad-b",
-            "Datei-b",
-            "Netzwerk-b",
-            "WLAN-b",
-            "Gerät-b",
-            "Anfrage-b",
-            "Titel-b",
-            "Plattform-b",
-            "Calculation-b",
-            "Farbe-b",
-            "Ereignisse-b",
-            "Nachrichteninhalt-b",
-            "Haustier-b",
-            "Stadt-b",
-            "Hausort-b",
-            "Wetterdeskriptor-b",
-            "Zeitzone-b",
-            "Artist-b",
-            "Thema-b",
-            "Qualität-b",
-            "Geschäft-b",
-            "Information-b",
-            "Medien-i",
-            "Item-i",
-            "Datum-i",
-            "Zeit-i",
-            "Zeiteinheit-i",
-            "Gewichtseinheit-i",
-            "Längeneinheit-i",
-            "Temperatureinheit-i",
-            "Währung-i",
-            "Aufgabe-i",
-            "Aktion-i",
-            "Ort-i",
-            "Musik-i",
-            "Person-i",
-            "Film-i",
-            "URL-i",
-            "Telefonnummer-i",
-            "Nachricht-i",
-            "Kategorie-i",
-            "Aktie-i",
-            "Transport-i",
-            "Lautstärke-i",
-            "Zahl-i",
-            "Operator-i",
-            "Pfad-i",
-            "Datei-i",
-            "Netzwerk-i",
-            "WLAN-i",
-            "Gerät-i",
-            "Anfrage-i",
-            "Titel-i",
-            "Plattform-i",
-            "Calculation-i",
-            "Farbe-i",
-            "Ereignisse-i",
-            "Nachrichteninhalt-i",
-            "Haustier-i",
-            "Stadt-i",
-            "Hausort-i",
-            "Medien-i",
-            "Wetterdeskriptor-i",
-            "Zeitzone-i",
-            "Artist-i",
-            "Thema-i",
-            "Qualität-i",
-            "Geschäft-i",
-            "Information-i"
+            "Pronomen",
+            "Menge", # 5
+            "Artikel", # Pizza                      #bio
+            "Artikel-I",
+            "Liste", # Einkaufsliste                #bio
+            "Liste-I",
+            "Datum",                                #bio
+            "Datum-I",
+            "Zeit",
+            "Aktivität", # meeting                  #bio
+            "Aktivität-I",
+            "Ort",       # Berlin, Ecke, ..         #bio
+            "Ort-I",
+            "Musik",                                #bio
+            "Musik-I",
+            "Person",                               #bio
+            "Person-I",
+            "Gerät",    # Lampe, Handy              #bio
+            "Gerät-I",
+            "Plattform", # youtube                  #bio
+            "Plattform-I",
+            "Farbe",
+            "Wetterdeskriptor", #sonnig, Luftfeuchtigkeit
+            "Zeitzone", # GMT
+            "Frequenz", # pro Woche
+            "Präposition",
+
+            "Thema", # Quantenphysik, allgemein                 #bio
+            "Thema-I",
+
+            "Attribut-Frage", # wie lange, wie viel
+            "Attribut-Objekt", # neues Handy
+            "Aktion", # wie ändere ...
+            "Negation", # nicht
+            "Zustand", # is aktiv # is gut # is schlecht
+
+            "Einheit"
         ]
 
         szenarios_array = [
             "-",
-            "Listen-Szenario",
-            "Terminplan-Szenario",
-            "Termin-Szenario",
-            "Licht-Szenario",
-            "Kamera-Szenario",
-            "Musik-Szenario",
-            "Filme-Szenario",
-            "Video-Szenario",
-            "URL-Szenario",
-            "Nachricht-Szenario",
-            "Telefon-Szenario",
-            "Wetter-Szenario",
-            "Nachrichten-Szenario",
-            "Aktien-Szenario",
-            "Transport-Szenario",
-            "Alarm-Szenario",
-            "Audio-Szenario",
-            "Wikipedia-Szenario",
-            "Daten-Szenario",
-            "WLAN-Szenario",
-            "Bluetooth-Szenario",
-            "Berechnung-Szenario",
-            "System-Szenario",
-            "Timer-Szenario",
-            "Alarm-Szenario",
-            "Essen-Szenario",
-            "Zeit-Szenario"
+            "Alarm",
+            "Liste",
+            "Kalender",
+            "DateZeit",
+            "IoT",
+            "Musik",
+            "Wetter",
+            "API",
+            "Timer",
+            "System",
+            "HTW Dresden" # Studienordnungen, Prüfungsordnungen
         ]
-
 
         absichten_array = [
             "-",
-            "löschen",
-            "eingeben",
-            "buchen",
-            "stornieren",
-            "dimmen",
-            "heller machen",
-            "machen",
+            "stoppen/entfernen",
+            "eingeben/erstellen/einstellen",
+            "ändern/einstellen",
             "ausschalten",
             "einschalten",
             "verringern",
-            "vergrößern",
-            "fotografieren",
-            "video aufnehmen",
-            "aufnehmen",
-            "abspielen",
-            "stoppen",
-            "ändern",
-            "öffnen",
-            "indizieren",
-            "senden",
-            "anrufen",
-            "abfragen",
-            "verkaufen",
-            "kaufen",
-            "entfernen",
-            "einstellen",
-            "verringern",
             "erhöhen",
-            "drucken",
-            "lesen",
-            "löschen",
+            "spielen",
+            "abfragen-info",
+            "abfragen-ja-nein",
             "konvertieren",
             "verbinden",
-            "wiederholen",
-            "einstellen",
             "pausieren",
-            "fortsetzen",
-            "mischen",
-            "spielen",
-            "bestellen"
+            "fortsetzen"
         ]
 
         for anmerkung in anmerkung_array:
@@ -303,34 +205,21 @@ class Model:
     def show_satz(self):
         conn = self.connect_db()
         cursor = conn.cursor()
-        cursor.execute('SELECT sp_satz.satz_id, sp_wort.wort, sp_anmerkung.anmerkung, sp_szenario.szenario, sp_absicht.absicht FROM sp_satz JOIN sp_wort ON sp_satz.satz_id = sp_wort.satz_id JOIN sp_szenario ON sp_satz.szenario_id = sp_szenario.szenario_id JOIN sp_absicht ON sp_satz.absicht_id = sp_absicht.absicht_id JOIN sp_anmerkung ON sp_wort.anmerkung_id = sp_anmerkung.anmerkung_id ORDER BY sp_satz.satz_id DESC')
-        """ cursor.execute('''
-                            SELECT sp_satz.satz_id, sp_wort.wort, sp_anmerkung.anmerkung, sp_szenario.szenario, sp_absicht.absicht
-                            FROM sp_satz
-                            LEFT JOIN sp_wort ON sp_satz.satz_id = sp_wort.satz_id
-                            LEFT JOIN sp_szenario ON sp_satz.szenario_id = sp_szenario.szenario_id
-                            LEFT JOIN sp_absicht ON sp_satz.absicht_id = sp_absicht.absicht_id
-                            LEFT JOIN sp_anmerkung ON sp_wort.anmerkung_id = sp_anmerkung.anmerkung_id
-                            ORDER BY sp_wort.wort_id
-                        ''') """
-        """ cursor.execute('''
-                            SELECT 
-                                sp_satz.satz_id, 
-                                IFNULL(sp_wort.wort, '') AS wort, 
-                                IFNULL(sp_anmerkung.anmerkung, 'O') AS anmerkung, 
-                                IFNULL(sp_szenario.szenario, '') AS szenario, 
-                                IFNULL(sp_absicht.absicht, '') AS absicht
-                            FROM sp_satz
-                            LEFT JOIN sp_wort ON sp_satz.satz_id = sp_wort.satz_id
-                            LEFT JOIN sp_szenario ON sp_satz.szenario_id = sp_szenario.szenario_id
-                            LEFT JOIN sp_absicht ON sp_satz.absicht_id = sp_absicht.absicht_id
-                            LEFT JOIN sp_anmerkung ON sp_wort.anmerkung_id = sp_anmerkung.anmerkung_id
-                        ''') """
+        cursor.execute('SELECT sp_satz.satz_id, sp_wort.wort_id, sp_wort.wort, sp_anmerkung.anmerkung_id, sp_anmerkung.anmerkung, sp_szenario.szenario_id, sp_szenario.szenario, sp_absicht.absicht_id, sp_absicht.absicht FROM sp_satz JOIN sp_wort ON sp_satz.satz_id = sp_wort.satz_id JOIN sp_szenario ON sp_satz.szenario_id = sp_szenario.szenario_id JOIN sp_absicht ON sp_satz.absicht_id = sp_absicht.absicht_id JOIN sp_anmerkung ON sp_wort.anmerkung_id = sp_anmerkung.anmerkung_id ORDER BY sp_satz.satz_id DESC')
+
         saetze = cursor.fetchall()
         conn.close()
 
         saetze_list = [
-            {"satz_id": satz[0], "wort": satz[1], "anmerkung": satz[2], "szenario": satz[3], "absicht": satz[4]}
+            {"satz_id": satz[0],
+             "wort_id": satz[1],
+             "wort": satz[2],
+             "anmerkung_id": satz[3],
+             "anmerkung": satz[4],
+             "szenario_id": satz[5],
+             "szenario": satz[6],
+             "absicht_id": satz[7],
+             "absicht": satz[8]}
             for satz in saetze
         ]
 
@@ -412,6 +301,46 @@ class Model:
         conn = self.connect_db()
         cursor = conn.cursor()
         cursor.execute('DELETE FROM sp_absicht WHERE absicht_id = ?', (id_absicht,))
+        conn.commit()
+        conn.close()
+        return 1
+    
+    def update_wort(self, wort_id, neue_anmerkung_id, neue_wort):
+        conn = self.connect_db()
+        cursor = conn.cursor()
+        cursor.execute('UPDATE sp_wort SET anmerkung_id = ?, wort = ? WHERE wort_id = ?', (neue_anmerkung_id, neue_wort, wort_id))
+        conn.commit()
+        conn.close()
+        return 1
+    
+    def update_satz_sz_ab(self, satz_id, szenario_id, absicht_id):
+        conn = self.connect_db()
+        cursor = conn.cursor()
+        cursor.execute('UPDATE sp_satz SET szenario_id = ?, absicht_id = ? WHERE satz_id = ?', (szenario_id, absicht_id, satz_id))
+        conn.commit()
+        conn.close()
+        return 1
+    
+    def update_anmerkung(self, anmerkung, anmerkung_id):
+        conn = self.connect_db()
+        cursor = conn.cursor()
+        cursor.execute('UPDATE sp_anmerkung SET anmerkung = ? WHERE anmerkung_id = ?', (anmerkung, anmerkung_id))
+        conn.commit()
+        conn.close()
+        return 1
+    
+    def update_szenario(self, szenario, szenario_id):
+        conn = self.connect_db()
+        cursor = conn.cursor()
+        cursor.execute('UPDATE sp_szenario SET szenario = ? WHERE szenario_id = ?', (szenario, szenario_id))
+        conn.commit()
+        conn.close()
+        return 1
+    
+    def update_absicht(self, absicht, absicht_id):
+        conn = self.connect_db()
+        cursor = conn.cursor()
+        cursor.execute('UPDATE sp_absicht SET absicht = ? WHERE absicht_id = ?', (absicht, absicht_id))
         conn.commit()
         conn.close()
         return 1

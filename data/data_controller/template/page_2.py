@@ -34,16 +34,45 @@ head = r"""
                     const anmerkung_list = document.getElementById('anmerkung_list');
                     anmerkung_list.innerHTML = '';
                     results = JSON.parse(results);
+
                     results.forEach(result => {
-                        const li = document.createElement('li');
-                        li.textContent = result.anmerkung;
-                        anmerkung_list.appendChild(li);
+                        const div = document.createElement('div');
+                        div.style.padding = '5px';
+                        div.style.border = '1px solid black';
+                        div.style.display = 'flex';
+                        div.style.flexDirection = 'column';
+
+                        const p = document.createElement('p');
+                        p.style.fontWeight = 'bold';
+                        p.textContent = result.anmerkung_id + ". " + result.anmerkung;
+
+                        const update_btn = document.createElement('button');
+                        update_btn.textContent = "Update";
+                        update_btn.style.width = '50%';
+                        update_btn.style.backgroundColor = "green";
+                        update_btn.style.color = "white";
+                        update_btn.style.padding = "5px";
+                        update_btn.style.cursor = "pointer";
+                        update_btn.onclick = () => popup_update_2("anmerkung", result.anmerkung_id, result.anmerkung);
 
                         const delete_btn = document.createElement('button');
                         delete_btn.textContent = "Delete";
+                        delete_btn.style.width = '50%';
+                        delete_btn.style.backgroundColor = "red";
+                        delete_btn.style.padding = "5px";
+                        delete_btn.style.cursor = "pointer";
                         delete_btn.onclick = () => delete_anmerkung_2(result.anmerkung_id);
-                        delete_btn.style.marginLeft = "10px";
-                        li.appendChild(delete_btn);
+
+                        div.appendChild(update_btn);
+                        div.appendChild(delete_btn);
+
+                        div.appendChild(p);
+                        const div_btn = document.createElement('div');
+                        div_btn.style.display = 'flex';
+                        div_btn.appendChild(update_btn);
+                        div_btn.appendChild(delete_btn);
+                        div.appendChild(div_btn);
+                        anmerkung_list.appendChild(div);
                     });
                 });
             }
@@ -53,16 +82,42 @@ head = r"""
                     const absicht_list = document.getElementById('absicht_list');
                     absicht_list.innerHTML = '';
                     results = JSON.parse(results);
+
                     results.forEach(result => {
-                        const li = document.createElement('li');
-                        li.textContent = result.absicht;
-                        absicht_list.appendChild(li);
+                        const div = document.createElement('div');
+                        div.style.padding = '5px';
+                        div.style.border = '1px solid black';
+                        div.style.display = 'flex';
+                        div.style.flexDirection = 'column';
+
+                        const p = document.createElement('p');
+                        p.style.fontWeight = 'bold';
+                        p.textContent = result.absicht_id + ". " + result.absicht;
+
+                        const update_btn = document.createElement('button');
+                        update_btn.textContent = "Update";
+                        update_btn.style.width = '50%';
+                        update_btn.style.backgroundColor = "green";
+                        update_btn.style.color = "white";
+                        update_btn.style.padding = "5px";
+                        update_btn.style.cursor = "pointer";
+                        update_btn.onclick = () => popup_update_2("absicht", result.absicht_id, result.absicht);
 
                         const delete_btn = document.createElement('button');
                         delete_btn.textContent = "Delete";
+                        delete_btn.style.width = '50%';
+                        delete_btn.style.backgroundColor = "red";
+                        delete_btn.style.padding = "5px";
+                        delete_btn.style.cursor = "pointer";
                         delete_btn.onclick = () => delete_absicht_2(result.absicht_id);
-                        delete_btn.style.marginLeft = "10px";
-                        li.appendChild(delete_btn);
+
+                        div.appendChild(p);
+                        const div_btn = document.createElement('div');
+                        div_btn.style.display = 'flex';
+                        div_btn.appendChild(update_btn);
+                        div_btn.appendChild(delete_btn);
+                        div.appendChild(div_btn);
+                        absicht_list.appendChild(div);
                     });
                 });
             }
@@ -72,16 +127,42 @@ head = r"""
                     const szenario_list = document.getElementById('szenario_list');
                     szenario_list.innerHTML = '';
                     results = JSON.parse(results);
+
                     results.forEach(result => {
-                        const li = document.createElement('li');
-                        li.textContent = result.szenario;
-                        szenario_list.appendChild(li);
+                        const div = document.createElement('div');
+                        div.style.padding = '5px';
+                        div.style.border = '1px solid black';
+                        div.style.display = 'flex';
+                        div.style.flexDirection = 'column';
+
+                        const p = document.createElement('p');
+                        p.style.fontWeight = 'bold';
+                        p.textContent = result.szenario_id + ". " + result.szenario;
+
+                        const update_btn = document.createElement('button');
+                        update_btn.textContent = "Update";
+                        update_btn.style.width = '50%';
+                        update_btn.style.backgroundColor = "green";
+                        update_btn.style.color = "white";
+                        update_btn.style.padding = "5px";
+                        update_btn.style.cursor = "pointer";
+                        update_btn.onclick = () => popup_update_2("szenario", result.szenario_id, result.szenario);
 
                         const delete_btn = document.createElement('button');
                         delete_btn.textContent = "Delete";
+                        delete_btn.style.width = '50%';
+                        delete_btn.style.backgroundColor = "red";
+                        delete_btn.style.padding = "5px";
+                        delete_btn.style.cursor = "pointer";
                         delete_btn.onclick = () => delete_szenario_2(result.szenario_id);
-                        delete_btn.style.marginLeft = "10px";
-                        li.appendChild(delete_btn);
+ 
+                        div.appendChild(p);
+                        const div_btn = document.createElement('div');
+                        div_btn.style.display = 'flex';
+                        div_btn.appendChild(update_btn);
+                        div_btn.appendChild(delete_btn);
+                        div.appendChild(div_btn);
+                        szenario_list.appendChild(div);
                     });
                 });
             }
@@ -122,6 +203,62 @@ head = r"""
                 }
             }
 
+            function popup_update_2(typ, id, value) {
+                const popup_container = document.getElementById('popup_container');
+                const overlay_container = document.getElementById('overlay_container');
+                popup_container.style.display = 'block';
+                overlay_container.style.display = 'block';
+
+                const popup_inhalt_container = document.getElementById('popup_inhalt_container');
+                popup_inhalt_container.innerHTML = '';
+
+                const inputElement = document.createElement("input");
+                inputElement.placeholder = "Input";
+                inputElement.value = value;
+
+                inputElement.style.padding = "5px";
+                inputElement.style.width = "100%";
+                inputElement.style.marginBottom = "5px";
+
+                const update_ab_sz_an_btn = document.createElement("button");
+                update_ab_sz_an_btn.textContent = "Update";
+
+                update_ab_sz_an_btn.style.padding = '10px 20px';
+                update_ab_sz_an_btn.style.backgroundColor = 'green';
+                update_ab_sz_an_btn.style.color = 'white';
+                update_ab_sz_an_btn.style.border = 'none';
+                update_ab_sz_an_btn.style.borderRadius = '5px';
+                update_ab_sz_an_btn.style.cursor = 'pointer';
+                update_ab_sz_an_btn.style.marginTop = '10px';
+
+                update_ab_sz_an_btn.onclick = ()=> {
+                    const confirmUpdate = confirm("Möchten Sie diesen Eintrag wirklich ändern?");
+                    if (confirmUpdate) {
+                        const update_value = inputElement.value.trim().replace(/\s+/g, ' ');
+                        if (typ === "absicht") {
+                            window.pywebview.api.update_absicht(update_value, id).then(response => {
+                                load_absicht_2();
+                                information_bar(response);
+                            });
+                        } else if(typ === "szenario") {
+                            window.pywebview.api.update_szenario(update_value, id).then(response => {
+                                load_szenario_2();
+                                information_bar(response);
+                            });
+                        } else if(typ === "anmerkung") {
+                            window.pywebview.api.update_anmerkung(update_value, id).then(response => {
+                                load_anmerkung_2();
+                                information_bar(response);
+                            });
+                        }
+                        popup_schliessen();
+                    }
+                }
+
+                popup_inhalt_container.appendChild(inputElement);
+                popup_inhalt_container.appendChild(update_ab_sz_an_btn);
+            }
+
             window.onload = function() {
                 setTimeout(start_init_2, 100);
             };
@@ -129,38 +266,41 @@ head = r"""
     """
 
 body = r"""
-        <h1 style="text-align: center;">Absicht & Szenario & Anmerkung</h1>
-        <form id="form_absicht_szenario" onsubmit="event.preventDefault(); input_absicht_szenario_2();" style="text-align: center; margin-bottom: 20px;">
-            <input type="text" name="absicht_szenario_anmerkung_text" placeholder="Absicht / Szenario / Anmerkung" required style="padding: 10px; width: 300px;"/>
-            
-            <div style="margin: 10px 0;">
-                <input type="radio" name="absicht_szenario_anmerkung_radio" value="absicht" checked>
-                <label for="absicht">Absicht</label>
+        <div style="max-width:800px; margin-left:auto; margin-right:auto; padding: 5px;">
+            <h1 style="text-align: center;">Absicht & Szenario & Anmerkung</h1>
+            <form id="form_absicht_szenario" onsubmit="event.preventDefault(); input_absicht_szenario_2();" style="margin-bottom: 20px; width:500px; margin-left:auto; margin-right:auto; display:flex; flex-direction:column; justify-content:center">
 
-                <input type="radio" name="absicht_szenario_anmerkung_radio" value="szenario">
-                <label for="szenario">Szenario</label>
+                <div style="margin: 10px 0;">
+                    <input type="radio" name="absicht_szenario_anmerkung_radio" value="absicht" checked>
+                    <label for="absicht">Absicht</label>
 
-                <input type="radio" name="absicht_szenario_anmerkung_radio" value="anmerkung">
-                <label for="anmerkung">Anmerkung</label>
-            </div>
+                    <input type="radio" name="absicht_szenario_anmerkung_radio" value="szenario">
+                    <label for="szenario">Szenario</label>
 
-            <button type="submit" style="padding: 10px 20px;">Add</button>
-        </form>
+                    <input type="radio" name="absicht_szenario_anmerkung_radio" value="anmerkung">
+                    <label for="anmerkung">Anmerkung</label>
+                </div>
 
-        <button onclick="goToPage(1)" style="padding: 10px 20px; margin-bottom: 20px;">Zurück</button>
+                <input type="text" name="absicht_szenario_anmerkung_text" placeholder="Absicht / Szenario / Anmerkung" required style="padding: 10px;"/>
 
+                <button type="submit" style="padding: 5px 10px; width: 100%;">Add</button>
+            </form>
+
+            <button onclick="goToPage(1)" style="padding: 10px 20px; margin-bottom: 20px;">Zurück</button>
+        </div>
+        
         <div style="display: flex; gap: 5px; justify-content: center;">
-            <div style="border: 1px solid #ccc; padding: 10px;">
-                <h2>Absicht List</h2>
-                <ol id="absicht_list"></ol>
+            <div>
+                <h2>Absicht</h2>
+                <div id="absicht_list"></div>
             </div>
-            <div style="border: 1px solid #ccc; padding: 10px;">
-                <h2>Szenario List</h2>
-                <ol id="szenario_list"></ol>
+            <div>
+                <h2>Szenario</h2>
+                <div id="szenario_list"></div>
             </div>
-            <div style="border: 1px solid #ccc; padding: 10px;">
-                <h2>Anmerkung List</h2>
-                <ol id="anmerkung_list"></ol>
+            <div>
+                <h2>Anmerkung</h2>
+                <div id="anmerkung_list"></div>
             </div>
         </div>
     """
