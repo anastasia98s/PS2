@@ -52,8 +52,7 @@ def train():
     
     train_data_loader = DataLoader(train_dataset,
                                    batch_size=config.TEXTKLASSIFIZIERUNG_TRAIN_BATCH_SIZE,
-                                   shuffle=True,
-                                   num_workers=4)
+                                   shuffle=True)
     
     # validation
     val_dataset = nn_textklassifizierung.utils.SatzDataset(val_satze,
@@ -63,8 +62,7 @@ def train():
     
     val_data_loader = DataLoader(val_dataset,
                                  batch_size = config.TEXTKLASSIFIZIERUNG_VALIDATION_BATCH_SIZE,
-                                 shuffle=False,
-                                 num_workers=4)
+                                 shuffle=False)
         
     device = config.DEVICE
     model = Model(num_anmerkung, num_absicht, num_szenario)

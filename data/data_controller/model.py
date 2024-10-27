@@ -45,8 +45,8 @@ class Model:
                 satz_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 szenario_id INTEGER NOT NULL,
                 absicht_id INTEGER NOT NULL,
-                FOREIGN KEY (szenario_id) REFERENCES sp_szenario(szenario_id) ON DELETE RESTRICT,
-                FOREIGN KEY (absicht_id) REFERENCES sp_absicht(absicht_id) ON DELETE RESTRICT
+                FOREIGN KEY (szenario_id) REFERENCES sp_szenario(szenario_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
+                FOREIGN KEY (absicht_id) REFERENCES sp_absicht(absicht_id) ON DELETE RESTRICT ON UPDATE RESTRICT
             );
         ''')
 
@@ -56,83 +56,35 @@ class Model:
                 satz_id INTEGER NOT NULL,
                 anmerkung_id INTEGER NOT NULL,
                 wort TEXT NOT NULL,
-                FOREIGN KEY (satz_id) REFERENCES sp_satz(satz_id) ON DELETE CASCADE,
-                FOREIGN KEY (anmerkung_id) REFERENCES sp_anmerkung(anmerkung_id) ON DELETE RESTRICT
+                FOREIGN KEY (satz_id) REFERENCES sp_satz(satz_id) ON DELETE CASCADE ON UPDATE RESTRICT,
+                FOREIGN KEY (anmerkung_id) REFERENCES sp_anmerkung(anmerkung_id) ON DELETE RESTRICT ON UPDATE RESTRICT
             );
         ''')
 
         anmerkung_array = [
             "-",
-            "Pronomen",
-            "Menge", # 5
-            "Artikel", # Pizza                      #bio
-            "Artikel-I",
-            "Liste", # Einkaufsliste                #bio
-            "Liste-I",
-            "Datum",                                #bio
-            "Datum-I",
+            "Thema",
+            "Artikel",
             "Zeit",
-            "Aktivität", # meeting                  #bio
-            "Aktivität-I",
-            "Ort",       # Berlin, Ecke, ..         #bio
-            "Ort-I",
-            "Musik",                                #bio
-            "Musik-I",
-            "Person",                               #bio
-            "Person-I",
-            "Gerät",    # Lampe, Handy              #bio
-            "Gerät-I",
-            "Plattform", # youtube                  #bio
-            "Plattform-I",
-            "Farbe",
-            "Wetterdeskriptor", #sonnig, Luftfeuchtigkeit
-            "Zeitzone", # GMT
-            "Frequenz", # pro Woche
-            "Präposition",
-
-            "Thema", # Quantenphysik, allgemein                 #bio
-            "Thema-I",
-
-            "Attribut-Frage", # wie lange, wie viel
-            "Attribut-Objekt", # neues Handy
-            "Aktion", # wie ändere ...
-            "Negation", # nicht
-            "Zustand", # is aktiv # is gut # is schlecht
-
-            "Einheit"
+            "Datum",
+            "Ort",
+            "Zustand"
         ]
 
         szenarios_array = [
-            "-",
-            "Alarm",
-            "Liste",
-            "Kalender",
-            "DateZeit",
-            "IoT",
-            "Musik",
             "Wetter",
-            "API",
-            "Timer",
-            "System",
-            "HTW Dresden" # Studienordnungen, Prüfungsordnungen
+            "Studienordnung",
+            "Wikipedia",
+            "ToDo",
+            "Zeit",
+            "Datum"
         ]
 
         absichten_array = [
-            "-",
-            "stoppen/entfernen",
-            "eingeben/erstellen/einstellen",
-            "ändern/einstellen",
-            "ausschalten",
-            "einschalten",
-            "verringern",
-            "erhöhen",
-            "spielen",
-            "abfragen-info",
-            "abfragen-ja-nein",
-            "konvertieren",
-            "verbinden",
-            "pausieren",
-            "fortsetzen"
+            "abfragen",
+            "eingeben",
+            "ändern",
+            "entfernen"
         ]
 
         for anmerkung in anmerkung_array:
@@ -276,6 +228,8 @@ class Model:
     def delete_satz(self, id_satz):
         conn = self.connect_db()
         cursor = conn.cursor()
+        cursor.execute("PRAGMA journal_mode = OFF")
+        cursor.execute("PRAGMA foreign_keys = ON")
         cursor.execute('DELETE FROM sp_satz WHERE satz_id = ?', (id_satz,))
         conn.commit()
         conn.close()
@@ -284,6 +238,8 @@ class Model:
     def delete_anmerkung(self, id_anmerkung):
         conn = self.connect_db()
         cursor = conn.cursor()
+        cursor.execute("PRAGMA journal_mode = OFF")
+        cursor.execute("PRAGMA foreign_keys = ON")
         cursor.execute('DELETE FROM sp_anmerkung WHERE anmerkung_id = ?', (id_anmerkung,))
         conn.commit()
         conn.close()
@@ -292,6 +248,8 @@ class Model:
     def delete_szenario(self, id_szenario):
         conn = self.connect_db()
         cursor = conn.cursor()
+        cursor.execute("PRAGMA journal_mode = OFF")
+        cursor.execute("PRAGMA foreign_keys = ON")
         cursor.execute('DELETE FROM sp_szenario WHERE szenario_id = ?', (id_szenario,))
         conn.commit()
         conn.close()
@@ -300,6 +258,8 @@ class Model:
     def delete_absicht(self, id_absicht):
         conn = self.connect_db()
         cursor = conn.cursor()
+        cursor.execute("PRAGMA journal_mode = OFF")
+        cursor.execute("PRAGMA foreign_keys = ON")
         cursor.execute('DELETE FROM sp_absicht WHERE absicht_id = ?', (id_absicht,))
         conn.commit()
         conn.close()
@@ -308,6 +268,8 @@ class Model:
     def update_wort(self, wort_id, neue_anmerkung_id, neue_wort):
         conn = self.connect_db()
         cursor = conn.cursor()
+        cursor.execute("PRAGMA journal_mode = OFF")
+        cursor.execute("PRAGMA foreign_keys = ON")
         cursor.execute('UPDATE sp_wort SET anmerkung_id = ?, wort = ? WHERE wort_id = ?', (neue_anmerkung_id, neue_wort, wort_id))
         conn.commit()
         conn.close()
@@ -316,6 +278,8 @@ class Model:
     def update_satz_sz_ab(self, satz_id, szenario_id, absicht_id):
         conn = self.connect_db()
         cursor = conn.cursor()
+        cursor.execute("PRAGMA journal_mode = OFF")
+        cursor.execute("PRAGMA foreign_keys = ON")
         cursor.execute('UPDATE sp_satz SET szenario_id = ?, absicht_id = ? WHERE satz_id = ?', (szenario_id, absicht_id, satz_id))
         conn.commit()
         conn.close()
@@ -324,6 +288,8 @@ class Model:
     def update_anmerkung(self, anmerkung, anmerkung_id):
         conn = self.connect_db()
         cursor = conn.cursor()
+        cursor.execute("PRAGMA journal_mode = OFF")
+        cursor.execute("PRAGMA foreign_keys = ON")
         cursor.execute('UPDATE sp_anmerkung SET anmerkung = ? WHERE anmerkung_id = ?', (anmerkung, anmerkung_id))
         conn.commit()
         conn.close()
@@ -332,6 +298,8 @@ class Model:
     def update_szenario(self, szenario, szenario_id):
         conn = self.connect_db()
         cursor = conn.cursor()
+        cursor.execute("PRAGMA journal_mode = OFF")
+        cursor.execute("PRAGMA foreign_keys = ON")
         cursor.execute('UPDATE sp_szenario SET szenario = ? WHERE szenario_id = ?', (szenario, szenario_id))
         conn.commit()
         conn.close()
@@ -340,6 +308,8 @@ class Model:
     def update_absicht(self, absicht, absicht_id):
         conn = self.connect_db()
         cursor = conn.cursor()
+        cursor.execute("PRAGMA journal_mode = OFF")
+        cursor.execute("PRAGMA foreign_keys = ON")
         cursor.execute('UPDATE sp_absicht SET absicht = ? WHERE absicht_id = ?', (absicht, absicht_id))
         conn.commit()
         conn.close()

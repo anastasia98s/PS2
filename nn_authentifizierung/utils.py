@@ -1,5 +1,4 @@
 import torch
-import sounddevice as sd
 import librosa
 import numpy as np
 import pandas as pd
@@ -19,31 +18,27 @@ class AudioDataset(torch.utils.data.Dataset):
         namen = torch.tensor(self.namen[idx], dtype=torch.int64)
         return audio, namen
 
-def record_voice(duration=5):
-    print("Rec...")
-    recording = sd.rec(int(duration * 44100), samplerate=44100, channels=1, dtype='float64')
-    sd.wait()
-    print("End")
-    return recording.flatten()
+def extract_features(signal, sample_rate):
+    mfccs = np.mean(librosa.feature.mfcc(y=signal, sr=sample_rate, n_mfcc=40).T, axis=0)
+    stft = np.abs(librosa.stft(signal))
+    chroma = np.mean(librosa.feature.chroma_stft(S=stft, sr=sample_rate).T, axis=0)
+    mel = np.mean(librosa.feature.melspectrogram(y=signal, sr=sample_rate).T, axis=0)
+    contrast = np.mean(librosa.feature.spectral_contrast(S=stft, sr=sample_rate).T, axis=0)
+    tonnetz = np.mean(librosa.feature.tonnetz(y=librosa.effects.harmonic(signal), sr=sample_rate).T, axis=0)
+    return np.hstack([mfccs, chroma, mel, contrast, tonnetz])
 
-def extract_features(signal):
-    top_db = 5
-    sr = 44100
-    non_silent = librosa.effects.split(signal, top_db=top_db)
-    if len(non_silent) == 0:
-        return np.zeros((13,))
-    non_silent_signal = np.concatenate([signal[start:end] for start, end in non_silent])
-    return librosa.feature.mfcc(y=non_silent_signal, sr=sr, n_mfcc=13)
-
-""" def mean_extract_features(signal):
-    return np.mean(extract_features(signal).T, axis=0) """
+def save_features_to_csv(filename, features, name):
+    feature_columns = ['f' + str(i) for i in range(1, len(features) + 1)]
+    df = pd.DataFrame([[name] + features.tolist()], columns=['name'] + feature_columns)
+    df.to_csv(filename, mode='a', index=False, header=not pd.io.common.file_exists(filename))
+    print("gespeichert!")
 
 def get_data(data_path):
     df = pd.read_csv(data_path)
-    audios = df.drop(columns=['Name']).values
+    audios = df.drop(columns=['name']).values
     encoder_name = preprocessing.LabelEncoder()
-    df.loc[:, 'Name'] = encoder_name.fit_transform(df['Name'])
-    namen = df['Name'].values
+    df.loc[:, 'name'] = encoder_name.fit_transform(df['name'])
+    namen = df['name'].values
 
     return audios, namen, encoder_name
 

@@ -24,7 +24,7 @@ class Model(nn.Module):
         self.conv3 = nn.Conv1d(in_channels=hidden_units_2, out_channels=hidden_units_1, kernel_size=3, stride=1, padding=1)
         self.conv4 = nn.Conv1d(in_channels=hidden_units_1, out_channels=hidden_units_2, kernel_size=3, stride=1, padding=1)
         self.pool2 = nn.MaxPool1d(kernel_size=2)
-        self.fc1 = nn.Linear(hidden_units_2*3, hidden_units_1)
+        self.fc1 = nn.Linear(hidden_units_2*48, hidden_units_1)
         self.fc2 = nn.Linear(hidden_units_1, num_namen)
         self.dropout = nn.Dropout(0.3)
 

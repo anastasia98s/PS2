@@ -1,64 +1,61 @@
+## Erledigte Aufgaben
+
+- Benutzer-Authentifizierung implementiert
+- Textklassifizierung abgeschlossen
+- Intentverteilung erstellt
+- Sprach-zu-Text-Funktionalität integriert
+- Text-zu-Sprach-Funktionalität implementiert
+
+## ToDo
+
+- Datenaufbereitung für Intents im [Intends Ordner](Intends).
+- Mehr Datasets für Benutzer-Authentifizierung sammeln
+- Mehr Datasets für Textklassifizierung sammeln
+
+## Startanweisungen
+
+1. **Installiere alle erforderlichen Pakete:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+   **Hinweis:** Wenn es zu Fehlermeldungen kommt, kannst du die Pakete manuell installieren.
+
+2. **Starte das Hauptskript:**
+   ```bash
+   python main.py
+   ```
+
+3. **Trainiere die Modelle:**
+   - AI Text und AI Authentifizierung mindestens 1x trainieren.
+
+4. **Starte das Engine-Skript:**
+   ```bash
+   python engine.py
+   ```
+
 # Datensatz-Szenarien und Absichten
 
-#### **Alarm-Szenario**
-- **Anmerkungen**: Datum, Zeit, Frequenz, Aktivität
-- **Absichten**: einstellen, entfernen, abfragen
-
-#### **Liste-Szenario**
-- **Anmerkungen**: Artikel, Menge, Thema?
+#### **ToDo-List-Szenario**
+- **Anmerkungen**: Artikel, List, Zustand, UserID
 - **Absichten**: eingeben, löschen, ändern, abfragen
 
-#### **Kalender-Szenario**
-- **Anmerkungen**: Datum, Zeit, Ort, Aktivität
-- **Absichten**: einstellen, ändern, löschen, eingeben, abfragen
+#### **Datum-Szenario**
+- **Anmerkungen**: Datum
+- **Absichten**: abfragen
 
-#### **DateZeit-Szenario**
-- **Anmerkungen**: Datum, Zeit, Zeitzone, Ort, Thema?
-- **Absichten**: konvertieren, abfragen
-
-#### **Licht-Szenario**
-- **Anmerkungen**: Farbe, Gerät
-- **Absichten**: einschalten, ausschalten, ändern, verringern, erhöhen
-
-#### **Musik-Szenario**
-- **Anmerkungen**: Musik, Person, Plattform, Liste
-- **Absichten**: spielen, stoppen, pausieren, fortsetzen, abfragen
+#### **Studienordnung-Szenario**
+- **Anmerkungen**: Thema
+- **Absichten**: abfragen
 
 #### **Wetter-Szenario**
-- **Anmerkungen**: Wetterdeskriptor, Ort, Zeit
+- **Anmerkungen**: Datum, Zeit, Ort
 - **Absichten**: abfragen
 
-#### **API-Szenario** (Wikipedia oder andere Quellen)
-- **Anmerkungen**: Thema/Information
-- **Absichten**: abfragen
-
-#### **IoT-Szenario**
-- **Anmerkungen**: Gerät
-- **Absichten**: einschalten, ausschalten, ändern/einstellen, verbinden, abfragen, erhöhen, verringern
-
-#### **System-Szenario** (internal system)
+#### **Wikipedia-Szenario**
 - **Anmerkungen**: Thema
-- **Absichten**: pausieren, fortsetzen, erhöhen, verringern
-
-#### **Timer-Szenario**
-- **Anmerkungen**: Zeit, Frequenz
-- **Absichten**: einstellen, stoppen, entfernen, abfragen
-
-#### **HTW Dresden-Szenario**
-- **Anmerkungen**: Thema, ...
 - **Absichten**: abfragen
 
-### Python-Klasse: Szenario (Intent)
-
-Die folgende Python-Klasse implementiert das Szenario "List":
-
-```python
-class Liste: # Szenario (Class)
-    def __init__(self):
-        self.Liste = []
-
-    def löschen(self, Artikel, Menge): # Absicht (Funktion) # Anmerkung (Variable) 
-        print(f"{Artikel} wurde aus der Liste entfernt")
-
-    def eingeben(self, Artikel, Menge):
-        print(f"{Artikel} wurde zur Liste hinzugefügt.")
+#### **Zeit-Szenario**
+- **Anmerkungen**: Ort
+- **Absichten**: abfragen

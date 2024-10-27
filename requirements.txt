@@ -1,9 +1,13 @@
+gTTS==2.5.3
 joblib==1.4.2
 librosa==0.10.2.post1
 numpy==2.1.2
 pandas==2.2.3
 pywebview==5.2
+Requests==2.32.3
 scikit_learn==1.5.2
 sounddevice==0.5.0
+SpeechRecognition==3.10.4
 torch==2.4.1+cu124
 transformers==4.45.1
+wikipedia==1.4.0

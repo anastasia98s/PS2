@@ -111,9 +111,9 @@ def get_data(data_path):
         SELECT 
             sp_satz.satz_id AS satz_nr, 
             sp_wort.wort AS woerter, 
-            sp_anmerkung.anmerkung AS anmerkungen,
-            sp_absicht.absicht AS absichten,
-            sp_szenario.szenario AS szenarios
+            sp_anmerkung.anmerkung_id AS anmerkungen,
+            sp_absicht.absicht_id AS absichten,
+            sp_szenario.szenario_id AS szenarios
         FROM sp_satz
         JOIN sp_wort ON sp_satz.satz_id = sp_wort.satz_id
         JOIN sp_anmerkung ON sp_wort.anmerkung_id = sp_anmerkung.anmerkung_id

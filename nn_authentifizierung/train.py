@@ -23,15 +23,13 @@ def train():
     train_data_loader = DataLoader( train_dataset,
                                     batch_size=config.AUTHENTIFIZIERUNG_TRAIN_BATCH_SIZE,
                                     shuffle=True,
-                                    pin_memory=True,
-                                    num_workers=4)
+                                    pin_memory=True)
     
     val_dataset = nn_authentifizierung.utils.AudioDataset(val_audios, val_namen)
     val_data_loader = DataLoader(   val_dataset,
                                     batch_size=config.AUTHENTIFIZIERUNG_VALIDATION_BATCH_SIZE,
                                     shuffle=False,
-                                    pin_memory=True,
-                                    num_workers=4)
+                                    pin_memory=True)
     
     num_namen = len(encoder_namen.classes_)
 
