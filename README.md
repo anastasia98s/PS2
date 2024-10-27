@@ -7,7 +7,7 @@
 - Text-zu-Sprach-Funktionalität implementiert
 
 ## ToDo
-
+- Database für Users und ToDo-Liste
 - Datenaufbereitung für Intents im [Intends Ordner](Intends).
 - Mehr Datasets für Benutzer-Authentifizierung sammeln
 - Mehr Datasets für Textklassifizierung sammeln
