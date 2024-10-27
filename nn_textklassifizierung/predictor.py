@@ -2,6 +2,7 @@ import joblib
 import torch
 from nn_textklassifizierung.model import Model
 import config
+import os
 
 class Predictor:
     def __init__(self, model_path):
@@ -21,6 +22,8 @@ class Predictor:
         self.num_szenario = len(self.encoder_szenario.classes_)
 
         self.model = Model(self.num_anmerkung, self.num_absicht, self.num_szenario)
+        if not os.path.isfile(model_path):
+            raise FileNotFoundError(f"Sie müssen Textklassifizierung-KI auf main.py trainieren")
         self.model.load_state_dict(torch.load(model_path, weights_only=True))
         self.model.to(self.device).eval()
 

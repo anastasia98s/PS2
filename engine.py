@@ -21,8 +21,6 @@ class Engine:
         self.zeit_intent = ZeitIntent()
         self.datum_intent = DatumIntent()
         self.audio = Audio()
-        self.predictor_text = PredictorText(config.TEXTKLASSIFIZIERUNG_TRAINED_PATH)
-        self.predictor_user = PredictorUser(config.AUTHENTIFIZIERUNG_TRAINED_PATH)
 
     def satz_klassifizieren(self, text):
         return self.predictor_text.predict(text)

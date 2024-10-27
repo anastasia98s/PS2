@@ -3,7 +3,7 @@ import torch
 import nn_authentifizierung.utils
 from nn_authentifizierung.model import Model
 import config
-import numpy as np
+import os
 
 class Predictor:
     def __init__(self, model_path):
@@ -15,6 +15,8 @@ class Predictor:
         self.num_namen = len(self.encoder_namen.classes_)
 
         self.model = Model(self.num_namen, config.AUTHENTIFIZIERUNG_HIDDEN_UNITS_1, config.AUTHENTIFIZIERUNG_HIDDEN_UNITS_2)
+        if not os.path.isfile(model_path):
+            raise FileNotFoundError(f"Sie müssen Authentifizierung-KI auf main.py trainieren")
         self.model.load_state_dict(torch.load(model_path, weights_only=True))
         self.model.to(self.device).eval()
 

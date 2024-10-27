@@ -28,6 +28,14 @@
 
 3. **Trainiere die Modelle:**
    - AI Text und AI Authentifizierung mindestens 1x trainieren.
+   
+   ### AI Text (im Menu 1 und 2 von main.py)
+   1. Menu 1 wählen: **Option 1**.
+   2. Menu 2 wählen: **Option 2**.
+
+   ### AI Authentifizierung (im Menü von main.py)
+   1. Menu wählen: **Option 2**.
+   2. Menu wählen: **Option 2**.
 
 4. **Starte das Engine-Skript:**
    ```bash
