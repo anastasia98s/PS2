@@ -29,11 +29,11 @@
 3. **Trainiere die Modelle:**
    - Textklassifizierung - und Authentifizierung KI mindestens 1x trainieren.
    
-   #### Textklassifizierung KI (im main.py)
+   #### - Textklassifizierung KI (im main.py)
    1. Menu 1 wählen: **Option 1**.
    2. Menu 2 wählen: **Option 2**.
 
-   #### Authentifizierung KI (im main.py)
+   #### - Authentifizierung KI (im main.py)
    1. Menu wählen: **Option 2**.
    2. Menu wählen: **Option 2**.
 
