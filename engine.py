@@ -85,7 +85,7 @@ class Engine:
 
             ################################### # todo list
             case (config.SZENARIO_TODO_LIST, config.ABSICHT_ABFRAGEN): # abfragen
-                return self.todolist_intent.abfragen(t_artikel, t_zeit, t_datum, user_id)
+                return self.todolist_intent.abfragen(t_artikel, t_zeit, t_datum, t_zustand, user_id)
             case (config.SZENARIO_TODO_LIST, config.ABSICHT_EINGEBEN): # hinzufügen
                 return self.todolist_intent.eingeben(t_artikel, t_zeit, t_datum, user_id)
             case (config.SZENARIO_TODO_LIST, config.ABSICHT_AENDERN): # ändern
