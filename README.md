@@ -7,10 +7,10 @@
 - Text-zu-Sprach-Funktionalität implementiert
 
 ## ToDo
-- Database für Users und ToDo-Liste
+- Datenbank für Benutzer und To-Do-Liste erstellen.
 - Datenaufbereitung für Intents im [Intends Ordner](intends).
-- Mehr Datasets für Benutzer-Authentifizierung sammeln
-- Mehr Datasets für Textklassifizierung sammeln
+- Mehr Datasets für Benutzer-Authentifizierung (Stimme) sammeln (für KI-Training).
+- Mehr Datasets für Textklassifizierung sammeln (für KI-Training).
 
 ## Startanweisungen
 
