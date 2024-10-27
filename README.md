@@ -42,7 +42,9 @@
    python engine.py
    ```
 
-# Datensatz-Szenarien und Absichten
+## Intends
+
+**Ordner von Intents [hier](intends).**
 
 #### **ToDo-List-Szenario**
 - **Anmerkungen**: Artikel, List, Zustand, UserID
