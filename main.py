@@ -13,8 +13,6 @@ import config
 
 def main():
     audio = Audio()
-    predictor_text = PredictorText(config.TEXTKLASSIFIZIERUNG_TRAINED_PATH)
-    predictor_user = PredictorUser(config.AUTHENTIFIZIERUNG_TRAINED_PATH)
     while True:
         print("\nBitte wähle eine Option:")
         print("1. AI Textklassifizierung")
@@ -43,6 +41,7 @@ def main():
                 elif auswahl == '2':
                     train_text.train()
                 elif auswahl == '3':
+                    predictor_text = PredictorText(config.TEXTKLASSIFIZIERUNG_TRAINED_PATH)
                     print("„quit“ zum Beenden\n")
                     while True:
 
@@ -95,6 +94,7 @@ def main():
                 if auswahl == '2':
                     train_audio.train()
                 if auswahl == '3':
+                    predictor_user = PredictorUser(config.AUTHENTIFIZIERUNG_TRAINED_PATH)
                     signal = audio.listen(5, config.AUTHENTIFIZIERUNG_SAMPLE_RATE)
                     name_indexs, name_label_scores = predictor_user.predict(signal)
                     print("\n" + "=" * 30)
@@ -103,6 +103,8 @@ def main():
                 if auswahl == '4':
                     break
         elif auswahl == '3':
+            predictor_text = PredictorText(config.TEXTKLASSIFIZIERUNG_TRAINED_PATH)
+            predictor_user = PredictorUser(config.AUTHENTIFIZIERUNG_TRAINED_PATH)
             signal = audio.listen(5, config.AUTHENTIFIZIERUNG_SAMPLE_RATE)
             text = audio.recognize(signal, config.AUTHENTIFIZIERUNG_SAMPLE_RATE)
             name_indexs, name_label_scores = predictor_user.predict(signal)
