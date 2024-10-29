@@ -5,9 +5,10 @@
 - Intentverteilung erstellt
 - Sprach-zu-Text-Funktionalität integriert
 - Text-zu-Sprach-Funktionalität implementiert
+- Datenbank für Benutzer erstellt
+- To-Do-Liste abgeschlossen
 
 ## ToDo
-- Datenbank für Benutzer und To-Do-Liste erstellen.
 - Datenaufbereitung für Intents im [Intends Ordner](intends).
 - Mehr Datasets für Benutzer-Authentifizierung (Stimme) sammeln (für KI-Training).
 - Mehr Datasets für Textklassifizierung sammeln (für KI-Training).
