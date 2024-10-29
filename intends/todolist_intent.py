@@ -70,7 +70,6 @@ class ToDoListIntent:
                 if ":" not in zeit:
                     zeit += ":00"
         
-        # Kombiniertes Datum und Zeitformat
         datum_zeit = datetime.strptime(f"{datum.strftime('%Y-%m-%d')} {zeit}", "%Y-%m-%d %H:%M")
         return datum_zeit.strftime("%Y-%m-%dT%H:%M:%S")
     
@@ -98,7 +97,7 @@ class ToDoListIntent:
             else: # Was habe ich morgen
                 datum = self.date_konvertierung(i_datum).strftime("%Y-%m-%d")
         elif not i_artikel:
-            return "Ich verstehe ihre ToDo-Abfrage nicht"
+            return "Ich verstehe nicht ihre To-Do-Abfrage"
         
         to_do_liste = self.model_user.abfrage_todo(i_artikel, datum, datezeit, i_benutzer_id)
         return self.satz_konvertierung(to_do_liste, i_datum)
@@ -107,7 +106,7 @@ class ToDoListIntent:
     def eingeben(self, i_artikel, i_zeit, i_datum, i_benutzer_id):
         datezeit = self.date_zeit_konvertierung(i_datum, i_zeit)
         self.model_user.add_todo(i_artikel, datezeit, i_benutzer_id)
-        return f"neue {i_artikel} am {i_datum} um {i_zeit} wurde in ToDO Liste eingegeben"
+        return f"neue {i_artikel} am {i_datum} um {i_zeit} wurde in To-Do-List eingegeben"
     
     # Override
     def entfernen(self, i_artikel, i_zeit, i_datum, i_benutzer_id):
