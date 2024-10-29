@@ -6,7 +6,8 @@ import os
 
 class Predictor:
     def __init__(self, model_path):
-        
+        if not os.path.isfile(model_path):
+            raise FileNotFoundError(f"\nSie müssen Textklassifizierung-KI auf main.py trainieren")
         self.tokenizer = config.TEXTKLASSIFIZIERUNG_TOKENIZER
         self.max_len = config.TEXTKLASSIFIZIERUNG_MAX_LEN
         self.device = config.DEVICE
@@ -22,8 +23,6 @@ class Predictor:
         self.num_szenario = len(self.encoder_szenario.classes_)
 
         self.model = Model(self.num_anmerkung, self.num_absicht, self.num_szenario)
-        if not os.path.isfile(model_path):
-            raise FileNotFoundError(f"Sie müssen Textklassifizierung-KI auf main.py trainieren")
         self.model.load_state_dict(torch.load(model_path, weights_only=True))
         self.model.to(self.device).eval()
 

@@ -7,6 +7,8 @@ import os
 
 class Predictor:
     def __init__(self, model_path):
+        if not os.path.isfile(model_path):
+            raise FileNotFoundError(f"\nSie müssen Authentifizierung-KI auf main.py trainieren")
         self.device = config.DEVICE
         self.meta_data = joblib.load(config.AUTHENTIFIZIERUNG_META_PATH)
         
@@ -15,8 +17,6 @@ class Predictor:
         self.num_namen = len(self.encoder_namen.classes_)
 
         self.model = Model(self.num_namen, config.AUTHENTIFIZIERUNG_HIDDEN_UNITS_1, config.AUTHENTIFIZIERUNG_HIDDEN_UNITS_2)
-        if not os.path.isfile(model_path):
-            raise FileNotFoundError(f"Sie müssen Authentifizierung-KI auf main.py trainieren")
         self.model.load_state_dict(torch.load(model_path, weights_only=True))
         self.model.to(self.device).eval()
 
