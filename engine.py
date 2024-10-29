@@ -29,8 +29,8 @@ class Engine:
         self.datum_intent = DatumIntent()
         self.audio = Audio()
 
-    def satz_klassifizieren(self, text):
-        return self.predictor_text.predict(text)
+    """ def satz_klassifizieren(self, text):
+        return self.predictor_text.predict(text) """
     
     def user_authentifizierung(self, signal):
         name_indexs, name_label_scores = self.predictor_user.predict(signal)
@@ -66,27 +66,54 @@ class Engine:
         match (szenario, absicht):
             ################################### # zeit
             case (config.SZENARIO_ZEIT, config.ABSICHT_ABFRAGEN): # abfragen
-                return self.zeit_intent.abfragen(t_ort)
+                intent_result = self.zeit_intent.abfragen(t_ort)
+                if intent_result:
+                    return intent_result
+                else:
+                    return "Error!"
 
             ################################### # datum
             case (config.SZENARIO_DATUM, config.ABSICHT_ABFRAGEN): # abfragen
-                return self.datum_intent.abfragen(t_datum)
+                while True:
+                    intent_result = self.datum_intent.abfragen(t_datum)
+                    if intent_result:
+                        return intent_result
+                    else:
+                        t_datum = self.dialog("Kannst du das Datum nochmal sagen")
 
             ################################### # wetter
             case (config.SZENARIO_WETTER, config.ABSICHT_ABFRAGEN): # abfragen
-                return self.wetter_intent.abfragen(v_zeit, t_datum, t_ort)
+                while True:
+                    intent_result = self.wetter_intent.abfragen(v_zeit, t_datum, t_ort)
+                    if intent_result:
+                        return intent_result
+                    else:
+                        t_datum = self.dialog("Kannst du das Datum nochmal sagen")
 
             ################################### # studienordnung
             case (config.SZENARIO_STUDIENORDNUNG, config.ABSICHT_ABFRAGEN): # abfragen
-                return self.studienordnung_intent.abfragen(t_thema)
+                intent_result = self.studienordnung_intent.abfragen(t_thema)
+                if intent_result:
+                    return intent_result
+                else:
+                    return "Error!"
 
             ################################### # Wikipedia
             case (config.SZENARIO_WIKIPEDIA, config.ABSICHT_ABFRAGEN): # abfragen
-                return self.wikipedia_intent.abfragen(t_thema)
+                intent_result = self.wikipedia_intent.abfragen(t_thema)
+                if intent_result:
+                    return intent_result
+                else:
+                    return "Error!"
 
             ################################### # todo list
             case (config.SZENARIO_TODO_LIST, config.ABSICHT_ABFRAGEN): # abfragen
-                return self.todolist_intent.abfragen(t_artikel, t_zeit, t_datum, user_id)
+                while True:
+                    intent_result = self.todolist_intent.abfragen(t_artikel, t_zeit, t_datum, user_id)
+                    if intent_result:
+                        return intent_result
+                    else:
+                        t_datum = self.dialog("Kannst du das Datum nochmal sagen")
             case (config.SZENARIO_TODO_LIST, config.ABSICHT_EINGEBEN): # hinzufügen
                 
                 if not t_datum:
@@ -94,9 +121,21 @@ class Engine:
                 if not t_zeit:
                     t_zeit = self.dialog("Kannst du die Zeit sagen")
 
-                return self.todolist_intent.eingeben(t_artikel, t_zeit, t_datum, user_id)
+                while True:
+                    intent_result = self.todolist_intent.eingeben(t_artikel, t_zeit, t_datum, user_id)
+                
+                    if intent_result:
+                        return intent_result
+                    else:
+                        t_datum = self.dialog("Kannst du das Datum nochmal sagen")
+
             case (config.SZENARIO_TODO_LIST, config.ABSICHT_ENTFERNEN): # löschen
-                return self.todolist_intent.entfernen(t_artikel, t_zeit, t_datum, user_id)
+                while True:
+                    intent_result = self.todolist_intent.entfernen(t_artikel, t_zeit, t_datum, user_id)
+                    if intent_result:
+                        return intent_result
+                    else:
+                        t_datum = self.dialog("Kannst du das Datum nochmal sagen")
             case _:
                 return "Ich verstehe dich nicht."
             
@@ -116,15 +155,6 @@ class Engine:
             features = extract_features(signal_part, config.AUTHENTIFIZIERUNG_SAMPLE_RATE)
             self.model_user.add_merkmale(benutzer_id, features)
             
-        """ part_length = len(signal) // config.AUDIO_SAVE_SPLIT
-    
-        for i in range(config.AUDIO_SAVE_SPLIT):
-            signal_part = signal[i * part_length : (i + 1) * part_length]
-            features = extract_features(signal_part, config.AUTHENTIFIZIERUNG_SAMPLE_RATE)
-            self.model_user.add_merkmale(benutzer_id, features) """
-            
-        """ features = extract_features(signal, config.AUTHENTIFIZIERUNG_SAMPLE_RATE)
-        self.model_user.add_merkmale(benutzer_id, features) """
     def dialog(self, satz):
         self.audio.text_to_speech(satz, config.RECORD_ANTWORT_TMP_PATH)
         antwort_signal = self.audio.listen(5, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_ANTWORT_TMP_PATH)
@@ -134,11 +164,16 @@ class Engine:
         signal = self.audio.listen(5, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_SATZ_TMP_PATH)
         
         if self.predictor_user: # wenn es auth.pth gibt
-            name_index, name_label = engine.user_authentifizierung(signal)
+            name_index, name_label = self.user_authentifizierung(signal)
             pred_id = int(name_label[0][name_index][0])
             pred_name = self.model_user.show_benutzer_name(pred_id)
-            antwort_text = self.dialog("Sind Sie " + pred_name) # wie viel Prozent?
-            if antwort_text == "ja":
+            pred_noten = name_label[1][name_index][0]
+
+            if pred_noten < config.AUTHENTIFIZIERUNG_MIN_NOTEN or len(name_label[0]) < config.AUTHENTIFIZIERUNG_MIN_KONTO:
+                antwort_text = self.dialog("Sind Sie " + pred_name)
+                if antwort_text == "ja":
+                    benutzer_id = pred_id
+            else:
                 benutzer_id = pred_id
 
         if not benutzer_id:
@@ -154,8 +189,13 @@ class Engine:
         if benutzer_id:
             self.save_features(signal, benutzer_id)
             input_satz = self.audio.recognize(signal, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_SATZ_TMP_PATH)
-            anmerkung_satz_labels, woerter_anmerkungen, absicht_satz_labels, absicht_class_scores, szenario_satz_labels, szenario_class_scores = engine.satz_klassifizieren(input_satz)
-            output_satz = self.intent_filter(absicht_class_scores[0][absicht_satz_labels], szenario_class_scores[0][szenario_satz_labels], woerter_anmerkungen, anmerkung_satz_labels, benutzer_id)
+            anmerkung_satz_labels, woerter_anmerkungen, absicht_satz_labels, absicht_class_scores, szenario_satz_labels, szenario_class_scores = self.predictor_text.predict(input_satz)
+            pred_absicht_noten = absicht_class_scores[1][absicht_satz_labels]
+            pred_szenario_noten = szenario_class_scores[1][szenario_satz_labels]
+            if pred_absicht_noten >= config.ABSICHT_MIN_NOTEN and pred_szenario_noten >= config.SZENARIO_MIN_NOTEN:
+                output_satz = self.intent_filter(absicht_class_scores[0][absicht_satz_labels], szenario_class_scores[0][szenario_satz_labels], woerter_anmerkungen, anmerkung_satz_labels, benutzer_id)
+            else:
+                output_satz = "Ich verstehe ihren Absicht nicht"
             self.audio.text_to_speech(output_satz, config.RECORD_SATZ_TMP_PATH)
             train_merkmale.train()
 

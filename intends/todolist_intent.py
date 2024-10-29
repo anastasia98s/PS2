@@ -25,8 +25,14 @@ class ToDoListIntent(Datenkonverter):
         if i_zeit or i_datum: # Frag nach Artikel
             if i_zeit: # Was habe ich morgen um 12 Uhr
                 datezeit = super().date_zeit_konverter(i_datum, i_zeit)
+                if not datezeit:
+                    return None
             else: # Was habe ich morgen
-                datum = super().date_konverter(i_datum).strftime("%Y-%m-%d")
+                datum = super().date_konverter(i_datum)
+                if not datum:
+                    return None
+                else:
+                    datum = datum.strftime("%Y-%m-%d")
         elif not i_artikel:
             return "Ich verstehe ihre To-Do-Abfrage nicht"
         
@@ -35,6 +41,8 @@ class ToDoListIntent(Datenkonverter):
     
     def eingeben(self, i_artikel, i_zeit, i_datum, i_benutzer_id):
         datezeit = super().date_zeit_konverter(i_datum, i_zeit)
+        if not datezeit:
+            return None
         self.model_user.add_todo(i_artikel, datezeit, i_benutzer_id)
         return f"neue {i_artikel} am {i_datum} um {i_zeit} wurde in To-Do-List eingegeben"
     
@@ -42,9 +50,15 @@ class ToDoListIntent(Datenkonverter):
         if i_datum:
             if i_zeit:
                 datezeit = super().date_zeit_konverter(i_datum, i_zeit)
+                if not datezeit:
+                    return None
                 antwort = f"{i_artikel} am {i_datum} um {i_zeit} Uhr wurde in To-Do-List gelöscht"
             else:
-                datum = super().date_konverter(i_datum).strftime("%Y-%m-%d")
+                datum = super().date_konverter(i_datum)
+                if not datum:
+                    return None
+                else:
+                    datum = datum.strftime("%Y-%m-%d")
                 antwort = f"Alle {i_artikel} am {datum} wurde in To-Do-List gelöscht"
         else:
             datezeit = None

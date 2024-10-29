@@ -10,13 +10,13 @@ class Datenkonverter:
     def date_konverter(self, datum):
         jetzt = datetime.now()
         
-        if datum.lower() == "heute":
+        if re.search(r"\bheute\b", datum.lower()):
             return jetzt
-        if datum.lower() == "morgen":
-            return (jetzt + timedelta(days=1))
-        if datum.lower() == "übermorgen":
+        if re.search(r"\bmorgen\b", datum.lower()):
+            return jetzt + timedelta(days=1)
+        if re.search(r"\b[üu]bermorgen\b", datum.lower()):
             return jetzt + timedelta(days=2)
-        if datum.lower() == "gestern":
+        if re.search(r"\bgestern\b", datum.lower()):
             return jetzt - timedelta(days=1)
         
         try:
@@ -28,7 +28,7 @@ class Datenkonverter:
         try:
             # dd.mm
             if len(datum.split('.')) == 2:
-                datum = datum + f".{jetzt.year}"  # Tambahkan tahun saat ini
+                datum = datum + f".{jetzt.year}"
                 return datetime.strptime(datum, "%d.%m.%Y")
         except ValueError:
             pass
@@ -37,7 +37,6 @@ class Datenkonverter:
             # dd B
             if len(datum.split()) == 2:
                 datum = datum + f" {jetzt.year}"
-            
             return datetime.strptime(datum, "%d %B %Y")
         
         except ValueError:
@@ -46,7 +45,8 @@ class Datenkonverter:
                 datum = datetime.strptime(datum, "%d %B")  
                 return datum.replace(year=jetzt.year)
             except ValueError:
-                raise ValueError("Ungültiges Datumsformat. Verwenden Sie 'heute', 'morgen', 'dd.mm', 'dd.mm.yyyy', 'd MMMM' oder 'd MMMM yyyy'.")
+                return None
+                # raise ValueError("Ungültiges Datumsformat. Verwenden Sie 'heute', 'morgen', 'dd.mm', 'dd.mm.yyyy', 'd MMMM' oder 'd MMMM yyyy'.")
     
     def date_zeit_konverter(self, datum, zeit):
         zeitzuordnungen = {
@@ -61,6 +61,9 @@ class Datenkonverter:
         }
         
         datum = self.date_konverter(datum)
+
+        if not datum:
+            return None
 
         # Zeit
         if zeit.lower() in zeitzuordnungen:

@@ -6,10 +6,10 @@
 - Sprach-zu-Text-Funktionalität integriert
 - Text-zu-Sprach-Funktionalität implementiert
 - Datenbank für Benutzer erstellt
-- To-Do-Liste abgeschlossen
+- Intents "To-Do-Liste, Datum, Wetter, Zeit" abgeschlossen
 
 ## ToDo
-- Datenaufbereitung für Intents im [Intends Ordner](intends).
+- Datenaufbereitung für Intents "Studienordnung, Wikipedia" im [Intends Ordner](intends).
 - Mehr Datasets für Benutzer-Authentifizierung (Stimme) sammeln (für KI-Training).
 - Mehr Datasets für Textklassifizierung sammeln (für KI-Training).
 
@@ -42,29 +42,3 @@
    ```bash
    python engine.py
    ```
-
-## Intends
-Ordner von Intents [hier](intends).
-#### **ToDo-List-Szenario**
-- **Anmerkungen**: Artikel, List, UserID
-- **Absichten**: eingeben, löschen, ändern, abfragen
-
-#### **Datum-Szenario**
-- **Anmerkungen**: Datum
-- **Absichten**: abfragen
-
-#### **Studienordnung-Szenario**
-- **Anmerkungen**: Thema
-- **Absichten**: abfragen
-
-#### **Wetter-Szenario**
-- **Anmerkungen**: Datum, Zeit, Ort
-- **Absichten**: abfragen
-
-#### **Wikipedia-Szenario**
-- **Anmerkungen**: Thema
-- **Absichten**: abfragen
-
-#### **Zeit-Szenario**
-- **Anmerkungen**: Ort
-- **Absichten**: abfragen
