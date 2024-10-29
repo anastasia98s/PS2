@@ -4,7 +4,6 @@ class WikipediaIntent:
     def __init__(self):
         pass
     
-    # Override
     def abfragen(self, i_thema): # Wer ist ... # Was ist ...
         try:
             wikipedia.set_lang("de")

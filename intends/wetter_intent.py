@@ -1,17 +1,30 @@
 import requests
 import config
+from intends.datenkonverter import Datenkonverter
 
-class WetterIntent:
+class WetterIntent(Datenkonverter):
     def __init__(self):
         pass
     
-    # Override
     def abfragen(self, i_zeit, i_datum, i_ort): # Bsp. Wie ist das Wetter um 18 Uhr morgen in Berlin
         #url = f"http://example.com/weather?date={i_datum}&time={i_zeit}&location={i_ort}" # such ein besseres API
+                
         if not i_ort:
             i_ort = config.DEFAULT_ORT
-        bedingung_url = f"http://wttr.in/{i_ort}?format=%C&lang=de"
-        temperatur_url = f"http://wttr.in/{i_ort}?format=%t"
+
+        if i_datum:
+            if i_zeit:
+                datezeit = super().date_zeit_konverter(i_datum, i_zeit) # Die API kann derzeit an bestimmten Tagen keine Abfragen durchführen
+                bedingung_url = f"http://wttr.in/{i_ort}?format=%C&lang=de"
+                temperatur_url = f"http://wttr.in/{i_ort}?format=%t"
+            else:
+                datum = super().date_konverter(i_datum).strftime("%Y-%m-%d") # API Die API kann derzeit an bestimmten Tagen keine Abfragen durchführen
+                bedingung_url = f"http://wttr.in/{i_ort}?format=%C&lang=de"
+                temperatur_url = f"http://wttr.in/{i_ort}?format=%t"
+        else:
+            bedingung_url = f"http://wttr.in/{i_ort}?format=%C&lang=de"
+            temperatur_url = f"http://wttr.in/{i_ort}?format=%t"
+
         bedingung_response = requests.get(bedingung_url)
         temperatur_response = requests.get(temperatur_url)
         if bedingung_response.status_code == 200 and temperatur_response.status_code == 200:

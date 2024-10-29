@@ -3,7 +3,7 @@ import sounddevice as sd
 import wave
 import numpy as np
 from gtts import gTTS
-#import pyttsx3
+import pyttsx3
 import os
 import config
 import librosa
@@ -11,8 +11,8 @@ import librosa
 class Audio:
     def __init__(self):
         self.recognizer = sr.Recognizer()
-        #self.pyttsx3 = pyttsx3.init()
-        #self.set_sprache_text_to_speech('de_DE')
+        self.pyttsx3 = pyttsx3.init()
+        self.set_sprache_text_to_speech('Microsoft Hedda Desktop - German')
 
     def listen(self, duration, sample_rate, record_path):
         """ with sr.Microphone() as source:
@@ -64,9 +64,10 @@ class Audio:
         tts.save(record_path)
         os.system("start " + record_path)
         
-    """ def set_sprache_text_to_speech(self, language_code):
+    def set_sprache_text_to_speech(self, speaker_name):
         voices = self.pyttsx3.getProperty('voices')
         for voice in voices:
-            if language_code in voice.languages:
+            # print(voice)
+            if speaker_name in voice.name:
                 self.pyttsx3.setProperty('voice', voice.id)
-                break """
+                break

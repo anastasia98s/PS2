@@ -1,15 +1,18 @@
-from datetime import datetime, timedelta
+#from datetime import datetime, timedelta
+from intends.datenkonverter import Datenkonverter
 
-class DatumIntent:
+class DatumIntent(Datenkonverter):
     def __init__(self):
         pass
     
-    # Override
     def abfragen(self, i_datum): # Welches Datum ist morgen/heute/..
-        datezeit = datetime.now()
+        """ datezeit = datetime.now()
 
         if i_datum.lower() == "morgen":
             datezeit = datezeit + timedelta(days=1)
 
-        datum = datetime.strftime(datezeit, "%d %B %Y")
+        datum = datetime.strftime(datezeit, "%d %B %Y") """
+
+        datum = super().date_konverter(i_datum).strftime("%Y-%m-%d")
+
         return f"{i_datum} ist {datum}"
