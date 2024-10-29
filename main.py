@@ -1,13 +1,13 @@
 import webview
 
-from data.data_controller.model import Model
+from data.data_controller.model_textklassifizierung import ModelTextklassifizierung
 from data.data_controller.view import View
 from data.data_controller.presenter import Presenter
 
 from utils.audio import Audio
 from nn_textklassifizierung.predictor import Predictor as PredictorText
 from nn_textklassifizierung import train as train_text
-from nn_authentifizierung import train as train_audio
+from nn_authentifizierung import train as train_merkmale
 from nn_authentifizierung.predictor import Predictor as PredictorUser
 import config
 
@@ -32,9 +32,9 @@ def main():
                 auswahl = input("Gib die Nummer der Option ein: ")
 
                 if auswahl == '1':
-                    model = Model()
+                    model_textklassifizierung = ModelTextklassifizierung()
                     view = View()
-                    presenter = Presenter(model, view)
+                    presenter = Presenter(model_textklassifizierung, view)
 
                     webview.create_window('Data Controller', html=view.showPage(1), js_api=presenter)
                     webview.start()
@@ -74,39 +74,27 @@ def main():
             while True:
                 print("\n==Authentifizierung")
                 print("Bitte wähle eine Option:")
-                print("1. Data Input")
-                print("2. AI Training")
-                print("3. Predict")
-                print("4. züruck")
+                print("1. AI Training")
+                print("2. Predict")
+                print("3. züruck")
                 auswahl = input("Gib die Nummer der Option ein: ")
+                
                 if auswahl == '1':
-                    import nn_authentifizierung.utils
-                    name = input("Name: ")
-
-                    print("\nnein, gut, schlecht, danke, bitte, heute, morgen, jetzt, warum, weil, immer, nie, manchmal, oft, vielleicht, gern, richtig, falsch, groß, klein, schnell, langsam, hoch, niedrig, alt, jung, neu, alt, hell, dunkel, kalt, warm, heiß, schön, hässlich\n")
-                    
-                    voice_data = audio.listen(5, config.AUTHENTIFIZIERUNG_SAMPLE_RATE)
-                    
-                    antwort = input("speichern? j/n = ")
-                    if antwort == 'j':
-                        features = nn_authentifizierung.utils.extract_features(voice_data, config.AUTHENTIFIZIERUNG_SAMPLE_RATE)
-                        nn_authentifizierung.utils.save_features_to_csv(config.AUTHENTIFIZIERUNG_DATASET_PATH, features, name)
+                    train_merkmale.train()
                 if auswahl == '2':
-                    train_audio.train()
-                if auswahl == '3':
                     predictor_user = PredictorUser(config.AUTHENTIFIZIERUNG_TRAINED_PATH)
-                    signal = audio.listen(5, config.AUTHENTIFIZIERUNG_SAMPLE_RATE)
+                    signal = audio.listen(5, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_SATZ_TMP_PATH)
                     name_indexs, name_label_scores = predictor_user.predict(signal)
                     print("\n" + "=" * 30)
                     print(f"Name = {name_label_scores[0][name_indexs].item()} = {name_label_scores[1][name_indexs].item() * 100}%")
                     print("=" * 30 + "\n")
-                if auswahl == '4':
+                if auswahl == '3':
                     break
         elif auswahl == '3':
             predictor_text = PredictorText(config.TEXTKLASSIFIZIERUNG_TRAINED_PATH)
             predictor_user = PredictorUser(config.AUTHENTIFIZIERUNG_TRAINED_PATH)
-            signal = audio.listen(5, config.AUTHENTIFIZIERUNG_SAMPLE_RATE)
-            text = audio.recognize(signal, config.AUTHENTIFIZIERUNG_SAMPLE_RATE)
+            signal = audio.listen(5, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_SATZ_TMP_PATH)
+            text = audio.recognize(signal, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_SATZ_TMP_PATH)
             name_indexs, name_label_scores = predictor_user.predict(signal)
             print("\n" + "=" * 30)
             print(f"Name = {name_label_scores[0][name_indexs].item()} = {name_label_scores[1][name_indexs].item() * 100}%")

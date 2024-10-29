@@ -3,8 +3,9 @@ import wikipedia
 class WikipediaIntent:
     def __init__(self):
         pass
-
-    def abfragen(self, i_thema):
+    
+    # Override
+    def abfragen(self, i_thema): # Wer ist ... # Was ist ...
         try:
             wikipedia.set_lang("de")
             return wikipedia.summary(i_thema, sentences=5)

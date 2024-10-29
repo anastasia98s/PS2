@@ -1,9 +1,8 @@
 import sqlite3
-import json
 import config
 import os
 
-class Model:
+class ModelTextklassifizierung:
     def __init__(self):
         self.create_table()
     
@@ -16,7 +15,6 @@ class Model:
             os.makedirs(dataset_dir)
             
         conn = self.connect_db()
-        # conn.execute('PRAGMA foreign_keys = ON;')
         cursor = conn.cursor()
 
         cursor.execute('''
@@ -67,8 +65,7 @@ class Model:
             "Artikel",
             "Zeit",
             "Datum",
-            "Ort",
-            "Zustand"
+            "Ort"
         ]
 
         szenarios_array = [
@@ -83,7 +80,6 @@ class Model:
         absichten_array = [
             "abfragen",
             "eingeben",
-            "ändern",
             "entfernen"
         ]
 
@@ -120,12 +116,7 @@ class Model:
         cursor.execute('SELECT anmerkung_id, anmerkung FROM sp_anmerkung ORDER BY anmerkung ASC')
         anmerkungen = cursor.fetchall()
         conn.close()
-
-        anmerkungen_list = [
-            {"anmerkung_id": anmerkung[0], "anmerkung": anmerkung[1]}
-            for anmerkung in anmerkungen
-        ]
-        return json.dumps(anmerkungen_list) #[anmerkung[0] for anmerkung in anmerkungen]
+        return anmerkungen
     
     def show_szenario(self):
         conn = self.connect_db()
@@ -133,12 +124,7 @@ class Model:
         cursor.execute('SELECT szenario_id, szenario FROM sp_szenario ORDER BY szenario ASC')
         szenarios = cursor.fetchall()
         conn.close()
-
-        szenarios_list = [
-            {"szenario_id": szenario[0], "szenario": szenario[1]}
-            for szenario in szenarios
-        ]
-        return json.dumps(szenarios_list) # [szenario[0] for szenario in szenarios]
+        return szenarios
 
     def show_absicht(self):
         conn = self.connect_db()
@@ -146,38 +132,15 @@ class Model:
         cursor.execute('SELECT absicht_id, absicht FROM sp_absicht ORDER BY absicht ASC')
         absichten = cursor.fetchall()
         conn.close()
-
-        absichten_list = [
-            {"absicht_id": absicht[0], "absicht": absicht[1]}
-            for absicht in absichten
-        ]
-
-        return json.dumps(absichten_list) # [absicht[0] for absicht in absichten]
+        return absichten
     
     def show_satz(self):
         conn = self.connect_db()
         cursor = conn.cursor()
         cursor.execute('SELECT sp_satz.satz_id, sp_wort.wort_id, sp_wort.wort, sp_anmerkung.anmerkung_id, sp_anmerkung.anmerkung, sp_szenario.szenario_id, sp_szenario.szenario, sp_absicht.absicht_id, sp_absicht.absicht FROM sp_satz JOIN sp_wort ON sp_satz.satz_id = sp_wort.satz_id JOIN sp_szenario ON sp_satz.szenario_id = sp_szenario.szenario_id JOIN sp_absicht ON sp_satz.absicht_id = sp_absicht.absicht_id JOIN sp_anmerkung ON sp_wort.anmerkung_id = sp_anmerkung.anmerkung_id ORDER BY sp_satz.satz_id DESC')
-
         saetze = cursor.fetchall()
         conn.close()
-
-        saetze_list = [
-            {"satz_id": satz[0],
-             "wort_id": satz[1],
-             "wort": satz[2],
-             "anmerkung_id": satz[3],
-             "anmerkung": satz[4],
-             "szenario_id": satz[5],
-             "szenario": satz[6],
-             "absicht_id": satz[7],
-             "absicht": satz[8]}
-            for satz in saetze
-        ]
-
-        # print(saetze_list)
-
-        return json.dumps(saetze_list)
+        return saetze
     
     def add_anmerkung(self, anmerkung):
         conn = self.connect_db()
@@ -210,12 +173,14 @@ class Model:
 
         conn = self.connect_db()
         cursor = conn.cursor()
+        cursor.execute("PRAGMA foreign_keys = ON")
         cursor.execute('INSERT INTO sp_satz (szenario_id, absicht_id) VALUES (?, ?)', (szenario_id_value, absicht_id_value))
         conn.commit()
 
         new_id = cursor.lastrowid
 
         for wort in satz_value:
+            cursor.execute("PRAGMA foreign_keys = ON")
             cursor.execute('INSERT INTO sp_wort (satz_id, anmerkung_id, wort) VALUES (?, ?, ?)', (new_id, wort['anmerkung_id'], wort['wort']))
             conn.commit()
 

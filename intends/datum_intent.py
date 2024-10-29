@@ -1,9 +1,15 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class DatumIntent:
     def __init__(self):
-        self.datum = datetime.now()
+        pass
+    
+    # Override
+    def abfragen(self, i_datum): # Welches Datum ist morgen/heute/..
+        datezeit = datetime.now()
 
-    def abfragen(self, i_datum):
-        datum = self.datum.strftime("%d %B %Y")
+        if i_datum.lower() == "morgen":
+            datezeit = datezeit + timedelta(days=1)
+
+        datum = datetime.strftime(datezeit, "%d %B %Y")
         return f"{i_datum} ist {datum}"

@@ -1,3 +1,5 @@
+import json
+
 class Presenter:
     def __init__(self, model, view):
         self.model = model
@@ -7,25 +9,53 @@ class Presenter:
 
     def show_satz(self):
         try:
-            return self.model.show_satz()
+            saetze = self.model.show_satz()
+            saetze_list = [
+                {"satz_id": satz[0],
+                "wort_id": satz[1],
+                "wort": satz[2],
+                "anmerkung_id": satz[3],
+                "anmerkung": satz[4],
+                "szenario_id": satz[5],
+                "szenario": satz[6],
+                "absicht_id": satz[7],
+                "absicht": satz[8]}
+                for satz in saetze
+            ]
+            return json.dumps(saetze_list)
         except Exception as e:
             return f"Error: {str(e)}"
 
     def show_anmerkung(self):
         try:
-            return self.model.show_anmerkung()
+            anmerkungen = self.model.show_anmerkung()
+            anmerkungen_list = [
+                {"anmerkung_id": anmerkung[0], "anmerkung": anmerkung[1]}
+                for anmerkung in anmerkungen
+            ]
+            return json.dumps(anmerkungen_list)
         except Exception as e:
             return f"Error: {str(e)}"
     
     def show_szenario(self):
         try:
-            return self.model.show_szenario()
+            szenarios = self.model.show_szenario()
+            szenarios_list = [
+                {"szenario_id": szenario[0], "szenario": szenario[1]}
+                for szenario in szenarios
+            ]
+            return json.dumps(szenarios_list)
         except Exception as e:
             return f"Error: {str(e)}"
     
     def show_absicht(self):
         try:
-            return self.model.show_absicht()
+            absichten = self.model.show_absicht()
+            absichten_list = [
+                {"absicht_id": absicht[0], "absicht": absicht[1]}
+                for absicht in absichten
+            ]
+            return json.dumps(absichten_list)
         except Exception as e:
             return f"Error: {str(e)}"
     

@@ -27,7 +27,7 @@ class Predictor:
         y_hat = torch.argmax(probs, dim=1)
         return probs.numpy(), y_hat.numpy()
     
-    def audio_prediction(self, mfcc_tensor):
+    def merkmale_prediction(self, mfcc_tensor):
         with torch.no_grad():
             name_lg = self.model(mfcc_tensor)
         return name_lg
@@ -36,9 +36,9 @@ class Predictor:
         class_scores, class_preds = self.to_yhat(name_lg)
         return class_preds, [self.encoder_namen.classes_, class_scores[0]]
                 
-    def predict(self, audio_data):
-        # audio_data = nn_authentifizierung.utils.record_voice(5, config.AUTHENTIFIZIERUNG_SAMPLE_RATE)
-        audio_features = nn_authentifizierung.utils.extract_features(audio_data, config.AUTHENTIFIZIERUNG_SAMPLE_RATE)
-        mfcc_tensor = torch.FloatTensor(audio_features).unsqueeze(0).to(self.device)
-        name_lg = self.audio_prediction(mfcc_tensor)
+    def predict(self, merkmale_data):
+        # merkmale_data = nn_authentifizierung.utils.record_voice(5, config.AUTHENTIFIZIERUNG_SAMPLE_RATE)
+        merkmale_features = nn_authentifizierung.utils.extract_features(merkmale_data, config.AUTHENTIFIZIERUNG_SAMPLE_RATE)
+        mfcc_tensor = torch.FloatTensor(merkmale_features).unsqueeze(0).to(self.device)
+        name_lg = self.merkmale_prediction(mfcc_tensor)
         return self.name_extraction(name_lg)

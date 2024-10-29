@@ -45,7 +45,7 @@
 ## Intends
 Ordner von Intents [hier](intends).
 #### **ToDo-List-Szenario**
-- **Anmerkungen**: Artikel, List, Zustand, UserID
+- **Anmerkungen**: Artikel, List, UserID
 - **Absichten**: eingeben, löschen, ändern, abfragen
 
 #### **Datum-Szenario**

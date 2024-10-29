@@ -116,7 +116,7 @@ def train():
             os.makedirs(os.path.dirname(config.TEXTKLASSIFIZIERUNG_TRAINED_PATH), exist_ok=True)
             torch.save(model.state_dict(), config.TEXTKLASSIFIZIERUNG_TRAINED_PATH)
             best_loss = val_loss
-            print(f'Validation Loss: {best_loss}, neues Model: Epoch {epoch}')
+            print(f'Validation Loss: {best_loss}, neues Model: Epoch {epoch + 1}')
         else:
             print(f'Validation Loss: {val_loss}')
     
