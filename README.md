@@ -34,7 +34,7 @@
 - **Trage ein Meeting heute um 12 Uhr ein.**
 - **Füge ein Meeting am 18. Oktober hinzu.**
 - **Kannst du mein Meeting morgen um 12 Uhr löschen?**
-- **Kannst du mein Meeting heute entfernen?**
+- **Kannst du mein heutes Meeting entfernen?**
 - **Lösche mein Meeting.**
 
 **Hinweis:** Um ein besseres Modell zu erhalten, kannst du im **Data-Controller** in `main.py` weitere Datensätze eingeben und trainieren.
