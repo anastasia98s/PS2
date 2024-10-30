@@ -14,15 +14,15 @@ class WetterIntent(Datenkonverter):
 
         if i_datum:
             if i_zeit:
-                datezeit = super().date_zeit_konverter(i_datum, i_zeit) # Die API kann derzeit an bestimmten Tagen keine Abfragen durchführen
+                datezeit, errortyp = super().date_zeit_konverter(i_datum, i_zeit) # Die API kann derzeit an bestimmten Tagen keine Abfragen durchführen
                 if not datezeit:
-                    return None
+                    return None, errortyp
                 bedingung_url = f"http://wttr.in/{i_ort}?format=%C&lang=de"
                 temperatur_url = f"http://wttr.in/{i_ort}?format=%t"
             else:
-                datum = super().date_konverter(i_datum) # API Die API kann derzeit an bestimmten Tagen keine Abfragen durchführen
+                datum, errortyp = super().date_konverter(i_datum) # API Die API kann derzeit an bestimmten Tagen keine Abfragen durchführen
                 if not datum:
-                    return None
+                    return None, errortyp
                 else:
                     datum = datum.strftime("%Y-%m-%d")
                     
@@ -38,6 +38,6 @@ class WetterIntent(Datenkonverter):
             bedingung = bedingung_response.text.strip()
             temperatur = temperatur_response.text.strip()
             temperatur = ''.join(filter(str.isdigit, temperatur))
-            return f"in {i_ort} {i_datum} {i_zeit} {bedingung} {temperatur} Grad"
+            return f"in {i_ort} {i_datum} {i_zeit} {bedingung} {temperatur} Grad", None
         else:
-            return "Wetter Error"
+            return None, config.ERROR_VARIABLE_ORT

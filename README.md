@@ -6,7 +6,7 @@
 - Sprach-zu-Text-Funktionalität integriert
 - Text-zu-Sprach-Funktionalität implementiert
 - Datenbank für Benutzer erstellt
-- Intents "To-Do-Liste, Datum, Wetter, Zeit" abgeschlossen
+- Intents "To-Do-Liste, Datum, Wetter, Uhrzeit" abgeschlossen
 
 ## ToDo
 - Datenaufbereitung für Intents "Studienordnung, Wikipedia" im [Intends Ordner](intends).
@@ -22,23 +22,19 @@
 
    **Hinweis:** Wenn es zu Fehlermeldungen kommt, kannst du die Pakete manuell installieren.
 
-2. **Starte das Hauptskript:**
-   ```bash
-   python main.py
-   ```
-
-3. **Trainiere die Modelle:**
-   - Textklassifizierung - und Authentifizierung KI mindestens 1x trainieren.
-   
-   #### - Textklassifizierung KI (im main.py)
-   1. Menu 1 wählen: **Option 1**.
-   2. Menu 2 wählen: **Option 2**.
-
-   #### - Authentifizierung KI (im main.py)
-   1. Menu wählen: **Option 2**.
-   2. Menu wählen: **Option 2**.
-
-4. **Starte das Engine-Skript:**
+2. **Starte das Engine-Skript:**
    ```bash
    python engine.py
    ```
+
+## To-Do-List Befehle
+- **Was habe ich heute?**
+- **Wann ist mein Meeting heute?**
+- **Trage ein Meeting für morgen am Nachmittag ein.**
+- **Trage ein Meeting heute um 12 Uhr ein.**
+- **Füge ein Meeting am 18. Oktober hinzu.**
+- **Kannst du mein Meeting morgen um 12 Uhr löschen?**
+- **Kannst du mein Meeting heute entfernen?**
+- **Lösche mein Meeting.**
+
+**Hinweis:** Um ein besseres Modell zu erhalten, kannst du im **Data-Controller** in `main.py` weitere Datensätze eingeben und trainieren.

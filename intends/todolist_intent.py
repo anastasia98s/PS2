@@ -1,5 +1,6 @@
 from data.data_controller.model_user import ModelUser
 from intends.datenkonverter import Datenkonverter
+import config
 
 class ToDoListIntent(Datenkonverter):
     def __init__(self):
@@ -24,46 +25,57 @@ class ToDoListIntent(Datenkonverter):
         datum = None
         if i_zeit or i_datum: # Frag nach Artikel
             if i_zeit: # Was habe ich morgen um 12 Uhr
-                datezeit = super().date_zeit_konverter(i_datum, i_zeit)
+                datezeit, errortyp = super().date_zeit_konverter(i_datum, i_zeit)
                 if not datezeit:
-                    return None
+                    return None, errortyp
             else: # Was habe ich morgen
-                datum = super().date_konverter(i_datum)
+                datum, errortyp = super().date_konverter(i_datum)
                 if not datum:
-                    return None
+                    return None, errortyp
                 else:
                     datum = datum.strftime("%Y-%m-%d")
         elif not i_artikel:
-            return "Ich verstehe ihre To-Do-Abfrage nicht"
+            return "Ich verstehe ihre To-Do-Abfrage nicht", None
         
         to_do_liste = self.model_user.abfrage_todo(i_artikel, datum, datezeit, i_benutzer_id)
-        return self.satz_konvertierung(to_do_liste, i_datum)
+        if len(to_do_liste):
+            return self.satz_konvertierung(to_do_liste, i_datum), None
+        else:
+            return "Sie sind frei", None
     
     def eingeben(self, i_artikel, i_zeit, i_datum, i_benutzer_id):
-        datezeit = super().date_zeit_konverter(i_datum, i_zeit)
-        if not datezeit:
-            return None
-        self.model_user.add_todo(i_artikel, datezeit, i_benutzer_id)
-        return f"neue {i_artikel} am {i_datum} um {i_zeit} wurde in To-Do-List eingegeben"
+        if i_artikel:
+            datezeit, errortyp = super().date_zeit_konverter(i_datum, i_zeit)
+            if not datezeit:
+                return None, errortyp
+            self.model_user.add_todo(i_artikel, datezeit, i_benutzer_id)
+            return f"neue {i_artikel} am {i_datum} um {i_zeit} wurde in To-Do-List eingegeben", None
+        else:
+            return "Ich kann das To-Do-Objekt nicht identifizieren", None
     
     def entfernen(self, i_artikel, i_zeit, i_datum, i_benutzer_id):
-        if i_datum:
-            if i_zeit:
-                datezeit = super().date_zeit_konverter(i_datum, i_zeit)
-                if not datezeit:
-                    return None
-                antwort = f"{i_artikel} am {i_datum} um {i_zeit} Uhr wurde in To-Do-List gelöscht"
-            else:
-                datum = super().date_konverter(i_datum)
-                if not datum:
-                    return None
+        datezeit = None
+        datum = None
+        if i_artikel:
+            if i_datum:
+                if i_zeit:
+                    datezeit, errortyp = super().date_zeit_konverter(i_datum, i_zeit)
+                    if not datezeit:
+                        return None, errortyp
+                    antwort = f"{i_artikel} am {i_datum} um {i_zeit} Uhr wurde in To-Do-List gelöscht"
                 else:
-                    datum = datum.strftime("%Y-%m-%d")
-                antwort = f"Alle {i_artikel} am {datum} wurde in To-Do-List gelöscht"
+                    datum, errortyp = super().date_konverter(i_datum)
+                    if not datum:
+                        return None, errortyp
+                    else:
+                        datum = datum.strftime("%Y-%m-%d")
+                    antwort = f"Alle {i_artikel} am {i_datum} wurde in To-Do-List gelöscht"
+            else:
+                datezeit = None
+                antwort = f"Alle {i_artikel} wurde in To-Do-List gelöscht"
+
+            self.model_user.delete_todo(i_artikel, datum, datezeit, i_benutzer_id)
+
+            return antwort, None
         else:
-            datezeit = None
-            antwort = f"Alle {i_artikel} wurde in To-Do-List gelöscht"
-
-        self.model_user.delete_todo(i_artikel, i_datum, datezeit, i_benutzer_id)
-
-        return antwort
+            return None, config.ERROR_VARIABLE_ARTIKEL

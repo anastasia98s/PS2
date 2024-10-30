@@ -3,11 +3,13 @@ import torch
 from nn_textklassifizierung.model import Model
 import config
 import os
+from nn_textklassifizierung import train
 
 class Predictor:
     def __init__(self, model_path):
         if not os.path.isfile(model_path):
-            raise FileNotFoundError(f"\nSie müssen Textklassifizierung-KI auf main.py trainieren")
+            train.train()
+            # raise FileNotFoundError(f"\nSie müssen Textklassifizierung-KI auf main.py trainieren")
         self.tokenizer = config.TEXTKLASSIFIZIERUNG_TOKENIZER
         self.max_len = config.TEXTKLASSIFIZIERUNG_MAX_LEN
         self.device = config.DEVICE

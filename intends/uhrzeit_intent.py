@@ -1,7 +1,7 @@
 from datetime import datetime
 import pytz
 
-class ZeitIntent:
+class UhrzeitIntent:
     def __init__(self):
         self.time_zone = {
             "berlin": "Europe/Berlin",
@@ -29,10 +29,10 @@ class ZeitIntent:
                 timezone = pytz.timezone(self.time_zone[i_ort.lower()])
                 time = time.astimezone(timezone)
             else:
-                return f"Zeitzone für '{i_ort}' wurde nicht gefunden."
+                return f"Zeitzone für '{i_ort}' wurde nicht gefunden.", None
 
             zeit = time.strftime("%H:%M")
-            return f"In {i_ort} ist es jetzt um {zeit}."
+            return f"In {i_ort} ist es jetzt um {zeit}.", None
         else:
             zeit = time.strftime("%H:%M")
-            return f"Jetzt ist es um {zeit}."
+            return f"Jetzt ist es um {zeit}.", None

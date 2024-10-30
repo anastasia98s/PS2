@@ -43,8 +43,8 @@ class ModelTextklassifizierung:
                 satz_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 szenario_id INTEGER NOT NULL,
                 absicht_id INTEGER NOT NULL,
-                FOREIGN KEY (szenario_id) REFERENCES sp_szenario(szenario_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
-                FOREIGN KEY (absicht_id) REFERENCES sp_absicht(absicht_id) ON DELETE RESTRICT ON UPDATE RESTRICT
+                FOREIGN KEY (szenario_id) REFERENCES sp_szenario(szenario_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                FOREIGN KEY (absicht_id) REFERENCES sp_absicht(absicht_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
         ''')
 
@@ -54,8 +54,8 @@ class ModelTextklassifizierung:
                 satz_id INTEGER NOT NULL,
                 anmerkung_id INTEGER NOT NULL,
                 wort TEXT NOT NULL,
-                FOREIGN KEY (satz_id) REFERENCES sp_satz(satz_id) ON DELETE CASCADE ON UPDATE RESTRICT,
-                FOREIGN KEY (anmerkung_id) REFERENCES sp_anmerkung(anmerkung_id) ON DELETE RESTRICT ON UPDATE RESTRICT
+                FOREIGN KEY (satz_id) REFERENCES sp_satz(satz_id) ON DELETE CASCADE ON UPDATE CASCADE,
+                FOREIGN KEY (anmerkung_id) REFERENCES sp_anmerkung(anmerkung_id) ON DELETE RESTRICT ON UPDATE CASCADE
             );
         ''')
 
@@ -73,7 +73,7 @@ class ModelTextklassifizierung:
             "Studienordnung",
             "Wikipedia",
             "ToDo",
-            "Zeit",
+            "Uhrzeit",
             "Datum"
         ]
 
@@ -250,32 +250,32 @@ class ModelTextklassifizierung:
         conn.close()
         return 1
     
-    def update_anmerkung(self, anmerkung, anmerkung_id):
+    def update_anmerkung(self, anmerkung, neues_id, anmerkung_id):
         conn = self.connect_db()
         cursor = conn.cursor()
         cursor.execute("PRAGMA journal_mode = OFF")
         cursor.execute("PRAGMA foreign_keys = ON")
-        cursor.execute('UPDATE sp_anmerkung SET anmerkung = ? WHERE anmerkung_id = ?', (anmerkung, anmerkung_id))
+        cursor.execute('UPDATE sp_anmerkung SET anmerkung = ?, anmerkung_id = ? WHERE anmerkung_id = ?', (anmerkung, neues_id, anmerkung_id))
         conn.commit()
         conn.close()
         return 1
     
-    def update_szenario(self, szenario, szenario_id):
+    def update_szenario(self, szenario, neues_id, szenario_id):
         conn = self.connect_db()
         cursor = conn.cursor()
         cursor.execute("PRAGMA journal_mode = OFF")
         cursor.execute("PRAGMA foreign_keys = ON")
-        cursor.execute('UPDATE sp_szenario SET szenario = ? WHERE szenario_id = ?', (szenario, szenario_id))
+        cursor.execute('UPDATE sp_szenario SET szenario = ?, szenario_id = ? WHERE szenario_id = ?', (szenario, neues_id, szenario_id))
         conn.commit()
         conn.close()
         return 1
     
-    def update_absicht(self, absicht, absicht_id):
+    def update_absicht(self, absicht, neues_id, absicht_id):
         conn = self.connect_db()
         cursor = conn.cursor()
         cursor.execute("PRAGMA journal_mode = OFF")
         cursor.execute("PRAGMA foreign_keys = ON")
-        cursor.execute('UPDATE sp_absicht SET absicht = ? WHERE absicht_id = ?', (absicht, absicht_id))
+        cursor.execute('UPDATE sp_absicht SET absicht = ?, absicht_id = ? WHERE absicht_id = ?', (absicht, neues_id, absicht_id))
         conn.commit()
         conn.close()
         return 1

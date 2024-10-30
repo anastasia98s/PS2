@@ -8,20 +8,22 @@ class Datenkonverter:
         locale.setlocale(locale.LC_TIME, config.ZEIT_STANDORT)
 
     def date_konverter(self, datum):
+        if not datum:
+            return None, config.ERROR_VARIABLE_DATUM
         jetzt = datetime.now()
         
         if re.search(r"\bheute\b", datum.lower()):
-            return jetzt
+            return jetzt, None
         if re.search(r"\bmorgen\b", datum.lower()):
-            return jetzt + timedelta(days=1)
+            return jetzt + timedelta(days=1), None
         if re.search(r"\b[üu]bermorgen\b", datum.lower()):
-            return jetzt + timedelta(days=2)
+            return jetzt + timedelta(days=2), None
         if re.search(r"\bgestern\b", datum.lower()):
-            return jetzt - timedelta(days=1)
+            return jetzt - timedelta(days=1), None
         
         try:
             # dd.mm.yyyy
-            return datetime.strptime(datum, "%d.%m.%Y")
+            return datetime.strptime(datum, "%d.%m.%Y"), None
         except ValueError:
             pass
 
@@ -29,7 +31,7 @@ class Datenkonverter:
             # dd.mm
             if len(datum.split('.')) == 2:
                 datum = datum + f".{jetzt.year}"
-                return datetime.strptime(datum, "%d.%m.%Y")
+                return datetime.strptime(datum, "%d.%m.%Y"), None
         except ValueError:
             pass
 
@@ -37,15 +39,15 @@ class Datenkonverter:
             # dd B
             if len(datum.split()) == 2:
                 datum = datum + f" {jetzt.year}"
-            return datetime.strptime(datum, "%d %B %Y")
+            return datetime.strptime(datum, "%d %B %Y"), None
         
         except ValueError:
             try:
                 # dd B ohne y
                 datum = datetime.strptime(datum, "%d %B")  
-                return datum.replace(year=jetzt.year)
+                return datum.replace(year=jetzt.year), None
             except ValueError:
-                return None
+                return None, config.ERROR_VARIABLE_DATUM
                 # raise ValueError("Ungültiges Datumsformat. Verwenden Sie 'heute', 'morgen', 'dd.mm', 'dd.mm.yyyy', 'd MMMM' oder 'd MMMM yyyy'.")
     
     def date_zeit_konverter(self, datum, zeit):
@@ -60,21 +62,24 @@ class Datenkonverter:
             "vormittag": "10:00"
         }
         
-        datum = self.date_konverter(datum)
+        datum, errortyp = self.date_konverter(datum)
 
         if not datum:
-            return None
+            return None, errortyp
 
         # Zeit
-        if zeit.lower() in zeitzuordnungen:
-            zeit = zeitzuordnungen[zeit.lower()]
-        else:
-            zeit_muster = r'\b(\d{1,2}:\d{2}|\d{1,2})\b'
-            match = re.search(zeit_muster, zeit)
-            if match:
-                zeit = match.group(0)
-                if ":" not in zeit:
-                    zeit += ":00"
-        
-        datum_zeit = datetime.strptime(f"{datum.strftime('%Y-%m-%d')} {zeit}", "%Y-%m-%d %H:%M")
-        return datum_zeit.strftime("%Y-%m-%dT%H:%M:%S")
+        try:
+            if zeit.lower() in zeitzuordnungen:
+                zeit = zeitzuordnungen[zeit.lower()]
+            else:
+                zeit_muster = r'\b(\d{1,2}:\d{2}|\d{1,2})\b'
+                match = re.search(zeit_muster, zeit)
+                if match:
+                    zeit = match.group(0)
+                    if ":" not in zeit:
+                        zeit += ":00"
+            
+            datum_zeit = datetime.strptime(f"{datum.strftime('%Y-%m-%d')} {zeit}", "%Y-%m-%d %H:%M")
+            return datum_zeit.strftime("%Y-%m-%dT%H:%M:%S"), None
+        except ValueError:
+            return None, config.ERROR_VARIABLE_ZEIT

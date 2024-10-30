@@ -186,10 +186,10 @@ class Presenter:
         except Exception as e:
             return f"Error: {str(e)}"
         
-    def update_anmerkung(self, anmerkung, anmerkung_id):
+    def update_anmerkung(self, anmerkung, neues_id, anmerkung_id):
         try:
-            if anmerkung and anmerkung_id:
-                result = self.model.update_anmerkung(anmerkung, anmerkung_id)
+            if anmerkung and neues_id and anmerkung_id:
+                result = self.model.update_anmerkung(anmerkung, neues_id, anmerkung_id)
                 if result:
                     return f"OK!"
                 else:
@@ -199,10 +199,10 @@ class Presenter:
         except Exception as e:
             return f"Error: {str(e)}"
     
-    def update_szenario(self, szenario, szenario_id):
+    def update_szenario(self, szenario, neues_id, szenario_id):
         try:
-            if szenario and szenario_id:
-                result = self.model.update_szenario(szenario, szenario_id)
+            if szenario and neues_id and szenario_id:
+                result = self.model.update_szenario(szenario, neues_id, szenario_id)
                 if result:
                     return f"OK!"
                 else:
@@ -212,10 +212,10 @@ class Presenter:
         except Exception as e:
             return f"Error: {str(e)}"
     
-    def update_absicht(self, absicht, absicht_id):
+    def update_absicht(self, absicht, neues_id, absicht_id):
         try:
-            if absicht and absicht_id:
-                result = self.model.update_absicht(absicht, absicht_id)
+            if absicht and neues_id and absicht_id:
+                result = self.model.update_absicht(absicht, neues_id, absicht_id)
                 if result:
                     return f"OK!"
                 else:

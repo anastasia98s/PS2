@@ -2,7 +2,7 @@ from intends.wetter_intent import WetterIntent
 from intends.studienordnung_intent import StudienordnungIntent
 from intends.todolist_intent import ToDoListIntent
 from intends.wikipedia_intent import WikipediaIntent
-from intends.zeit_intent import ZeitIntent
+from intends.uhrzeit_intent import UhrzeitIntent
 from intends.datum_intent import DatumIntent
 from nn_authentifizierung.utils import extract_features
 from nn_textklassifizierung.predictor import Predictor as PredictorText
@@ -12,6 +12,8 @@ from nn_authentifizierung import train as train_merkmale
 import config
 from utils.audio import Audio
 import os
+import sys
+
 
 class Engine:
     def __init__(self):
@@ -25,7 +27,7 @@ class Engine:
         self.studienordnung_intent = StudienordnungIntent()
         self.todolist_intent = ToDoListIntent()
         self.wikipedia_intent = WikipediaIntent()
-        self.zeit_intent = ZeitIntent()
+        self.uhrzeit_intent = UhrzeitIntent()
         self.datum_intent = DatumIntent()
         self.audio = Audio()
 
@@ -35,6 +37,19 @@ class Engine:
     def user_authentifizierung(self, signal):
         name_indexs, name_label_scores = self.predictor_user.predict(signal)
         return name_indexs, name_label_scores
+    
+    def intent_variable_error_reask(self, errortyp):
+        if errortyp == config.ERROR_VARIABLE_DATUM:
+            return self.dialog("Kannst du das Datum nochmal sagen")
+        elif errortyp == config.ERROR_VARIABLE_ZEIT:
+            return self.dialog("Kannst du die Zeit nochmal sagen")
+        elif errortyp == config.ERROR_VARIABLE_ORT:
+            return self.dialog("Kannst du das Ort nochmal sagen")
+        elif errortyp == config.ERROR_VARIABLE_ARTIKEL:
+            return self.dialog("Kannst du den Artikel nochmal sagen")
+        else:
+            self.audio.text_to_speech("Es gab ein Problem mit dem System. Bitte versuche es erneut.", config.RECORD_ANTWORT_TMP_PATH)
+            sys.exit("Das Programm wird beendet.")
     
     def intent_filter(self, absicht, szenario, anmerkungen, anmerkungen_label, user_id):
         v_thema = []
@@ -65,77 +80,93 @@ class Engine:
         print("============================", t_zeit, t_datum)
         match (szenario, absicht):
             ################################### # zeit
-            case (config.SZENARIO_ZEIT, config.ABSICHT_ABFRAGEN): # abfragen
-                intent_result = self.zeit_intent.abfragen(t_ort)
-                if intent_result:
+            case (config.SZENARIO_UHRZEIT, config.ABSICHT_ABFRAGEN): # abfragen
+                intent_result, error_result = self.uhrzeit_intent.abfragen(t_ort)
+                if not error_result:
                     return intent_result
                 else:
-                    return "Error!"
+                    return "Zeit Intent Error!"
 
             ################################### # datum
             case (config.SZENARIO_DATUM, config.ABSICHT_ABFRAGEN): # abfragen
                 while True:
-                    intent_result = self.datum_intent.abfragen(t_datum)
-                    if intent_result:
+                    intent_result, error_result = self.datum_intent.abfragen(t_datum)
+                    if not error_result:
                         return intent_result
                     else:
-                        t_datum = self.dialog("Kannst du das Datum nochmal sagen")
+                        t_datum = self.intent_variable_error_reask(error_result)
 
             ################################### # wetter
             case (config.SZENARIO_WETTER, config.ABSICHT_ABFRAGEN): # abfragen
                 while True:
-                    intent_result = self.wetter_intent.abfragen(v_zeit, t_datum, t_ort)
-                    if intent_result:
+                    intent_result, error_result = self.wetter_intent.abfragen(t_zeit, t_datum, t_ort)
+                    if not error_result:
                         return intent_result
                     else:
-                        t_datum = self.dialog("Kannst du das Datum nochmal sagen")
+                        if error_result == config.ERROR_VARIABLE_DATUM:
+                            t_datum = self.intent_variable_error_reask(error_result)
+                        elif error_result == config.ERROR_VARIABLE_ZEIT:
+                            t_zeit = self.intent_variable_error_reask(error_result)
+                        elif error_result == config.ERROR_VARIABLE_ORT:
+                            t_ort = self.intent_variable_error_reask(error_result)
 
             ################################### # studienordnung
             case (config.SZENARIO_STUDIENORDNUNG, config.ABSICHT_ABFRAGEN): # abfragen
-                intent_result = self.studienordnung_intent.abfragen(t_thema)
-                if intent_result:
+                intent_result, error_result = self.studienordnung_intent.abfragen(t_thema)
+                if not error_result:
                     return intent_result
                 else:
-                    return "Error!"
+                    return "Studienordnung Intent Error!"
 
             ################################### # Wikipedia
             case (config.SZENARIO_WIKIPEDIA, config.ABSICHT_ABFRAGEN): # abfragen
-                intent_result = self.wikipedia_intent.abfragen(t_thema)
-                if intent_result:
+                intent_result, error_result = self.wikipedia_intent.abfragen(t_thema)
+                if not error_result:
                     return intent_result
                 else:
-                    return "Error!"
+                    return "Wikipedia Intent Error!"
 
             ################################### # todo list
             case (config.SZENARIO_TODO_LIST, config.ABSICHT_ABFRAGEN): # abfragen
                 while True:
-                    intent_result = self.todolist_intent.abfragen(t_artikel, t_zeit, t_datum, user_id)
-                    if intent_result:
+                    intent_result, error_result = self.todolist_intent.abfragen(t_artikel, t_zeit, t_datum, user_id)
+                    if not error_result:
                         return intent_result
                     else:
-                        t_datum = self.dialog("Kannst du das Datum nochmal sagen")
+                        if error_result == config.ERROR_VARIABLE_DATUM:
+                            t_datum = self.intent_variable_error_reask(error_result)
+                        elif error_result == config.ERROR_VARIABLE_ZEIT:
+                            t_zeit = self.intent_variable_error_reask(error_result)
             case (config.SZENARIO_TODO_LIST, config.ABSICHT_EINGEBEN): # hinzufügen
                 
                 if not t_datum:
-                    t_datum = self.dialog("Kannst du das Datum sagen")
+                    t_datum = self.intent_variable_error_reask(1)
                 if not t_zeit:
-                    t_zeit = self.dialog("Kannst du die Zeit sagen")
+                    t_zeit = self.intent_variable_error_reask(2)
 
                 while True:
-                    intent_result = self.todolist_intent.eingeben(t_artikel, t_zeit, t_datum, user_id)
+                    intent_result, error_result = self.todolist_intent.eingeben(t_artikel, t_zeit, t_datum, user_id)
                 
-                    if intent_result:
+                    if not error_result:
                         return intent_result
                     else:
-                        t_datum = self.dialog("Kannst du das Datum nochmal sagen")
+                        if error_result == config.ERROR_VARIABLE_DATUM:
+                            t_datum = self.intent_variable_error_reask(error_result)
+                        elif error_result == config.ERROR_VARIABLE_ZEIT:
+                            t_zeit = self.intent_variable_error_reask(error_result)
 
             case (config.SZENARIO_TODO_LIST, config.ABSICHT_ENTFERNEN): # löschen
                 while True:
-                    intent_result = self.todolist_intent.entfernen(t_artikel, t_zeit, t_datum, user_id)
-                    if intent_result:
+                    intent_result, error_result = self.todolist_intent.entfernen(t_artikel, t_zeit, t_datum, user_id)
+                    if not error_result:
                         return intent_result
                     else:
-                        t_datum = self.dialog("Kannst du das Datum nochmal sagen")
+                        if error_result == config.ERROR_VARIABLE_DATUM:
+                            t_datum = self.intent_variable_error_reask(error_result)
+                        elif error_result == config.ERROR_VARIABLE_ZEIT:
+                            t_zeit = self.intent_variable_error_reask(error_result)
+                        elif error_result == config.ERROR_VARIABLE_ARTIKEL:
+                            t_artikel = self.intent_variable_error_reask(error_result)
             case _:
                 return "Ich verstehe dich nicht."
             
@@ -161,6 +192,7 @@ class Engine:
         return self.audio.recognize(antwort_signal, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_ANTWORT_TMP_PATH)
     def start(self):
         benutzer_id = None
+        self.audio.text_to_speech("Ja?", config.RECORD_ANTWORT_TMP_PATH)
         signal = self.audio.listen(5, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_SATZ_TMP_PATH)
         
         if self.predictor_user: # wenn es auth.pth gibt
@@ -177,7 +209,7 @@ class Engine:
                 benutzer_id = pred_id
 
         if not benutzer_id:
-            antwort_text = self.dialog("Wollen Sie ein Konto eröffnen?")
+            antwort_text = self.dialog("Wollen Sie ein Konto erstellen?")
             
             if antwort_text == "ja":
                 antwort_text = self.dialog("Wie heißt du?")
@@ -192,12 +224,13 @@ class Engine:
             anmerkung_satz_labels, woerter_anmerkungen, absicht_satz_labels, absicht_class_scores, szenario_satz_labels, szenario_class_scores = self.predictor_text.predict(input_satz)
             pred_absicht_noten = absicht_class_scores[1][absicht_satz_labels]
             pred_szenario_noten = szenario_class_scores[1][szenario_satz_labels]
-            if pred_absicht_noten >= config.ABSICHT_MIN_NOTEN and pred_szenario_noten >= config.SZENARIO_MIN_NOTEN:
+            if pred_absicht_noten >= config.TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN and pred_szenario_noten >= config.TEXTKLASSIFIZIERUNG_SZENARIO_MIN_NOTEN:
                 output_satz = self.intent_filter(absicht_class_scores[0][absicht_satz_labels], szenario_class_scores[0][szenario_satz_labels], woerter_anmerkungen, anmerkung_satz_labels, benutzer_id)
             else:
                 output_satz = "Ich verstehe ihren Absicht nicht"
             self.audio.text_to_speech(output_satz, config.RECORD_SATZ_TMP_PATH)
-            train_merkmale.train()
+            if config.AUTHENTIFIZIERUNG_AUTO_TRAINING:
+                train_merkmale.train()
 
 engine = Engine()
 engine.start()

@@ -7,6 +7,6 @@ class WikipediaIntent:
     def abfragen(self, i_thema): # Wer ist ... # Was ist ...
         try:
             wikipedia.set_lang("de")
-            return wikipedia.summary(i_thema, sentences=5)
+            return wikipedia.summary(i_thema, sentences=5), None
         except Exception as e:
-            return f"Ich weiss {i_thema} nicht"
+            return f"Ich weiss {i_thema} nicht", None

@@ -212,6 +212,15 @@ head = r"""
                 const popup_inhalt_container = document.getElementById('popup_inhalt_container');
                 popup_inhalt_container.innerHTML = '';
 
+                const inputId = document.createElement("input");
+                inputId.placeholder = "Input";
+                inputId.value = id;
+                inputId.type = "number";
+
+                inputId.style.padding = "5px";
+                inputId.style.width = "100%";
+                inputId.style.marginBottom = "5px";
+
                 const inputElement = document.createElement("input");
                 inputElement.placeholder = "Input";
                 inputElement.value = value;
@@ -234,19 +243,20 @@ head = r"""
                 update_ab_sz_an_btn.onclick = ()=> {
                     const confirmUpdate = confirm("Möchten Sie diesen Eintrag wirklich ändern?");
                     if (confirmUpdate) {
+                        const update_id = inputId.value.trim();
                         const update_value = inputElement.value.trim().replace(/\s+/g, ' ');
                         if (typ === "absicht") {
-                            window.pywebview.api.update_absicht(update_value, id).then(response => {
+                            window.pywebview.api.update_absicht(update_value, update_id, id).then(response => {
                                 load_absicht_2();
                                 information_bar(response);
                             });
                         } else if(typ === "szenario") {
-                            window.pywebview.api.update_szenario(update_value, id).then(response => {
+                            window.pywebview.api.update_szenario(update_value, update_id, id).then(response => {
                                 load_szenario_2();
                                 information_bar(response);
                             });
                         } else if(typ === "anmerkung") {
-                            window.pywebview.api.update_anmerkung(update_value, id).then(response => {
+                            window.pywebview.api.update_anmerkung(update_value, update_id, id).then(response => {
                                 load_anmerkung_2();
                                 information_bar(response);
                             });
@@ -254,7 +264,7 @@ head = r"""
                         popup_schliessen();
                     }
                 }
-
+                popup_inhalt_container.appendChild(inputId);
                 popup_inhalt_container.appendChild(inputElement);
                 popup_inhalt_container.appendChild(update_ab_sz_an_btn);
             }

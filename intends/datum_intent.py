@@ -7,10 +7,10 @@ class DatumIntent(Datenkonverter):
     
     def abfragen(self, i_datum): # Welches Datum ist morgen/heute/gestern/..
 
-        datum = super().date_konverter(i_datum)
+        datum, errortyp = super().date_konverter(i_datum)
         if not datum:
-            return None
+            return None, errortyp
         else:
             datum = datum.strftime("%Y-%m-%d")
             
-        return f"{i_datum} ist {datum}"
+        return f"{i_datum} ist {datum}", None

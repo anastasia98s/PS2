@@ -30,7 +30,7 @@ class ModelUser:
                 merkmale_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 benutzer_id INTEGER NOT NULL,
                 merkmale TEXT,
-                FOREIGN KEY (benutzer_id) REFERENCES sp_benutzer(benutzer_id) ON DELETE CASCADE ON UPDATE RESTRICT
+                FOREIGN KEY (benutzer_id) REFERENCES sp_benutzer(benutzer_id) ON DELETE CASCADE ON UPDATE CASCADE
             );
         ''')
 
@@ -40,7 +40,7 @@ class ModelUser:
                 benutzer_id INTEGER NOT NULL,
                 todo TEXT NOT NULL,
                 datum DATETIME,
-                FOREIGN KEY (benutzer_id) REFERENCES sp_benutzer(benutzer_id) ON DELETE CASCADE ON UPDATE RESTRICT
+                FOREIGN KEY (benutzer_id) REFERENCES sp_benutzer(benutzer_id) ON DELETE CASCADE ON UPDATE CASCADE
             );
         ''')
 
