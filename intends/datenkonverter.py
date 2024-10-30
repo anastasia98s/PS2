@@ -66,6 +66,9 @@ class Datenkonverter:
 
         if not datum:
             return None, errortyp
+        
+        if not zeit:
+            return None, config.ERROR_VARIABLE_ZEIT
 
         # Zeit
         try:
