@@ -193,8 +193,8 @@ class Engine:
     
     def start(self):
         benutzer_id = None
+        self.audio.text_to_speech_await("Hallo, wie kann ich dir helfen?")
         while True:
-            self.audio.text_to_speech_await("Hallo, wie kann ich dir helfen?")
             antwort_befehl_signal, antwort_befehl_text = self.audio.listen_recognize(2, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_TMP_PATH)
             
             if self.predictor_user and benutzer_id is None: # wenn es auth.pth gibt
