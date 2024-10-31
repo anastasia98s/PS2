@@ -18,8 +18,24 @@ class Datenkonverter:
             return jetzt + timedelta(days=1), None
         if re.search(r"\b[üu]bermorgen\b", datum.lower()):
             return jetzt + timedelta(days=2), None
-        if re.search(r"\bgestern\b", datum.lower()):
+        if re.search(r"\b(gestern|vorgestern)\b", datum.lower()):
             return jetzt - timedelta(days=1), None
+        
+        wochentage = {
+            "montag": 0, "dienstag": 1, "mittwoch": 2, "donnerstag": 3, 
+            "freitag": 4, "samstag": 5, "sonntag": 6
+        }
+        
+        datum_lower = datum.lower()
+        if datum_lower in wochentage:
+            aktueller_wochentag = jetzt.weekday()
+            ziel_wochentag = wochentage[datum_lower]
+            
+            tage_bis_ziel = (ziel_wochentag - aktueller_wochentag + 7) % 7
+            if tage_bis_ziel == 0:
+                tage_bis_ziel = 7
+                
+            return jetzt + timedelta(days=tage_bis_ziel), None
         
         try:
             # dd.mm.yyyy

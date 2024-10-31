@@ -28,16 +28,20 @@
    ```
 
 ## To-Do-List Befehle
+- **Trage ein Meeting für morgen am Nachmittag ein!**
+- **Trage ein Meeting am Freitag um 12 Uhr ein!**
+- **Füge ein Jogging heute hinzu!**
+- **Setze einen Arzttermin am Freitag in To-Do-Liste!**
 - **Was habe ich heute?**
-- **Wann ist mein Meeting heute?**
-- **Trage ein Meeting für morgen am Nachmittag ein.**
-- **Trage ein Meeting heute um 12 Uhr ein.**
-- **Füge ein Meeting am 18. Oktober hinzu.**
+- **Was habe ich am Freitag?**
+- **Wann ist mein Meeting am morgen?**
 - **Kannst du mein Meeting morgen um 12 Uhr löschen?**
 - **Kannst du mein heutes Meeting entfernen?**
+- **lösche mein Meetting für Freitag!**
 
 ## Wetter-Befehle
 - **Wie ist das Wetter heute?**
+- **Wie ist das Wetter am Dienstag?**
 - **Wie wird das Wetter übermorgen?**
 - **Zeig mir das Wetter für heute Abend.**
 - **Wie wird das Wetter in Berlin?**
@@ -46,6 +50,7 @@
 - **Welches Datum haben wir heute?**
 - **Welches Datum war gestern?**
 - **Was ist das Datum übermorgen?**
+- **Welches Datum hat der Donnerstag?**
 
 ## Uhrzeit-Befehle
 - **Wie spät ist es jetzt?**

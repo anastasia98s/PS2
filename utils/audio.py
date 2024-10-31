@@ -33,7 +33,7 @@ class Audio:
         while is_recording:
             audio_chunk = sd.rec(int(sample_rate * 1), samplerate=sample_rate, channels=1, dtype='float64')
             sd.wait()
-            print(np.abs(audio_chunk).mean())
+            # print(np.abs(audio_chunk).mean())
             if np.abs(audio_chunk).mean() > config.AUDIO_THRESHOLD:
                 recording.append(audio_chunk)
                 silent_chunks = 0
@@ -42,6 +42,8 @@ class Audio:
                 if silent_chunks > silence_limit and recording:
                     print("Aufnahme beenden")
                     is_recording = False
+                elif recording:
+                    recording.append(audio_chunk)
 
         recording_concat = np.concatenate(recording)
 

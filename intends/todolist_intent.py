@@ -51,7 +51,8 @@ class ToDoListIntent(Datenkonverter):
             self.model_user.add_todo(i_aktivitaet, datezeit, i_benutzer_id)
             return f"neue {i_aktivitaet} am {i_datum} um {i_zeit} wurde in To-Do-List eingegeben", None
         else:
-            return "Ich kann das To-Do-Objekt nicht identifizieren", None
+            return None, config.ERROR_VARIABLE_AKTIVITAET
+            # return "Ich kann das To-Do-Objekt nicht identifizieren", None
     
     def entfernen(self, i_aktivitaet, i_zeit, i_datum, i_benutzer_id):
         datezeit = None
