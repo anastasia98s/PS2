@@ -35,7 +35,6 @@
 - **Füge ein Meeting am 18. Oktober hinzu.**
 - **Kannst du mein Meeting morgen um 12 Uhr löschen?**
 - **Kannst du mein heutes Meeting entfernen?**
-- **Lösche mein Meeting.**
 
 ## Wetter-Befehle
 - **Wie ist das Wetter heute?**
