@@ -230,7 +230,7 @@ class Engine:
                     output_satz = self.intent_filter(absicht_class_scores[0][absicht_satz_labels], szenario_class_scores[0][szenario_satz_labels], woerter_anmerkungen, anmerkung_satz_labels, benutzer_id)
                 else:
                     output_satz = "Ich verstehe ihren Absicht nicht"
-                self.audio.text_to_speech_await(output_satz)
+                self.audio.text_to_speech(output_satz, config.RECORD_TMP_PATH)
                 if config.AUTHENTIFIZIERUNG_AUTO_TRAINING:
                     train_merkmale.train()
 
