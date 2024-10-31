@@ -20,7 +20,8 @@ class ModelTextklassifizierung:
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS sp_anmerkung (
                 anmerkung_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                anmerkung TEXT NOT NULL UNIQUE
+                anmerkung TEXT NOT NULL UNIQUE,
+                is_bio_tag BOOLEAN DEFAULT 1
             );
         ''')
         
@@ -62,7 +63,7 @@ class ModelTextklassifizierung:
         anmerkung_array = [
             "-",
             "Thema",
-            "Artikel",
+            "Aktivität",
             "Zeit",
             "Datum",
             "Ort"
@@ -103,7 +104,8 @@ class ModelTextklassifizierung:
             except sqlite3.IntegrityError:
                 #continue
                 pass
-
+        
+        cursor.execute("UPDATE sp_anmerkung SET is_bio_tag = NULL WHERE anmerkung_id = 1;")
 
         conn.commit()
         conn.close()

@@ -76,38 +76,38 @@ class ModelUser:
         conn.close()
         return benutzer[0]
     
-    def add_todo(self, artikel, datezeit, benutzer_id):
+    def add_todo(self, aktivitaet, datezeit, benutzer_id):
         conn = self.connect_db()
         cursor = conn.cursor()
         cursor.execute("PRAGMA foreign_keys = ON")
-        cursor.execute('INSERT INTO sp_todo (benutzer_id, todo, datum) VALUES (?, ?, ?)', (benutzer_id, artikel, datezeit))
+        cursor.execute('INSERT INTO sp_todo (benutzer_id, todo, datum) VALUES (?, ?, ?)', (benutzer_id, aktivitaet, datezeit))
         conn.commit()
         conn.close()
         return 1
     
-    def delete_todo(self, artikel, datum, datezeit, benutzer_id):
+    def delete_todo(self, aktivitaet, datum, datezeit, benutzer_id):
         conn = self.connect_db()
         cursor = conn.cursor()
         cursor.execute("PRAGMA foreign_keys = ON")
         if datezeit:
-            cursor.execute('DELETE FROM sp_todo WHERE todo = ? AND datum = ? AND benutzer_id = ?', (artikel, datezeit, benutzer_id))
+            cursor.execute('DELETE FROM sp_todo WHERE todo = ? AND datum = ? AND benutzer_id = ?', (aktivitaet, datezeit, benutzer_id))
         else:
             if datum:
-                cursor.execute('DELETE FROM sp_todo WHERE todo = ? AND DATE(datum) = ? AND benutzer_id = ?', (artikel, datum, benutzer_id))
+                cursor.execute('DELETE FROM sp_todo WHERE todo = ? AND DATE(datum) = ? AND benutzer_id = ?', (aktivitaet, datum, benutzer_id))
             else:
-                cursor.execute('DELETE FROM sp_todo WHERE todo = ? AND benutzer_id = ?', (artikel, benutzer_id))
+                cursor.execute('DELETE FROM sp_todo WHERE todo = ? AND benutzer_id = ?', (aktivitaet, benutzer_id))
         conn.commit()
         conn.close()
         return 1
     
-    def abfrage_todo(self, artikel, datum, datezeit, benutzer_id):
+    def abfrage_todo(self, aktivitaet, datum, datezeit, benutzer_id):
         conn = self.connect_db()
         cursor = conn.cursor()
-        if artikel: # Frag nach Zeit
+        if aktivitaet: # Frag nach Zeit
             if datum:  # Bsp. Wann ist mein Meeting morgen
-                cursor.execute('SELECT * FROM sp_todo WHERE todo = ? AND DATE(datum) = ? AND benutzer_id = ?', (artikel, datum, benutzer_id))
+                cursor.execute('SELECT * FROM sp_todo WHERE todo = ? AND DATE(datum) = ? AND benutzer_id = ?', (aktivitaet, datum, benutzer_id))
             else: # Bsp. Wann ist mein Meeting
-                cursor.execute('SELECT * FROM sp_todo WHERE todo = ? AND benutzer_id = ?', (artikel, benutzer_id))
+                cursor.execute('SELECT * FROM sp_todo WHERE todo = ? AND benutzer_id = ?', (aktivitaet, benutzer_id))
         elif datezeit or datum:
             if datezeit: # Was habe ich morgen um 12 Uhr
                 cursor.execute('SELECT * FROM sp_todo WHERE datum = ? AND benutzer_id = ?', (datezeit, benutzer_id))

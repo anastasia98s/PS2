@@ -30,24 +30,27 @@ class AnmerkungDataset:
     def __init__(self, text, anmerkung):
         self.texts = text
         self.anmerkung = anmerkung
-        self.tokenizer = config.TEXTKLASSIFIZIERUNG_TOKENIZER
+        #self.tokenizer = config.TEXTKLASSIFIZIERUNG_TOKENIZER
         self.max_len = config.TEXTKLASSIFIZIERUNG_MAX_LEN 
     
     def __len__(self):
         return len(self.texts)
     
-    def __getitem__(self,item):
-        text = self.texts[item]
-        anmerkung = self.anmerkung[item]
+    def __getitem__(self,index):
+        """ text = self.texts[index]
+        text_anmerkungen = self.anmerkung[index]
         
         ids = []
         target_anmerkung = []
         for i,wort in enumerate(text):
             token_ids = self.tokenizer.encode(wort, add_special_tokens=False)
-            wort_piece_anmerkung = [anmerkung[i]] * len(token_ids)
+            wort_piece_anmerkungen = [text_anmerkungen[i]] * len(token_ids)
 
             ids.extend(token_ids)
-            target_anmerkung.extend(wort_piece_anmerkung)
+            target_anmerkung.extend(wort_piece_anmerkungen) """
+        
+        ids = self.texts[index]
+        target_anmerkung = self.anmerkung[index]
 
         ids = ids[:self.max_len-2]
         target_anmerkung = target_anmerkung[:self.max_len-2]
@@ -79,14 +82,9 @@ class SatzDataset(torch.utils.data.Dataset):
         self.absicht = absicht
         self.szenario = szenario
 
-        self.anmerkung_dataset = AnmerkungDataset(self.texts,
-                                            self.anmerkung)
+        self.anmerkung_dataset = AnmerkungDataset(self.texts, self.anmerkung)
         
-        self.absicht_szenario_dataset = AbsichtSzenarioDataset(
-                                                                self.texts,
-                                                                self.absicht,
-                                                                self.szenario
-                                                            )
+        self.absicht_szenario_dataset = AbsichtSzenarioDataset(self.texts, self.absicht, self.szenario)
     def __len__(self):
         return len(self.texts)
 
@@ -112,6 +110,7 @@ def get_data(data_path):
             sp_satz.satz_id AS satz_nr, 
             sp_wort.wort AS woerter, 
             sp_anmerkung.anmerkung_id AS anmerkungen,
+            sp_anmerkung.is_bio_tag AS bio,
             sp_absicht.absicht_id AS absichten,
             sp_szenario.szenario_id AS szenarios
         FROM sp_satz
@@ -124,6 +123,38 @@ def get_data(data_path):
     df = pd.read_sql_query(query, conn)
 
     conn.close()
+
+    tokenizer = config.TEXTKLASSIFIZIERUNG_TOKENIZER
+    prev_satz_id = None
+    prev_anmerkung_id = None
+    rows_to_add = []
+
+    for idx, row in df.iterrows():
+        token_ids = tokenizer.encode(row['woerter'], add_special_tokens=False)
+        for idx1, token_id in enumerate(token_ids):  # Ganti di sini untuk mendapatkan indeks token
+            if idx1 == 0:
+                df.at[idx, 'woerter'] = token_id
+            else:
+                new_row = {
+                    'satz_nr': row['satz_nr'],
+                    'woerter': token_id,
+                    'anmerkungen': row['anmerkungen'],
+                    'bio': row['bio'],
+                    'absichten': row['absichten'],
+                    'szenarios': row['szenarios']
+                }
+                rows_to_add.append((idx + 1, new_row))
+
+    for index, new_row in reversed(rows_to_add):
+        df = pd.concat([df.iloc[:index], pd.DataFrame([new_row]), df.iloc[index:]], ignore_index=True)
+
+
+    for idx, row in df.iterrows():
+        if row['satz_nr'] == prev_satz_id and prev_anmerkung_id == row['anmerkungen'] and row['bio'] == 1:
+            df.at[idx, 'anmerkungen'] = -row['anmerkungen']
+
+        prev_satz_id = row['satz_nr']
+        prev_anmerkung_id = row['anmerkungen']
 
     encoder_anmerkung = preprocessing.LabelEncoder()
     df.loc[:, 'anmerkungen'] = encoder_anmerkung.fit_transform(df['anmerkungen'])
@@ -169,17 +200,11 @@ def val_fn(data_loader, model,device, batch=None):
             for k, v in batch.items():
                 batch[k] = v.to(device)
 
-            (
-                anmerkung_logits,
-                absicht_logits,
-                szenario_logits) = model(
-                                            batch['ids'], 
-                                            batch['mask'],
-                                            batch['token_type_ids'])
+            anmerkung_logits, absicht_logits, szenario_logits = model(batch['ids'], batch['mask'], batch['token_type_ids'])
             
-            anmerkung_loss =  loss_fn(anmerkung_logits,batch['target_anmerkung'],batch['mask'],model.num_anmerkung, anmerkung=True)
-            absicht_loss =  loss_fn(absicht_logits,batch['target_absicht'],batch['mask'],model.num_absicht)
-            szenario_loss =  loss_fn(szenario_logits,batch['target_szenario'],batch['mask'],model.num_szenario)
+            anmerkung_loss =  loss_fn(anmerkung_logits, batch['target_anmerkung'], batch['mask'],model.num_anmerkung, anmerkung=True)
+            absicht_loss =  loss_fn(absicht_logits, batch['target_absicht'], batch['mask'],model.num_absicht)
+            szenario_loss =  loss_fn(szenario_logits, batch['target_szenario'], batch['mask'],model.num_szenario)
             
             loss = (anmerkung_loss + absicht_loss + szenario_loss)/3
             final_loss += loss
@@ -205,14 +230,8 @@ def train_fn(data_loader,
         optimizer.zero_grad()
 
         # Forward
-        (
-            anmerkung_logits,
-            absicht_logits,
-            szenario_logits) =  model(
-                                        batch['ids'], 
-                                        batch['mask'],
-                                        batch['token_type_ids']
-                                    )
+        anmerkung_logits, absicht_logits, szenario_logits =  model(batch['ids'], batch['mask'], batch['token_type_ids'])
+        
         # loss
         anmerkung_loss =  loss_fn(anmerkung_logits, batch['target_anmerkung'], batch['mask'], model.num_anmerkung, anmerkung=True)
         absicht_loss =  loss_fn(absicht_logits, batch['target_absicht'], batch['mask'], model.num_absicht)

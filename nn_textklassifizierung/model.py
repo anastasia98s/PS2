@@ -23,12 +23,8 @@ class Model(nn.Module):
         self.out_szenario = nn.Linear(768, self.num_szenario)
 
     def forward(self, ids,mask,token_type_ids):
-
-        out = self.bert(
-                        input_ids=ids,
-                        attention_mask=mask,
-                        token_type_ids=token_type_ids
-                    )
+        out = self.bert(input_ids=ids, attention_mask=mask, token_type_ids=token_type_ids)
+        
         hs, cls_hs = out['last_hidden_state'], out['pooler_output']
         anmerkung_hs = self.drop_1(hs)
         absicht_hs = self.drop_2(cls_hs)

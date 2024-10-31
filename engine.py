@@ -30,41 +30,41 @@ class Engine:
         self.uhrzeit_intent = UhrzeitIntent()
         self.datum_intent = DatumIntent()
         self.audio = Audio()
-
-    """ def satz_klassifizieren(self, text):
-        return self.predictor_text.predict(text) """
     
     def user_authentifizierung(self, signal):
         name_indexs, name_label_scores = self.predictor_user.predict(signal)
         return name_indexs, name_label_scores
     
-    def intent_variable_error_reask(self, errortyp):
-        if errortyp == config.ERROR_VARIABLE_DATUM:
-            return self.dialog("Kannst du das Datum nochmal sagen")
-        elif errortyp == config.ERROR_VARIABLE_ZEIT:
-            return self.dialog("Kannst du die Zeit nochmal sagen")
-        elif errortyp == config.ERROR_VARIABLE_ORT:
-            return self.dialog("Kannst du das Ort nochmal sagen")
-        elif errortyp == config.ERROR_VARIABLE_ARTIKEL:
-            return self.dialog("Kannst du den Artikel nochmal sagen")
-        else:
-            self.audio.text_to_speech("Es gab ein Problem mit dem System. Bitte versuche es erneut.", config.RECORD_ANTWORT_TMP_PATH)
+    def intent_variable_error_reask(self, errortyp, neue_daten_abfragen=False):
+        wd_text = "nochmal " if not neue_daten_abfragen else ""
+        
+        variable_typen = {
+            config.ERROR_VARIABLE_DATUM: "Datum",
+            config.ERROR_VARIABLE_ZEIT: "Zeit",
+            config.ERROR_VARIABLE_ORT: "Ort",
+            config.ERROR_VARIABLE_AKTIVITAET: "Aktivität"
+        }
+
+        variable_name = variable_typen.get(errortyp)
+        if not variable_name:
+            self.audio.text_to_speech("Es gab ein Problem mit dem System. Bitte versuche es erneut.", config.RECORD_TMP_PATH)
             sys.exit("Das Programm wird beendet.")
+        return self.dialog(2, f"Kannst du das {variable_name} {wd_text}sagen?")
     
     def intent_filter(self, absicht, szenario, anmerkungen, anmerkungen_label, user_id):
         v_thema = []
-        v_artikel = []
+        v_aktivitaet = []
         v_zeit = []
         v_datum = []
         v_ort = []
         # print(absicht, szenario)
         for index in range(len(anmerkungen[1])):
             # print(anmerkungen[1][index], anmerkungen_label[anmerkungen[0][index]])
-            match anmerkungen_label[anmerkungen[0][index]]:
+            match abs(anmerkungen_label[anmerkungen[0][index]]):
                 case config.ANMERKUNG_THEMA: # thema
                     v_thema.append(anmerkungen[1][index])
-                case config.ANMERKUNG_ARTIKEL: # artikel name
-                    v_artikel.append(anmerkungen[1][index])
+                case config.ANMERKUNG_AKTIVITAET: # aktivitaet name
+                    v_aktivitaet.append(anmerkungen[1][index])
                 case config.ANMERKUNG_ZEIT: # zeit
                     v_zeit.append(anmerkungen[1][index])
                 case config.ANMERKUNG_DATUM: # datum
@@ -73,7 +73,7 @@ class Engine:
                     v_ort.append(anmerkungen[1][index])
 
         t_thema = " ".join(v_thema)
-        t_artikel = " ".join(v_artikel)
+        t_aktivitaet = " ".join(v_aktivitaet)
         t_zeit = " ".join(v_zeit)
         t_datum = " ".join(v_datum)
         t_ort = " ".join(v_ort)
@@ -129,7 +129,7 @@ class Engine:
             ################################### # todo list
             case (config.SZENARIO_TODO_LIST, config.ABSICHT_ABFRAGEN): # abfragen
                 while True:
-                    intent_result, error_result = self.todolist_intent.abfragen(t_artikel, t_zeit, t_datum, user_id)
+                    intent_result, error_result = self.todolist_intent.abfragen(t_aktivitaet, t_zeit, t_datum, user_id)
                     if not error_result:
                         return intent_result
                     else:
@@ -140,12 +140,12 @@ class Engine:
             case (config.SZENARIO_TODO_LIST, config.ABSICHT_EINGEBEN): # hinzufügen
                 
                 if not t_datum:
-                    t_datum = self.intent_variable_error_reask(1)
+                    t_datum = self.intent_variable_error_reask(1, True)
                 if not t_zeit:
-                    t_zeit = self.intent_variable_error_reask(2)
+                    t_zeit = self.intent_variable_error_reask(2, True)
 
                 while True:
-                    intent_result, error_result = self.todolist_intent.eingeben(t_artikel, t_zeit, t_datum, user_id)
+                    intent_result, error_result = self.todolist_intent.eingeben(t_aktivitaet, t_zeit, t_datum, user_id)
                 
                     if not error_result:
                         return intent_result
@@ -157,7 +157,7 @@ class Engine:
 
             case (config.SZENARIO_TODO_LIST, config.ABSICHT_ENTFERNEN): # löschen
                 while True:
-                    intent_result, error_result = self.todolist_intent.entfernen(t_artikel, t_zeit, t_datum, user_id)
+                    intent_result, error_result = self.todolist_intent.entfernen(t_aktivitaet, t_zeit, t_datum, user_id)
                     if not error_result:
                         return intent_result
                     else:
@@ -165,8 +165,8 @@ class Engine:
                             t_datum = self.intent_variable_error_reask(error_result)
                         elif error_result == config.ERROR_VARIABLE_ZEIT:
                             t_zeit = self.intent_variable_error_reask(error_result)
-                        elif error_result == config.ERROR_VARIABLE_ARTIKEL:
-                            t_artikel = self.intent_variable_error_reask(error_result)
+                        elif error_result == config.ERROR_VARIABLE_AKTIVITAET:
+                            t_aktivitaet = self.intent_variable_error_reask(error_result)
             case _:
                 return "Ich verstehe dich nicht."
             
@@ -186,51 +186,53 @@ class Engine:
             features = extract_features(signal_part, config.AUTHENTIFIZIERUNG_SAMPLE_RATE)
             self.model_user.add_merkmale(benutzer_id, features)
             
-    def dialog(self, satz):
-        self.audio.text_to_speech(satz, config.RECORD_ANTWORT_TMP_PATH)
-        antwort_signal = self.audio.listen(5, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_ANTWORT_TMP_PATH)
-        return self.audio.recognize(antwort_signal, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_ANTWORT_TMP_PATH)
+    def dialog(self, duration, satz):
+        self.audio.text_to_speech(satz, config.RECORD_TMP_PATH)
+        _, antwort_text = self.audio.listen_recognize(duration, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_TMP_PATH)
+        return antwort_text
+    
     def start(self):
         benutzer_id = None
-        self.audio.text_to_speech("Ja?", config.RECORD_ANTWORT_TMP_PATH)
-        signal = self.audio.listen(5, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_SATZ_TMP_PATH)
-        
-        if self.predictor_user: # wenn es auth.pth gibt
-            name_index, name_label = self.user_authentifizierung(signal)
-            pred_id = int(name_label[0][name_index][0])
-            pred_name = self.model_user.show_benutzer_name(pred_id)
-            pred_noten = name_label[1][name_index][0]
-
-            if pred_noten < config.AUTHENTIFIZIERUNG_MIN_NOTEN or len(name_label[0]) < config.AUTHENTIFIZIERUNG_MIN_KONTO:
-                antwort_text = self.dialog("Sind Sie " + pred_name)
-                if antwort_text == "ja":
-                    benutzer_id = pred_id
-            else:
-                benutzer_id = pred_id
-
-        if not benutzer_id:
-            antwort_text = self.dialog("Wollen Sie ein Konto erstellen?")
+        while True:
+            self.audio.text_to_speech_await("Hallo, wie kann ich dir helfen?", config.RECORD_TMP_PATH)
+            antwort_befehl_signal, antwort_befehl_text = self.audio.listen_recognize(2, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_TMP_PATH)
             
-            if antwort_text == "ja":
-                antwort_text = self.dialog("Wie heißt du?")
-                if antwort_text:
-                    benutzer_id = self.model_user.add_benutzer(antwort_text)
-            else:
-                self.audio.text_to_speech("Sie müssen ein Konto haben.", config.RECORD_ANTWORT_TMP_PATH)
-        
-        if benutzer_id:
-            self.save_features(signal, benutzer_id)
-            input_satz = self.audio.recognize(signal, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_SATZ_TMP_PATH)
-            anmerkung_satz_labels, woerter_anmerkungen, absicht_satz_labels, absicht_class_scores, szenario_satz_labels, szenario_class_scores = self.predictor_text.predict(input_satz)
-            pred_absicht_noten = absicht_class_scores[1][absicht_satz_labels]
-            pred_szenario_noten = szenario_class_scores[1][szenario_satz_labels]
-            if pred_absicht_noten >= config.TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN and pred_szenario_noten >= config.TEXTKLASSIFIZIERUNG_SZENARIO_MIN_NOTEN:
-                output_satz = self.intent_filter(absicht_class_scores[0][absicht_satz_labels], szenario_class_scores[0][szenario_satz_labels], woerter_anmerkungen, anmerkung_satz_labels, benutzer_id)
-            else:
-                output_satz = "Ich verstehe ihren Absicht nicht"
-            self.audio.text_to_speech(output_satz, config.RECORD_SATZ_TMP_PATH)
-            if config.AUTHENTIFIZIERUNG_AUTO_TRAINING:
-                train_merkmale.train()
+            if self.predictor_user and benutzer_id is None: # wenn es auth.pth gibt
+                name_index, name_label = self.user_authentifizierung(antwort_befehl_signal)
+                pred_id = int(name_label[0][name_index][0])
+                pred_name = self.model_user.show_benutzer_name(pred_id)
+                pred_noten = name_label[1][name_index][0]
+
+                if pred_noten < config.AUTHENTIFIZIERUNG_MIN_NOTEN or len(name_label[0]) < config.AUTHENTIFIZIERUNG_MIN_KONTO:
+                    antwort_text = self.dialog(2, "Sind Sie " + pred_name)
+                    if antwort_text == "ja":
+                        benutzer_id = pred_id
+                else:
+                    benutzer_id = pred_id
+
+            if not benutzer_id:
+                antwort_text = self.dialog(2, "Wollen Sie ein Konto erstellen?")
+                
+                if antwort_text == "ja":
+                    antwort_text = self.dialog(2, "Wie heißt du?")
+                    if antwort_text:
+                        benutzer_id = self.model_user.add_benutzer(antwort_text)
+                else:
+                    self.audio.text_to_speech("Sie müssen ein Konto haben.", config.RECORD_TMP_PATH)
+            
+            if benutzer_id:
+                self.save_features(antwort_befehl_signal, benutzer_id)
+                # input_satz = self.audio.recognize(signal, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_TMP_PATH)
+                anmerkung_satz_labels, woerter_anmerkungen, absicht_satz_labels, absicht_class_scores, szenario_satz_labels, szenario_class_scores = self.predictor_text.predict(antwort_befehl_text)
+                pred_absicht_noten = absicht_class_scores[1][absicht_satz_labels]
+                pred_szenario_noten = szenario_class_scores[1][szenario_satz_labels]
+                if pred_absicht_noten >= config.TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN and pred_szenario_noten >= config.TEXTKLASSIFIZIERUNG_SZENARIO_MIN_NOTEN:
+                    output_satz = self.intent_filter(absicht_class_scores[0][absicht_satz_labels], szenario_class_scores[0][szenario_satz_labels], woerter_anmerkungen, anmerkung_satz_labels, benutzer_id)
+                else:
+                    output_satz = "Ich verstehe ihren Absicht nicht"
+                self.audio.text_to_speech_await(output_satz, config.RECORD_TMP_PATH)
+                if config.AUTHENTIFIZIERUNG_AUTO_TRAINING:
+                    train_merkmale.train()
 
 engine = Engine()
 engine.start()

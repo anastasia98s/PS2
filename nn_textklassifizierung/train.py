@@ -27,42 +27,20 @@ def train():
     
     joblib.dump(meta_data, config.TEXTKLASSIFIZIERUNG_META_PATH)
  
-    (
-        train_satze,
-        val_satze,
-        train_anmerkung,
-        val_anmerkung,
-        train_absicht,
-        val_absicht,
-        train_szenario,
-        val_szenario) = model_selection.train_test_split( # train validation 
-                                                        satze,
-                                                        target_anmerkung,
-                                                        target_absicht,
-                                                        target_szenario,
-                                                        random_state=42,
-                                                        test_size=0.1,
-                                                        # stratify=target_absicht
-                                                    )
-    # train
-    train_dataset = nn_textklassifizierung.utils.SatzDataset(train_satze,
-                               train_anmerkung,
-                               train_absicht,
-                               train_szenario)
+    (   train_satze, val_satze,
+        train_anmerkung, val_anmerkung,
+        train_absicht, val_absicht,
+        train_szenario, val_szenario) = model_selection.train_test_split(satze, target_anmerkung, target_absicht, target_szenario, random_state=42, test_size=0.1) # stratify=target_absicht
     
-    train_data_loader = DataLoader(train_dataset,
-                                   batch_size=config.TEXTKLASSIFIZIERUNG_TRAIN_BATCH_SIZE,
-                                   shuffle=True)
+    # train
+    train_dataset = nn_textklassifizierung.utils.SatzDataset(train_satze, train_anmerkung, train_absicht, train_szenario)
+    
+    train_data_loader = DataLoader(train_dataset, batch_size=config.TEXTKLASSIFIZIERUNG_TRAIN_BATCH_SIZE, shuffle=True)
     
     # validation
-    val_dataset = nn_textklassifizierung.utils.SatzDataset(val_satze,
-                               val_anmerkung,
-                               val_absicht,
-                               val_szenario)
+    val_dataset = nn_textklassifizierung.utils.SatzDataset(val_satze, val_anmerkung, val_absicht, val_szenario)
     
-    val_data_loader = DataLoader(val_dataset,
-                                 batch_size = config.TEXTKLASSIFIZIERUNG_VALIDATION_BATCH_SIZE,
-                                 shuffle=False)
+    val_data_loader = DataLoader(val_dataset, batch_size = config.TEXTKLASSIFIZIERUNG_VALIDATION_BATCH_SIZE, shuffle=False)
         
     device = config.DEVICE
     model = Model(num_anmerkung, num_absicht, num_szenario)
@@ -96,21 +74,11 @@ def train():
     for epoch in range(config.TEXTKLASSIFIZIERUNG_EPOCHS):
         print(f'\n== Epoch {epoch + 1}/{config.TEXTKLASSIFIZIERUNG_EPOCHS}')
   
-        train_loss = nn_textklassifizierung.utils.train_fn(
-                                                train_data_loader,
-                                                model,
-                                                optimizer,
-                                                scheduler,
-                                                device
-                                            )
+        train_loss = nn_textklassifizierung.utils.train_fn(train_data_loader, model, optimizer, scheduler, device)
         
         print(f'Train Loss: {train_loss}')
         
-        val_loss = nn_textklassifizierung.utils.val_fn(
-                                            val_data_loader,
-                                            model,
-                                            device
-                                        )
+        val_loss = nn_textklassifizierung.utils.val_fn(val_data_loader, model, device)
 
         if val_loss < best_loss and config.TEXTKLASSIFIZIERUNG_SAVE_MODEL:
             os.makedirs(os.path.dirname(config.TEXTKLASSIFIZIERUNG_TRAINED_PATH), exist_ok=True)
