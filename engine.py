@@ -187,14 +187,14 @@ class Engine:
             self.model_user.add_merkmale(benutzer_id, features)
             
     def dialog(self, duration, satz):
-        self.audio.text_to_speech(satz, config.RECORD_TMP_PATH)
+        self.audio.text_to_speech_await(satz) # self.audio.text_to_speech(satz, config.RECORD_TMP_PATH)
         _, antwort_text = self.audio.listen_recognize(duration, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_TMP_PATH)
         return antwort_text
     
     def start(self):
         benutzer_id = None
         while True:
-            self.audio.text_to_speech_await("Hallo, wie kann ich dir helfen?", config.RECORD_TMP_PATH)
+            self.audio.text_to_speech_await("Hallo, wie kann ich dir helfen?")
             antwort_befehl_signal, antwort_befehl_text = self.audio.listen_recognize(2, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_TMP_PATH)
             
             if self.predictor_user and benutzer_id is None: # wenn es auth.pth gibt
@@ -218,7 +218,7 @@ class Engine:
                     if antwort_text:
                         benutzer_id = self.model_user.add_benutzer(antwort_text)
                 else:
-                    self.audio.text_to_speech("Sie müssen ein Konto haben.", config.RECORD_TMP_PATH)
+                    self.audio.text_to_speech_await("Sie müssen ein Konto haben.")
             
             if benutzer_id:
                 self.save_features(antwort_befehl_signal, benutzer_id)
@@ -230,7 +230,7 @@ class Engine:
                     output_satz = self.intent_filter(absicht_class_scores[0][absicht_satz_labels], szenario_class_scores[0][szenario_satz_labels], woerter_anmerkungen, anmerkung_satz_labels, benutzer_id)
                 else:
                     output_satz = "Ich verstehe ihren Absicht nicht"
-                self.audio.text_to_speech_await(output_satz, config.RECORD_TMP_PATH)
+                self.audio.text_to_speech_await(output_satz)
                 if config.AUTHENTIFIZIERUNG_AUTO_TRAINING:
                     train_merkmale.train()
 

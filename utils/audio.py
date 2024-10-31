@@ -81,7 +81,7 @@ class Audio:
         tts.save(record_path)
         os.system("start " + record_path)
 
-    def text_to_speech_await(self, satz, record_path):
+    def text_to_speech_await(self, satz):
         self.pyttsx3.setProperty('rate', 150)
         self.pyttsx3.setProperty('volume', 1)
         self.pyttsx3.say(satz)
@@ -101,5 +101,5 @@ class Audio:
             antwort_signal = self.listen(duration, sample_rate, record_path)
             antwort_text = self.recognize(antwort_signal, sample_rate, record_path)
             if not antwort_text:
-                self.text_to_speech_await("Wie bitte?", config.RECORD_TMP_PATH)
+                self.text_to_speech_await("nochmal bitte")
         return antwort_signal, antwort_text
