@@ -37,4 +37,21 @@
 - **Kannst du mein heutes Meeting entfernen?**
 - **Lösche mein Meeting.**
 
+## Wetter-Befehle
+- **Wie ist das Wetter heute?**
+- **Wie wird das Wetter übermorgen?**
+- **Zeig mir das Wetter für heute Abend.**
+- **Wie wird das Wetter in Berlin?**
+
+## Datum-Befehle
+- **Welches Datum haben wir heute?**
+- **Welches Datum war gestern?**
+- **Was ist das Datum übermorgen?**
+
+## Uhrzeit-Befehle
+- **Wie spät ist es jetzt?**
+- **Wie viel Uhr ist es?**
+- **Wie viel Uhr ist es in Berlin?**
+- **Welche Uhrzeit haben wir in New York?**
+
 **Hinweis:** Um ein besseres Modell zu erhalten, kannst du im **Data-Controller** in `main.py` weitere Datensätze eingeben und trainieren.
