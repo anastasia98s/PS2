@@ -1,4 +1,7 @@
 import json
+import config
+from nn_textklassifizierung.predictor import Predictor as PredictorText
+from nn_textklassifizierung import train
 
 class Presenter:
     def __init__(self, model, view):
@@ -231,3 +234,28 @@ class Presenter:
             return self.view.showPage(site)
         except Exception as e:
             return f"Error: {str(e)}"
+        
+    def ask_ki_hilfe(self, text):
+        predictor_text = PredictorText(config.TEXTKLASSIFIZIERUNG_TRAINED_PATH)
+        anmerkung_satz_labels, woerter_anmerkungen, absicht_satz_labels, absicht_class_scores, szenario_satz_labels, szenario_class_scores = predictor_text.predict(text)
+        
+        absicht_id = int(absicht_class_scores[0][absicht_satz_labels])
+        szenario_id = int(szenario_class_scores[0][szenario_satz_labels])
+        anmerkungen_ids = woerter_anmerkungen[0].tolist()
+
+        for i in range(len(anmerkungen_ids)):
+            anmerkungen_ids[i] = int(abs(anmerkung_satz_labels[anmerkungen_ids[i]]))
+
+        json_preds = {
+            "absicht": absicht_id,
+            "szenario": szenario_id,
+            "anmerkungen_ids": anmerkungen_ids
+        }
+        return json.dumps(json_preds)
+    
+    def train_ki(self):
+        try:
+            train.train()
+            return "Training erfolgreich abgeschlossen."
+        except Exception as e:
+            return f"Error: {e}"

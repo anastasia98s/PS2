@@ -38,13 +38,7 @@ class Predictor:
     def process_satz(self,satz):
         satz = str(satz)
         satz = " ".join(satz.split())
-        inputs = self.tokenizer.encode_plus(
-            satz,
-            None,
-            add_special_tokens=True,
-            truncation=True,
-            max_length = self.max_len
-        )
+        inputs = self.tokenizer.encode_plus(satz, None, add_special_tokens=True, truncation=True, max_length=self.max_len)
         
         tokenized_ids = inputs['input_ids']
         mask = inputs['attention_mask']

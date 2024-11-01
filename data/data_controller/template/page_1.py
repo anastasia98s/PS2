@@ -157,18 +157,47 @@ head = r"""
                 });
             }
 
+            async function train_ki(){
+                try {
+                    information_bar(await window.pywebview.api.train_ki());
+                } catch (error) {
+                    information_bar("Error:", error);
+                }
+            }
+
+            async function ask_ki_hilfe(text) {
+                try {
+                    const jsonString = await window.pywebview.api.ask_ki_hilfe(text);
+                    return JSON.parse(jsonString);
+                } catch (error) {
+                    information_bar("Error:", error);
+                    return null;
+                }
+            }
+
             let array_woerter_value_1 = [];
 
-            function text_to_woerter_1() {
+            async function text_to_woerter_1() {
                 array_woerter_value_1 = [];
                 const woerter_array_editor = document.getElementById("woerter_array_editor");
                 woerter_array_editor.innerHTML = '';
                 const form_satz = document.getElementById("form_satz");
                 const satz_text = form_satz.elements["satz_text"].value.trim().replace(/\s+/g, ' ');
-
                 if (satz_text.length > 0) {
+                    const ki_checkbox = form_satz.elements["ki_checkbox"];
+                    let anmerkungen_ids_ai_preds;
+                    if (ki_checkbox.checked) {
+                        const ki_antwort = await ask_ki_hilfe(satz_text);
+                        woerter_array_editor.innerHTML = '';
+
+                        const absicht_select = document.getElementById("absicht_select");
+                        const szenario_select = document.getElementById("szenario_select");
+                        absicht_select.value = ki_antwort.absicht;
+                        szenario_select.value = ki_antwort.szenario;
+                        anmerkungen_ids_ai_preds = ki_antwort.anmerkungen_ids;
+                    }
                     const woerter_array = satz_text.split(" ");
-                    woerter_array.forEach(wort => {
+                    woerter_array.forEach((wort, index) => {
                         const wortObject = {
                             wort: wort,
                             anmerkung_id: json_anmerkungen_1[0].anmerkung_id
@@ -184,8 +213,6 @@ head = r"""
                         wort_name.style.fontWeight = 'bold';
                         wort_name.textContent = wort;
 
-
-
                         const selectElement = document.createElement("select");
 
                         selectElement.style.padding = "5px";
@@ -198,9 +225,13 @@ head = r"""
                             selectElement.appendChild(optionElement);
                         });
 
+                        if (anmerkungen_ids_ai_preds){
+                            selectElement.value = anmerkungen_ids_ai_preds[index];
+                            wortObject.anmerkung_id = selectElement.value;
+                        }
+
                         selectElement.onchange = () => {
-                            const selectedAnmerkungId = selectElement.value;
-                            wortObject.anmerkung_id = selectedAnmerkungId;
+                            wortObject.anmerkung_id = selectElement.value;
                         };
 
                         div.appendChild(wort_name);
@@ -212,10 +243,9 @@ head = r"""
             }
 
             function upload_satz_1() {
-                if (array_woerter_value_1.length > 0) {
-                    const absicht_select = document.getElementById("absicht_select").value;
-                    const szenario_select = document.getElementById("szenario_select").value;
-
+                const absicht_select = document.getElementById("absicht_select").value;
+                const szenario_select = document.getElementById("szenario_select").value;
+                if (array_woerter_value_1.length > 0 && absicht_select && szenario_select) {
                     const json_object = {
                         "absicht_id_value": absicht_select,
                         "szenario_id_value": szenario_select,
@@ -434,11 +464,13 @@ body = r"""
 
                 <div style="display: flex; margin-bottom: 10px; justify-content: space-between;">
                     <button onclick="start_init_1()" style="padding: 10px 15px; border: 1px solid black; cursor: pointer;">Seite neu starten</button>
+                    <button onclick="train_ki()" style="padding: 10px 15px; border: 1px solid black; cursor: pointer;">Train KI</button>
                     <button onclick="goToPage(2)" style="padding: 10px 15px; cursor: pointer;">Seite 2</button>
                 </div>
 
                 <div>
                     <form id="form_satz" onsubmit="event.preventDefault(); text_to_woerter_1();" style="margin-bottom: 20px;">
+                        <label><input type="checkbox" name="ki_checkbox">KI-Hilfe</label>
                         <input type="text" name="satz_text" placeholder="Satz" required style="padding: 10px; width: calc(100% - 20px); border: 1px solid #ccc; border-radius: 4px;">
                         <button type="submit" style="width: 100%; padding: 10px 15px; cursor: pointer; margin-top: 10px;">Split</button>
                     </form>

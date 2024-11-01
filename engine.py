@@ -22,6 +22,7 @@ class Engine:
             self.predictor_user = PredictorUser(config.AUTHENTIFIZIERUNG_TRAINED_PATH)
         else:
             self.predictor_user = None
+            
         self.model_user = ModelUser()
         self.wetter_intent = WetterIntent()
         self.studienordnung_intent = StudienordnungIntent()

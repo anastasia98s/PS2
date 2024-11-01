@@ -75,8 +75,10 @@ class ToDoListIntent(Datenkonverter):
                 datezeit = None
                 antwort = f"Alle {i_aktivitaet} wurde in To-Do-List gelöscht"
 
-            self.model_user.delete_todo(i_aktivitaet, datum, datezeit, i_benutzer_id)
-
+            delete_result = self.model_user.delete_todo(i_aktivitaet, datum, datezeit, i_benutzer_id)
+            if not delete_result:
+                antwort = f"Ich habe kein {i_aktivitaet} in Ihre To-Do-Liste gefunden"
+                
             return antwort, None
         else:
             return None, config.ERROR_VARIABLE_AKTIVITAET

@@ -27,10 +27,7 @@ def train():
     
     joblib.dump(meta_data, config.TEXTKLASSIFIZIERUNG_META_PATH)
  
-    (   train_satze, val_satze,
-        train_anmerkung, val_anmerkung,
-        train_absicht, val_absicht,
-        train_szenario, val_szenario) = model_selection.train_test_split(satze, target_anmerkung, target_absicht, target_szenario, random_state=42, test_size=0.1) # stratify=target_absicht
+    (train_satze, val_satze, train_anmerkung, val_anmerkung, train_absicht, val_absicht, train_szenario, val_szenario) = model_selection.train_test_split(satze, target_anmerkung, target_absicht, target_szenario, random_state=42, test_size=0.1) # stratify=target_absicht
     
     # train
     train_dataset = nn_textklassifizierung.utils.SatzDataset(train_satze, train_anmerkung, train_absicht, train_szenario)

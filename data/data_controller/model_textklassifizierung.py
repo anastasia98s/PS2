@@ -150,7 +150,7 @@ class ModelTextklassifizierung:
         cursor.execute('INSERT INTO sp_anmerkung (anmerkung) VALUES (?)', (anmerkung,))
         conn.commit()
         conn.close()
-        return 1
+        return True
         
     def add_szenario(self, szenario):
         conn = self.connect_db()
@@ -158,7 +158,7 @@ class ModelTextklassifizierung:
         cursor.execute('INSERT INTO sp_szenario (szenario) VALUES (?)', (szenario,))
         conn.commit()
         conn.close()
-        return 1
+        return True
         
     def add_absicht(self, absicht):
         conn = self.connect_db()
@@ -166,7 +166,7 @@ class ModelTextklassifizierung:
         cursor.execute('INSERT INTO sp_absicht (absicht) VALUES (?)', (absicht,))
         conn.commit()
         conn.close()
-        return 1
+        return True
         
     def add_satz(self, json_satz):
         absicht_id_value = json_satz['absicht_id_value']
@@ -180,17 +180,13 @@ class ModelTextklassifizierung:
         conn.commit()
 
         new_id = cursor.lastrowid
-
         for wort in satz_value:
             cursor.execute("PRAGMA foreign_keys = ON")
             cursor.execute('INSERT INTO sp_wort (satz_id, anmerkung_id, wort) VALUES (?, ?, ?)', (new_id, wort['anmerkung_id'], wort['wort']))
             conn.commit()
-
         conn.close()
-
         self.show_satz()
-
-        return 1
+        return True
     
     def delete_satz(self, id_satz):
         conn = self.connect_db()
@@ -200,7 +196,7 @@ class ModelTextklassifizierung:
         cursor.execute('DELETE FROM sp_satz WHERE satz_id = ?', (id_satz,))
         conn.commit()
         conn.close()
-        return 1
+        return True
     
     def delete_anmerkung(self, id_anmerkung):
         conn = self.connect_db()
@@ -210,7 +206,7 @@ class ModelTextklassifizierung:
         cursor.execute('DELETE FROM sp_anmerkung WHERE anmerkung_id = ?', (id_anmerkung,))
         conn.commit()
         conn.close()
-        return 1
+        return True
     
     def delete_szenario(self, id_szenario):
         conn = self.connect_db()
@@ -220,7 +216,7 @@ class ModelTextklassifizierung:
         cursor.execute('DELETE FROM sp_szenario WHERE szenario_id = ?', (id_szenario,))
         conn.commit()
         conn.close()
-        return 1
+        return True
     
     def delete_absicht(self, id_absicht):
         conn = self.connect_db()
@@ -230,7 +226,7 @@ class ModelTextklassifizierung:
         cursor.execute('DELETE FROM sp_absicht WHERE absicht_id = ?', (id_absicht,))
         conn.commit()
         conn.close()
-        return 1
+        return True
     
     def update_wort(self, wort_id, neue_anmerkung_id, neue_wort):
         conn = self.connect_db()
@@ -240,7 +236,7 @@ class ModelTextklassifizierung:
         cursor.execute('UPDATE sp_wort SET anmerkung_id = ?, wort = ? WHERE wort_id = ?', (neue_anmerkung_id, neue_wort, wort_id))
         conn.commit()
         conn.close()
-        return 1
+        return True
     
     def update_satz_sz_ab(self, satz_id, szenario_id, absicht_id):
         conn = self.connect_db()
@@ -250,7 +246,7 @@ class ModelTextklassifizierung:
         cursor.execute('UPDATE sp_satz SET szenario_id = ?, absicht_id = ? WHERE satz_id = ?', (szenario_id, absicht_id, satz_id))
         conn.commit()
         conn.close()
-        return 1
+        return True
     
     def update_anmerkung(self, anmerkung, neues_id, anmerkung_id):
         conn = self.connect_db()
@@ -260,7 +256,7 @@ class ModelTextklassifizierung:
         cursor.execute('UPDATE sp_anmerkung SET anmerkung = ?, anmerkung_id = ? WHERE anmerkung_id = ?', (anmerkung, neues_id, anmerkung_id))
         conn.commit()
         conn.close()
-        return 1
+        return True
     
     def update_szenario(self, szenario, neues_id, szenario_id):
         conn = self.connect_db()
@@ -270,7 +266,7 @@ class ModelTextklassifizierung:
         cursor.execute('UPDATE sp_szenario SET szenario = ?, szenario_id = ? WHERE szenario_id = ?', (szenario, neues_id, szenario_id))
         conn.commit()
         conn.close()
-        return 1
+        return True
     
     def update_absicht(self, absicht, neues_id, absicht_id):
         conn = self.connect_db()
@@ -280,4 +276,4 @@ class ModelTextklassifizierung:
         cursor.execute('UPDATE sp_absicht SET absicht = ?, absicht_id = ? WHERE absicht_id = ?', (absicht, neues_id, absicht_id))
         conn.commit()
         conn.close()
-        return 1
+        return True

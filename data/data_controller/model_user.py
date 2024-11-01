@@ -51,68 +51,102 @@ class ModelUser:
 
     def add_benutzer(self, name):
         conn = self.connect_db()
-        cursor = conn.cursor()
-        cursor.execute('INSERT INTO sp_benutzer (benutzer) VALUES (?)', (name,))
-        conn.commit()
-        conn.close()
-        return cursor.lastrowid
-        
+        try:
+            cursor = conn.cursor()
+            cursor.execute('INSERT INTO sp_benutzer (benutzer) VALUES (?)', (name,))
+            conn.commit()
+            if cursor.rowcount == 1:
+                return cursor.lastrowid
+            else:
+                return None
+        except Exception as e:
+            print(f"Error: {e}")
+            return None
+        finally:
+            conn.close()
+
     def add_merkmale(self, benutzer_id, merkmale):
         merkmale = merkmale.tolist()
         conn = self.connect_db()
-        cursor = conn.cursor()
-        cursor.execute("PRAGMA foreign_keys = ON")
-        cursor.execute('INSERT INTO sp_merkmale (benutzer_id, merkmale) VALUES (?, ?)', (benutzer_id, json.dumps(merkmale)))
-        conn.commit()
-        conn.close()
-        return 1
+        try:
+            cursor = conn.cursor()
+            cursor.execute("PRAGMA foreign_keys = ON")
+            cursor.execute('INSERT INTO sp_merkmale (benutzer_id, merkmale) VALUES (?, ?)', (benutzer_id, json.dumps(merkmale)))
+            conn.commit()
+            if cursor.rowcount == 1:
+                return True
+            else:
+                return False 
+        except Exception as e:
+            print(f"Error: {e}")
+            return False
+        finally:
+            conn.close()
     
     def show_benutzer_name(self, benutzer_id):
-        # benutzer_id = int(benutzer_id)
         conn = self.connect_db()
-        cursor = conn.cursor()
-        cursor.execute('SELECT benutzer FROM sp_benutzer WHERE benutzer_id = ?', (benutzer_id,))
-        benutzer = cursor.fetchone()
-        conn.close()
-        return benutzer[0]
+        try:
+            cursor = conn.cursor()
+            cursor.execute('SELECT benutzer FROM sp_benutzer WHERE benutzer_id = ?', (benutzer_id,))
+            benutzer = cursor.fetchone()
+        finally:
+            conn.close()
+        if benutzer:
+            return benutzer[0]
+        return None
     
     def add_todo(self, aktivitaet, datezeit, benutzer_id):
         conn = self.connect_db()
-        cursor = conn.cursor()
-        cursor.execute("PRAGMA foreign_keys = ON")
-        cursor.execute('INSERT INTO sp_todo (benutzer_id, todo, datum) VALUES (?, ?, ?)', (benutzer_id, aktivitaet, datezeit))
-        conn.commit()
-        conn.close()
-        return 1
+        try:
+            cursor = conn.cursor()
+            cursor.execute("PRAGMA foreign_keys = ON")
+            cursor.execute('INSERT INTO sp_todo (benutzer_id, todo, datum) VALUES (?, ?, ?)', (benutzer_id, aktivitaet, datezeit))
+            conn.commit()
+            return cursor.rowcount > 0
+        except Exception as e:
+            print(f"Error: {e}")
+            return False
+        finally:
+            conn.close()
     
     def delete_todo(self, aktivitaet, datum, datezeit, benutzer_id):
         conn = self.connect_db()
-        cursor = conn.cursor()
-        cursor.execute("PRAGMA foreign_keys = ON")
-        if datezeit:
-            cursor.execute('DELETE FROM sp_todo WHERE todo = ? AND datum = ? AND benutzer_id = ?', (aktivitaet, datezeit, benutzer_id))
-        else:
-            if datum:
-                cursor.execute('DELETE FROM sp_todo WHERE todo = ? AND DATE(datum) = ? AND benutzer_id = ?', (aktivitaet, datum, benutzer_id))
+        try:
+            cursor = conn.cursor()
+            cursor.execute("PRAGMA foreign_keys = ON")
+            if datezeit:
+                cursor.execute('DELETE FROM sp_todo WHERE todo = ? AND datum = ? AND benutzer_id = ?', (aktivitaet, datezeit, benutzer_id))
             else:
-                cursor.execute('DELETE FROM sp_todo WHERE todo = ? AND benutzer_id = ?', (aktivitaet, benutzer_id))
-        conn.commit()
-        conn.close()
-        return 1
+                if datum:
+                    cursor.execute('DELETE FROM sp_todo WHERE todo = ? AND DATE(datum) = ? AND benutzer_id = ?', (aktivitaet, datum, benutzer_id))
+                else:
+                    cursor.execute('DELETE FROM sp_todo WHERE todo = ? AND benutzer_id = ?', (aktivitaet, benutzer_id))
+            conn.commit()
+            return cursor.rowcount > 0
+        except Exception as e:
+            print(f"Error: {e}")
+            return False
+        finally:
+            conn.close()
     
     def abfrage_todo(self, aktivitaet, datum, datezeit, benutzer_id):
         conn = self.connect_db()
-        cursor = conn.cursor()
-        if aktivitaet: # Frag nach Zeit
-            if datum:  # Bsp. Wann ist mein Meeting morgen
-                cursor.execute('SELECT * FROM sp_todo WHERE todo = ? AND DATE(datum) = ? AND benutzer_id = ?', (aktivitaet, datum, benutzer_id))
-            else: # Bsp. Wann ist mein Meeting
-                cursor.execute('SELECT * FROM sp_todo WHERE todo = ? AND benutzer_id = ?', (aktivitaet, benutzer_id))
-        elif datezeit or datum:
-            if datezeit: # Was habe ich morgen um 12 Uhr
-                cursor.execute('SELECT * FROM sp_todo WHERE datum = ? AND benutzer_id = ?', (datezeit, benutzer_id))
-            else: # Was habe ich morgen
-                cursor.execute('SELECT * FROM sp_todo WHERE DATE(datum) = ? AND benutzer_id = ?', (datum, benutzer_id))
-        to_do_liste = cursor.fetchall()
-        conn.close()
-        return to_do_liste
+        try:
+            cursor = conn.cursor()
+            cursor.execute("PRAGMA foreign_keys = ON")
+            if aktivitaet: # Frag nach Zeit
+                if datum:  # Bsp. Wann ist mein Meeting morgen
+                    cursor.execute('SELECT * FROM sp_todo WHERE todo = ? AND DATE(datum) = ? AND benutzer_id = ?', (aktivitaet, datum, benutzer_id))
+                else: # Bsp. Wann ist mein Meeting
+                    cursor.execute('SELECT * FROM sp_todo WHERE todo = ? AND benutzer_id = ?', (aktivitaet, benutzer_id))
+            elif datezeit or datum:
+                if datezeit: # Was habe ich morgen um 12 Uhr
+                    cursor.execute('SELECT * FROM sp_todo WHERE datum = ? AND benutzer_id = ?', (datezeit, benutzer_id))
+                else: # Was habe ich morgen
+                    cursor.execute('SELECT * FROM sp_todo WHERE DATE(datum) = ? AND benutzer_id = ?', (datum, benutzer_id))
+            return cursor.fetchall()
+        except Exception as e:
+            print(f"Error: {e}")
+            return None
+        finally:
+            conn.close()

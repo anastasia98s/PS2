@@ -58,18 +58,9 @@ def train():
         print(f'Total Data: {len(merkmale)}')
 
         for epoch in range(config.AUTHENTIFIZIERUNG_EPOCHS):
-            
-            train_loss = nn_authentifizierung.utils.train_fn(
-                                                    train_data_loader,
-                                                    model,
-                                                    optimizer,
-                                                    device)
+            train_loss = nn_authentifizierung.utils.train_fn(train_data_loader, model, optimizer, device)
+            val_loss = nn_authentifizierung.utils.val_fn(val_data_loader, model, device)
 
-            val_loss = nn_authentifizierung.utils.val_fn(
-                                                val_data_loader,
-                                                model,
-                                                device
-                                            )
             if val_loss < best_loss or epoch % 10 == 0 or epoch == config.AUTHENTIFIZIERUNG_EPOCHS-1:
                 print(f'\n== Epoch {epoch + 1}/{config.AUTHENTIFIZIERUNG_EPOCHS}')
                 print(f'Train Loss: {train_loss}')
