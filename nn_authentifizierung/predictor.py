@@ -37,8 +37,8 @@ class Predictor:
         return class_preds, [self.encoder_namen.classes_, class_scores[0]]
                 
     def predict(self, merkmale_data):
-        # merkmale_data = nn_authentifizierung.utils.record_voice(5, config.AUTHENTIFIZIERUNG_SAMPLE_RATE)
-        merkmale_features = nn_authentifizierung.utils.extract_features(merkmale_data, config.AUTHENTIFIZIERUNG_SAMPLE_RATE)
+        # merkmale_data = nn_authentifizierung.utils.record_voice(5, config.AUDIO_SAMPLE_RATE)
+        merkmale_features = nn_authentifizierung.utils.extract_features(merkmale_data, config.AUDIO_SAMPLE_RATE)
         mfcc_tensor = torch.FloatTensor(merkmale_features).unsqueeze(0).to(self.device)
         name_lg = self.merkmale_prediction(mfcc_tensor)
         return self.name_extraction(name_lg)

@@ -37,18 +37,6 @@ class AnmerkungDataset:
         return len(self.texts)
     
     def __getitem__(self,index):
-        """ text = self.texts[index]
-        text_anmerkungen = self.anmerkung[index]
-        
-        ids = []
-        target_anmerkung = []
-        for i,wort in enumerate(text):
-            token_ids = self.tokenizer.encode(wort, add_special_tokens=False)
-            wort_piece_anmerkungen = [text_anmerkungen[i]] * len(token_ids)
-
-            ids.extend(token_ids)
-            target_anmerkung.extend(wort_piece_anmerkungen) """
-        
         ids = self.texts[index]
         target_anmerkung = self.anmerkung[index]
 

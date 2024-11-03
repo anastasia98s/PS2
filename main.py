@@ -83,8 +83,8 @@ def main():
                     train_merkmale.train()
                 if auswahl == '2':
                     predictor_user = PredictorUser(config.AUTHENTIFIZIERUNG_TRAINED_PATH)
-                    signal = audio.listen(5, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_TMP_PATH)
-                    name_indexs, name_label_scores = predictor_user.predict(signal)
+                    signal, signal_trim = audio.listen(5, config.AUDIO_SAMPLE_RATE)
+                    name_indexs, name_label_scores = predictor_user.predict(signal_trim)
                     print("\n" + "=" * 30)
                     print(f"Name = {name_label_scores[0][name_indexs].item()} = {name_label_scores[1][name_indexs].item() * 100}%")
                     print("=" * 30 + "\n")
@@ -93,9 +93,9 @@ def main():
         elif auswahl == '3':
             predictor_text = PredictorText(config.TEXTKLASSIFIZIERUNG_TRAINED_PATH)
             predictor_user = PredictorUser(config.AUTHENTIFIZIERUNG_TRAINED_PATH)
-            signal = audio.listen(5, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_TMP_PATH)
-            text = audio.recognize(signal, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_TMP_PATH)
-            name_indexs, name_label_scores = predictor_user.predict(signal)
+            signal, signal_trim = audio.listen(5, config.AUDIO_SAMPLE_RATE)
+            text = audio.recognize(signal, config.AUDIO_SAMPLE_RATE)
+            name_indexs, name_label_scores = predictor_user.predict(signal_trim)
             print("\n" + "=" * 30)
             print(f"Name = {name_label_scores[0][name_indexs].item()} = {name_label_scores[1][name_indexs].item() * 100}%")
             print("=" * 30)

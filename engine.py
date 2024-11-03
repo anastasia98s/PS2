@@ -48,7 +48,7 @@ class Engine:
 
         variable_name = variable_typen.get(errortyp)
         if not variable_name:
-            self.audio.text_to_speech("Es gab ein Problem mit dem System. Bitte versuche es erneut.", config.RECORD_TMP_PATH)
+            self.audio.text_to_speech("Es gab ein Problem mit dem System. Bitte versuche es erneut.")
             sys.exit("Das Programm wird beendet.")
         return self.dialog(2, f"Kannst du das {variable_name} {wd_text}sagen?")
     
@@ -180,25 +180,25 @@ class Engine:
         
         for i in range(num_parts):
             signal_part = signal[i * target_length : (i + 1) * target_length]
-            features = extract_features(signal_part, config.AUTHENTIFIZIERUNG_SAMPLE_RATE)
+            features = extract_features(signal_part, config.AUDIO_SAMPLE_RATE)
             self.model_user.add_merkmale(benutzer_id, features)
         
         remainder_length = signal_length % target_length
         if remainder_length > 0:
             signal_part = signal[num_parts * target_length:]
-            features = extract_features(signal_part, config.AUTHENTIFIZIERUNG_SAMPLE_RATE)
+            features = extract_features(signal_part, config.AUDIO_SAMPLE_RATE)
             self.model_user.add_merkmale(benutzer_id, features)
             
     def dialog(self, duration, satz):
-        self.audio.text_to_speech_await(satz) # self.audio.text_to_speech(satz, config.RECORD_TMP_PATH)
-        _, antwort_text = self.audio.listen_recognize(duration, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_TMP_PATH)
+        self.audio.text_to_speech_await(satz) # self.audio.text_to_speech(satz)
+        _, antwort_text = self.audio.listen_recognize(duration, config.AUDIO_SAMPLE_RATE)
         return antwort_text
     
     def start(self):
         benutzer_id = None
         self.audio.text_to_speech_await("Hallo, wie kann ich dir helfen?")
         while True:
-            antwort_befehl_signal, antwort_befehl_text = self.audio.listen_recognize(2, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_TMP_PATH)
+            antwort_befehl_signal, antwort_befehl_text = self.audio.listen_recognize(2, config.AUDIO_SAMPLE_RATE)
             
             if self.predictor_user and benutzer_id is None: # wenn es auth.pth gibt
                 name_index, name_label = self.user_authentifizierung(antwort_befehl_signal)
@@ -236,7 +236,6 @@ class Engine:
             
             if benutzer_id:
                 self.save_features(antwort_befehl_signal, benutzer_id)
-                # input_satz = self.audio.recognize(signal, config.AUTHENTIFIZIERUNG_SAMPLE_RATE, config.RECORD_TMP_PATH)
                 anmerkung_satz_labels, woerter_anmerkungen, absicht_satz_labels, absicht_class_scores, szenario_satz_labels, szenario_class_scores = self.predictor_text.predict(antwort_befehl_text)
                 pred_absicht_noten = absicht_class_scores[1][absicht_satz_labels]
                 pred_szenario_noten = szenario_class_scores[1][szenario_satz_labels]
@@ -244,7 +243,7 @@ class Engine:
                     output_satz = self.intent_filter(absicht_class_scores[0][absicht_satz_labels], szenario_class_scores[0][szenario_satz_labels], woerter_anmerkungen, anmerkung_satz_labels, benutzer_id)
                 else:
                     output_satz = "Ich verstehe ihren Absicht nicht"
-                self.audio.text_to_speech(output_satz, config.RECORD_TMP_PATH)
+                self.audio.text_to_speech(output_satz)
                 if config.AUTHENTIFIZIERUNG_AUTO_TRAINING:
                     train_merkmale.train()
 
