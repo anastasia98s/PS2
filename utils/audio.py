@@ -13,10 +13,13 @@ from pathlib import Path
 
 class Audio:
     def __init__(self):
-        self.download_sr_modell()
-        self.model = Model(f"{config.SPEECH_RECOGNITION_MODELL_DIR}{config.SPEECH_RECOGNITION_MODELL}")
-        self.recognizer = KaldiRecognizer(self.model, config.AUDIO_SAMPLE_RATE)
-        self.recognizer_google = sr.Recognizer()
+        if config.IS_ONLINE:
+            self.recognizer = sr.Recognizer()
+        else:
+            self.download_sr_modell()
+            self.model = Model(f"{config.SPEECH_RECOGNITION_MODELL_DIR}{config.SPEECH_RECOGNITION_MODELL}")
+            self.recognizer = KaldiRecognizer(self.model, config.AUDIO_SAMPLE_RATE)
+
         self.pyttsx3 = pyttsx3.init()
         self.set_sprache_text_to_speech('Microsoft Hedda Desktop - German')
 
@@ -93,9 +96,9 @@ class Audio:
     def recognize(self, signal):
         if config.IS_ONLINE:
             with sr.AudioFile(config.RECORD_TMP_PATH) as source:
-                audio_data = self.recognizer_google.record(source)
+                audio_data = self.recognizer.record(source)
                 try:
-                    text = self.recognizer_google.recognize_google(audio_data, language=config.AUDIO_SPRACHE)
+                    text = self.recognizer.recognize_google(audio_data, language=config.AUDIO_SPRACHE)
                     return text
                 except sr.UnknownValueError:
                     print("Entschuldigung, ich konnte die Audioaufnahme nicht verstehen.")
