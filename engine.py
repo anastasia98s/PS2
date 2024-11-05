@@ -207,17 +207,17 @@ class Engine:
 
                 if pred_noten < config.AUTHENTIFIZIERUNG_MIN_NOTEN or len(name_label[0]) < config.AUTHENTIFIZIERUNG_MIN_KONTO:
                     antwort_text = self.dialog(2, "Sind Sie " + pred_name)
-                    if any(word in antwort_text.split() for word in ["ja", "genau"]):
+                    if any(word in antwort_text.lower().split() for word in ["ja", "genau"]):
                         benutzer_id = pred_id
                     else:
                         antwort_text = self.dialog(2, "Haben Sie bereits ein Konto?")
-                        if any(word in antwort_text.split() for word in ["ja", "genau"]):
+                        if any(word in antwort_text.lower().split() for word in ["ja", "genau"]):
                             for label in name_label[0]:
                                 print(label)
                                 geg_id = int(label)
                                 geg_name = self.model_user.show_benutzer_name(geg_id)
                                 antwort_text = self.dialog(2, "Sind Sie " + geg_name)
-                                if any(word in antwort_text.split() for word in ["ja", "genau"]):
+                                if any(word in antwort_text.lower().split() for word in ["ja", "genau"]):
                                     benutzer_id = geg_id
                                     break
                 else:
@@ -226,7 +226,7 @@ class Engine:
             if not benutzer_id:
                 antwort_text = self.dialog(2, "Wollen Sie ein Konto erstellen?")
                 
-                if any(word in antwort_text.split() for word in ["ja", "okay"]):
+                if any(word in antwort_text.lower().split() for word in ["ja", "okay"]):
                     antwort_text = self.dialog(2, "Wie heißt du?")
                     if antwort_text:
                         benutzer_id = self.model_user.add_benutzer(antwort_text)
