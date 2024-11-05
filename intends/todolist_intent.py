@@ -4,7 +4,7 @@ import config
 
 class ToDoListIntent(Datenkonverter):
     def __init__(self):
-        self.model_user = ModelUser() # mit Datenbank gebunden
+        self.model_user = ModelUser() # mit Datenbank verbinden
     
     def satz_konvertierung(self, todo_list, todo_datum):
         satze = []

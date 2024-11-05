@@ -72,12 +72,7 @@ ERROR_VARIABLE_ZEIT = 2
 ERROR_VARIABLE_ORT = 3
 ERROR_VARIABLE_AKTIVITAET = 4
 
-# vosk-model-de-0.21	            1.9G
-# vosk-model-de-tuda-0.6-900k	    4.4G
-# vosk-model-small-de-zamia-0.3	    49M
-# vosk-model-small-de-0.15	        45M
+IS_ONLINE = False # (intelligentes TTS, später könnte durch speecht5 ersetzt werden)
 
-SPEECH_RECOGNITION_MODELL = "vosk-model-small-de-0.15"
-SPEECH_RECOGNITION_MODELL_DIR = "data/"
-
-IS_ONLINE = True # (intelligent) aber (Online)
+SPEECH_RECOGNITION_MODELL = "medium"
+NO_SPEECH_MAX_NOTEN = 0.4

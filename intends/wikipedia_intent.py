@@ -4,7 +4,7 @@ class WikipediaIntent:
     def __init__(self):
         pass
     
-    def abfragen(self, i_thema): # Wer ist ... # Was ist ...
+    def abfragen(self, i_thema):
         try:
             wikipedia.set_lang("de")
             return wikipedia.summary(i_thema, sentences=5), None

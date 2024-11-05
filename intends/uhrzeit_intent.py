@@ -22,7 +22,7 @@ class UhrzeitIntent:
             "cape town": "Africa/Johannesburg"
         }
         
-    def abfragen(self, i_ort):  # Wie spät in Berlin
+    def abfragen(self, i_ort):
         time = datetime.now(pytz.utc)
         if i_ort:
             if i_ort.lower() in self.time_zone:

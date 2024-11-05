@@ -14,7 +14,6 @@ from utils.audio import Audio
 import os
 import sys
 
-
 class Engine:
     def __init__(self):
         self.predictor_text = PredictorText(config.TEXTKLASSIFIZIERUNG_TRAINED_PATH)

@@ -16,6 +16,7 @@
 ## Startanweisungen
 
 1. **Installiere alle erforderlichen Pakete:**
+   - Stelle sicher, dass FFMPEG installiert ist und im PATH-Umgebungsvariable eingetragen ist. Du kannst FFMPEG von [diesem Link](https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip) herunterladen.
    ```bash
    pip install -r requirements.txt
    ```
