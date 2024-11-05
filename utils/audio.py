@@ -7,6 +7,7 @@ import os
 import config
 import librosa
 import whisper
+import re
 
 class Audio:
     def __init__(self):
@@ -101,11 +102,11 @@ class Audio:
         while True:
             antwort_signal, antwort_signal_trim = self.listen(duration, sample_rate)
             antwort_text = self.recognize(antwort_signal)
-
+            ohne_zeichen_antwort_text = re.sub(r'[^a-zA-Z0-9\s]', '', antwort_text)
             if not antwort_text:
                 self.text_to_speech_await("nochmal bitte")
             else:
                 print("Sie haben gesagt: " + antwort_text)
                 break
 
-        return antwort_signal_trim, antwort_text
+        return antwort_signal_trim, ohne_zeichen_antwort_text
