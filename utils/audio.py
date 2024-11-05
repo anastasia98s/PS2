@@ -8,10 +8,14 @@ import config
 import librosa
 import whisper
 import re
+import speech_recognition as sr
 
 class Audio:
     def __init__(self):
-        self.recognizer = whisper.load_model(config.SPEECH_RECOGNITION_MODELL, config.DEVICE)
+        if config.IS_ONLINE:
+            self.recognizer = sr.Recognizer()
+        else:
+            self.recognizer = whisper.load_model(config.SPEECH_RECOGNITION_MODELL, config.DEVICE)
         self.pyttsx3 = pyttsx3.init()
         self.set_sprache_text_to_speech('Microsoft Hedda Desktop - German')
 
@@ -60,18 +64,31 @@ class Audio:
         return recording_flat, recording_trim
 
     def recognize(self, signal):
-        signal = signal.astype(np.float32)
-        signal = whisper.pad_or_trim(signal)
-        result = self.recognizer.transcribe(signal, language="de")
-        sr_text = result["text"]
-        if sr_text:
-            no_speech_prob = result['segments'][0]['no_speech_prob']
-            if no_speech_prob < config.NO_SPEECH_MAX_NOTEN:
-                return sr_text.strip()
+        if config.IS_ONLINE:
+            with sr.AudioFile(config.RECORD_TMP_PATH) as source:
+                audio_data = self.recognizer.record(source)
+                try:
+                    text = self.recognizer.recognize_google(audio_data, language=config.AUDIO_SPRACHE)
+                    return text
+                except sr.UnknownValueError:
+                    print("Entschuldigung, ich konnte die Audioaufnahme nicht verstehen.")
+                    return None
+                except sr.RequestError as e:
+                    print("Konnte keine Ergebnisse anfordern; {0}".format(e))
+                    return None
+        else:
+            signal = signal.astype(np.float32)
+            signal = whisper.pad_or_trim(signal)
+            result = self.recognizer.transcribe(signal, language="de")
+            sr_text = result["text"]
+            if sr_text:
+                no_speech_prob = result['segments'][0]['no_speech_prob']
+                if no_speech_prob < config.NO_SPEECH_MAX_NOTEN:
+                    return sr_text.strip()
+                else:
+                    return None
             else:
                 return None
-        else:
-            return None
                 
     def text_to_speech(self, satz):
         if config.IS_ONLINE:

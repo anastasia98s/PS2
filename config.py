@@ -72,7 +72,7 @@ ERROR_VARIABLE_ZEIT = 2
 ERROR_VARIABLE_ORT = 3
 ERROR_VARIABLE_AKTIVITAET = 4
 
-IS_ONLINE = False # (intelligentes TTS, später könnte durch speecht5 ersetzt werden)
+IS_ONLINE = True # (intelligentes TTS, SR, TTS könnte durch speecht5 ersetzt werden)
 
 SPEECH_RECOGNITION_MODELL = "medium"
-NO_SPEECH_MAX_NOTEN = 0.4
+NO_SPEECH_MAX_NOTEN = 0.5
