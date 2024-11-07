@@ -37,7 +37,7 @@ class ToDoListIntent(Datenkonverter):
         elif not i_aktivitaet:
             return "Ich verstehe ihre To-Do-Abfrage nicht", None
         
-        to_do_liste = self.model_user.abfrage_todo(i_aktivitaet, datum, datezeit, i_benutzer_id)
+        to_do_liste = self.model_user.show_todo(i_aktivitaet, datum, datezeit, i_benutzer_id)
         if len(to_do_liste):
             return self.satz_konvertierung(to_do_liste, i_datum), None
         else:

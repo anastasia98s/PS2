@@ -31,10 +31,6 @@ class Engine:
         self.datum_intent = DatumIntent()
         self.audio = Audio()
     
-    def user_authentifizierung(self, signal):
-        name_indexs, name_label_scores = self.predictor_user.predict(signal)
-        return name_indexs, name_label_scores
-    
     def intent_variable_error_reask(self, errortyp, neue_daten_abfragen=False):
         wd_text = "nochmal " if not neue_daten_abfragen else ""
         
@@ -49,7 +45,7 @@ class Engine:
         if not variable_name:
             self.audio.text_to_speech("Es gab ein Problem mit dem System. Bitte versuche es erneut.")
             sys.exit("Das Programm wird beendet.")
-        return self.dialog(2, f"Kannst du das {variable_name} {wd_text}sagen?")
+        return self.dialog(0.5, f"Kannst du das {variable_name} {wd_text}sagen?")
     
     def intent_filter(self, absicht, szenario, anmerkungen, anmerkungen_label, user_id):
         v_thema = []
@@ -77,7 +73,14 @@ class Engine:
         t_zeit = " ".join(v_zeit)
         t_datum = " ".join(v_datum)
         t_ort = " ".join(v_ort)
-        print("============================", t_zeit, t_datum)
+
+        print(f"Thema: {t_thema}")
+        print(f"Aktivität: {t_aktivitaet}")
+        print(f"Zeit: {t_zeit}")
+        print(f"Datum: {t_datum}")
+        print(f"Ort: {t_ort}")
+        print("============================")
+
         match (szenario, absicht):
             ################################### # zeit
             case (config.SZENARIO_UHRZEIT, config.ABSICHT_ABFRAGEN): # abfragen
@@ -188,9 +191,9 @@ class Engine:
             features = extract_features(signal_part, config.AUDIO_SAMPLE_RATE)
             self.model_user.add_merkmale(benutzer_id, features)
             
-    def dialog(self, duration, satz):
+    def dialog(self, silence_duration, satz):
         self.audio.text_to_speech_await(satz) # self.audio.text_to_speech(satz)
-        _, antwort_text = self.audio.listen_recognize(duration, config.AUDIO_SAMPLE_RATE)
+        _, antwort_text = self.audio.listen_recognize(silence_duration, config.AUDIO_SAMPLE_RATE)
         return antwort_text
     
     def start(self):
@@ -200,23 +203,23 @@ class Engine:
             antwort_befehl_signal, antwort_befehl_text = self.audio.listen_recognize(2, config.AUDIO_SAMPLE_RATE)
             
             if self.predictor_user and benutzer_id is None: # wenn es auth.pth gibt
-                name_index, name_label = self.user_authentifizierung(antwort_befehl_signal)
+                name_index, name_label = self.predictor_user.predict(antwort_befehl_signal)
                 pred_id = int(name_label[0][name_index][0])
                 pred_name = self.model_user.show_benutzer_name(pred_id)
                 pred_noten = name_label[1][name_index][0]
 
                 if pred_noten < config.AUTHENTIFIZIERUNG_MIN_NOTEN or len(name_label[0]) < config.AUTHENTIFIZIERUNG_MIN_KONTO:
-                    antwort_text = self.dialog(2, "Sind Sie " + pred_name)
+                    antwort_text = self.dialog(0, "Sind Sie " + pred_name)
                     if any(word in antwort_text.lower().split() for word in ["ja", "genau"]):
                         benutzer_id = pred_id
                     else:
-                        antwort_text = self.dialog(2, "Haben Sie bereits ein Konto?")
+                        antwort_text = self.dialog(0, "Haben Sie bereits ein Konto?")
                         if any(word in antwort_text.lower().split() for word in ["ja", "genau"]):
                             for label in name_label[0]:
-                                print(label)
+                                #print(label)
                                 geg_id = int(label)
                                 geg_name = self.model_user.show_benutzer_name(geg_id)
-                                antwort_text = self.dialog(2, "Sind Sie " + geg_name)
+                                antwort_text = self.dialog(0, "Sind Sie " + geg_name)
                                 if any(word in antwort_text.lower().split() for word in ["ja", "genau"]):
                                     benutzer_id = geg_id
                                     break
@@ -224,10 +227,10 @@ class Engine:
                     benutzer_id = pred_id
 
             if not benutzer_id:
-                antwort_text = self.dialog(2, "Wollen Sie ein Konto erstellen?")
+                antwort_text = self.dialog(0, "Wollen Sie ein Konto erstellen?")
                 
                 if any(word in antwort_text.lower().split() for word in ["ja", "okay"]):
-                    antwort_text = self.dialog(2, "Wie heißt du?")
+                    antwort_text = self.dialog(0.5, "Wie heißt du?")
                     if antwort_text:
                         benutzer_id = self.model_user.add_benutzer(antwort_text)
                 else:

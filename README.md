@@ -5,7 +5,9 @@
 - Intentverteilung erstellt
 - Sprach-zu-Text-Funktionalität integriert
 - Text-zu-Sprach-Funktionalität implementiert
-- Datenbank für Benutzer erstellt
+- Datenbank erstellt
+   - [Datenbank für Textklassifizierung (hauptsächlich für Datensatzeditoren)](data/data_controller/model_textklassifizierung.py)
+   - [Datenbank für User + To-Do-Liste + Authentifizierung](data/data_controller/model_user.py)
 - Intents "To-Do-Liste, Datum, Wetter, Uhrzeit" abgeschlossen
 
 ## ToDo
@@ -18,10 +20,12 @@
 1. **Installiere alle erforderlichen Pakete:**
    ```bash
    pip install -r requirements.txt
+   pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
    ```
 
-   **Hinweis:** 
+   **Hinweis:**
    - Wenn es zu Fehlermeldungen kommt, kannst du die Pakete manuell installieren.
+   - Wenn du das trainierte Modell benutzen will, [klicke hier](https://drive.google.com/file/d/1hehycFUbHL62oWO_ha_xQMGmWTobcfXx/view?usp=drive_link), dann musst du das `data`-Verzeichnis mit diesen Daten ersetzen.
    - Stelle sicher, dass FFMPEG installiert ist und im PATH-Umgebungsvariable eingetragen ist. [Link zum Herunterladen](https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip)
 
 2. **Starte das Engine-Skript:**

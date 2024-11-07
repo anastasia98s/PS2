@@ -1,4 +1,3 @@
-import sounddevice as sd
 import wave
 import numpy as np
 from gtts import gTTS
@@ -8,19 +7,23 @@ import config
 import librosa
 import whisper
 import re
-import speech_recognition as sr
+import pyaudio
 
 class Audio:
     def __init__(self):
-        if config.IS_ONLINE:
-            self.recognizer = sr.Recognizer()
-        else:
-            self.recognizer = whisper.load_model(config.SPEECH_RECOGNITION_MODELL, config.DEVICE)
+        self.recognizer = whisper.load_model(config.SPEECH_RECOGNITION_MODELL, config.DEVICE)
         self.pyttsx3 = pyttsx3.init()
         self.set_sprache_text_to_speech('Microsoft Hedda Desktop - German')
 
     def listen(self, silence_duration, sample_rate):
         print("Bitte sprechen Sie...")
+        self.audio = pyaudio.PyAudio()
+        chunk = 1024
+        stream = self.audio.open( format=pyaudio.paInt16,
+                                    channels=1,
+                                    rate=sample_rate,
+                                    input=True,
+                                    frames_per_buffer=chunk)
 
         recording = []
         silent_chunks = 0
@@ -29,77 +32,69 @@ class Audio:
 
         is_recording = True
         while is_recording:
-            audio_chunk = sd.rec(int(sample_rate * 1), samplerate=sample_rate, channels=1, dtype='float64')
-            sd.wait()
-            # print(np.abs(audio_chunk).mean())
-            if np.abs(audio_chunk).mean() > config.AUDIO_THRESHOLD:
-                if not recording and last_chunks is not None:
-                    recording.append(last_chunks)
-                recording.append(audio_chunk)
-                silent_chunks = 0
-            else:
-                silent_chunks += len(audio_chunk)
-                if silent_chunks > silence_limit and recording:
-                    print("Aufnahme beenden")
-                    is_recording = False
-                elif recording:
+            try:
+                audio_chunk = stream.read(chunk)
+                audio_data = np.frombuffer(audio_chunk, dtype=np.int16)
+                amplitude = np.abs(audio_data).mean()
+                print(amplitude)
+                if amplitude > config.AUDIO_THRESHOLD:
+                    if not recording and last_chunks is not None:
+                        recording.append(last_chunks)
                     recording.append(audio_chunk)
+                    silent_chunks = 0
+                else:
+                    silent_chunks += len(audio_chunk)
+                    if silent_chunks > silence_limit and recording:
+                        print("Aufnahme beenden")
+                        is_recording = False
+                    elif recording:
+                        recording.append(audio_chunk)
 
-            last_chunks = audio_chunk
+                last_chunks = audio_chunk
+            except KeyboardInterrupt:
+                is_recording = False
 
-        recording_concat = np.concatenate(recording)
-        
-        if config.IS_ONLINE:
-            folder_path = os.path.dirname(config.RECORD_TMP_PATH)
-            os.makedirs(folder_path, exist_ok=True)
+        stream.stop_stream()
+        stream.close()
+        self.audio.terminate()
 
-            with wave.open(config.RECORD_TMP_PATH, 'wb') as wf:
-                wf.setnchannels(1)
-                wf.setsampwidth(2) # 16-bit PCM
-                wf.setframerate(sample_rate)
-                wf.writeframes((recording_concat * 32767).astype(np.int16).tobytes())
+        recording_concat = np.concatenate([np.frombuffer(chunk, dtype=np.int16) for chunk in recording])
 
-        recording_flat = recording_concat.flatten()
+        # Audioqualität testen
+        folder_path = os.path.dirname(config.RECORD_TMP_PATH)
+        os.makedirs(folder_path, exist_ok=True)
+        with wave.open(config.RECORD_TMP_PATH, 'wb') as wf:
+            wf.setnchannels(1)
+            wf.setsampwidth(2) # 16-bit PCM
+            wf.setframerate(sample_rate)
+            wf.writeframes(recording_concat.tobytes())
+
+        recording_flat = recording_concat.flatten().astype(np.float32)
         recording_trim, _ = librosa.effects.trim(recording_flat, top_db=config.AUDIO_DB)
         return recording_flat, recording_trim
 
     def recognize(self, signal):
-        if config.IS_ONLINE:
-            with sr.AudioFile(config.RECORD_TMP_PATH) as source:
-                audio_data = self.recognizer.record(source)
-                try:
-                    text = self.recognizer.recognize_google(audio_data, language=config.AUDIO_SPRACHE)
-                    return text
-                except sr.UnknownValueError:
-                    print("Entschuldigung, ich konnte die Audioaufnahme nicht verstehen.")
-                    return None
-                except sr.RequestError as e:
-                    print("Konnte keine Ergebnisse anfordern; {0}".format(e))
-                    return None
-        else:
-            signal = signal.astype(np.float32)
-            signal = whisper.pad_or_trim(signal)
-            result = self.recognizer.transcribe(signal, language="de")
-            sr_text = result["text"]
-            if sr_text:
-                no_speech_prob = result['segments'][0]['no_speech_prob']
-                if no_speech_prob < config.NO_SPEECH_MAX_NOTEN:
-                    return sr_text.strip()
-                else:
-                    return None
+        signal = signal.astype(np.float32)
+        signal = whisper.pad_or_trim(signal)
+        result = self.recognizer.transcribe(signal, language="de")
+        sr_text = result["text"]
+        if sr_text:
+            no_speech_prob = result['segments'][0]['no_speech_prob']
+            if no_speech_prob < config.NO_SPEECH_MAX_NOTEN:
+                return sr_text.strip()
             else:
                 return None
+        else:
+            return None
                 
     def text_to_speech(self, satz):
-        if config.IS_ONLINE:
-            folder_path = os.path.dirname(config.RECORD_TMP_PATH)
-            os.makedirs(folder_path, exist_ok=True)
+        # !!gtts ist Online!!
+        folder_path = os.path.dirname(config.RECORD_TMP_PATH)
+        os.makedirs(folder_path, exist_ok=True)
 
-            tts = gTTS(text=satz, lang='de')
-            tts.save(config.RECORD_TMP_PATH)
-            os.system("start " + config.RECORD_TMP_PATH)
-        else:
-            self.text_to_speech_await(satz)
+        tts = gTTS(text=satz, lang='de')
+        tts.save(config.RECORD_TMP_PATH)
+        os.system("start " + config.RECORD_TMP_PATH)
 
     def text_to_speech_await(self, satz):
         self.pyttsx3.setProperty('rate', 150)
@@ -115,9 +110,9 @@ class Audio:
                 self.pyttsx3.setProperty('voice', voice.id)
                 break
 
-    def listen_recognize(self, duration, sample_rate):
+    def listen_recognize(self, silence_duration, sample_rate):
         while True:
-            antwort_signal, antwort_signal_trim = self.listen(duration, sample_rate)
+            antwort_signal, antwort_signal_trim = self.listen(silence_duration, sample_rate)
             antwort_text = self.recognize(antwort_signal)
             if not antwort_text:
                 self.text_to_speech_await("nochmal bitte")
