@@ -16,7 +16,13 @@
 - Mehr Datasets für Textklassifizierung sammeln (für KI-Training).
 
 ## Startanweisungen
-
+1. **Repository klonen und virtuelle Umgebung einrichten**
+   ```bash
+   git clone -b Nathaniel https://github.com/anastasia98s/PS2.git assistant_ai
+   cd assistant_ai
+   python -m venv ai_env
+   ai_env\Scripts\activate
+   ```
 1. **Installiere alle erforderlichen Pakete:**
    ```bash
    pip install -r requirements.txt
