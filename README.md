@@ -23,7 +23,7 @@
    python -m venv ai_env
    ai_env\Scripts\activate
    ```
-1. **Installiere alle erforderlichen Pakete:**
+2. **Installiere alle erforderlichen Pakete:**
    ```bash
    pip install -r requirements.txt
    pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
@@ -34,7 +34,7 @@
    - Wenn du das trainierte Modell benutzen will, [klicke hier](https://drive.google.com/file/d/1hehycFUbHL62oWO_ha_xQMGmWTobcfXx/view?usp=drive_link), dann musst du das `data`-Verzeichnis mit diesen Daten ersetzen.
    - Stelle sicher, dass FFMPEG installiert ist und im PATH-Umgebungsvariable eingetragen ist. [Link zum Herunterladen](https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip)
 
-2. **Starte das Engine-Skript:**
+3. **Starte das Engine-Skript:**
    ```bash
    python engine.py
    ```
