@@ -17,14 +17,14 @@
 
 ## Startanweisungen
 1. **Repository klonen und virtuelle Umgebung einrichten**
-   ```bash
+   ```shell
    git clone -b Nathaniel https://github.com/anastasia98s/PS2.git assistant_ai
    cd assistant_ai
    python -m venv ai_env
    ai_env\Scripts\activate
    ```
 2. **Installiere alle erforderlichen Pakete:**
-   ```bash
+   ```shell
    pip install -r requirements.txt
    pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
    ```
@@ -34,8 +34,11 @@
    - Wenn du das trainierte Modell benutzen will, [klicke hier](https://drive.google.com/file/d/1hehycFUbHL62oWO_ha_xQMGmWTobcfXx/view?usp=drive_link), dann musst du das `data`-Verzeichnis mit diesen Daten ersetzen.
    - Stelle sicher, dass FFMPEG installiert ist und im PATH-Umgebungsvariable eingetragen ist. [Link zum Herunterladen](https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip)
 
+   ```shell
+   ffmpeg -version
+   ```
 3. **Starte das Engine-Skript:**
-   ```bash
+   ```shell
    python engine.py
    ```
 
