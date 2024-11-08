@@ -31,7 +31,7 @@
 
    **Hinweis:**
    - Wenn es zu Fehlermeldungen kommt, kannst du die Pakete manuell installieren.
-   - Wenn du das trainierte Modell benutzen will, [klicke hier](https://drive.google.com/file/d/1hehycFUbHL62oWO_ha_xQMGmWTobcfXx/view?usp=drive_link), dann musst du das `data`-Verzeichnis mit diesen Daten ersetzen.
+   - Wenn du das trainierte Modell benutzen willst, [klicke hier](https://drive.google.com/file/d/1hehycFUbHL62oWO_ha_xQMGmWTobcfXx/view?usp=drive_link), dann musst du das `data`-Verzeichnis mit diesen Daten ersetzen.
    - Stelle sicher, dass FFMPEG installiert ist und im PATH-Umgebungsvariable eingetragen ist. [Link zum Herunterladen](https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip)
 
    ```shell
