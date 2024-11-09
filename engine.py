@@ -13,6 +13,8 @@ import config
 from utils.audio import Audio
 import os
 import sys
+import warnings
+warnings.filterwarnings("ignore")
 
 class Engine:
     def __init__(self):

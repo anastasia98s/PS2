@@ -41,7 +41,6 @@
 
    **Hinweis:**
    - Wenn es zu Fehlermeldungen kommt, kannst du die Pakete manuell installieren. *(Ich benutze Python 3.11.9 und 3.12.1 ohne Probleme)*
-   - Wenn du das **trainierte Modell** benutzen willst, [Link zum Herunterladen](https://drive.google.com/file/d/1hehycFUbHL62oWO_ha_xQMGmWTobcfXx/view?usp=drive_link), dann musst du das `data`-Verzeichnis mit diesen Daten ersetzen.
    - Stelle sicher, dass FFMPEG installiert ist und im PATH-Umgebungsvariable eingetragen ist. [Link zum Herunterladen](https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip)
 
    ```shell
@@ -52,35 +51,38 @@
    python engine.py
    ```
 
+   **Hinweis:**
+   - Wenn du das **trainierte Modell** benutzen willst, [Link zum Herunterladen](https://drive.google.com/file/d/1hehycFUbHL62oWO_ha_xQMGmWTobcfXx/view?usp=drive_link), dann musst du das `data`-Verzeichnis durch diese Daten richtig ersetzen.
+
 ## To-Do-List Befehle
-- Hey Molly, Trage ein Meeting für morgen am Nachmittag ein!
-- Hey Molly, Trage ein Meeting am Freitag um 12 Uhr ein!
-- Hey Molly, Füge ein Jogging heute hinzu!
-- Hey Molly, Setze einen Arzttermin am Freitag in To-Do-Liste!
-- Hey Molly, Was habe ich heute?
-- Molly, Was habe ich am Freitag?
-- Molly, Wann ist mein Meeting am morgen?
-- Molly, Kannst du mein Meeting morgen um 12 Uhr löschen?
-- Molly, Kannst du mein heutes Meeting entfernen?
+- Hey Molly, trage ein Meeting für morgen am Nachmittag ein!
+- Hey Molly, trage ein Meeting am Freitag um 12 Uhr ein!
+- Hey Molly, füge ein Jogging heute Abend hinzu!
+- Hey Molly, setze einen Arzttermin am Freitag um 13 Uhr in To-Do-Liste!
+- Hey Molly, was habe ich heute?
+- Was habe ich am Freitag, Molly?
+- wann ist mein Meeting am morgen, Molly?
+- Molly, kannst du mein Meeting morgen um 12 Uhr löschen?
+- Molly, kannst du mein heutes Meeting entfernen?
 - Molly, lösche mein Meetting für Freitag!
 
 ## Wetter-Befehle
 - Hey Molly, wie ist das Wetter um 12 Uhr heute?
 - Hey Molly, wie ist das Wetter am Dienstag?
-- Hey Molly, wie wird das Wetter übermorgen?
+- wie wird das Wetter übermorgen, Molly?
 - Molly, zeig mir das Wetter für heute Abend.
 - Molly, wie wird das Wetter in Berlin?
 
 ## Datum-Befehle
 - Hey Molly, welches Datum haben wir heute?
 - Hey Molly, welches Datum war gestern?
-- Molly, was ist das Datum übermorgen?
+- Was ist das Datum übermorgen, Molly?
 - Molly, welches Datum hat der Donnerstag?
 
 ## Uhrzeit-Befehle
 - Hey Molly, wie spät ist es jetzt?
 - Hey Molly, wie viel Uhr ist es?
-- Molly, wie viel Uhr ist es in Berlin?
+- Wie viel Uhr ist es in Berlin, Molly?
 - Molly, welche Uhrzeit haben wir in New York?
 
 ## Studienordnung Befehle
