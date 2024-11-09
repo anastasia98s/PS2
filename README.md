@@ -54,34 +54,34 @@
    - Befehle eingeben
 
 ## To-Do-List Befehle
-- **Hey Molly, Trage ein Meeting für morgen am Nachmittag ein!**
-- **Hey Molly, Trage ein Meeting am Freitag um 12 Uhr ein!**
-- **Hey Molly, Füge ein Jogging heute hinzu!**
-- **Hey Molly, Setze einen Arzttermin am Freitag in To-Do-Liste!**
-- **Hey Molly, Was habe ich heute?**
-- **Molly, Was habe ich am Freitag?**
-- **Molly, Wann ist mein Meeting am morgen?**
-- **Molly, Kannst du mein Meeting morgen um 12 Uhr löschen?**
-- **Molly, Kannst du mein heutes Meeting entfernen?**
-- **Molly, lösche mein Meetting für Freitag!**
+- Hey Molly, Trage ein Meeting für morgen am Nachmittag ein!
+- Hey Molly, Trage ein Meeting am Freitag um 12 Uhr ein!
+- Hey Molly, Füge ein Jogging heute hinzu!
+- Hey Molly, Setze einen Arzttermin am Freitag in To-Do-Liste!
+- Hey Molly, Was habe ich heute?
+- Molly, Was habe ich am Freitag?
+- Molly, Wann ist mein Meeting am morgen?
+- Molly, Kannst du mein Meeting morgen um 12 Uhr löschen?
+- Molly, Kannst du mein heutes Meeting entfernen?
+- Molly, lösche mein Meetting für Freitag!
 
 ## Wetter-Befehle
-- **Hey Molly, Wie ist das Wetter heute?**
-- **Hey Molly, Wie ist das Wetter am Dienstag?**
-- **Hey Molly, Wie wird das Wetter übermorgen?**
-- **Molly, Zeig mir das Wetter für heute Abend.**
-- **Molly, Wie wird das Wetter in Berlin?**
+- Hey Molly, Wie ist das Wetter heute?
+- Hey Molly, Wie ist das Wetter am Dienstag?
+- Hey Molly, Wie wird das Wetter übermorgen?
+- Molly, Zeig mir das Wetter für heute Abend.
+- Molly, Wie wird das Wetter in Berlin?
 
 ## Datum-Befehle
-- **Hey Molly, Welches Datum haben wir heute?**
-- **Hey Molly, Welches Datum war gestern?**
-- **Molly, Was ist das Datum übermorgen?**
-- **Molly, Welches Datum hat der Donnerstag?**
+- Hey Molly, Welches Datum haben wir heute?
+- Hey Molly, Welches Datum war gestern?
+- Molly, Was ist das Datum übermorgen?
+- Molly, Welches Datum hat der Donnerstag?
 
 ## Uhrzeit-Befehle
-- **Hey Molly, Wie spät ist es jetzt?**
-- **Hey Molly, Wie viel Uhr ist es?**
-- **Molly, Wie viel Uhr ist es in Berlin?**
-- **Molly, Welche Uhrzeit haben wir in New York?**
+- Hey Molly, Wie spät ist es jetzt?
+- Hey Molly, Wie viel Uhr ist es?
+- Molly, Wie viel Uhr ist es in Berlin?
+- Molly, Welche Uhrzeit haben wir in New York?
 
 **Hinweis:** Um ein besseres Modell zu erhalten, kannst du im **Data-Controller** in `main.py` weitere Datensätze eingeben und trainieren.
