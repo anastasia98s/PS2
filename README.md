@@ -1,8 +1,8 @@
 ## Erledigte Aufgaben
 - Benutzer-Authentifizierung (Fingerabdruck einer Stimme) implementiert
 - Textklassifizierung abgeschlossen
-- Intentverteilung erstellt
-- Sprach-zu-Text-Funktionalität integriert
+- Textklassifizierung mit Intents verbunden
+- Sprach-zu-Text-Funktionalität implementiert
 - Text-zu-Sprach-Funktionalität implementiert
 - Wake-Word-Funktionalität implementiert
 - Datenbank erstellt
@@ -12,10 +12,10 @@
 - Datasets/Testdaten zur Benutzerauthentifizierung (wird bei Verwendung automatisch gespeichert)
 
 ## To-Do
-- Multithreading
-- Mikroservice + API + neue Datenbank?
-- Intents "Suchintend?, Studienordnung, Wikipedia" im [Intends Ordner](intends).
-- Mehr Datasets/Testdaten für Textklassifizierung sammeln (für KI-Training).
+- Multithreading implementieren
+- Mikroservice + API + neue Datenbank? erstellen
+- Intents "Suchintend?, Studienordnung, Wikipedia" erstellen. [Intends Ordner](intends).
+- Mehr Datasets/Testdaten für Textklassifizierung sammeln (weitere Datensätze in den **Data-Controller** in `main.py` eingeben).
 
 ## Startanweisungen
 1. **Repository klonen und virtuelle Umgebung einrichten**
