@@ -117,8 +117,10 @@ class Audio:
             if not antwort_text:
                 self.text_to_speech_await("nochmal bitte")
             else:
+                antwort_text = re.sub(r'[.!?]$', '', antwort_text)
+                if '.' in antwort_text:
+                    antwort_text = antwort_text.replace('.', ':')
                 print("Sie haben gesagt: " + antwort_text)
-                antwort_text = re.sub(r'[^a-zA-Z0-9\s]', '', antwort_text)
                 break
 
         return antwort_signal_trim, antwort_text
