@@ -14,7 +14,7 @@
 ## To-Do
 - Multithreading implementieren
 - Mikroservice + API + neue Datenbank? erstellen
-- Intents "Suchintend?, Studienordnung, Wikipedia" erstellen. [Intends Ordner](intends).
+- Intents "Suchintent?, Studienordnung, Wikipedia" erstellen. [Intends Ordner](intends).
 - Mehr Datasets/Testdaten für Textklassifizierung sammeln. *(weitere Datensätze in den **Data-Controller** in `main.py` eingeben)*
 
 ## Startanweisungen
@@ -65,22 +65,31 @@
 - Molly, lösche mein Meetting für Freitag!
 
 ## Wetter-Befehle
-- Hey Molly, Wie ist das Wetter heute?
-- Hey Molly, Wie ist das Wetter am Dienstag?
-- Hey Molly, Wie wird das Wetter übermorgen?
-- Molly, Zeig mir das Wetter für heute Abend.
-- Molly, Wie wird das Wetter in Berlin?
+- Hey Molly, wie ist das Wetter um 12 Uhr heute?
+- Hey Molly, wie ist das Wetter am Dienstag?
+- Hey Molly, wie wird das Wetter übermorgen?
+- Molly, zeig mir das Wetter für heute Abend.
+- Molly, wie wird das Wetter in Berlin?
 
 ## Datum-Befehle
-- Hey Molly, Welches Datum haben wir heute?
-- Hey Molly, Welches Datum war gestern?
-- Molly, Was ist das Datum übermorgen?
-- Molly, Welches Datum hat der Donnerstag?
+- Hey Molly, welches Datum haben wir heute?
+- Hey Molly, welches Datum war gestern?
+- Molly, was ist das Datum übermorgen?
+- Molly, welches Datum hat der Donnerstag?
 
 ## Uhrzeit-Befehle
-- Hey Molly, Wie spät ist es jetzt?
-- Hey Molly, Wie viel Uhr ist es?
-- Molly, Wie viel Uhr ist es in Berlin?
-- Molly, Welche Uhrzeit haben wir in New York?
+- Hey Molly, wie spät ist es jetzt?
+- Hey Molly, wie viel Uhr ist es?
+- Molly, wie viel Uhr ist es in Berlin?
+- Molly, welche Uhrzeit haben wir in New York?
+
+## Studienordnung Befehle
+- TODO
+
+## Wikipedia Befehle
+- TODO
+
+## Suchintent Befehle
+- TODO
 
 **Hinweis:** Um ein besseres Modell zu erhalten, kannst du im **Data-Controller** in `main.py` weitere Datensätze eingeben und trainieren.
