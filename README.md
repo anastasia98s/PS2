@@ -1,15 +1,15 @@
 ## Erledigte Aufgaben
-- Benutzer-Authentifizierung implementiert. *(Fingerabdruck einer Stimme)*
 - Textklassifizierung abgeschlossen
 - Textklassifizierung mit Intents verbunden
-- Sprach-zu-Text-Funktionalität implementiert
-- Text-zu-Sprach-Funktionalität implementiert
-- Wake-Word-Funktionalität implementiert. *(Standard-Wake-Word: **Molly**. oder Wake-Word in `config.py` anpassen)*
+- Speech-zu-Text-Funktionalität implementiert
+- Text-zu-Speech-Funktionalität implementiert
 - Datenbank erstellt
    - [Datenbank für Textklassifizierung (hauptsächlich für Datensatzeditoren)](data/data_controller/model_textklassifizierung.py)
    - [Datenbank für User + To-Do-Liste + Authentifizierung](data/data_controller/model_user.py)
 - Intents "To-Do-Liste, Datum, Wetter, Uhrzeit" abgeschlossen
+- Benutzer-Authentifizierung implementiert. *(Fingerabdruck einer Stimme)*
 - automatische Datasets/Testdaten zur Benutzerauthentifizierung implementiert. *(wird bei Verwendung automatisch gespeichert)*
+- Wake-Word-Funktionalität implementiert. *(Standard-Wake-Word: **Molly**. oder Wake-Word in `config.py` anpassen)*
 
 ## To-Do
 - Multithreading implementieren
@@ -51,7 +51,6 @@
    ```shell
    python engine.py
    ```
-   - Befehle eingeben
 
 ## To-Do-List Befehle
 - Hey Molly, Trage ein Meeting für morgen am Nachmittag ein!
