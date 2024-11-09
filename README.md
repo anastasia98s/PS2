@@ -1,21 +1,21 @@
 ## Erledigte Aufgaben
-- Benutzer-Authentifizierung (Fingerabdruck einer Stimme) implementiert
+- Benutzer-Authentifizierung implementiert. *(Fingerabdruck einer Stimme)*
 - Textklassifizierung abgeschlossen
 - Textklassifizierung mit Intents verbunden
 - Sprach-zu-Text-Funktionalität implementiert
 - Text-zu-Sprach-Funktionalität implementiert
-- Wake-Word-Funktionalität implementiert
+- Wake-Word-Funktionalität implementiert. *(Standard-Wake-Word: **Molly**. oder Wake-Word in `config.py` anpassen)*
 - Datenbank erstellt
    - [Datenbank für Textklassifizierung (hauptsächlich für Datensatzeditoren)](data/data_controller/model_textklassifizierung.py)
    - [Datenbank für User + To-Do-Liste + Authentifizierung](data/data_controller/model_user.py)
 - Intents "To-Do-Liste, Datum, Wetter, Uhrzeit" abgeschlossen
-- Datasets/Testdaten zur Benutzerauthentifizierung (wird bei Verwendung automatisch gespeichert)
+- automatische Datasets/Testdaten zur Benutzerauthentifizierung implementiert. *(wird bei Verwendung automatisch gespeichert)*
 
 ## To-Do
 - Multithreading implementieren
 - Mikroservice + API + neue Datenbank? erstellen
 - Intents "Suchintend?, Studienordnung, Wikipedia" erstellen. [Intends Ordner](intends).
-- Mehr Datasets/Testdaten für Textklassifizierung sammeln (weitere Datensätze in den **Data-Controller** in `main.py` eingeben).
+- Mehr Datasets/Testdaten für Textklassifizierung sammeln. *(weitere Datensätze in den **Data-Controller** in `main.py` eingeben)*
 
 ## Startanweisungen
 1. **Repository klonen und virtuelle Umgebung einrichten**
@@ -40,7 +40,7 @@
    ```
 
    **Hinweis:**
-   - Wenn es zu Fehlermeldungen kommt, kannst du die Pakete manuell installieren.
+   - Wenn es zu Fehlermeldungen kommt, kannst du die Pakete manuell installieren. *(Ich benutze Python 3.11.9 und 3.12.1 ohne Probleme)*
    - Wenn du das **trainierte Modell** benutzen willst, [Link zum Herunterladen](https://drive.google.com/file/d/1hehycFUbHL62oWO_ha_xQMGmWTobcfXx/view?usp=drive_link), dann musst du das `data`-Verzeichnis mit diesen Daten ersetzen.
    - Stelle sicher, dass FFMPEG installiert ist und im PATH-Umgebungsvariable eingetragen ist. [Link zum Herunterladen](https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip)
 
@@ -51,6 +51,7 @@
    ```shell
    python engine.py
    ```
+   - Befehle eingeben
 
 ## To-Do-List Befehle
 - **Hey Molly, Trage ein Meeting für morgen am Nachmittag ein!**
