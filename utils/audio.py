@@ -124,3 +124,27 @@ class Audio:
                 break
 
         return antwort_signal_trim, antwort_text
+    
+    def wake_word_recognize(self, silence_duration, sample_rate):
+        while True:
+            antwort_signal, antwort_signal_trim = self.listen(silence_duration, sample_rate)
+            antwort_text = self.recognize(antwort_signal)
+            print("das Aktivierungswort ist " + config.WAKE_WORD_ARRAY[0])
+            print("Sie haben gesagt: " + antwort_text)
+            if antwort_text:
+                wake_word_pattern = r'\b(?:' + '|'.join(config.WAKE_WORD_ARRAY) + r')\b[.,\s]*'
+                if re.search(wake_word_pattern, antwort_text, flags=re.IGNORECASE):
+                    wake_word_gruesse_pattern = r'\b(?:' + '|'.join(config.WAKE_WORD_ARRAY + config.WAKE_WORD_GRUESSE_ARRAY) + r')\b[.,\s]*'
+                    antwort_text = re.sub(wake_word_gruesse_pattern, '', antwort_text, flags=re.IGNORECASE).strip()
+                    if antwort_text:
+                        antwort_text = re.sub(r'[.!?]$', '', antwort_text)
+                        if '.' in antwort_text:
+                            antwort_text = antwort_text.replace('.', ':')
+                        print("Clean: " + antwort_text)
+                        break
+                    else:
+                        self.text_to_speech_await("Ja?")
+                        self.listen_recognize(silence_duration, sample_rate)
+                        break
+
+        return antwort_signal_trim, antwort_text

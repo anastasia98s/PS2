@@ -73,4 +73,7 @@ ERROR_VARIABLE_ORT = 3
 ERROR_VARIABLE_AKTIVITAET = 4
 
 SPEECH_RECOGNITION_MODELL = "large"
-NO_SPEECH_MAX_NOTEN = 0.5
+NO_SPEECH_MAX_NOTEN = 0.85
+
+WAKE_WORD_ARRAY = ["molly", "moly", "molle", "mole"]
+WAKE_WORD_GRUESSE_ARRAY = ["hello", "hallo", "hey", "hi"]

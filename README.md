@@ -1,37 +1,47 @@
 ## Erledigte Aufgaben
-
-- Benutzer-Authentifizierung implementiert
+- Benutzer-Authentifizierung (Fingerabdruck einer Stimme) implementiert
 - Textklassifizierung abgeschlossen
 - Intentverteilung erstellt
 - Sprach-zu-Text-Funktionalität integriert
 - Text-zu-Sprach-Funktionalität implementiert
+- Wake-Word-Funktionalität implementiert
 - Datenbank erstellt
    - [Datenbank für Textklassifizierung (hauptsächlich für Datensatzeditoren)](data/data_controller/model_textklassifizierung.py)
    - [Datenbank für User + To-Do-Liste + Authentifizierung](data/data_controller/model_user.py)
 - Intents "To-Do-Liste, Datum, Wetter, Uhrzeit" abgeschlossen
+- Datasets/Testdaten zur Benutzerauthentifizierung (wird bei Verwendung automatisch gespeichert)
 
-## ToDo
-- Datenaufbereitung für Intents "Studienordnung, Wikipedia" im [Intends Ordner](intends).
-- Mehr Datasets für Benutzer-Authentifizierung (Stimme) sammeln (für KI-Training).
-- Mehr Datasets für Textklassifizierung sammeln (für KI-Training).
+## To-Do
+- Multithreading
+- Mikroservice + API + neue Datenbank?
+- Intents "Suchintend?, Studienordnung, Wikipedia" im [Intends Ordner](intends).
+- Mehr Datasets/Testdaten für Textklassifizierung sammeln (für KI-Training).
 
 ## Startanweisungen
 1. **Repository klonen und virtuelle Umgebung einrichten**
    ```shell
    git clone -b Nathaniel https://github.com/anastasia98s/PS2.git assistant_ai
+   ```
+   ```shell
    cd assistant_ai
+   ```
+   ```shell
    python -m venv ai_env
+   ```
+   ```shell
    ai_env\Scripts\activate
    ```
 2. **Installiere alle erforderlichen Pakete:**
    ```shell
    pip install -r requirements.txt
+   ```
+   ```shell
    pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
    ```
 
    **Hinweis:**
    - Wenn es zu Fehlermeldungen kommt, kannst du die Pakete manuell installieren.
-   - Wenn du das trainierte Modell benutzen willst, [klicke hier](https://drive.google.com/file/d/1hehycFUbHL62oWO_ha_xQMGmWTobcfXx/view?usp=drive_link), dann musst du das `data`-Verzeichnis mit diesen Daten ersetzen.
+   - Wenn du das **trainierte Modell** benutzen willst, [Link zum Herunterladen](https://drive.google.com/file/d/1hehycFUbHL62oWO_ha_xQMGmWTobcfXx/view?usp=drive_link), dann musst du das `data`-Verzeichnis mit diesen Daten ersetzen.
    - Stelle sicher, dass FFMPEG installiert ist und im PATH-Umgebungsvariable eingetragen ist. [Link zum Herunterladen](https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip)
 
    ```shell
@@ -43,34 +53,34 @@
    ```
 
 ## To-Do-List Befehle
-- **Trage ein Meeting für morgen am Nachmittag ein!**
-- **Trage ein Meeting am Freitag um 12 Uhr ein!**
-- **Füge ein Jogging heute hinzu!**
-- **Setze einen Arzttermin am Freitag in To-Do-Liste!**
-- **Was habe ich heute?**
-- **Was habe ich am Freitag?**
-- **Wann ist mein Meeting am morgen?**
-- **Kannst du mein Meeting morgen um 12 Uhr löschen?**
-- **Kannst du mein heutes Meeting entfernen?**
-- **lösche mein Meetting für Freitag!**
+- **Hey Molly, Trage ein Meeting für morgen am Nachmittag ein!**
+- **Hey Molly, Trage ein Meeting am Freitag um 12 Uhr ein!**
+- **Hey Molly, Füge ein Jogging heute hinzu!**
+- **Hey Molly, Setze einen Arzttermin am Freitag in To-Do-Liste!**
+- **Hey Molly, Was habe ich heute?**
+- **Molly, Was habe ich am Freitag?**
+- **Molly, Wann ist mein Meeting am morgen?**
+- **Molly, Kannst du mein Meeting morgen um 12 Uhr löschen?**
+- **Molly, Kannst du mein heutes Meeting entfernen?**
+- **Molly, lösche mein Meetting für Freitag!**
 
 ## Wetter-Befehle
-- **Wie ist das Wetter heute?**
-- **Wie ist das Wetter am Dienstag?**
-- **Wie wird das Wetter übermorgen?**
-- **Zeig mir das Wetter für heute Abend.**
-- **Wie wird das Wetter in Berlin?**
+- **Hey Molly, Wie ist das Wetter heute?**
+- **Hey Molly, Wie ist das Wetter am Dienstag?**
+- **Hey Molly, Wie wird das Wetter übermorgen?**
+- **Molly, Zeig mir das Wetter für heute Abend.**
+- **Molly, Wie wird das Wetter in Berlin?**
 
 ## Datum-Befehle
-- **Welches Datum haben wir heute?**
-- **Welches Datum war gestern?**
-- **Was ist das Datum übermorgen?**
-- **Welches Datum hat der Donnerstag?**
+- **Hey Molly, Welches Datum haben wir heute?**
+- **Hey Molly, Welches Datum war gestern?**
+- **Molly, Was ist das Datum übermorgen?**
+- **Molly, Welches Datum hat der Donnerstag?**
 
 ## Uhrzeit-Befehle
-- **Wie spät ist es jetzt?**
-- **Wie viel Uhr ist es?**
-- **Wie viel Uhr ist es in Berlin?**
-- **Welche Uhrzeit haben wir in New York?**
+- **Hey Molly, Wie spät ist es jetzt?**
+- **Hey Molly, Wie viel Uhr ist es?**
+- **Molly, Wie viel Uhr ist es in Berlin?**
+- **Molly, Welche Uhrzeit haben wir in New York?**
 
 **Hinweis:** Um ein besseres Modell zu erhalten, kannst du im **Data-Controller** in `main.py` weitere Datensätze eingeben und trainieren.

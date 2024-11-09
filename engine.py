@@ -35,17 +35,17 @@ class Engine:
         wd_text = "nochmal " if not neue_daten_abfragen else ""
         
         variable_typen = {
-            config.ERROR_VARIABLE_DATUM: "Datum",
-            config.ERROR_VARIABLE_ZEIT: "Zeit",
-            config.ERROR_VARIABLE_ORT: "Ort",
-            config.ERROR_VARIABLE_AKTIVITAET: "Aktivität"
+            config.ERROR_VARIABLE_DATUM: "das Datum",
+            config.ERROR_VARIABLE_ZEIT: "die Zeit",
+            config.ERROR_VARIABLE_ORT: "der Ort",
+            config.ERROR_VARIABLE_AKTIVITAET: "die Aktivität oder den Terminnamen"
         }
 
         variable_name = variable_typen.get(errortyp)
         if not variable_name:
             self.audio.text_to_speech("Es gab ein Problem mit dem System. Bitte versuche es erneut.")
             sys.exit("Das Programm wird beendet.")
-        return self.dialog(0.5, f"Kannst du das {variable_name} {wd_text}sagen?")
+        return self.dialog(0.5, f"Kannst du {variable_name} {wd_text}sagen?")
     
     def intent_filter(self, absicht, szenario, anmerkungen, anmerkungen_label, user_id):
         v_thema = []
@@ -198,9 +198,9 @@ class Engine:
     
     def start(self):
         benutzer_id = None
-        self.audio.text_to_speech_await("Hallo, wie kann ich dir helfen?")
+        self.audio.text_to_speech_await("das Aktivierungswort ist " + config.WAKE_WORD_ARRAY[0])
         while True:
-            antwort_befehl_signal, antwort_befehl_text = self.audio.listen_recognize(2, config.AUDIO_SAMPLE_RATE)
+            antwort_befehl_signal, antwort_befehl_text = self.audio.wake_word_recognize(3, config.AUDIO_SAMPLE_RATE)
             
             if self.predictor_user and benutzer_id is None: # wenn es auth.pth gibt
                 name_index, name_label = self.predictor_user.predict(antwort_befehl_signal)

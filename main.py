@@ -4,21 +4,17 @@ from data.data_controller.model_textklassifizierung import ModelTextklassifizier
 from data.data_controller.view import View
 from data.data_controller.presenter import Presenter
 
-from utils.audio import Audio
 from nn_textklassifizierung.predictor import Predictor as PredictorText
 from nn_textklassifizierung import train as train_text
 from nn_authentifizierung import train as train_merkmale
-from nn_authentifizierung.predictor import Predictor as PredictorUser
 import config
 
 def main():
-    audio = Audio()
     while True:
         print("\nBitte wähle eine Option:")
         print("1. AI Textklassifizierung")
         print("2. AI Authentifizierung")
-        print("3. Predict All")
-        print("4. Beenden")
+        print("3. Beenden")
         auswahl = input("Gib die Nummer der Option ein: ")
         if auswahl == '1':
             while True:
@@ -75,49 +71,14 @@ def main():
                 print("\n==Authentifizierung")
                 print("Bitte wähle eine Option:")
                 print("1. AI Training")
-                print("2. Predict")
-                print("3. züruck")
+                print("2. züruck")
                 auswahl = input("Gib die Nummer der Option ein: ")
                 
                 if auswahl == '1':
                     train_merkmale.train()
                 if auswahl == '2':
-                    predictor_user = PredictorUser(config.AUTHENTIFIZIERUNG_TRAINED_PATH)
-                    signal, signal_trim = audio.listen(5, config.AUDIO_SAMPLE_RATE)
-                    name_indexs, name_label_scores = predictor_user.predict(signal_trim)
-                    print("\n" + "=" * 30)
-                    print(f"Name = {name_label_scores[0][name_indexs].item()} = {name_label_scores[1][name_indexs].item() * 100}%")
-                    print("=" * 30 + "\n")
-                if auswahl == '3':
                     break
         elif auswahl == '3':
-            predictor_text = PredictorText(config.TEXTKLASSIFIZIERUNG_TRAINED_PATH)
-            predictor_user = PredictorUser(config.AUTHENTIFIZIERUNG_TRAINED_PATH)
-            signal, signal_trim = audio.listen(5, config.AUDIO_SAMPLE_RATE)
-            text = audio.recognize(signal, config.AUDIO_SAMPLE_RATE)
-            name_indexs, name_label_scores = predictor_user.predict(signal_trim)
-            print("\n" + "=" * 30)
-            print(f"Name = {name_label_scores[0][name_indexs].item()} = {name_label_scores[1][name_indexs].item() * 100}%")
-            print("=" * 30)
-
-            (
-                anmerkung_satz_labels,
-                woerter_anmerkungen,
-                absicht_satz_labels,
-                absicht_class_scores,
-                szenario_satz_labels,
-                szenario_class_scores) = predictor_text.predict(text)
-            
-            print("\n\n" + "=" * 30)
-            satz_length = len(woerter_anmerkungen[0])
-            for i in range(satz_length):
-                print(f"{woerter_anmerkungen[1][i]} = {anmerkung_satz_labels[woerter_anmerkungen[0][i]]} = {woerter_anmerkungen[2][i][woerter_anmerkungen[0][i]] * 100}%")
-            print("=" * 30)
-            print(f"absicht = {absicht_class_scores[0][absicht_satz_labels]} = {absicht_class_scores[1][absicht_satz_labels] * 100}%")
-            print("=" * 30)
-            print(f"szenario = {szenario_class_scores[0][szenario_satz_labels]} = {szenario_class_scores[1][szenario_satz_labels] * 100}%")
-            print("=" * 30 + "\n\n")
-        elif auswahl == '4':
             break
         else:
             print("Ungültige Auswahl, bitte versuche es erneut.")
