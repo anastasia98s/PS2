@@ -17,7 +17,7 @@
 - Intents "Suchintent?, Studienordnung, Wikipedia" erstellen. [Intends Ordner](intends).
 - Mehr Datasets/Testdaten für Textklassifizierung sammeln. *(weitere Datensätze in den **Data-Controller** in `main.py` eingeben)*
 
-## Startanweisungen
+## Startanweisungen (9 GB Speicherplatz erforderlich)
 1. **Repository klonen und virtuelle Umgebung einrichten**
    ```shell
    git clone -b Nathaniel https://github.com/anastasia98s/PS2.git assistant_ai
