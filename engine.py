@@ -194,13 +194,13 @@ class Engine:
             self.model_user.add_merkmale(benutzer_id, features)
             
     def dialog(self, silence_duration, satz):
-        self.audio.text_to_speech_await(satz) # self.audio.text_to_speech(satz)
+        self.audio.text_to_speech(satz) # self.audio.text_to_speech(satz)
         _, antwort_text = self.audio.listen_recognize(silence_duration, config.AUDIO_SAMPLE_RATE)
         return antwort_text
     
     def start(self):
         benutzer_id = None
-        self.audio.text_to_speech_await("das Aktivierungswort ist " + config.WAKE_WORD_ARRAY[0])
+        self.audio.text_to_speech("das Aktivierungswort ist " + config.WAKE_WORD_ARRAY[0])
         while True:
             antwort_befehl_signal, antwort_befehl_text = self.audio.wake_word_recognize(3, config.AUDIO_SAMPLE_RATE)
             
@@ -236,7 +236,7 @@ class Engine:
                     if antwort_text:
                         benutzer_id = self.model_user.add_benutzer(antwort_text)
                 else:
-                    self.audio.text_to_speech_await("Sie müssen ein Konto haben.")
+                    self.audio.text_to_speech("Sie müssen ein Konto haben.")
             
             if benutzer_id:
                 self.save_features(antwort_befehl_signal, benutzer_id)

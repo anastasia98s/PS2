@@ -1,4 +1,3 @@
-#from datetime import datetime, timedelta
 from intends.datenkonverter import Datenkonverter
 
 class DatumIntent(Datenkonverter):
@@ -10,6 +9,6 @@ class DatumIntent(Datenkonverter):
         if not datum:
             return None, errortyp
         else:
-            datum = datum.strftime("%Y-%m-%d")
+            datum = datum.strftime("%d. %B %Y")
             
         return f"{i_datum} ist {datum}", None

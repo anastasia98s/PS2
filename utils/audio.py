@@ -1,6 +1,5 @@
 import wave
 import numpy as np
-# from gtts import gTTS
 import pyttsx3
 import os
 import config
@@ -99,17 +98,6 @@ class Audio:
             return None
                 
     def text_to_speech(self, satz):
-        # !!gtts ist Online!!
-        # folder_path = os.path.dirname(config.RECORD_TMP_PATH)
-        # os.makedirs(folder_path, exist_ok=True)
-
-        # tts = gTTS(text=satz, lang='de')
-        # tts.save(config.RECORD_TMP_PATH)
-        # os.system("start " + config.RECORD_TMP_PATH)
-
-        self.text_to_speech_await(satz)
-
-    def text_to_speech_await(self, satz):
         self.pyttsx3.setProperty('rate', 150)
         self.pyttsx3.setProperty('volume', 1)
         self.pyttsx3.say(satz)
@@ -128,7 +116,7 @@ class Audio:
             antwort_signal, antwort_signal_trim = self.listen(silence_duration, sample_rate)
             antwort_text = self.recognize(antwort_signal)
             if not antwort_text:
-                self.text_to_speech_await("nochmal bitte")
+                self.text_to_speech("nochmal bitte")
             else:
                 antwort_text = re.sub(r'[.!?]$', '', antwort_text)
                 antwort_text = re.sub(r'(\bum\s*)(\d{1,2})\.(\d{1,2})(?!\s*Uhr)', r'\1\2:\3', antwort_text)
@@ -152,7 +140,7 @@ class Audio:
                     if antwort_text:
                         break
                     else:
-                        self.text_to_speech_await("Ja?")
+                        self.text_to_speech("Ja?")
                         self.listen_recognize(silence_duration, sample_rate)
                         break
 
