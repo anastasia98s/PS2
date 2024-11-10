@@ -40,14 +40,14 @@ class Engine:
             config.ERROR_VARIABLE_DATUM: "das Datum",
             config.ERROR_VARIABLE_ZEIT: "die Zeit",
             config.ERROR_VARIABLE_ORT: "der Ort",
-            config.ERROR_VARIABLE_AKTIVITAET: "die Aktivität oder den Terminnamen"
+            config.ERROR_VARIABLE_AKTIVITAET: "den Terminnamen oder die Aktivität"
         }
 
         variable_name = variable_typen.get(errortyp)
         if not variable_name:
             self.audio.text_to_speech("Es gab ein Problem mit dem System. Bitte versuche es erneut.")
             sys.exit("Das Programm wird beendet.")
-        return self.dialog(0.5, f"Kannst du {variable_name} {wd_text}sagen?")
+        return self.dialog(1, f"Kannst du {variable_name} {wd_text}sagen?")
     
     def intent_filter(self, absicht, szenario, anmerkungen, anmerkungen_label, user_id):
         v_thema = []

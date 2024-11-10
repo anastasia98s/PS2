@@ -60,16 +60,19 @@
 - Hey Molly, füge ein Jogging heute Abend hinzu!
 - Hey Molly, setze einen Arzttermin am Freitag um 13 Uhr in To-Do-Liste!
 - Hey Molly, was habe ich heute?
+- Hey Molly, was habe ich am 02. Dezember?
 - Was habe ich am Freitag, Molly?
-- wann ist mein Meeting am morgen, Molly?
+- wann ist mein Meeting morgen früh, Molly?
 - Molly, kannst du mein Meeting morgen um 12 Uhr löschen?
 - Molly, kannst du mein heutes Meeting entfernen?
 - Molly, lösche mein Meetting für Freitag!
 
 ## Wetter-Befehle
-- Hey Molly, wie ist das Wetter um 12 Uhr heute?
+- Hey Molly, wie ist das Wetter um 12 Uhr am 11.12?
+- Hey Molly, wie ist das Wetter um 12 Uhr am 11. Dezember 2024?
 - Hey Molly, wie ist das Wetter am Dienstag?
 - wie wird das Wetter übermorgen, Molly?
+- Molly, wie wird das Wetter morgen um 12:30 in Rio de Janeiro?
 - Molly, zeig mir das Wetter für heute Abend.
 - Molly, wie wird das Wetter in Berlin?
 

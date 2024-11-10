@@ -129,6 +129,7 @@ class Audio:
                 self.text_to_speech_await("nochmal bitte")
             else:
                 antwort_text = re.sub(r'[.!?]$', '', antwort_text)
+                antwort_text = re.sub(r'(\bum\s*)(\d{1,2})\.(\d{1,2})(?!\s*Uhr)', r'\1\2:\3', antwort_text)
                 print("Sie haben gesagt: " + antwort_text)
                 break
 
@@ -145,6 +146,7 @@ class Audio:
                     wake_word_gruesse_pattern = r'\b(?:' + '|'.join(config.WAKE_WORD_ARRAY + config.WAKE_WORD_GRUESSE_ARRAY) + r')\b[.,\s]*'
                     antwort_text = re.sub(wake_word_gruesse_pattern, '', antwort_text, flags=re.IGNORECASE).strip()
                     antwort_text = re.sub(r'[.!?,]$', '', antwort_text)
+                    antwort_text = re.sub(r'(\bum\s*)(\d{1,2})\.(\d{1,2})(?!\s*Uhr)', r'\1\2:\3', antwort_text)
                     if antwort_text:
                         break
                     else:

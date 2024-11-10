@@ -185,7 +185,9 @@ head = r"""
                 const satz_text = form_satz.elements["satz_text"].value.trim().replace(/\s+/g, ' ');
                 if (satz_text.length > 0) {
                     const ki_checkbox = form_satz.elements["ki_checkbox"];
-                    let anmerkungen_ids_ai_preds;
+                    let anmerkungen_ids_ai_preds = [];
+                    const woerter_array = satz_text.split(" ");
+
                     if (ki_checkbox.checked) {
                         const ki_antwort = await ask_ki_hilfe(satz_text);
                         woerter_array_editor.innerHTML = '';
@@ -195,8 +197,38 @@ head = r"""
                         absicht_select.value = ki_antwort.absicht;
                         szenario_select.value = ki_antwort.szenario;
                         anmerkungen_ids_ai_preds = ki_antwort.anmerkungen_ids;
+
+                        /*
+                                const woerter_array_ki = ki_antwort.anmerkungen_text;
+
+                                const normalizeText = (text) => {
+                                    return text
+                                        .replace(/ä/g, "a")
+                                        .replace(/ö/g, "o")
+                                        .replace(/ü/g, "u")
+                                };
+
+                                const normalized_woerter_array = woerter_array.map(normalizeText);
+
+                                let usedIndices = [];
+
+                                const anmerkungen_end_result = normalized_woerter_array.map((aElement) => {
+                                    const matchIndex = woerter_array_ki.findIndex((bElement, bIndex) => {
+                                        return aElement.slice(0, 2).toLowerCase() === bElement.slice(0, 2).toLowerCase() && !usedIndices.includes(bIndex);
+                                    });
+
+                                    if (matchIndex !== -1) {
+                                        usedIndices.push(matchIndex);
+                                        return anmerkungen_ids_ai_preds[matchIndex];
+                                    } else {
+                                        return "";
+                                    }
+                                });
+                                information_bar(anmerkungen_end_result);
+                                anmerkungen_ids_ai_preds = anmerkungen_end_result;
+                        */
                     }
-                    const woerter_array = satz_text.split(" ");
+
                     woerter_array.forEach((wort, index) => {
                         const wortObject = {
                             wort: wort,
@@ -225,7 +257,7 @@ head = r"""
                             selectElement.appendChild(optionElement);
                         });
 
-                        if (anmerkungen_ids_ai_preds){
+                        if (anmerkungen_ids_ai_preds[index]){
                             selectElement.value = anmerkungen_ids_ai_preds[index];
                             wortObject.anmerkung_id = selectElement.value;
                         }

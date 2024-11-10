@@ -119,7 +119,7 @@ def get_data(data_path):
 
     for idx, row in df.iterrows():
         token_ids = tokenizer.encode(row['woerter'], add_special_tokens=False)
-        for idx1, token_id in enumerate(token_ids):  # Ganti di sini untuk mendapatkan indeks token
+        for idx1, token_id in enumerate(token_ids):
             if idx1 == 0:
                 df.at[idx, 'woerter'] = token_id
             else:

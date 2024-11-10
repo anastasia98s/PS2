@@ -35,18 +35,24 @@ class Predictor:
         y_hat = torch.argmax(probs, dim=1)
         return probs.numpy(), y_hat.numpy()
 
-    def process_satz(self,satz):
+    def process_satz(self, satz):
         satz = str(satz)
-        satz = " ".join(satz.split())
-        inputs = self.tokenizer.encode_plus(satz, None, add_special_tokens=True, truncation=True, max_length=self.max_len)
+        woerter = " ".join(satz.split()).split()
+
+        tokenized_ids = []
+        woerter_data_array = []
+
+        for wort in woerter:
+            token_ids = self.tokenizer.encode(wort, add_special_tokens=False)
+            token_len = len(token_ids)
+            tokenized_ids.extend(token_ids)
+            woerter_data_array.append((wort, token_len))
         
-        tokenized_ids = inputs['input_ids']
-        mask = inputs['attention_mask']
-        token_type_ids = inputs['token_type_ids']
-        wort_pieces = self.tokenizer.decode(inputs['input_ids']).split()[1:-1]
+        tokenized_ids = tokenized_ids[:self.max_len-2]
+        tokenized_ids = [101] + tokenized_ids + [102]
+        mask, token_type_ids = [1]*len(tokenized_ids), [0]*len(tokenized_ids)
 
         padding_len = self.max_len - len(tokenized_ids)
-            
         ids = tokenized_ids + ([0] * padding_len)
         mask = mask + ([0] * padding_len)
         token_type_ids = token_type_ids + ([0] * padding_len)
@@ -54,24 +60,31 @@ class Predictor:
         ids = torch.tensor(ids,dtype=torch.long).unsqueeze(0).to(self.device)
         mask = torch.tensor(mask, dtype=torch.long).unsqueeze(0).to(self.device)
         token_type_ids = torch.tensor(token_type_ids, dtype=torch.long).unsqueeze(0).to(self.device)
-        return ids, mask, token_type_ids, tokenized_ids, wort_pieces
+
+        return ids, mask, token_type_ids, tokenized_ids, woerter_data_array
     
     def satz_prediction(self, ids, mask, token_type_ids):
         with torch.no_grad():
             anmerkung_lg,absicht_lg,szenario_lg  = self.model(ids,mask,token_type_ids)
         return anmerkung_lg, absicht_lg, szenario_lg
         
-    def anmerkung_extraction(self, anmerkung_lg, tokenized_ids, wort_pieces):
+    def anmerkung_extraction(self, anmerkung_lg, tokenized_ids, woerter_data_array):
         anmerkung_scores, anmerkung_preds = self.to_yhat(anmerkung_lg)
         anmerkung_scores = anmerkung_scores[1:len(tokenized_ids)-1, :]
 
         anmerkung_indexs = anmerkung_preds[1:len(tokenized_ids)-1]
-        len_wort = len(wort_pieces)
 
-        anmerkung_indexs = anmerkung_indexs[:len_wort]
-        anmerkung_scores = anmerkung_scores[:len_wort]
+        trim_anmerkung_indexs = []
+        trim_anmerkung_scores = []
+        trim_index = 0
+        for wort_data in woerter_data_array:
+            _, wort_len = wort_data
 
-        return anmerkung_indexs, anmerkung_scores
+            trim_anmerkung_indexs.append(anmerkung_indexs[trim_index])
+            trim_anmerkung_scores.append(anmerkung_scores[trim_index])
+            trim_index += wort_len
+
+        return trim_anmerkung_indexs, trim_anmerkung_scores
         
     def classification(self, logits, typ='absicht'):
 
@@ -86,17 +99,18 @@ class Predictor:
     
     def predict(self, satz):
         
-        ids,mask, token_type_ids, tokenized_ids, wort_pieces = self.process_satz(satz)
+        ids, mask, token_type_ids, tokenized_ids, woerter_data_array = self.process_satz(satz)
 
-        anmerkung_lg, absicht_lg, szenario_lg = self.satz_prediction(ids,mask,token_type_ids)
+        anmerkung_lg, absicht_lg, szenario_lg = self.satz_prediction(ids, mask, token_type_ids)
 
-        anmerkung_indexs, anmerkung_scores = self.anmerkung_extraction(anmerkung_lg, tokenized_ids, wort_pieces)
+        anmerkung_indexs, anmerkung_scores = self.anmerkung_extraction(anmerkung_lg, tokenized_ids, woerter_data_array)
 
         absicht_label_index, absichten_class_scores = self.classification(absicht_lg, typ='absicht')
         szenario_label_index, szenarios_class_scores = self.classification(szenario_lg, typ='szenario')
-             
+
+        woerter_array = [wort for wort, _ in woerter_data_array]
         return (self.encoder_anmerkung.classes_,
-                [anmerkung_indexs, wort_pieces, anmerkung_scores],
+                [anmerkung_indexs, woerter_array, anmerkung_scores],
                 absicht_label_index[0],
                 absichten_class_scores,
                 szenario_label_index[0],

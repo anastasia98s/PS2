@@ -241,15 +241,17 @@ class Presenter:
         
         absicht_id = int(absicht_class_scores[0][absicht_satz_labels])
         szenario_id = int(szenario_class_scores[0][szenario_satz_labels])
-        anmerkungen_ids = woerter_anmerkungen[0].tolist()
+        anmerkungen_ids = woerter_anmerkungen[0]
+        anmerkungen_text = woerter_anmerkungen[1]
 
         for i in range(len(anmerkungen_ids)):
             anmerkungen_ids[i] = int(abs(anmerkung_satz_labels[anmerkungen_ids[i]]))
-
+        
         json_preds = {
             "absicht": absicht_id,
             "szenario": szenario_id,
-            "anmerkungen_ids": anmerkungen_ids
+            "anmerkungen_ids": anmerkungen_ids,
+            "anmerkungen_text": anmerkungen_text
         }
         return json.dumps(json_preds)
     

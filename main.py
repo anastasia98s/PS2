@@ -45,13 +45,7 @@ def main():
                         if text == "quit":
                             break
 
-                        (
-                            anmerkung_satz_labels,
-                            woerter_anmerkungen,
-                            absicht_satz_labels,
-                            absicht_class_scores,
-                            szenario_satz_labels,
-                            szenario_class_scores) = predictor_text.predict(text)
+                        anmerkung_satz_labels, woerter_anmerkungen, absicht_satz_labels, absicht_class_scores, szenario_satz_labels, szenario_class_scores = predictor_text.predict(text)
                         
                         print("\n\n" + "=" * 30)
                         satz_length = len(woerter_anmerkungen[0])

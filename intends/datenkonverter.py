@@ -46,25 +46,47 @@ class Datenkonverter:
         try:
             # dd.mm
             if len(datum.split('.')) == 2:
-                datum = datum + f".{jetzt.year}"
-                return datetime.strptime(datum, "%d.%m.%Y"), None
+                e_datum = datum + f".{jetzt.year}"
+                return datetime.strptime(e_datum, "%d.%m.%Y"), None
         except ValueError:
             pass
 
         try:
-            # dd B
+            # dd.mm.
+            if len(datum.split('.')) == 3:
+                e_datum = datum + str(jetzt.year)
+                return datetime.strptime(e_datum, "%d.%m.%Y"), None
+        except ValueError:
+            pass
+
+        try:
+            # dd B (20 Oktober)
             if len(datum.split()) == 2:
-                datum = datum + f" {jetzt.year}"
-            return datetime.strptime(datum, "%d %B %Y"), None
-        
+                e_datum = datum + f" {jetzt.year}"
+                return datetime.strptime(e_datum, "%d %B %Y"), None
+        except ValueError:
+            pass
+
+        try:
+            if len(datum.split()) == 2:
+                # dd. B ohne y (20. Oktober)
+                e_datum = datum + f" {jetzt.year}"
+                return datetime.strptime(e_datum, "%d. %B %Y"), None
+        except ValueError:
+            pass
+
+        try:
+            if len(datum.split()) == 3:
+                # dd B yyyy (20 Oktober 2025)
+                return datetime.strptime(datum, "%d %B %Y"), None
         except ValueError:
             try:
-                # dd B ohne y
-                datum = datetime.strptime(datum, "%d %B")  
-                return datum.replace(year=jetzt.year), None
+                # dd. B yyyy (20. Oktober 2025)
+                return datetime.strptime(datum, "%d. %B %Y"), None
             except ValueError:
                 return None, config.ERROR_VARIABLE_DATUM
-                # raise ValueError("Ungültiges Datumsformat. Verwenden Sie 'heute', 'morgen', 'dd.mm', 'dd.mm.yyyy', 'd MMMM' oder 'd MMMM yyyy'.")
+            
+        return None, config.ERROR_VARIABLE_DATUM
     
     def date_zeit_konverter(self, datum, zeit):
         zeitzuordnungen = {
@@ -104,3 +126,9 @@ class Datenkonverter:
             return datum_zeit.strftime("%Y-%m-%dT%H:%M:%S"), None
         except ValueError:
             return None, config.ERROR_VARIABLE_ZEIT
+        
+    def date_text_cleaner(self, text):
+        text = re.sub(r'\bum\b|\buhr\b', '', text, flags=re.IGNORECASE).strip()
+        text = re.sub(r'\bam\b', '', text, flags=re.IGNORECASE).strip()
+        text = re.sub(r'\s+', ' ', text).strip()
+        return text

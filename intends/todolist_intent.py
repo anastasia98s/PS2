@@ -59,18 +59,20 @@ class ToDoListIntent(Datenkonverter):
         datum = None
         if i_aktivitaet:
             if i_datum:
+                t_datum = super().date_text_cleaner(i_datum)
                 if i_zeit:
+                    t_zeit = super().date_text_cleaner(i_zeit)
                     datezeit, errortyp = super().date_zeit_konverter(i_datum, i_zeit)
                     if not datezeit:
                         return None, errortyp
-                    antwort = f"{i_aktivitaet} am {i_datum} um {i_zeit} Uhr wurde in To-Do-List gelöscht"
+                    antwort = f"{i_aktivitaet} am {t_datum} um {t_zeit} Uhr wurde in To-Do-List gelöscht"
                 else:
                     datum, errortyp = super().date_konverter(i_datum)
                     if not datum:
                         return None, errortyp
                     else:
                         datum = datum.strftime("%Y-%m-%d")
-                    antwort = f"Alle {i_aktivitaet} am {i_datum} wurde in To-Do-List gelöscht"
+                    antwort = f"Alle {i_aktivitaet} am {t_datum} wurde in To-Do-List gelöscht"
             else:
                 datezeit = None
                 antwort = f"Alle {i_aktivitaet} wurde in To-Do-List gelöscht"
