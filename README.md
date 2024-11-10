@@ -67,7 +67,7 @@
    - **Zeit abfragen**
       - Hey Molly, wann ist mein Meeting?
    - **Aktivität zu einem bestimmten Zeitpunkt abfragen**
-      - Hey Molly, was habe ich am 12. Oktober/12. Oktober 2025/12.10 um 12 Uhr?
+      - Hey Molly, was habe ich am 12. Oktober um 12 Uhr?
       - Hey Molly, was habe ich heute Nachmittag?
       - Wann ist mein Meeting morgen früh, Molly?
       - Hey Molly, was habe ich um 12:30 Uhr am Freitag?
@@ -75,11 +75,11 @@
       - Hey Molly, was habe ich heute?
       - Hey Molly, was hatte ich (vor)gestern?
       - Was habe ich am Freitag, Molly?
-      - Hey Molly, was habe ich am 02. Dezember?
+      - Hey Molly, was habe ich am 02. Dezember 2025?
 
 - **Löschen**
    - **Alle genannten Aktivitäten löschen**
-      - Hey Molly, kannst du mein Meeting morgen um 12 Uhr löschen?
+      - Hey Molly, löscht mein Meeting!
    - **Alle genannten Aktivitäten an einem Tag löschen**
       - Molly, kannst du mein heutiges Meeting entfernen?
       - Molly, lösche mein Meeting für Freitag!
@@ -88,13 +88,14 @@
 
 ## Wetter-Befehle
 - **Wetter zu einem Zeitpunkt**
-   - Hey Molly, wie ist das Wetter um 12 Uhr am 11.12.?
+   - Hey Molly, wie ist das Wetter am 11.12. um 12 Uhr?
    - Hey Molly, wie ist das Wetter morgen früh?
 
 - **Wetter an einem Datum**
    - Hey Molly, wie ist das Wetter am Dienstag?
    - Hey Molly, wie ist das Wetter heute?
    - Wie wird das Wetter übermorgen, Molly?
+   - Hey Molly, wie ist das Wetter am 11.10?
    - Hey Molly, wie ist das Wetter?
 
 - **Wetter an einem Ort**
