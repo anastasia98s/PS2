@@ -56,12 +56,13 @@ class Audio:
                     silent_chunks = 0
                 else:
                     silent_chunks += len(audio_chunk)
-                    if ((time.time() - recording_start_time) > config.MAX_RECORDING_TIME or silent_chunks > silence_limit) and recording:
-                        print("\nAufnahme beendet")
-                        print("Warte kurz…")
-                        is_recording = False
-                    elif recording:
-                        recording.append(audio_chunk)
+                    if recording_start_time is not None:
+                        if ((time.time() - recording_start_time) > config.MAX_RECORDING_TIME or silent_chunks > silence_limit) and recording:
+                            print("\nAufnahme beendet")
+                            print("Warte kurz…")
+                            is_recording = False
+                        elif recording:
+                            recording.append(audio_chunk)
 
                 last_chunks = audio_chunk
             except KeyboardInterrupt:
