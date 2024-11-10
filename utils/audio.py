@@ -32,8 +32,8 @@ class Audio:
 
         recording_runden = 1
         recording_animation_index = 0
-        recording_start_time = time.time()
-
+        recording_start_time = None
+        
         while is_recording:
             if recording_runden % 5 == 0 or recording_runden == 1:
                 if recording_animation_index == 5:
@@ -50,6 +50,7 @@ class Audio:
                 # print(amplitude)
                 if amplitude > config.AUDIO_THRESHOLD:
                     if not recording and last_chunks is not None:
+                        recording_start_time = time.time()
                         recording.append(last_chunks)
                     recording.append(audio_chunk)
                     silent_chunks = 0
