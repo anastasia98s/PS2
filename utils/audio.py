@@ -1,6 +1,6 @@
 import wave
 import numpy as np
-from gtts import gTTS
+# from gtts import gTTS
 import pyttsx3
 import os
 import config
@@ -13,7 +13,7 @@ class Audio:
     def __init__(self):
         self.recognizer = whisper.load_model(config.SPEECH_RECOGNITION_MODELL, config.DEVICE)
         self.pyttsx3 = pyttsx3.init()
-        self.set_sprache_text_to_speech('Microsoft Hedda Desktop - German')
+        self.set_sprache_text_to_speech(config.MICROSOFT_SPEECH)
 
     def listen(self, silence_duration, sample_rate):
         self.audio = pyaudio.PyAudio()
@@ -87,7 +87,7 @@ class Audio:
     def recognize(self, signal):
         signal = signal.astype(np.float32)
         signal = whisper.pad_or_trim(signal)
-        result = self.recognizer.transcribe(signal, language="de")
+        result = self.recognizer.transcribe(signal, language=config.WHISPER_SPRACHE)
         sr_text = result["text"]
         if sr_text:
             no_speech_prob = result['segments'][0]['no_speech_prob']
@@ -100,12 +100,14 @@ class Audio:
                 
     def text_to_speech(self, satz):
         # !!gtts ist Online!!
-        folder_path = os.path.dirname(config.RECORD_TMP_PATH)
-        os.makedirs(folder_path, exist_ok=True)
+        # folder_path = os.path.dirname(config.RECORD_TMP_PATH)
+        # os.makedirs(folder_path, exist_ok=True)
 
-        tts = gTTS(text=satz, lang='de')
-        tts.save(config.RECORD_TMP_PATH)
-        os.system("start " + config.RECORD_TMP_PATH)
+        # tts = gTTS(text=satz, lang='de')
+        # tts.save(config.RECORD_TMP_PATH)
+        # os.system("start " + config.RECORD_TMP_PATH)
+
+        self.text_to_speech_await(satz)
 
     def text_to_speech_await(self, satz):
         self.pyttsx3.setProperty('rate', 150)

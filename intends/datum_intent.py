@@ -3,7 +3,7 @@ from intends.datenkonverter import Datenkonverter
 
 class DatumIntent(Datenkonverter):
     def __init__(self):
-        pass
+        super().__init__()
     
     def abfragen(self, i_datum): # Welches Datum ist morgen/heute/gestern/am Sonntag..
         datum, errortyp = super().date_konverter(i_datum)

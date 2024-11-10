@@ -10,6 +10,8 @@
 - Benutzer-Authentifizierung implementiert. *(Fingerabdruck einer Stimme)*
 - automatische Datasets/Testdaten zur Benutzerauthentifizierung implementiert. *(wird bei Verwendung automatisch gespeichert)*
 - Wake-Word-Funktionalität implementiert. *(Standard-Wake-Word: **Molly**. oder Wake-Word in `config.py` anpassen)*
+- **trainierte Modell** auf der Cloud hochgeladen. [Link zum Herunterladen](https://drive.google.com/drive/folders/1I27FN5USWLdT6kTXWMWGypINOeeF8oru?usp=drive_link)
+   - *musst du nur das `data`-Verzeichnis durch diese Daten richtig ersetzen.*
 
 ## To-Do
 - Multithreading implementieren
@@ -52,39 +54,62 @@
    ```
 
    **Hinweis:**
-   - Wenn du das **trainierte Modell** benutzen willst, [Link zum Herunterladen](https://drive.google.com/file/d/1hehycFUbHL62oWO_ha_xQMGmWTobcfXx/view?usp=drive_link), dann musst du das `data`-Verzeichnis durch diese Daten richtig ersetzen.
+   - Wenn du das **trainierte Modell** benutzen willst, [Link zum Herunterladen](https://drive.google.com/drive/folders/1I27FN5USWLdT6kTXWMWGypINOeeF8oru?usp=drive_link), dann musst du das `data`-Verzeichnis durch diese Daten richtig ersetzen.
 
 ## To-Do-List Befehle
-- Hey Molly, trage ein Meeting für morgen am Nachmittag ein!
-- Hey Molly, trage ein Meeting am Freitag um 12 Uhr ein!
-- Hey Molly, füge ein Jogging heute Abend hinzu!
-- Hey Molly, setze einen Arzttermin am Freitag um 13 Uhr in To-Do-Liste!
-- Hey Molly, was habe ich heute?
-- Hey Molly, was habe ich am 02. Dezember?
-- Was habe ich am Freitag, Molly?
-- wann ist mein Meeting morgen früh, Molly?
-- Molly, kannst du mein Meeting morgen um 12 Uhr löschen?
-- Molly, kannst du mein heutes Meeting entfernen?
-- Molly, lösche mein Meetting für Freitag!
+- **Eingeben**
+   - Hey Molly, trage ein Meeting für morgen Nachmittag ein!
+   - Hey Molly, trage ein Meeting am Freitag um 12 Uhr ein!
+   - Hey Molly, füge ein Jogging heute Abend hinzu!
+   - Hey Molly, setze einen Arzttermin am Freitag um 13 Uhr in die To-Do-Liste!
+
+- **Abfragen**
+   - **Zeit abfragen**
+      - Hey Molly, wann ist mein Meeting?
+   - **Aktivität zu einem bestimmten Zeitpunkt abfragen**
+      - Hey Molly, was habe ich am 12. Oktober/12. Oktober 2025/12.10 um 12 Uhr?
+      - Hey Molly, was habe ich heute Nachmittag?
+      - Wann ist mein Meeting morgen früh, Molly?
+      - Hey Molly, was habe ich um 12:30 Uhr am Freitag?
+   - **Aktivität an einem bestimmten Datum abfragen**
+      - Hey Molly, was habe ich heute?
+      - Hey Molly, was hatte ich (vor)gestern?
+      - Was habe ich am Freitag, Molly?
+      - Hey Molly, was habe ich am 02. Dezember?
+
+- **Löschen**
+   - **Alle genannten Aktivitäten löschen**
+      - Hey Molly, kannst du mein Meeting morgen um 12 Uhr löschen?
+   - **Alle genannten Aktivitäten an einem Tag löschen**
+      - Molly, kannst du mein heutiges Meeting entfernen?
+      - Molly, lösche mein Meeting für Freitag!
+   - **Bestimmte Aktivität löschen**
+      - Hey Molly, kannst du mein Meeting morgen um 12:10 Uhr löschen?
 
 ## Wetter-Befehle
-- Hey Molly, wie ist das Wetter um 12 Uhr am 11.12?
-- Hey Molly, wie ist das Wetter um 12 Uhr am 11. Dezember 2024?
-- Hey Molly, wie ist das Wetter am Dienstag?
-- wie wird das Wetter übermorgen, Molly?
-- Molly, wie wird das Wetter morgen um 12:30 in Rio de Janeiro?
-- Molly, zeig mir das Wetter für heute Abend.
-- Molly, wie wird das Wetter in Berlin?
+- **Wetter zu einem Zeitpunkt**
+   - Hey Molly, wie ist das Wetter um 12 Uhr am 11.12.?
+   - Hey Molly, wie ist das Wetter morgen früh?
+
+- **Wetter an einem Datum**
+   - Hey Molly, wie ist das Wetter am Dienstag?
+   - Hey Molly, wie ist das Wetter heute?
+   - Wie wird das Wetter übermorgen, Molly?
+   - Hey Molly, wie ist das Wetter?
+
+- **Wetter an einem Ort**
+   - Molly, wie wird das Wetter morgen um 12:30 in Rio de Janeiro?
+   - Molly, zeig mir das Wetter für heute Abend in New York.
+   - Molly, wie wird das Wetter in Berlin?
 
 ## Datum-Befehle
 - Hey Molly, welches Datum haben wir heute?
-- Hey Molly, welches Datum war gestern?
+- Hey Molly, welches Datum war (vor)gestern?
 - Was ist das Datum übermorgen, Molly?
 - Molly, welches Datum hat der Donnerstag?
 
 ## Uhrzeit-Befehle
 - Hey Molly, wie spät ist es jetzt?
-- Hey Molly, wie viel Uhr ist es?
 - Wie viel Uhr ist es in Berlin, Molly?
 - Molly, welche Uhrzeit haben wir in New York?
 

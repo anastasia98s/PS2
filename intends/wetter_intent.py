@@ -4,7 +4,7 @@ from intends.datenkonverter import Datenkonverter
 
 class WetterIntent(Datenkonverter):
     def __init__(self):
-        pass
+        super().__init__()
     
     def abfragen(self, i_zeit, i_datum, i_ort): # Bsp. Wie ist das Wetter um 18 Uhr morgen in Berlin
         #url = f"http://example.com/weather?date={i_datum}&time={i_zeit}&location={i_ort}" # such ein besseres API
