@@ -129,8 +129,6 @@ class Audio:
                 self.text_to_speech_await("nochmal bitte")
             else:
                 antwort_text = re.sub(r'[.!?]$', '', antwort_text)
-                if '.' in antwort_text:
-                    antwort_text = antwort_text.replace('.', ':')
                 print("Sie haben gesagt: " + antwort_text)
                 break
 
@@ -148,10 +146,6 @@ class Audio:
                     antwort_text = re.sub(wake_word_gruesse_pattern, '', antwort_text, flags=re.IGNORECASE).strip()
                     antwort_text = re.sub(r'[.!?,]$', '', antwort_text)
                     if antwort_text:
-                        if '.' in antwort_text:
-                            #antwort_text = antwort_text.replace('.', ':')
-                            antwort_text = re.sub(r"\.(?! )", ":", antwort_text)
-                        # print("Hauptsatz: " + antwort_text)
                         break
                     else:
                         self.text_to_speech_await("Ja?")

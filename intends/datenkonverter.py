@@ -91,8 +91,8 @@ class Datenkonverter:
             if zeit.lower() in zeitzuordnungen:
                 zeit = zeitzuordnungen[zeit.lower()]
             else:
-                """ if '.' in zeit:
-                    zeit = zeit.replace('.', ':') """
+                if '.' in zeit:
+                    zeit = zeit.replace('.', ':')
                 zeit_muster = r'\b(\d{1,2}:\d{2}|\d{1,2})\b'
                 match = re.search(zeit_muster, zeit)
                 if match:
