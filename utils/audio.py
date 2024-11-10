@@ -149,7 +149,8 @@ class Audio:
                     antwort_text = re.sub(r'[.!?,]$', '', antwort_text)
                     if antwort_text:
                         if '.' in antwort_text:
-                            antwort_text = antwort_text.replace('.', ':')
+                            #antwort_text = antwort_text.replace('.', ':')
+                            antwort_text = re.sub(r"\.(?! )", ":", antwort_text)
                         # print("Hauptsatz: " + antwort_text)
                         break
                     else:
