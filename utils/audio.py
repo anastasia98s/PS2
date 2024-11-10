@@ -7,6 +7,7 @@ import librosa
 import whisper
 import re
 import pyaudio
+import time
 
 class Audio:
     def __init__(self):
@@ -31,6 +32,7 @@ class Audio:
 
         recording_runden = 1
         recording_animation_index = 0
+        recording_start_time = time.time()
 
         while is_recording:
             if recording_runden % 5 == 0 or recording_runden == 1:
@@ -53,7 +55,7 @@ class Audio:
                     silent_chunks = 0
                 else:
                     silent_chunks += len(audio_chunk)
-                    if silent_chunks > silence_limit and recording:
+                    if ((time.time() - recording_start_time) > config.MAX_RECORDING_TIME or silent_chunks > silence_limit) and recording:
                         print("\nAufnahme beendet")
                         print("Warte kurz…")
                         is_recording = False
