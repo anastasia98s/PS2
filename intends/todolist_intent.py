@@ -45,7 +45,7 @@ class ToDoListIntent(Datenkonverter):
                 else:
                     datum = datum.strftime("%Y-%m-%d")
         elif not i_aktivitaet:
-            return "Ich verstehe ihre To-Do-Abfrage nicht", None
+            return None, config.ERROR_VARIABLE_AKTIVITAET
         
         to_do_liste = self.model_user.show_todo(i_aktivitaet, datum, datezeit, i_benutzer_id)
         if len(to_do_liste):
