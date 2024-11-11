@@ -100,6 +100,8 @@ class Engine:
                         return intent_result
                     else:
                         t_datum = self.intent_variable_error_reask(error_result)
+                        if any(word in t_datum.lower().split() for word in ["nein", "ne"]):
+                            return "verstehe"
 
             ################################### # wetter
             case (config.SZENARIO_WETTER, config.ABSICHT_ABFRAGEN): # abfragen
@@ -110,10 +112,16 @@ class Engine:
                     else:
                         if error_result == config.ERROR_VARIABLE_DATUM:
                             t_datum = self.intent_variable_error_reask(error_result)
+                            if any(word in t_datum.lower().split() for word in ["nein", "ne"]):
+                                return "verstehe"
                         elif error_result == config.ERROR_VARIABLE_ZEIT:
                             t_zeit = self.intent_variable_error_reask(error_result)
+                            if any(word in t_zeit.lower().split() for word in ["nein", "ne"]):
+                                return "verstehe"
                         elif error_result == config.ERROR_VARIABLE_ORT:
                             t_ort = self.intent_variable_error_reask(error_result)
+                            if any(word in t_ort.lower().split() for word in ["nein", "ne"]):
+                                return "verstehe"
 
             ################################### # studienordnung
             case (config.SZENARIO_STUDIENORDNUNG, config.ABSICHT_ABFRAGEN): # abfragen
@@ -140,14 +148,22 @@ class Engine:
                     else:
                         if error_result == config.ERROR_VARIABLE_DATUM:
                             t_datum = self.intent_variable_error_reask(error_result)
+                            if any(word in t_datum.lower().split() for word in ["nein", "ne"]):
+                                return "verstehe"
                         elif error_result == config.ERROR_VARIABLE_ZEIT:
                             t_zeit = self.intent_variable_error_reask(error_result)
+                            if any(word in t_zeit.lower().split() for word in ["nein", "ne"]):
+                                return "verstehe"
             case (config.SZENARIO_TODO_LIST, config.ABSICHT_EINGEBEN): # hinzufügen
                 
                 if not t_datum:
                     t_datum = self.intent_variable_error_reask(1, True)
+                    if any(word in t_datum.lower().split() for word in ["nein", "ne"]):
+                        return "verstehe"
                 if not t_zeit:
                     t_zeit = self.intent_variable_error_reask(2, True)
+                    if any(word in t_zeit.lower().split() for word in ["nein", "ne"]):
+                        return "verstehe"
 
                 while True:
                     intent_result, error_result = self.todolist_intent.eingeben(t_aktivitaet, t_zeit, t_datum, user_id)
@@ -157,10 +173,16 @@ class Engine:
                     else:
                         if error_result == config.ERROR_VARIABLE_DATUM:
                             t_datum = self.intent_variable_error_reask(error_result)
+                            if any(word in t_datum.lower().split() for word in ["nein", "ne"]):
+                                return "verstehe"
                         elif error_result == config.ERROR_VARIABLE_ZEIT:
                             t_zeit = self.intent_variable_error_reask(error_result)
+                            if any(word in t_zeit.lower().split() for word in ["nein", "ne"]):
+                                return "verstehe"
                         elif error_result == config.ERROR_VARIABLE_AKTIVITAET:
                             t_aktivitaet = self.intent_variable_error_reask(error_result)
+                            if any(word in t_aktivitaet.lower().split() for word in ["nein", "ne"]):
+                                return "verstehe"
 
             case (config.SZENARIO_TODO_LIST, config.ABSICHT_ENTFERNEN): # löschen
                 while True:
@@ -170,10 +192,16 @@ class Engine:
                     else:
                         if error_result == config.ERROR_VARIABLE_DATUM:
                             t_datum = self.intent_variable_error_reask(error_result)
+                            if any(word in t_datum.lower().split() for word in ["nein", "ne"]):
+                                return "verstehe"
                         elif error_result == config.ERROR_VARIABLE_ZEIT:
                             t_zeit = self.intent_variable_error_reask(error_result)
+                            if any(word in t_zeit.lower().split() for word in ["nein", "ne"]):
+                                return "verstehe"
                         elif error_result == config.ERROR_VARIABLE_AKTIVITAET:
                             t_aktivitaet = self.intent_variable_error_reask(error_result)
+                            if any(word in t_aktivitaet.lower().split() for word in ["nein", "ne"]):
+                                return "verstehe"
             case _:
                 return "Ich verstehe dich nicht."
             
