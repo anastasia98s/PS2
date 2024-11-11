@@ -127,8 +127,10 @@ class Datenkonverter:
         except ValueError:
             return None, config.ERROR_VARIABLE_ZEIT
         
-    def date_text_cleaner(self, text):
+    def date_text_cleaner(self, text, zeit=False):
         text = re.sub(r'\bum\b|\buhr\b', '', text, flags=re.IGNORECASE).strip()
         text = re.sub(r'\bam\b', '', text, flags=re.IGNORECASE).strip()
         text = re.sub(r'\s+', ' ', text).strip()
+        if zeit:
+            text = text.replace('.', ':')
         return text

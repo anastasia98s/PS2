@@ -83,9 +83,6 @@ class Engine:
         print(f"Ort: {t_ort}")
         print("============================")
 
-        if t_zeit:
-            t_zeit = t_zeit.replace('.', ':')
-
         match (szenario, absicht):
             ################################### # zeit
             case (config.SZENARIO_UHRZEIT, config.ABSICHT_ABFRAGEN): # abfragen
