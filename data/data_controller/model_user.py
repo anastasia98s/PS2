@@ -132,6 +132,8 @@ class ModelUser:
                     cursor.execute('SELECT * FROM sp_todo WHERE datum = ? AND benutzer_id = ?', (datezeit, benutzer_id))
                 else: # Was habe ich morgen
                     cursor.execute('SELECT * FROM sp_todo WHERE DATE(datum) = ? AND benutzer_id = ?', (datum, benutzer_id))
+            else:
+                cursor.execute('SELECT * FROM sp_todo WHERE benutzer_id = ? ORDER BY datum ASC', (benutzer_id,))
             return cursor.fetchall()
         except Exception as e:
             print(f"Error: {e}")
