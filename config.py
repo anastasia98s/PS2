@@ -52,7 +52,7 @@ TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN = 0.6
 NO_SPEECH_MAX_NOTEN = 0.85
 
 DEFAULT_ORT = "Dresden"
-WAKE_WORD_ARRAY = ["molly", "moly", "molle", "mole", "moli", "molli", "olly"]
+WAKE_WORD_ARRAY = ["molly", "moly", "molle", "mole", "moli", "molli", "olly", "olli", "oly", "oli", "emoli", "morie"]
 WAKE_WORD_GRUESSE_ARRAY = ["hello", "hallo", "hey", "hi"]
 
 #############################################################################

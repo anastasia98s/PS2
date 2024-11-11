@@ -97,7 +97,31 @@ class Datenkonverter:
             "nacht": "22:00",
             "früh": "07:00",
             "spät": "21:00",
-            "vormittag": "10:00"
+            "vormittag": "10:00",
+            "eins": "01:00",
+            "zwei": "02:00",
+            "drei": "03:00",
+            "vier": "04:00",
+            "fünf": "05:00",
+            "sechs": "06:00",
+            "sieben": "07:00",
+            "acht": "08:00",
+            "neun": "09:00",
+            "zehn": "10:00",
+            "elf": "11:00",
+            "zwölf": "12:00",
+            "dreizehn": "13:00",
+            "vierzehn": "14:00",
+            "fünfzehn": "15:00",
+            "sechzehn": "16:00",
+            "siebzehn": "17:00",
+            "achtzehn": "18:00",
+            "neunzehn": "19:00",
+            "zwanzig": "20:00",
+            "einundzwanzig": "21:00",
+            "zweiundzwanzig": "22:00",
+            "dreiundzwanzig": "23:00",
+            "vierundzwanzig": "24:00"
         }
         
         datum, errortyp = self.date_konverter(datum)
