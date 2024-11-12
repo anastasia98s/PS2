@@ -145,7 +145,8 @@ class Audio:
                         break
                     else:
                         self.text_to_speech("Ja?")
-                        self.listen_recognize(silence_duration, sample_rate)
-                        break
+                        antwort_signal_trim, antwort_text = self.listen_recognize(silence_duration, sample_rate)
+                        if antwort_text:
+                            break
 
         return antwort_signal_trim, antwort_text
