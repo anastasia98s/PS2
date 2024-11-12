@@ -127,21 +127,23 @@ def main():
                 speak("Bitte sagen Sie mir die Nummer der Aufgabe, die entfernt werden soll.")
                 task_number = listen()
                 print(task_number)
+                taskid  =  0
 
                 # Convert spoken number to integer
                 if task_number in text_to_number:
-                    task_number = text_to_number[task_number]
+                    taskid = text_to_number[task_number]
+                    print(taskid)
                 else:
                     try:
-                        task_number = int(task_number)  # Try converting to integer directly
+                        taskid = int(taskid)  # Try converting to integer directly
                     except (ValueError, TypeError):
                         speak("Bitte sagen Sie eine gültige Aufgabennummer.")
                         continue  # Skip the rest of the loop if conversion fails
 
                 # Remove the task if the number is valid
-                if task_number is not None and task_number > 0:
+                if taskid is not None and taskid > 0:
                     try:
-                        todo.remove_task(task_number)
+                        todo.remove_task(taskid)
                     except IndexError:
                         speak("Die Aufgabennummer existiert nicht. Bitte versuchen Sie es erneut.")
                 else:

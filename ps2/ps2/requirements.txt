@@ -1,0 +1,8 @@
+pip~=23.2.1
+filelock~=3.16.1
+librosa~=0.10.2.post1
+numpy~=2.0.2
+pyttsx3~=2.98
+SpeechRecognition~=3.10.4
+scikit-learn~=1.5.2
+SQLAlchemy~=2.0.36
