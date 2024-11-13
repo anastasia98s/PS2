@@ -15,7 +15,7 @@
    - *musst du nur das `data`-Verzeichnis durch diese Daten richtig ersetzen.*
 
 ## To-Do
-- Multithreading implementieren
+- Multithreading/Multiprocessing implementieren
 - Mikroservice + API + neue Datenbank? erstellen
 - Intents "Suchintent?, Studienordnung, Wikipedia" erstellen. [Intends Ordner](intends).
 - Mehr Datasets/Testdaten für Textklassifizierung sammeln. *(weitere Datensätze in den **Data-Controller** in `main.py` eingeben)*
