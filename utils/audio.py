@@ -131,35 +131,36 @@ class Audio:
                 self.text_to_speech("nochmal bitte")
             else:
                 antwort_text = re.sub(r'[.!?]$', '', antwort_text)
-                # antwort_text = re.sub(r'(\bum\s*)(\d{1,2})\.(\d{1,2})(?!\s*Uhr)', r'\1\2:\3', antwort_text)
                 print("Sie haben gesagt: " + antwort_text)
                 break
 
         return antwort_signal_trim, antwort_text
     
     def wake_word_recognize(self, silence_duration, sample_rate):
+        self.wake_word_recognize_stoppen.clear()
         global_antwort_text = None
         global_antwort_signal_trim = None
-        self.wake_word_recognize_stoppen.clear()
+        global_antwort_signal = None
         lock = threading.Lock()
-        def recognize_thread(antwort_signal):
-            nonlocal global_antwort_signal_trim, global_antwort_text
+        def recognize_thread():
+            nonlocal global_antwort_signal_trim, global_antwort_text, global_antwort_signal
             with lock:
-                antwort_text = self.recognize(antwort_signal)
-                if antwort_text:
-                    print("\nSie haben gesagt: " + antwort_text)
-                    wake_word_pattern = r'\b(?:' + '|'.join(config.WAKE_WORD_ARRAY) + r')\b[.,\s]*'
-                    if re.search(wake_word_pattern, antwort_text, flags=re.IGNORECASE):
-                        wake_word_gruesse_pattern = r'\b(?:' + '|'.join(config.WAKE_WORD_ARRAY + config.WAKE_WORD_GRUESSE_ARRAY) + r')\b[.,\s]*'
-                        antwort_text = re.sub(wake_word_gruesse_pattern, '', antwort_text, flags=re.IGNORECASE).strip()
-                        global_antwort_text = re.sub(r'[.!?,]$', '', antwort_text)
-                        self.wake_word_recognize_stoppen.set()
+                if global_antwort_signal is not None and global_antwort_signal.any() and not self.wake_word_recognize_stoppen.is_set():
+                    antwort_text = self.recognize(global_antwort_signal)
+                    if antwort_text:
+                        print("\nSie haben gesagt: " + antwort_text)
+                        wake_word_pattern = r'\b(?:' + '|'.join(config.WAKE_WORD_ARRAY) + r')\b[.,\s]*'
+                        if re.search(wake_word_pattern, antwort_text, flags=re.IGNORECASE):
+                            wake_word_gruesse_pattern = r'\b(?:' + '|'.join(config.WAKE_WORD_ARRAY + config.WAKE_WORD_GRUESSE_ARRAY) + r')\b[.,\s]*'
+                            antwort_text = re.sub(wake_word_gruesse_pattern, '', antwort_text, flags=re.IGNORECASE).strip()
+                            global_antwort_text = re.sub(r'[.!?,]$', '', antwort_text)
+                            self.wake_word_recognize_stoppen.set()
         threads = []
         while True:
-            antwort_signal, tmp_global_antwort_signal_trim = self.listen(silence_duration, sample_rate)
+            global_antwort_signal, tmp_global_antwort_signal_trim = self.listen(silence_duration, sample_rate)
             if not self.wake_word_recognize_stoppen.is_set():
                 global_antwort_signal_trim = tmp_global_antwort_signal_trim
-                thread = threading.Thread(target=recognize_thread, args=(antwort_signal,))
+                thread = threading.Thread(target=recognize_thread)
                 thread.start()
                 threads.append(thread)
             else:
