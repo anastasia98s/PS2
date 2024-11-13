@@ -95,6 +95,8 @@ class Audio:
         return recording_flat, recording_trim
 
     def recognize(self, signal):
+        if self.wake_word_recognize_stoppen.is_set():
+            return None
         signal = signal.astype(np.float32)
         signal = whisper.pad_or_trim(signal)
         result = self.recognizer.transcribe(signal, language=config.WHISPER_SPRACHE)
@@ -139,11 +141,11 @@ class Audio:
     def wake_word_recognize(self, silence_duration, sample_rate):
         self.wake_word_recognize_stoppen.clear()
         global_antwort_text = None
-        global_antwort_signal_trim = None
         global_antwort_signal = None
+        global_antwort_signal_trim = None
         lock = threading.Lock()
         def recognize_thread():
-            nonlocal global_antwort_signal_trim, global_antwort_text, global_antwort_signal
+            nonlocal global_antwort_text, global_antwort_signal
             with lock:
                 if global_antwort_signal is not None and global_antwort_signal.any() and not self.wake_word_recognize_stoppen.is_set():
                     antwort_text = self.recognize(global_antwort_signal)

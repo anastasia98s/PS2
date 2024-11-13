@@ -279,5 +279,6 @@ class Engine:
                 if config.AUTHENTIFIZIERUNG_AUTO_TRAINING:
                     train_merkmale.train()
 
-engine = Engine()
-engine.start()
+if __name__ == "__main__":
+    engine = Engine()
+    engine.start()
