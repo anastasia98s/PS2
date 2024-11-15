@@ -2,7 +2,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 # Funktion zur Relevanzbewertung und Auswahl der wichtigsten Chunks
-def get_top_relevant_chunks(paragraphs, question, top_n=2):
+def get_top_relevant_chunks(paragraphs, question, top_n=1):
     # Erstelle TF-IDF Vektoren für die Paragraphen und die Frage
     vectorizer = TfidfVectorizer().fit(paragraphs + [question])
     paragraph_vectors = vectorizer.transform(paragraphs)
