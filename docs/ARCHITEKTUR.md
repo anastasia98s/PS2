@@ -9,6 +9,7 @@
 ## 2. **Textklassifizierungsdatenbank Struktur**
 ![Textklassifizierungsdatenbank](docs_image/textklassifizierung.png)
 - **Hauptinhalt**: Sätze, Anmerkungen, Szenarien, Absichten
+
 ![Beispielinhalt der Textklassifizierungsdatenbank](docs_image/ex_data_textklassifizierung_db.png)
 
 ## 3. **KI-Technologie**
@@ -22,7 +23,7 @@
 
 ## 5. **Datenflussdiagramm**
 ![Datenflussdiagramm](docs_image/komplexes_diagramm.drawio.png)
-- **einfaches Version**:
+- **einfaches Version**
 
 ![Einfaches Datenflussdiagramm](docs_image/einfaches_diagramm.drawio.png)
 
