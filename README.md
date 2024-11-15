@@ -20,6 +20,9 @@
 - Intents "Suchintent?, Studienordnung, Wikipedia" erstellen. [Intends Ordner](intends).
 - Mehr Datasets/Testdaten für Textklassifizierung sammeln. *(weitere Datensätze in den **Data-Controller** in `main.py` eingeben)*
 
+# Architektur
+Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-Dokumentation](ARCHITEKTUR.md).
+
 ## Startanweisungen (9 GB Speicherplatz erforderlich)
 1. **Repository klonen und virtuelle Umgebung einrichten**
    ```shell
