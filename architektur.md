@@ -9,7 +9,7 @@
 ## 2. **Textklassifizierungsdatenbank Struktur**
 ![Textklassifizierungsdatenbank](docs_image/textklassifizierung.png)
 - **Hauptinhalt**: Sätze, Anmerkungen, Szenarien, Absichten
-![Beispielinhalt der Textklassifizierungsdatenbank](docs_image/ex_data_benutzer_db.png)
+![Beispielinhalt der Textklassifizierungsdatenbank](docs_image/ex_data_textklassifizierung_db.png)
 
 ## 3. **KI-Technologie**
 - **Intent- und Entitätserkennung (BERT Architektur)**: Modell zur Erkennung von Benutzereingaben und Entitäten wie Zeit, Ort und Aktivität.
