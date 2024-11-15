@@ -17,7 +17,7 @@
 ## To-Do
 - Multithreading/Multiprocessing implementieren
 - Mikroservice + API + neue Datenbank? erstellen
-- Intents "Suchintent?, Studienordnung, Wikipedia" erstellen. [Intends Ordner](intends).
+- Intents "Suchintent, Studienordnung, Wikipedia" erstellen. [Intends Ordner](intends).
 - Mehr Datasets/Testdaten für Textklassifizierung sammeln. *(weitere Datensätze in den **Data-Controller** in `main.py` eingeben)*
 
 # Architektur
