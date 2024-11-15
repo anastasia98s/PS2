@@ -1,4 +1,4 @@
-from intends.datenkonverter import Datenkonverter
+from intents.datenkonverter import Datenkonverter
 
 class DatumIntent(Datenkonverter):
     def __init__(self):

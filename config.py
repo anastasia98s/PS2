@@ -52,7 +52,7 @@ TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN = 0.6
 NO_SPEECH_MAX_NOTEN = 0.85
 
 DEFAULT_ORT = "Dresden"
-WAKE_WORD_ARRAY = ["molly", "moly", "molle", "moli", "molli", "olly", "olli", "oly", "oli", "emoli", "mori", "heimoli", "moni"]
+WAKE_WORD_ARRAY = ["molly", "moly", "molle", "moli", "molli", "olly", "olli", "oly", "oli", "emoli", "emoly", "mori", "heimoli", "moni"]
 WAKE_WORD_GRUESSE_ARRAY = ["hello", "hallo", "hey", "hi"]
 
 #############################################################################
@@ -79,3 +79,6 @@ ERROR_VARIABLE_ZEIT = 2
 ERROR_VARIABLE_ORT = 3
 ERROR_VARIABLE_AKTIVITAET = 4
 #############################################################################
+
+STUDIENORDNUNG_PDF_PATH = "intents/studienordnung/I42b_2010_PO.pdf"
+STUDIENORDNUNG_OLLAMA_MODELL = "llama3.2:latest"

@@ -7,7 +7,7 @@
 - Datenbank erstellt
    - [Datenbank für Textklassifizierung (hauptsächlich für Datensatzeditoren)](data/data_controller/model_textklassifizierung.py)
    - [Datenbank für User + To-Do-Liste + Authentifizierung](data/data_controller/model_user.py)
-- Intents "To-Do-Liste, Datum, Wetter, Uhrzeit" abgeschlossen
+- Intents "To-Do-Liste, Studienordnung, Datum, Wetter, Uhrzeit" abgeschlossen
 - Benutzer-Authentifizierung implementiert. *(Fingerabdruck einer Stimme)*
 - automatische Datasets/Testdaten zur Benutzerauthentifizierung implementiert. *(wird bei Verwendung automatisch gespeichert)*
 - Wake-Word-Funktionalität implementiert. *(Standard-Wake-Word: **Molly**. oder Wake-Word in `config.py` anpassen)*
@@ -17,7 +17,7 @@
 ## To-Do
 - Multithreading/Multiprocessing implementieren
 - Mikroservice + API + neue Datenbank? erstellen
-- Intents "Suchintent, Studienordnung, Wikipedia" erstellen. [Intends Ordner](intends).
+- Intents "Suchintent, Wikipedia" erstellen. [Intends Ordner](intents).
 - Mehr Datasets/Testdaten für Textklassifizierung sammeln. *(weitere Datensätze in den **Data-Controller** in `main.py` eingeben)*
 
 # Architektur

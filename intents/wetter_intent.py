@@ -1,6 +1,6 @@
 import requests
 import config
-from intends.datenkonverter import Datenkonverter
+from intents.datenkonverter import Datenkonverter
 
 class WetterIntent(Datenkonverter):
     def __init__(self):

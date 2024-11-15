@@ -1,5 +1,5 @@
 from data.data_controller.model_user import ModelUser
-from intends.datenkonverter import Datenkonverter
+from intents.datenkonverter import Datenkonverter
 import config
 from datetime import datetime
 

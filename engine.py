@@ -1,9 +1,9 @@
-from intends.wetter_intent import WetterIntent
-from intends.studienordnung_intent import StudienordnungIntent
-from intends.todolist_intent import ToDoListIntent
-from intends.wikipedia_intent import WikipediaIntent
-from intends.uhrzeit_intent import UhrzeitIntent
-from intends.datum_intent import DatumIntent
+from intents.wetter_intent import WetterIntent
+from intents.studienordnung.studienordnung_intent import StudienordnungIntent
+from intents.todolist_intent import ToDoListIntent
+from intents.wikipedia_intent import WikipediaIntent
+from intents.uhrzeit_intent import UhrzeitIntent
+from intents.datum_intent import DatumIntent
 from nn_authentifizierung.utils import extract_features
 from nn_textklassifizierung.predictor import Predictor as PredictorText
 from nn_authentifizierung.predictor import Predictor as PredictorUser
@@ -50,14 +50,14 @@ class Engine:
         return self.dialog(1, f"Kannst du {variable_name} {wd_text}sagen?")
     
     def intent_filter(self, absicht, szenario, anmerkungen, anmerkungen_label, user_id):
+        v_satz = []
         v_thema = []
         v_aktivitaet = []
         v_zeit = []
         v_datum = []
         v_ort = []
-        # print(absicht, szenario)
         for index in range(len(anmerkungen[1])):
-            # print(anmerkungen[1][index], anmerkungen_label[anmerkungen[0][index]])
+            v_satz.append(anmerkungen[1][index])
             match abs(anmerkungen_label[anmerkungen[0][index]]):
                 case config.ANMERKUNG_THEMA: # thema
                     v_thema.append(anmerkungen[1][index])
@@ -70,12 +70,14 @@ class Engine:
                 case config.ANMERKUNG_ORT: # ort
                     v_ort.append(anmerkungen[1][index])
 
+        t_satz = " ".join(v_satz)
         t_thema = " ".join(v_thema)
         t_aktivitaet = " ".join(v_aktivitaet)
         t_zeit = " ".join(v_zeit)
         t_datum = " ".join(v_datum)
         t_ort = " ".join(v_ort)
 
+        print(f"Satz: {t_satz}")
         print(f"Thema: {t_thema}")
         print(f"Aktivität: {t_aktivitaet}")
         print(f"Zeit: {t_zeit}")
@@ -125,7 +127,7 @@ class Engine:
 
             ################################### # studienordnung
             case (config.SZENARIO_STUDIENORDNUNG, config.ABSICHT_ABFRAGEN): # abfragen
-                intent_result, error_result = self.studienordnung_intent.abfragen(t_thema)
+                intent_result, error_result = self.studienordnung_intent.abfragen(t_satz)
                 if not error_result:
                     return intent_result
                 else:
