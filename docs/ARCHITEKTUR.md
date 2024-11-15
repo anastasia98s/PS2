@@ -4,6 +4,7 @@
 ![Benutzerdatenbank](docs_image/benutzerprofil.png)
 - **Hauptinhalt**: Benutzerdaten, Merkmale, TODO
 - **Merkmale**: Datensatz zur Trainings-Authentifikations-KI
+
 ![Beispielinhalt der Benutzerdatenbank](docs_image/ex_data_benutzer_db.png)
 
 ## 2. **Textklassifizierungsdatenbank Struktur**
