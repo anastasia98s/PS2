@@ -9,6 +9,7 @@ import re
 import pyaudio
 import time
 import threading
+from nn_aktivierungswort.predictor import Predictor as PredictorAktivierungswort
 
 class Audio:
     def __init__(self):
@@ -16,8 +17,9 @@ class Audio:
         self.pyttsx3 = pyttsx3.init()
         self.set_sprache_text_to_speech(config.MICROSOFT_SPEECH)
         self.wake_word_recognize_stoppen = threading.Event()
+        self.predictor_aktivierungswort = PredictorAktivierungswort(config.AKTIVIERUNGSWORT_TRAINED_PATH)
 
-    def listen(self, silence_duration, sample_rate):
+    def listen(self, silence_duration, sample_rate, ohne_init=False):
         self.audio = pyaudio.PyAudio()
         chunk = 1024
         stream = self.audio.open( format=pyaudio.paInt16,
@@ -37,8 +39,10 @@ class Audio:
         recording_start_time = None
         
         while is_recording:
-            if self.wake_word_recognize_stoppen.is_set():
-                return None, None
+
+            if not ohne_init:
+                if self.wake_word_recognize_stoppen.is_set():
+                    return None, None
             
             try:
                 audio_chunk = stream.read(chunk)
@@ -49,7 +53,7 @@ class Audio:
                 if recording_runden % 5 == 0 or recording_runden == 1:
                     if recording_animation_index == 5:
                         recording_animation_index = 0
-                    print("\r", "Frame: " + str(len(recording)) + " |Bitte sprechen Sie" + "." * recording_animation_index, end="", flush=True)
+                    print("\r", "Frame: " + str(len(recording)) + "|Amplitude: " + str(round(amplitude)) +" |Bitte sprechen Sie" + "." * recording_animation_index, end="", flush=True)
                     recording_animation_index += 1
                 recording_runden += 1
 
@@ -61,8 +65,8 @@ class Audio:
                     recording.append(audio_chunk)
                     silent_chunks = 0
                 else:
-                    silent_chunks += len(audio_chunk)
                     if recording_start_time is not None:
+                        silent_chunks += len(audio_chunk)
                         if ((time.time() - recording_start_time) > config.MAX_RECORDING_TIME or silent_chunks > silence_limit) and recording:
                             recording.append(audio_chunk)
                             print("\nAufnahme beendet")
@@ -72,6 +76,7 @@ class Audio:
                             recording.append(audio_chunk)
 
                 last_chunks = audio_chunk
+                # time.sleep(0.01)
             except KeyboardInterrupt:
                 is_recording = False
 
@@ -138,7 +143,7 @@ class Audio:
 
         return antwort_signal_trim, antwort_text
     
-    def wake_word_recognize(self, silence_duration, sample_rate):
+    def wake_word_recognize_asr(self, silence_duration, sample_rate):
         self.wake_word_recognize_stoppen.clear()
         global_antwort_text = None
         global_antwort_signal = None
@@ -151,20 +156,25 @@ class Audio:
                     antwort_text = self.recognize(global_antwort_signal)
                     if antwort_text:
                         print("\nSie haben gesagt: " + antwort_text)
-                        wake_word_pattern = r'\b(?:' + '|'.join(config.WAKE_WORD_ARRAY) + r')\b[.,\s]*'
+                        wake_word_pattern = r'\b(?:' + '|'.join(config.AKTIVIERUNGSWORT_NAME_ARRAY) + r')\b[.,\s]*'
                         if re.search(wake_word_pattern, antwort_text, flags=re.IGNORECASE):
-                            wake_word_gruesse_pattern = r'\b(?:' + '|'.join(config.WAKE_WORD_ARRAY + config.WAKE_WORD_GRUESSE_ARRAY) + r')\b[.,\s]*'
+                            wake_word_gruesse_pattern = r'\b(?:' + '|'.join(config.AKTIVIERUNGSWORT_NAME_ARRAY + config.AKTIVIERUNGSWORT_GRUESSE_ARRAY) + r')\b[.,\s]*'
                             antwort_text = re.sub(wake_word_gruesse_pattern, '', antwort_text, flags=re.IGNORECASE).strip()
                             global_antwort_text = re.sub(r'[.!?,]$', '', antwort_text)
                             self.wake_word_recognize_stoppen.set()
         threads = []
         while True:
             global_antwort_signal, tmp_global_antwort_signal_trim = self.listen(silence_duration, sample_rate)
+
             if not self.wake_word_recognize_stoppen.is_set():
-                global_antwort_signal_trim = tmp_global_antwort_signal_trim
-                thread = threading.Thread(target=recognize_thread)
-                thread.start()
-                threads.append(thread)
+                if global_antwort_signal is not None:
+                    pred_aktivierung_label = self.predictor_aktivierungswort.predict(global_antwort_signal)
+                    print(pred_aktivierung_label)
+                    
+                    global_antwort_signal_trim = tmp_global_antwort_signal_trim
+                    thread = threading.Thread(target=recognize_thread)
+                    thread.start()
+                    threads.append(thread)
             else:
                 break
         
@@ -176,3 +186,34 @@ class Audio:
             global_antwort_signal_trim, global_antwort_text = self.listen_recognize(silence_duration, sample_rate)
 
         return global_antwort_signal_trim, global_antwort_text
+    
+    def wake_word_recognize(self, silence_duration, sample_rate):
+        self.wake_word_recognize_stoppen.clear()
+        lock = threading.Lock()
+
+        def recognize_thread(antwort_signal):
+            with lock:
+                if antwort_signal is not None and antwort_signal.any() and not self.wake_word_recognize_stoppen.is_set():
+                    pred_aktivierung_label = self.predictor_aktivierungswort.predict(antwort_signal)
+                    if pred_aktivierung_label == 1:
+                        self.wake_word_recognize_stoppen.set()
+        threads = []
+        while True:
+            antwort_signal, antwort_signal_trim = self.listen(silence_duration, sample_rate)
+
+            if not self.wake_word_recognize_stoppen.is_set():
+                if antwort_signal_trim is not None:
+                    thread = threading.Thread(target=recognize_thread, args=(antwort_signal_trim,))
+                    thread.start()
+                    threads.append(thread)
+            else:
+                break
+        
+        for t in threads:
+            t.join()
+
+
+        self.text_to_speech("Ja?")
+        antwort_signal_trim, antwort_text = self.listen_recognize(silence_duration, sample_rate)
+
+        return antwort_signal_trim, antwort_text

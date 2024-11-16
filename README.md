@@ -60,63 +60,69 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
    **Hinweis:**
    - Wenn du das **trainierte Modell** benutzen willst, [Link zum Herunterladen](https://drive.google.com/drive/folders/1I27FN5USWLdT6kTXWMWGypINOeeF8oru?usp=drive_link), dann musst du das `data`-Verzeichnis durch diese Daten richtig ersetzen.
 
+## Assistenten aufrufen
+- Um mit **Molly** zu interagieren, musst du zunächst den Assistenten aktivieren.
+- **Benutzer**: Hey Molly
+- **Assistent**: Ja
+- **Benutzer**: `ein Befehl geben`
+
 ## To-Do-List Befehle
 - **Eingeben**
-   - Hey Molly, trage ein Meeting für morgen Nachmittag ein!
-   - Hey Molly, trage ein Meeting am Freitag um 12 Uhr ein!
-   - Hey Molly, füge ein Jogging heute Abend hinzu!
-   - Hey Molly, setze einen Arzttermin am Freitag um 13 Uhr in die To-Do-Liste!
+   - trage ein Meeting für morgen Nachmittag ein!
+   - trage ein Meeting am Freitag um 12 Uhr ein!
+   - füge ein Jogging heute Abend hinzu!
+   - setze einen Arzttermin am Freitag um 13 Uhr in die To-Do-Liste!
 
 - **Abfragen**
    - **Zeit abfragen**
-      - Hey Molly, wann ist mein Meeting?
+      - Wann ist mein Meeting?
    - **Aktivität zu einem bestimmten Zeitpunkt abfragen**
-      - Hey Molly, was habe ich am 12. Oktober um 12 Uhr?
-      - Hey Molly, was habe ich heute Nachmittag?
-      - Wann ist mein Meeting morgen früh, Molly?
-      - Hey Molly, was habe ich um 12:30 Uhr am Freitag?
+      - Was habe ich am 12. Oktober um 12 Uhr?
+      - Was habe ich heute Nachmittag?
+      - Wann ist mein Meeting morgen früh?
+      - Was habe ich um 12:30 Uhr am Freitag?
    - **Aktivität an einem bestimmten Datum abfragen**
-      - Hey Molly, was habe ich heute?
-      - Hey Molly, was hatte ich (vor)gestern?
-      - Was habe ich am Freitag, Molly?
-      - Hey Molly, was habe ich am 02. Dezember 2025?
+      - Was habe ich heute?
+      - Was hatte ich (vor)gestern?
+      - Was habe ich am Freitag?
+      - Was habe ich am 02. Dezember 2025?
 
 - **Löschen**
    - **Alle genannten Aktivitäten löschen**
-      - Hey Molly, löscht mein Meeting!
+      - Löscht mein Meeting!
    - **Alle genannten Aktivitäten an einem Tag löschen**
-      - Molly, kannst du mein heutiges Meeting entfernen?
-      - Molly, lösche mein Meeting für Freitag!
+      - Kannst du mein heutiges Meeting entfernen?
+      - Lösche mein Meeting für Freitag!
    - **Bestimmte Aktivität löschen**
-      - Hey Molly, kannst du mein Meeting morgen um 12:10 Uhr löschen?
+      - Kannst du mein Meeting morgen um 12:10 Uhr löschen?
 
 ## Wetter-Befehle
 - **Wetter zu einem Zeitpunkt**
-   - Hey Molly, wie ist das Wetter am 11.12. um 12 Uhr?
-   - Hey Molly, wie ist das Wetter morgen früh?
+   - Wie ist das Wetter am 11.12. um 12 Uhr?
+   - Wie ist das Wetter morgen früh?
 
 - **Wetter an einem Datum**
-   - Hey Molly, wie ist das Wetter am Dienstag?
-   - Hey Molly, wie ist das Wetter heute?
-   - Wie wird das Wetter übermorgen, Molly?
-   - Hey Molly, wie ist das Wetter am 11.10?
-   - Hey Molly, wie ist das Wetter?
+   - Wie ist das Wetter am Dienstag?
+   - Wie ist das Wetter heute?
+   - Wie wird das Wetter übermorgen?
+   - Wie ist das Wetter am 11.10?
+   - Wie ist das Wetter?
 
 - **Wetter an einem Ort**
-   - Molly, wie wird das Wetter morgen um 12:30 in Rio de Janeiro?
-   - Molly, zeig mir das Wetter für heute Abend in New York.
-   - Molly, wie wird das Wetter in Berlin?
+   - Wie wird das Wetter morgen um 12:30 in Rio de Janeiro?
+   - Zeig mir das Wetter für heute Abend in New York.
+   - Wie wird das Wetter in Berlin?
 
 ## Datum-Befehle
-- Hey Molly, welches Datum haben wir heute?
-- Hey Molly, welches Datum war (vor)gestern?
-- Was ist das Datum übermorgen, Molly?
-- Molly, welches Datum hat der Donnerstag?
+- Welches Datum haben wir heute?
+- Welches Datum war (vor)gestern?
+- Was ist das Datum übermorgen?
+- Welches Datum hat der Donnerstag?
 
 ## Uhrzeit-Befehle
-- Hey Molly, wie spät ist es jetzt?
-- Wie viel Uhr ist es in Berlin, Molly?
-- Molly, welche Uhrzeit haben wir in New York?
+- Wie spät ist es jetzt?
+- Wie viel Uhr ist es in Berlin?
+- Welche Uhrzeit haben wir in New York?
 
 ## Studienordnung Befehle
 - TODO

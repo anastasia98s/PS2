@@ -4,10 +4,9 @@ from intents.todolist_intent import ToDoListIntent
 from intents.wikipedia_intent import WikipediaIntent
 from intents.uhrzeit_intent import UhrzeitIntent
 from intents.datum_intent import DatumIntent
-from nn_authentifizierung.utils import extract_features
 from nn_textklassifizierung.predictor import Predictor as PredictorText
 from nn_authentifizierung.predictor import Predictor as PredictorUser
-from data.data_controller.model_user import ModelUser
+from utils.data_controller.user_controller.presenter import PresenterUser
 from nn_authentifizierung import train as train_merkmale
 import config
 from utils.audio import Audio
@@ -23,8 +22,8 @@ class Engine:
             self.predictor_user = PredictorUser(config.AUTHENTIFIZIERUNG_TRAINED_PATH)
         else:
             self.predictor_user = None
-            
-        self.model_user = ModelUser()
+        
+        self.presenter_user = PresenterUser()
         self.wetter_intent = WetterIntent()
         self.studienordnung_intent = StudienordnungIntent()
         self.todolist_intent = ToDoListIntent()
@@ -206,23 +205,7 @@ class Engine:
                                 return "verstehe"
             case _:
                 return "Ich verstehe dich nicht."
-            
-    def save_features(self, signal, benutzer_id):
-        target_length = config.AUDIO_SIGNAL_LENGTH_SAVE
-        signal_length = len(signal)
-        num_parts = (signal_length - target_length) // target_length
-        
-        for i in range(num_parts):
-            signal_part = signal[i * target_length : (i + 1) * target_length]
-            features = extract_features(signal_part, config.AUDIO_SAMPLE_RATE)
-            self.model_user.add_merkmale(benutzer_id, features)
-        
-        remainder_length = signal_length % target_length
-        if remainder_length > 0:
-            signal_part = signal[num_parts * target_length:]
-            features = extract_features(signal_part, config.AUDIO_SAMPLE_RATE)
-            self.model_user.add_merkmale(benutzer_id, features)
-            
+                        
     def dialog(self, silence_duration, satz):
         self.audio.text_to_speech(satz) # self.audio.text_to_speech(satz)
         _, antwort_text = self.audio.listen_recognize(silence_duration, config.AUDIO_SAMPLE_RATE)
@@ -230,14 +213,14 @@ class Engine:
     
     def start(self):
         benutzer_id = None
-        self.audio.text_to_speech("das Aktivierungswort ist " + config.WAKE_WORD_ARRAY[0])
+        self.audio.text_to_speech("das Aktivierungswort ist " + config.AKTIVIERUNGSWORT_NAME_ARRAY[0])
         while True:
             antwort_befehl_signal, antwort_befehl_text = self.audio.wake_word_recognize(3, config.AUDIO_SAMPLE_RATE)
             
             if self.predictor_user and benutzer_id is None: # wenn es auth.pth gibt
                 name_index, name_label = self.predictor_user.predict(antwort_befehl_signal)
                 pred_id = int(name_label[0][name_index][0])
-                pred_name = self.model_user.show_benutzer_name(pred_id)
+                pred_name = self.presenter_user.show_benutzer_name(pred_id)
                 pred_noten = name_label[1][name_index][0]
 
                 if pred_noten < config.AUTHENTIFIZIERUNG_MIN_NOTEN or len(name_label[0]) < config.AUTHENTIFIZIERUNG_MIN_KONTO:
@@ -250,7 +233,7 @@ class Engine:
                             for label in name_label[0]:
                                 #print(label)
                                 geg_id = int(label)
-                                geg_name = self.model_user.show_benutzer_name(geg_id)
+                                geg_name = self.presenter_user.show_benutzer_name(geg_id)
                                 antwort_text = self.dialog(0, "Sind Sie " + geg_name)
                                 if any(word in antwort_text.lower().split() for word in ["ja", "genau"]):
                                     benutzer_id = geg_id
@@ -264,12 +247,12 @@ class Engine:
                 if any(word in antwort_text.lower().split() for word in ["ja", "okay"]):
                     antwort_text = self.dialog(0.5, "Wie heißt du?")
                     if antwort_text:
-                        benutzer_id = self.model_user.add_benutzer(antwort_text)
+                        benutzer_id = self.presenter_user.add_benutzer(antwort_text)
                 else:
                     self.audio.text_to_speech("Sie müssen ein Konto haben.")
             
             if benutzer_id:
-                self.save_features(antwort_befehl_signal, benutzer_id)
+                self.presenter_user.save_features(antwort_befehl_signal, benutzer_id)
                 anmerkung_satz_labels, woerter_anmerkungen, absicht_satz_labels, absicht_class_scores, szenario_satz_labels, szenario_class_scores = self.predictor_text.predict(antwort_befehl_text)
                 pred_absicht_noten = absicht_class_scores[1][absicht_satz_labels]
                 pred_szenario_noten = szenario_class_scores[1][szenario_satz_labels]

@@ -1,12 +1,9 @@
-import webview
-
-from data.data_controller.model_textklassifizierung import ModelTextklassifizierung
-from data.data_controller.view import View
-from data.data_controller.presenter import Presenter
-
+from utils.data_controller.textklassifizierung_controller.presenter import PresenterTextklassifizierung
+from utils.data_controller.aktivierungswort_controller.presenter import PresenterAktivierungswort
 from nn_textklassifizierung.predictor import Predictor as PredictorText
-from nn_textklassifizierung import train as train_text
-from nn_authentifizierung import train as train_merkmale
+from nn_aktivierungswort import train as train_aktivierungswort_ki
+from nn_textklassifizierung import train as train_textklassifizierung_ki
+from nn_authentifizierung import train as train_authentifizierung_ki
 import config
 
 def main():
@@ -14,7 +11,8 @@ def main():
         print("\nBitte wähle eine Option:")
         print("1. AI Textklassifizierung")
         print("2. AI Authentifizierung")
-        print("3. Beenden")
+        print("3. AI Aktivierungswort")
+        print("4. Beenden")
         auswahl = input("Gib die Nummer der Option ein: ")
         if auswahl == '1':
             while True:
@@ -28,14 +26,10 @@ def main():
                 auswahl = input("Gib die Nummer der Option ein: ")
 
                 if auswahl == '1':
-                    model_textklassifizierung = ModelTextklassifizierung()
-                    view = View()
-                    presenter = Presenter(model_textklassifizierung, view)
-
-                    webview.create_window('Data Controller', html=view.showPage(1), js_api=presenter)
-                    webview.start()
+                    presenter = PresenterTextklassifizierung()
+                    presenter.open_gui()
                 elif auswahl == '2':
-                    train_text.train()
+                    train_textklassifizierung_ki.train()
                 elif auswahl == '3':
                     predictor_text = PredictorText(config.TEXTKLASSIFIZIERUNG_TRAINED_PATH)
                     print("„quit“ zum Beenden\n")
@@ -69,10 +63,26 @@ def main():
                 auswahl = input("Gib die Nummer der Option ein: ")
                 
                 if auswahl == '1':
-                    train_merkmale.train()
+                    train_authentifizierung_ki.train()
                 if auswahl == '2':
                     break
         elif auswahl == '3':
+            while True:
+                print("\n==Aktivierungswort")
+                print("Bitte wähle eine Option:")
+                print("1. Aktivierungswort aufnehmen")
+                print("2. Aktivierungswort-AI Training")
+                print("3. züruck")
+                auswahl = input("Gib die Nummer der Option ein: ")
+                
+                if auswahl == '1':
+                    presenter = PresenterAktivierungswort()
+                    presenter.aktivierungswort_aufnehmen(1, config.AUDIO_SAMPLE_RATE)
+                if auswahl == '2':
+                    train_aktivierungswort_ki.train()
+                if auswahl == '3':
+                    break
+        elif auswahl == '4':
             break
         else:
             print("Ungültige Auswahl, bitte versuche es erneut.")

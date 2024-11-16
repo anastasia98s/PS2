@@ -1,4 +1,4 @@
-from data.data_controller.model_user import ModelUser
+from utils.data_controller.user_controller.model_user import ModelUser
 from intents.datenkonverter import Datenkonverter
 import config
 from datetime import datetime

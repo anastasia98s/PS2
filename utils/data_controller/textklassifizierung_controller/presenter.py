@@ -1,12 +1,15 @@
 import json
 import config
+import webview
+from utils.data_controller.textklassifizierung_controller.model_textklassifizierung import ModelTextklassifizierung
+from utils.data_controller.textklassifizierung_controller.view import View
 from nn_textklassifizierung.predictor import Predictor as PredictorText
 from nn_textklassifizierung import train
 
-class Presenter:
-    def __init__(self, model, view):
-        self.model = model
-        self.view = view
+class PresenterTextklassifizierung:
+    def __init__(self):
+        self.model = ModelTextklassifizierung()
+        self.view = View()
 
     # Model ##########################################################################
 
@@ -261,3 +264,7 @@ class Presenter:
             return "Training erfolgreich abgeschlossen."
         except Exception as e:
             return f"Error: {e}"
+        
+    def open_gui(self):
+        webview.create_window('Data Controller', html=self.view.showPage(1), js_api=self)
+        webview.start()
