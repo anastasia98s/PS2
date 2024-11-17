@@ -63,8 +63,6 @@ NO_SPEECH_MAX_NOTEN = 0.85
 AKTIVIERUNGSWORT_NOTEN = 0.99
 
 DEFAULT_ORT = "Dresden"
-AKTIVIERUNGSWORT_NAME_ARRAY = ["molly", "moly", "molle", "moli", "molli", "olly", "olli", "oly", "oli", "emoli", "emoly", "mori", "heimoli", "moni"]
-AKTIVIERUNGSWORT_GRUESSE_ARRAY = ["hello", "hallo", "hey", "hi"]
 
 #############################################################################
 ABSICHT_ABFRAGEN = 1

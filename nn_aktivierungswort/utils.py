@@ -7,17 +7,17 @@ import pandas as pd
 import torch.nn as nn
 
 class merkmaleDataset(torch.utils.data.Dataset):
-    def __init__(self, merkmale, namen):
+    def __init__(self, merkmale, labels):
         self.merkmale = merkmale
-        self.namen = namen
+        self.labels = labels
 
     def __len__(self):
         return len(self.merkmale)
 
     def __getitem__(self, idx):
         merkmale = torch.tensor(self.merkmale[idx], dtype=torch.float32)
-        namen = torch.tensor(self.namen[idx], dtype=torch.float32)
-        return merkmale, namen
+        labels = torch.tensor(self.labels[idx], dtype=torch.float32)
+        return merkmale, labels
 
 def extract_features(signal, sample_rate):
     signal = (signal - np.mean(signal)) / np.std(signal)
@@ -39,10 +39,10 @@ def get_data(data_path):
         '''
         df = pd.read_sql_query(query, conn)
         
-    namen = df['typ'].values
+    labels = df['typ'].values
     df['merkmale'] = df['merkmale'].apply(json.loads)
     merkmale = np.array(df['merkmale'].tolist())
-    return merkmale, namen
+    return merkmale, labels
 
 loss_fn = nn.BCEWithLogitsLoss()
 
@@ -55,9 +55,9 @@ def train_fn(data_loader,
     final_loss = 0
 
     for batch in data_loader:
-        merkmale, namen = batch
+        merkmale, labels = batch
         merkmale = merkmale.to(device)
-        namen = namen.to(device)
+        labels = labels.to(device)
 
         # zero
         optimizer.zero_grad()
@@ -66,7 +66,7 @@ def train_fn(data_loader,
         output = model(merkmale)
 
         # loss
-        loss = loss_fn(output, namen)
+        loss = loss_fn(output, labels)
 
         # Backward
         loss.backward()
@@ -88,15 +88,15 @@ def val_fn( data_loader,
 
     with torch.no_grad():
         for batch in data_loader:
-            merkmale, namen = batch
+            merkmale, labels = batch
             merkmale = merkmale.to(device)
-            namen = namen.to(device)
+            labels = labels.to(device)
 
             # Forward
             output =  model(merkmale)
             
             # loss
-            loss =  loss_fn(output, namen)
+            loss =  loss_fn(output, labels)
  
             final_loss += loss.item()
 

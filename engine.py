@@ -213,7 +213,7 @@ class Engine:
     
     def start(self):
         benutzer_id = None
-        self.audio.text_to_speech("das Aktivierungswort ist " + config.AKTIVIERUNGSWORT_NAME_ARRAY[0])
+        self.audio.text_to_speech("Ich bin bereit")
         while True:
             antwort_befehl_signal, antwort_befehl_text = self.audio.wake_word_recognize(3, config.AUDIO_SAMPLE_RATE)
             

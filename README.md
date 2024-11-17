@@ -10,7 +10,7 @@
 - Intents "To-Do-Liste, Studienordnung, Datum, Wetter, Uhrzeit" abgeschlossen
 - Benutzer-Authentifizierung implementiert. *(Fingerabdruck einer Stimme)*
 - automatische Datasets/Testdaten zur Benutzerauthentifizierung implementiert. *(wird bei Verwendung automatisch gespeichert)*
-- Wake-Word-Funktionalität implementiert. *(Standard-Wake-Word: **Molly**. oder Wake-Word in `config.py` anpassen)*
+- Aktivierungswort-Funktionalität implementiert. *(Du musst den Aktivierungswort-Rufnamen-Assistenten in der Datei main.py mit deiner eigenen Stimme aufnehmen und trainieren)*
 - **trainierte Modell** auf der Cloud hochgeladen. [Link zum Herunterladen](https://drive.google.com/drive/folders/1I27FN5USWLdT6kTXWMWGypINOeeF8oru?usp=drive_link)
    - *musst du nur das `data`-Verzeichnis durch diese Daten richtig ersetzen.*
 
@@ -23,7 +23,7 @@
 # Architektur
 Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-Dokumentation](docs/ARCHITEKTUR.md).
 
-## Startanweisungen (9 GB Speicherplatz erforderlich)
+## Startanweisungen (9 GB + Ollama Speicherplatz erforderlich)
 1. **Repository klonen und virtuelle Umgebung einrichten**
    ```shell
    git clone -b Nathaniel https://github.com/anastasia98s/PS2.git assistant_ai
@@ -48,9 +48,14 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
    **Hinweis:**
    - Wenn es zu Fehlermeldungen kommt, kannst du die Pakete manuell installieren. *(Ich benutze Python 3.11.9 und 3.12.1 ohne Probleme)*
    - Stelle sicher, dass FFMPEG installiert ist und im PATH-Umgebungsvariable eingetragen ist. [Link zum Herunterladen](https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip)
+   - Stelle sicher, dass Ollama installiert ist. Weitere Informationen und den Download findest du hier: [Link zum Herunterladen](https://ollama.com/download/windows).
+   - Überprüfe, ob das LLM-Modell von Ollama bereits heruntergeladen wurde, indem du die `config.py`-Datei prüfst.
 
    ```shell
    ffmpeg -version
+   ```
+   ```shell
+   ollama -v
    ```
 3. **Starte das Engine-Skript:**
    ```shell
@@ -60,18 +65,31 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
    **Hinweis:**
    - Wenn du das **trainierte Modell** benutzen willst, [Link zum Herunterladen](https://drive.google.com/drive/folders/1I27FN5USWLdT6kTXWMWGypINOeeF8oru?usp=drive_link), dann musst du das `data`-Verzeichnis durch diese Daten richtig ersetzen.
 
+## Aktivierungswort mit eigener Stimme aufnehmen und trainieren
+1. Öffne `main.py`.
+2. Suche das Menü „Aktivierungswort aufnehmen“.
+3. Sprich die folgenden Beispiele nach:
+   - **Aktivierungswort:**
+     - Hey [Name]
+     - [Name]
+     - … (Wiederhole so viele Varianten wie möglich)
+   - **Kein Aktivierungswort:**
+     - [Zufällige Rede]
+     - [Zufällige Geräusche]
+4. Wenn du fertig bist, trainiere die Datensätze.
+
 ## Assistenten aufrufen
-- Um mit **Molly** zu interagieren, musst du zunächst den Assistenten aktivieren.
-- **Benutzer**: Hey Molly
-- **Assistent**: Ja
-- **Benutzer**: `ein Befehl geben`
+- Du musst zunächst den Assistenten aktivieren, indem du das Aktivierungswort verwendest.
+1. **Benutzer**: Hey [Name]
+2. **Assistent**: Ja
+3. **Benutzer**: `Befehl eingeben`
 
 ## To-Do-List Befehle
 - **Eingeben**
-   - trage ein Meeting für morgen Nachmittag ein!
-   - trage ein Meeting am Freitag um 12 Uhr ein!
-   - füge ein Jogging heute Abend hinzu!
-   - setze einen Arzttermin am Freitag um 13 Uhr in die To-Do-Liste!
+   - Trage ein Meeting für morgen Nachmittag ein!
+   - Trage ein Meeting am Freitag um 12 Uhr ein!
+   - Füge ein Jogging heute Abend hinzu!
+   - Setze einen Arzttermin am Freitag um 13 Uhr in die To-Do-Liste!
 
 - **Abfragen**
    - **Zeit abfragen**
@@ -125,7 +143,19 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
 - Welche Uhrzeit haben wir in New York?
 
 ## Studienordnung Befehle
-- TODO
+- Was ist eine PVL?
+- Wie läuft ne Mündliche Prüfung ab?
+- Was ist ein Freiversuch?
+- Wie lange geht das Praktikum?
+- Wann bekomme ich eine 2?
+- Was passiert, wenn ich mehrfach um eine Prüfung falle?
+- Wie kann ich meine Prüfung einsehen?
+- Kann ich mir Module von einem anderen Studiengang anrechnen lassen?
+- Wie wird das Praktikum bewertet?
+- Wer darf eine Bachelorarbeit betreuen?
+- Was ist ein Beleg?
+- Wie kann ich mich von einer Prüfung abmelden?
+- [mehr](https://github.com/anastasia98s/PS2/blob/PDF_Intent/testdaten.txt)
 
 ## Wikipedia Befehle
 - TODO

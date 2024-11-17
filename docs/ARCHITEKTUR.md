@@ -7,20 +7,24 @@
 
 ![Beispielinhalt der Benutzerdatenbank](docs_image/ex_data_benutzer_db.png)
 
-## 2. **Textklassifizierungsdatenbank Struktur**
+## 2. **Aktivierungswort-Datenbank Struktur**
 ![Textklassifizierungsdatenbank](docs_image/textklassifizierung.png)
 - **Hauptinhalt**: Sätze, Anmerkungen, Szenarien, Absichten
 
 ![Beispielinhalt der Textklassifizierungsdatenbank](docs_image/ex_data_textklassifizierung_db.png)
 
-## 3. **KI-Technologie**
-- **Intent- und Entitätserkennung (BERT Architektur)**: Modell zur Erkennung von Benutzereingaben und Entitäten wie Zeit, Ort und Aktivität.
-- **Authentifizierung der Benutzer (CNN Modell)**: Identifiziert Benutzer durch Stimme.
-- **Spracherkennungsmodell (Whisper)**: Transkribiert gesprochene Sprache.
-- **Text-zu-Sprache-Modell (Microsoft)**: Generiert gesprochene Antworten aus Text.
+## 3. **Aktivierungswort-Datenbank Struktur**
+![Aktivierungswort-Datenbank](docs_image/aktivierungswort.png)
 
-## 4. **Benutzerschnittstellen**
-- **Datensatz-Editor**: Ermöglicht das Bearbeiten von Textklassifizierungs-Datensätzen.
+![Beispielinhalt der Aktivierungswort-Datenbank](docs_image/ex_data_aktivierungswort_db.png)
+
+## 4. **KI-Technologie**
+- **Intent- und Entitätserkennung (BERT Architektur)**: erkennt Benutzereingaben und Entitäten
+- **Authentifizierung der Benutzer (CNN-Modell)**: identifiziert Benutzer durch ihre Stimme
+- **Spracherkennungsmodell (Whisper)**: transkribiert gesprochene Sprache in Text
+- **Text-zu-Sprache-Modell (Microsoft)**: generiert gesprochene Antworten aus Text
+- **PDF-Verstehen (Ollama)**: beantwortet Fragen zu Inhalten eines PDFs
+![KI-Modell](docs_image/KI-Modell.drawio.png)
 
 ## 5. **Datenflussdiagramm**
 ![Datenflussdiagramm](docs_image/komplexes_diagramm.drawio.png)
@@ -30,3 +34,4 @@
 
 ## 6. **Authentifizierung/Anmeldung Aktivitätsdiagramm**
 ![Aktivitätsdiagramm](docs_image/user_anmeldung.drawio.png)
+
