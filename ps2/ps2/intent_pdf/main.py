@@ -6,7 +6,7 @@ from generate_answer import get_aggregated_answer
 
 def main():
     # path to PDF with Prüfungsordnung
-    pdf_path = "I42b_2010_PO.pdf"
+    pdf_path = "I42b_2010_PO_SO.pdf"
     question=input("Geben Sie eine Frage ein:")
 
     pdf_text=convert_to_text(pdf_path)
