@@ -62,12 +62,12 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
    2. Suche das Menü „Aktivierungswort aufnehmen“.
    3. Sprich die folgenden Beispiele nach:
       - **Aktivierungswort:**
-      - Hey [Name]
-      - [Name]
-      - … (Wiederhole so viele Varianten wie möglich)
+         - Hey [Name]
+         - [Name]
+         - … (Wiederhole so viele Varianten wie möglich)
       - **Kein Aktivierungswort:**
-      - [Zufällige Rede]
-      - [Zufällige Geräusche]
+         - [Zufällige Rede]
+         - [Zufällige Geräusche]
    4. Wenn du fertig bist, trainiere die Datensätze.
 5. **Starte das Engine-Skript:**
    ```shell
