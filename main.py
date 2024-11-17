@@ -77,7 +77,7 @@ def main():
                 
                 if auswahl == '1':
                     presenter = PresenterAktivierungswort()
-                    presenter.aktivierungswort_aufnehmen(1, config.AUDIO_SAMPLE_RATE)
+                    presenter.aktivierungswort_aufnehmen(config.AKTIVIERUNGSWORT_AUFNAHME_DAUER, config.AUDIO_SAMPLE_RATE)
                 if auswahl == '2':
                     train_aktivierungswort_ki.train()
                 if auswahl == '3':

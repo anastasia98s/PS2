@@ -48,12 +48,11 @@ class Audio:
                 audio_chunk = stream.read(chunk)
                 audio_data = np.frombuffer(audio_chunk, dtype=np.int16)
                 amplitude = np.abs(audio_data).mean()
-                # print(amplitude)
 
                 if recording_runden % 5 == 0 or recording_runden == 1:
                     if recording_animation_index == 5:
                         recording_animation_index = 0
-                    print("\r", "Frame: " + str(len(recording)) + "|Amplitude: " + str(round(amplitude)) +" |Bitte sprechen Sie" + "." * recording_animation_index, end="", flush=True)
+                    print("\r", "Frame: " + str(len(recording)) + " |Amplitude: " + str(round(amplitude)) +" |Bitte sprechen Sie" + "." * recording_animation_index, end="", flush=True)
                     recording_animation_index += 1
                 recording_runden += 1
 
@@ -155,7 +154,7 @@ class Audio:
                         self.wake_word_recognize_stoppen.set()
         threads = []
         while True:
-            antwort_signal, antwort_signal_trim = self.listen(0.5, sample_rate)
+            antwort_signal, antwort_signal_trim = self.listen(config.AKTIVIERUNGSWORT_AUFNAHME_DAUER, sample_rate)
 
             if not self.wake_word_recognize_stoppen.is_set():
                 if antwort_signal_trim is not None:

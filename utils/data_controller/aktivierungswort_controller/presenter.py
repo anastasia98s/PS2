@@ -14,11 +14,11 @@ class PresenterAktivierungswort(Audio):
             wort_typ = None
             skip = False
             beenden = False
-            
-            print("1. Wake Word")
-            print("2. Not Wake Word")
-            print("3. Skip")
-            print("4. züruck")
+            print("Speichern Aufnahme als:")
+            print("1. Aktivierungswort")
+            print("2. kein Aktivierungswort")
+            print("3. nicht speichern")
+            print("4. nicht speichern und züruck")
             while True:
                 antwort = input("Input: ")
                 if antwort == '1':
