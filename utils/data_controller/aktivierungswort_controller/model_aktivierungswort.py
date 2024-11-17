@@ -33,7 +33,6 @@ class ModelAktivierungswort:
     #################################################################
 
     def add_merkmale(self, merkmale, typ):
-        print(typ, merkmale)
         merkmale = merkmale.tolist()
         conn = self.connect_db()
         try:

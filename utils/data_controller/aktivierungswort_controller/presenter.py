@@ -22,15 +22,19 @@ class PresenterAktivierungswort(Audio):
             while True:
                 antwort = input("Input: ")
                 if antwort == '1':
+                    print("Antwort: Aktivierungswort")
                     wort_typ = 1
                     break
                 elif antwort == '2':
+                    print("Antwort: kein Aktivierungswort")
                     wort_typ = 0
                     break
                 elif antwort == '3':
+                    print("Antwort: nicht speichern")
                     skip = True
                     break
                 elif antwort == '4':
+                    print("Antwort: nicht speichern und züruck")
                     beenden = True
                     break
             if skip:

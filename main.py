@@ -67,6 +67,7 @@ def main():
                 if auswahl == '2':
                     break
         elif auswahl == '3':
+            presenter = PresenterAktivierungswort()
             while True:
                 print("\n==Aktivierungswort")
                 print("Bitte wähle eine Option:")
@@ -76,7 +77,6 @@ def main():
                 auswahl = input("Gib die Nummer der Option ein: ")
                 
                 if auswahl == '1':
-                    presenter = PresenterAktivierungswort()
                     presenter.aktivierungswort_aufnehmen(config.AKTIVIERUNGSWORT_AUFNAHME_DAUER, config.AUDIO_SAMPLE_RATE)
                 if auswahl == '2':
                     train_aktivierungswort_ki.train()
