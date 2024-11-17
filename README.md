@@ -20,7 +20,7 @@
 - Intents "Suchintent, Wikipedia" erstellen. [Intends Ordner](intents).
 - Mehr Datasets/Testdaten für Textklassifizierung sammeln. *(weitere Datensätze in den **Data-Controller** in `main.py` eingeben)*
 
-# Architektur
+## Architektur
 Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-Dokumentation](docs/ARCHITEKTUR.md).
 
 ## Startanweisungen (9 GB + Ollama Speicherplatz erforderlich)
