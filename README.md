@@ -57,26 +57,25 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
    ```shell
    ollama -v
    ```
-3. **Starte das Engine-Skript:**
+4. **Aktivierungswort mit eigener Stimme aufnehmen und trainieren:**
+   1. Öffne `main.py`.
+   2. Suche das Menü „Aktivierungswort aufnehmen“.
+   3. Sprich die folgenden Beispiele nach:
+      - **Aktivierungswort:**
+      - Hey [Name]
+      - [Name]
+      - … (Wiederhole so viele Varianten wie möglich)
+      - **Kein Aktivierungswort:**
+      - [Zufällige Rede]
+      - [Zufällige Geräusche]
+   4. Wenn du fertig bist, trainiere die Datensätze.
+5. **Starte das Engine-Skript:**
    ```shell
    python engine.py
    ```
 
    **Hinweis:**
    - Wenn du das **trainierte Modell** benutzen willst, [Link zum Herunterladen](https://drive.google.com/drive/folders/1I27FN5USWLdT6kTXWMWGypINOeeF8oru?usp=drive_link), dann musst du das `data`-Verzeichnis durch diese Daten richtig ersetzen.
-
-## Aktivierungswort mit eigener Stimme aufnehmen und trainieren
-1. Öffne `main.py`.
-2. Suche das Menü „Aktivierungswort aufnehmen“.
-3. Sprich die folgenden Beispiele nach:
-   - **Aktivierungswort:**
-     - Hey [Name]
-     - [Name]
-     - … (Wiederhole so viele Varianten wie möglich)
-   - **Kein Aktivierungswort:**
-     - [Zufällige Rede]
-     - [Zufällige Geräusche]
-4. Wenn du fertig bist, trainiere die Datensätze.
 
 ## Assistenten aufrufen
 - Du musst zunächst den Assistenten aktivieren, indem du das Aktivierungswort verwendest.
