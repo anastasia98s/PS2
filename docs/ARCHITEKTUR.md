@@ -24,6 +24,7 @@
 - **Spracherkennungsmodell (Whisper)**: transkribiert gesprochene Sprache in Text
 - **Text-zu-Sprache-Modell (Microsoft)**: generiert gesprochene Antworten aus Text
 - **PDF-Verstehen (Ollama)**: beantwortet Fragen zu Inhalten eines PDFs
+
 ![KI-Modell](docs_image/KI-Modell.drawio.png)
 
 ## 5. **Datenflussdiagramm**
