@@ -20,9 +20,7 @@ class Predictor:
         return label_lg
     
     def label_extraction(self, label_lg):
-        #probabilities = torch.sigmoid(label_lg)
-        
-        print("Wahrscheinlichkeit: " + str(label_lg.item()))
+        print("\nAktivierungswortwahrscheinlichkeit: " + str(label_lg.item()) + "/" + str(config.AKTIVIERUNGSWORT_NOTEN))
         predicted_label = None
         if label_lg.item() > config.AKTIVIERUNGSWORT_NOTEN:
             predicted_label = 1

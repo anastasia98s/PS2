@@ -256,6 +256,8 @@ class Engine:
                 anmerkung_satz_labels, woerter_anmerkungen, absicht_satz_labels, absicht_class_scores, szenario_satz_labels, szenario_class_scores = self.predictor_text.predict(antwort_befehl_text)
                 pred_absicht_noten = absicht_class_scores[1][absicht_satz_labels]
                 pred_szenario_noten = szenario_class_scores[1][szenario_satz_labels]
+                print("Absichtswahrscheinlichkeit: " + str(pred_absicht_noten) + "/" + config.TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN)
+                print("Szenarioswahrscheinlichkeit: " + str(pred_szenario_noten) + "/" + config.TEXTKLASSIFIZIERUNG_SZENARIO_MIN_NOTEN)
                 if pred_absicht_noten >= config.TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN and pred_szenario_noten >= config.TEXTKLASSIFIZIERUNG_SZENARIO_MIN_NOTEN:
                     output_satz = self.intent_filter(absicht_class_scores[0][absicht_satz_labels], szenario_class_scores[0][szenario_satz_labels], woerter_anmerkungen, anmerkung_satz_labels, benutzer_id)
                 else:
