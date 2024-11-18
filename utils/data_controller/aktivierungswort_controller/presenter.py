@@ -42,5 +42,6 @@ class PresenterAktivierungswort(Audio):
             elif beenden:
                 break
             else:
-                features = extract_features(antwort_signal_trim, config.AUDIO_SAMPLE_RATE)
+                features = extract_features(antwort_signal, config.AUDIO_SAMPLE_RATE)
+                print(features.shape)
                 self.model.add_merkmale(features, wort_typ)

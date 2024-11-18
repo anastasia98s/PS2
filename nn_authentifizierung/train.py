@@ -20,13 +20,13 @@ def train():
         
         train_merkmale, val_merkmale, train_namen, val_namen = train_test_split(merkmale, namen, test_size=0.2, random_state=42) #stratify=namen
 
-        train_dataset = nn_authentifizierung.utils.merkmaleDataset(train_merkmale, train_namen)
+        train_dataset = nn_authentifizierung.utils.MerkmaleDataset(train_merkmale, train_namen)
         train_data_loader = DataLoader( train_dataset,
                                         batch_size=config.AUTHENTIFIZIERUNG_TRAIN_BATCH_SIZE,
                                         shuffle=True,
                                         pin_memory=True)
         
-        val_dataset = nn_authentifizierung.utils.merkmaleDataset(val_merkmale, val_namen)
+        val_dataset = nn_authentifizierung.utils.MerkmaleDataset(val_merkmale, val_namen)
         val_data_loader = DataLoader(   val_dataset,
                                         batch_size=config.AUTHENTIFIZIERUNG_VALIDATION_BATCH_SIZE,
                                         shuffle=False,
@@ -61,7 +61,7 @@ def train():
             train_loss = nn_authentifizierung.utils.train_fn(train_data_loader, model, optimizer, device)
             val_loss = nn_authentifizierung.utils.val_fn(val_data_loader, model, device)
 
-            if val_loss < best_loss or epoch % 10 == 0 or epoch == config.AUTHENTIFIZIERUNG_EPOCHS-1:
+            if val_loss < best_loss or epoch % 100 == 0 or epoch == config.AUTHENTIFIZIERUNG_EPOCHS-1:
                 print(f'\n== Epoch {epoch + 1}/{config.AUTHENTIFIZIERUNG_EPOCHS}')
                 print(f'Train Loss: {train_loss}')
                 

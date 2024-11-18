@@ -50,6 +50,7 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
    - Stelle sicher, dass FFMPEG installiert ist und im PATH-Umgebungsvariable eingetragen ist. [Link zum Herunterladen](https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip)
    - Stelle sicher, dass Ollama installiert ist. Weitere Informationen und den Download findest du hier: [Link zum Herunterladen](https://ollama.com/download/windows).
    - Überprüfe, ob das LLM-Modell von Ollama bereits heruntergeladen wurde. *(den LLM-Modellnamen findest du in `config.py`)*
+   - Du kannst ohne Ollama starten, aber es wird eine Fehlermeldung angezeigt, wenn du den Studienordnung-Intent aufrufst.
 
    ```shell
    ffmpeg -version
@@ -69,6 +70,11 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
          - [Zufällige Rede]
          - [Zufällige Geräusche]
    4. Wenn du fertig bist, trainiere die Datensätze.
+
+   **Hinweis:**
+   - Das trainierte Aktivierungswort ist `Molly`. Mit meiner Stimme funktioniert es gut, aber es könnte sein, dass es mit anderen Geräten oder Personen schlechter erkannt wird.
+   - Falls es zu kompliziert wird, kannst du das Aktivierungswort deaktivieren, indem du in der Datei `config.py` die Variable `AKTIVIERUNGSWORT_IST_AN` auf `False` setzt.
+
 5. **Starte das Engine-Skript:**
    ```shell
    python engine.py

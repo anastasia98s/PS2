@@ -7,7 +7,7 @@ import pandas as pd
 import torch.nn as nn
 from sklearn import preprocessing
 
-class merkmaleDataset(torch.utils.data.Dataset):
+class MerkmaleDataset(torch.utils.data.Dataset):
     def __init__(self, merkmale, namen):
         self.merkmale = merkmale
         self.namen = namen

@@ -14,13 +14,13 @@ def train():
     if len(merkmale > 1):
         train_merkmale, val_merkmale, train_labels, val_labels = train_test_split(merkmale, labels, test_size=0.2, random_state=42) #stratify=labels
 
-        train_dataset = nn_aktivierungswort.utils.merkmaleDataset(train_merkmale, train_labels)
+        train_dataset = nn_aktivierungswort.utils.MerkmaleDataset(train_merkmale, train_labels)
         train_data_loader = DataLoader( train_dataset,
                                         batch_size=config.AKTIVIERUNGSWORT_TRAIN_BATCH_SIZE,
                                         shuffle=True,
                                         pin_memory=True)
         
-        val_dataset = nn_aktivierungswort.utils.merkmaleDataset(val_merkmale, val_labels)
+        val_dataset = nn_aktivierungswort.utils.MerkmaleDataset(val_merkmale, val_labels)
         val_data_loader = DataLoader(   val_dataset,
                                         batch_size=config.AKTIVIERUNGSWORT_VALIDATION_BATCH_SIZE,
                                         shuffle=False,

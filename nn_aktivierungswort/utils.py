@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import torch.nn as nn
 
-class merkmaleDataset(torch.utils.data.Dataset):
+class MerkmaleDataset(torch.utils.data.Dataset):
     def __init__(self, merkmale, labels):
         self.merkmale = merkmale
         self.labels = labels
@@ -19,15 +19,23 @@ class merkmaleDataset(torch.utils.data.Dataset):
         labels = torch.tensor(self.labels[idx], dtype=torch.float32)
         return merkmale, labels
 
-def extract_features(signal, sample_rate):
-    signal = (signal - np.mean(signal)) / np.std(signal)
-    mfccs = np.mean(librosa.feature.mfcc(y=signal, sr=sample_rate, n_mfcc=40).T, axis=0)
-    stft = np.abs(librosa.stft(signal))
-    chroma = np.mean(librosa.feature.chroma_stft(S=stft, sr=sample_rate).T, axis=0)
-    mel = np.mean(librosa.feature.melspectrogram(y=signal, sr=sample_rate).T, axis=0)
-    contrast = np.mean(librosa.feature.spectral_contrast(S=stft, sr=sample_rate).T, axis=0)
-    tonnetz = np.mean(librosa.feature.tonnetz(y=librosa.effects.harmonic(signal), sr=sample_rate).T, axis=0)
-    return np.hstack([mfccs, chroma, mel, contrast, tonnetz])
+def extract_features(signal, sample_rate, n_mels=128, hop_length=512, n_fft=2048, duration=2):
+    target_length = int(duration * sample_rate)
+    if len(signal) < target_length:
+        signal = np.pad(signal, (0, target_length - len(signal)), mode='constant')
+    else:
+        signal = signal[:target_length]
+    
+    mel_spectrogram = librosa.feature.melspectrogram(
+        y=signal,
+        sr=sample_rate,
+        n_fft=n_fft,
+        hop_length=hop_length,
+        n_mels=n_mels
+    )
+
+    mel_spectrogram_db = librosa.power_to_db(mel_spectrogram, ref=np.max)
+    return mel_spectrogram_db
 
 def get_data(data_path):
     with sqlite3.connect(data_path) as conn:
@@ -44,7 +52,7 @@ def get_data(data_path):
     merkmale = np.array(df['merkmale'].tolist())
     return merkmale, labels
 
-loss_fn = nn.BCEWithLogitsLoss()
+loss_fn = nn.BCELoss() #BCEWithLogitsLoss
 
 def train_fn(data_loader,
              model,
@@ -56,8 +64,8 @@ def train_fn(data_loader,
 
     for batch in data_loader:
         merkmale, labels = batch
-        merkmale = merkmale.to(device)
-        labels = labels.to(device)
+        merkmale = merkmale.to(device).unsqueeze(1)
+        labels = labels.to(device).unsqueeze(1)
 
         # zero
         optimizer.zero_grad()
@@ -89,9 +97,8 @@ def val_fn( data_loader,
     with torch.no_grad():
         for batch in data_loader:
             merkmale, labels = batch
-            merkmale = merkmale.to(device)
-            labels = labels.to(device)
-
+            merkmale = merkmale.to(device).unsqueeze(1)
+            labels = labels.to(device).unsqueeze(1)
             # Forward
             output =  model(merkmale)
             
