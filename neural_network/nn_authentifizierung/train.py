@@ -53,6 +53,8 @@ def train():
         best_preds_authentifizierung_array = []
         best_loesung_authentifizierung_array = []
 
+        confusion_matrix_class = encoder_benutzerids.classes_
+
         print("=" * 10)
         print("Device: " + str(device))
         print(f'Training Data: {len(train_merkmale)}')
@@ -70,7 +72,7 @@ def train():
                 if val_loss < best_loss and config.AUTHENTIFIZIERUNG_SAVE_MODEL:
                     best_preds_authentifizierung_array = preds_authentifizierung_array
                     best_loesung_authentifizierung_array = loesung_authentifizierung_array
-                    neural_network.utils.show_conf_matrix(preds_authentifizierung_array, loesung_authentifizierung_array, encoder_benutzerids.classes_, "Authentifizierung-KI")
+                    neural_network.utils.show_conf_matrix(preds_authentifizierung_array, loesung_authentifizierung_array, confusion_matrix_class, "Authentifizierung-KI")
                     os.makedirs(os.path.dirname(config.AUTHENTIFIZIERUNG_TRAINED_PATH), exist_ok=True)
                     torch.save(model.state_dict(), config.AUTHENTIFIZIERUNG_TRAINED_PATH)
                     best_loss = val_loss
@@ -84,6 +86,6 @@ def train():
 
         print(f"\nTrainingsdauer: {trainingsdauer:.2f} Minuten")
 
-        neural_network.utils.show_conf_matrix(best_preds_authentifizierung_array, best_loesung_authentifizierung_array, encoder_benutzerids.classes_, f"Best {config.AUTHENTIFIZIERUNG_EPOCHS} Epochs\nAuthentifizierung-KI", plot=config.AUTHENTIFIZIERUNG_PLOT_CONFUSION_MATRIX)
+        neural_network.utils.show_conf_matrix(best_preds_authentifizierung_array, best_loesung_authentifizierung_array, confusion_matrix_class, f"Best {config.AUTHENTIFIZIERUNG_EPOCHS} Epochs\nAuthentifizierung-KI", plot=config.AUTHENTIFIZIERUNG_PLOT_CONFUSION_MATRIX)
     else:
         print("\n !!!Zu wenige Daten, um Authentifizierungs-KI zu trainieren!!!")

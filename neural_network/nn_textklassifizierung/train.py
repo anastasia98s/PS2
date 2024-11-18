@@ -66,6 +66,10 @@ def train():
     best_loesung_absicht_array = []
     best_preds_szenario_array = []
     best_loesung_szenario_array = []
+
+    confusion_matrix_anmerkung_class = encoder_anmerkung.classes_
+    confusion_matrix_absicht_class = encoder_absicht.classes_
+    confusion_matrix_szenario_class = encoder_szenario.classes_
     
     print("=" * 10)
     print("Device: " + str(device))
@@ -93,9 +97,9 @@ def train():
             best_preds_szenario_array = preds_szenario_array
             best_loesung_szenario_array = loesung_szenario_array
 
-            neural_network.utils.show_conf_matrix(preds_anmerkung_array, loesung_anmerkung_array, encoder_anmerkung.classes_, "Textklassifizierung-KI (Anmerkung)")
-            neural_network.utils.show_conf_matrix(preds_absicht_array, loesung_absicht_array, encoder_absicht.classes_, "Textklassifizierung-KI (Absicht)")
-            neural_network.utils.show_conf_matrix(preds_szenario_array, loesung_szenario_array, encoder_szenario.classes_, "Textklassifizierung-KI (Szenario)")
+            neural_network.utils.show_conf_matrix(preds_anmerkung_array, loesung_anmerkung_array, confusion_matrix_anmerkung_class, "Textklassifizierung-KI (Anmerkung)")
+            neural_network.utils.show_conf_matrix(preds_absicht_array, loesung_absicht_array, confusion_matrix_absicht_class, "Textklassifizierung-KI (Absicht)")
+            neural_network.utils.show_conf_matrix(preds_szenario_array, loesung_szenario_array, confusion_matrix_szenario_class, "Textklassifizierung-KI (Szenario)")
 
             os.makedirs(os.path.dirname(config.TEXTKLASSIFIZIERUNG_TRAINED_PATH), exist_ok=True)
             torch.save(model.state_dict(), config.TEXTKLASSIFIZIERUNG_TRAINED_PATH)
@@ -110,6 +114,6 @@ def train():
 
     print(f"\nTrainingsdauer: {trainingsdauer:.2f} Minuten")
 
-    neural_network.utils.show_conf_matrix(best_preds_anmerkung_array, best_loesung_anmerkung_array, encoder_anmerkung.classes_, f"Best {config.TEXTKLASSIFIZIERUNG_EPOCHS} Epochs\nTextklassifizierung-KI (Anmerkung)", plot=True)
-    neural_network.utils.show_conf_matrix(best_preds_absicht_array, best_loesung_absicht_array, encoder_absicht.classes_, f"Best {config.TEXTKLASSIFIZIERUNG_EPOCHS} Epochs\nTextklassifizierung-KI (Absicht)", plot=True)
-    neural_network.utils.show_conf_matrix(best_preds_szenario_array, best_loesung_szenario_array, encoder_szenario.classes_, f"Best {config.TEXTKLASSIFIZIERUNG_EPOCHS} Epochs\nTextklassifizierung-KI (Szenario)", plot=True)
+    neural_network.utils.show_conf_matrix(best_preds_anmerkung_array, best_loesung_anmerkung_array, confusion_matrix_anmerkung_class, f"Best {config.TEXTKLASSIFIZIERUNG_EPOCHS} Epochs\nTextklassifizierung-KI (Anmerkung)", plot=True)
+    neural_network.utils.show_conf_matrix(best_preds_absicht_array, best_loesung_absicht_array, confusion_matrix_absicht_class, f"Best {config.TEXTKLASSIFIZIERUNG_EPOCHS} Epochs\nTextklassifizierung-KI (Absicht)", plot=True)
+    neural_network.utils.show_conf_matrix(best_preds_szenario_array, best_loesung_szenario_array, confusion_matrix_szenario_class, f"Best {config.TEXTKLASSIFIZIERUNG_EPOCHS} Epochs\nTextklassifizierung-KI (Szenario)", plot=True)

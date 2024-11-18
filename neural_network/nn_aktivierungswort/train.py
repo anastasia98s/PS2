@@ -48,6 +48,8 @@ def train():
         best_preds_aktivierung_array = []
         best_loesung_aktivierung_array = []
 
+        confusion_matrix_class = ["kein Aktivierungswort", "Aktivierungswort"]
+
         print("=" * 10)
         print("Device: " + str(device))
         print(f'Training Data: {len(train_merkmale)}')
@@ -61,7 +63,7 @@ def train():
             if val_loss < best_loss or epoch % 100 == 0 or epoch == config.AKTIVIERUNGSWORT_EPOCHS-1:
                 best_preds_aktivierung_array = preds_aktivierung_array
                 best_loesung_aktivierung_array = loesung_aktivierung_array
-                neural_network.utils.show_conf_matrix(preds_aktivierung_array, loesung_aktivierung_array, [0,1], "Aktivierung-KI", binary=True)
+                neural_network.utils.show_conf_matrix(preds_aktivierung_array, loesung_aktivierung_array, confusion_matrix_class, "Aktivierung-KI", binary=True)
                 print(f'\n== Epoch {epoch + 1}/{config.AKTIVIERUNGSWORT_EPOCHS}')
                 print(f'Train Loss: {train_loss}')
                 
@@ -79,6 +81,6 @@ def train():
 
         print(f"\nTrainingsdauer: {trainingsdauer:.2f} Minuten")
 
-        neural_network.utils.show_conf_matrix(best_preds_aktivierung_array, best_loesung_aktivierung_array, [0,1], f"Best {config.AKTIVIERUNGSWORT_EPOCHS} Epochs\nAktivierungsword-KI", binary=True, plot=True)
+        neural_network.utils.show_conf_matrix(best_preds_aktivierung_array, best_loesung_aktivierung_array, confusion_matrix_class, f"Best {config.AKTIVIERUNGSWORT_EPOCHS} Epochs\nAktivierungsword-KI", binary=True, plot=True)
     else:
         print("\n!!!Zu wenige Daten, um Aktivierungswort-KI zu trainieren!!!")
