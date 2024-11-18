@@ -109,7 +109,7 @@ def val_fn( data_loader,
  
             final_loss += loss.item()
 
-            preds_aktivierung_array.extend(output)
+            preds_aktivierung_array.extend(torch.round(output))
             loesung_aktivierung_array.extend(labels)
 
     return final_loss/len(data_loader), preds_aktivierung_array, loesung_aktivierung_array
