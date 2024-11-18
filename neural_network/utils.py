@@ -11,7 +11,7 @@ def calculate_accuracy(antwort_array, loesung_array):
 
 def show_conf_matrix(antwort_array, loesung_array, label, title, binary=False, plot=False):
     if len(label) > 1:
-        title = title + "\n" + str(calculate_accuracy(antwort_array, loesung_array)) + "%"
+        title = title + "\nGenauigkeit: " + str(calculate_accuracy(antwort_array, loesung_array)) + "%"
         print("\nConfusion matrix " + title)
         if binary:
             confmat_metric = ConfusionMatrix(task='binary', num_classes=2)
