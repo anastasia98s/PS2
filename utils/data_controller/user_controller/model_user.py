@@ -106,6 +106,7 @@ class ModelUser:
     # einen Benutzernamen abfragen
     def show_benutzer_name(self, benutzer_id):
         conn = self.connect_db()
+        benutzer_id = int(benutzer_id)
         try:
             cursor = conn.cursor()
             cursor.execute('SELECT benutzer FROM sp_benutzer WHERE benutzer_id = ?', (benutzer_id,))
