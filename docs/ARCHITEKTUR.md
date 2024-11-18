@@ -21,6 +21,7 @@
 ## 4. **KI-Technologie**
 - **Intent- und Entitätserkennung (BERT Architektur)**: erkennt Benutzereingaben und Entitäten
 - **Authentifizierung der Benutzer (CNN-Modell)**: identifiziert Benutzer durch ihre Stimme
+- **Aktivierungswort (CNN-Modell)**: identifiziert den Aufruf des Benutzers an den Assistenten
 - **Spracherkennungsmodell (Whisper)**: transkribiert gesprochene Sprache in Text
 - **Text-zu-Sprache-Modell (Microsoft)**: generiert gesprochene Antworten aus Text
 - **PDF-Verstehen (Ollama)**: beantwortet Fragen zu Inhalten eines PDFs
@@ -36,3 +37,11 @@
 ## 6. **Authentifizierung/Anmeldung Aktivitätsdiagramm**
 ![Aktivitätsdiagramm](docs_image/user_anmeldung.drawio.png)
 
+## 7. **Confusion Matrix**
+![Confusion Matrix von Authentifizierung-KI](docs_image/auth_matrix.png)
+
+- Confusion Matrix von Authentifizierung-KI
+
+![Confusion Matrix von Aktivierungswort-KI](docs_image/aktivierung_matrix.png)
+
+- Confusion Matrix von Aktivierungswort-KI
