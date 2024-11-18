@@ -58,3 +58,23 @@
 ### Confusion Matrix von Textklassifizierung-KI (Szenario)
 
 ![Confusion Matrix von Textklassifizierung-KI (Szenario)](docs_image/szenario_cm.png)
+
+
+# Intents-Sturktur
+
+Die Textklassifikation KI gibt einen Output in drei Hauptkategorien zurück:
+
+1. **Szenario**: Dies ist der Klassenname, der das Kontextumfeld der Anfrage beschreibt.
+2. **Absicht**: Dies ist die Funktion innerhalb der jeweiligen Klasse (Szenario).
+3. **Anmerkung**: Dies sind die Variablen, die für die Absicht innerhalb des Szenarios verwendet werden.
+
+## Beispiel:
+- Wie ist das Wetter heute in Berlin
+  - **Szenario**: "Wetter"
+  - **Absicht**: "abfragen"
+  - **Anmerkung**: "Standort: Berlin", "Datum: heute"
+
+- Lösche mein Meeting für morgen um 12 Uhr
+  - **Szenario**: "Todo-Liste"
+  - **Absicht**: "löschen"
+  - **Anmerkung**: "Aktivität: Meeting", "Datum: morgen", "Uhrzeit: 12Uhr"
