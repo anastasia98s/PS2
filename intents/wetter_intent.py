@@ -42,9 +42,5 @@ class WetterIntent(Datenkonverter):
                 return f"in {i_ort} {i_datum} {i_zeit} {bedingung} {temperatur} Grad", None
             else:
                 return None, config.ERROR_VARIABLE_ORT
-        except requests.Timeout:
-            return "Fehler: Zeitüberschreitung bei der Verbindung zur Wetter-API", None
-        except requests.RequestException as e:
-            return None, f"Bei der Wetterabfrage ist ein Fehler aufgetreten"
         except Exception as e:
-            return None, f"Unerwarteter Fehler bei der Wetterabfrage"
+            return "Bei der Wetterabfrage ist ein Fehler aufgetreten", None
