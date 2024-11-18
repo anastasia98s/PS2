@@ -5,6 +5,7 @@ import torch
 
 def show_conf_matrix(antwort_array, loesung_array, label, title, binary=False, plot=False):
     if len(label) > 1:
+        print("\nConfusion matrix " + title)
         if binary:
             confmat_metric = ConfusionMatrix(task='binary', num_classes=2)
         else:

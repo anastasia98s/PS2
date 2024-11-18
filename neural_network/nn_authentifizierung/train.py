@@ -5,7 +5,7 @@ import torch
 import torch.optim as optim
 from torch.utils.data import DataLoader
 from sklearn.model_selection import train_test_split
-
+from utils.data_controller.user_controller.presenter import PresenterUser
 import config
 import neural_network.nn_authentifizierung.utils
 from neural_network.nn_authentifizierung.model import Model
@@ -53,7 +53,11 @@ def train():
         best_preds_authentifizierung_array = []
         best_loesung_authentifizierung_array = []
 
-        confusion_matrix_class = encoder_benutzerids.classes_
+        confusion_matrix_class = []
+
+        user_presenter = PresenterUser()
+        for benutzerid in encoder_benutzerids.classes_:
+            confusion_matrix_class.append(user_presenter.show_benutzer_name(benutzerid))
 
         print("=" * 10)
         print("Device: " + str(device))
