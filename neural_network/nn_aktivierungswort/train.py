@@ -48,7 +48,7 @@ def train():
         best_preds_aktivierung_array = []
         best_loesung_aktivierung_array = []
 
-        confusion_matrix_class = ["kein Aktivierungswort", "Aktivierungswort"]
+        confusion_matrix_class = [0, 1]
 
         print("=" * 10)
         print("Device: " + str(device))
