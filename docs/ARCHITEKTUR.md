@@ -74,7 +74,7 @@ Die Textklassifikation KI gibt einen Output in drei Hauptkategorien zurück:
   - **Absicht**: "abfragen"
   - **Anmerkung**: "Standort: Berlin", "Datum: heute"
 
-- Lösche mein Meeting für morgen um 12 Uhr
+- Lösche meine Besprechung morgen um 12 Uhr
   - **Szenario**: "Todo-Liste"
   - **Absicht**: "löschen"
-  - **Anmerkung**: "Aktivität: Meeting", "Datum: morgen", "Uhrzeit: 12Uhr"
+  - **Anmerkung**: "Aktivität: Besprechung", "Datum: morgen", "Uhrzeit: 12Uhr"
