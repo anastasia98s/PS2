@@ -38,10 +38,10 @@
 ![Aktivitätsdiagramm](docs_image/user_anmeldung.drawio.png)
 
 ## 7. **Confusion Matrix**
-![Confusion Matrix von Authentifizierung-KI](docs_image/auth_matrix.png)
-
 - Confusion Matrix von Authentifizierung-KI
 
-![Confusion Matrix von Aktivierungswort-KI](docs_image/aktivierung_matrix.png)
+![Confusion Matrix von Authentifizierung-KI](docs_image/auth_matrix.png)
 
 - Confusion Matrix von Aktivierungswort-KI
+
+![Confusion Matrix von Aktivierungswort-KI](docs_image/aktivierung_matrix.png)
