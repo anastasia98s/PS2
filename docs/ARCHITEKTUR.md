@@ -30,9 +30,10 @@
 
 ## 5. **Datenflussdiagramm**
 ![Datenflussdiagramm](docs_image/komplexes_diagramm.drawio.png)
-- **einfaches Version**
 
-![Einfaches Datenflussdiagramm](docs_image/einfaches_diagramm.drawio.png)
+<!-- - **einfaches Version**
+
+![Einfaches Datenflussdiagramm](docs_image/einfaches_diagramm.drawio.png) -->
 
 ## 6. **Authentifizierung/Anmeldung Aktivitätsdiagramm**
 ![Aktivitätsdiagramm](docs_image/user_anmeldung.drawio.png)
