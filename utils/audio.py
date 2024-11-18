@@ -9,7 +9,7 @@ import re
 import pyaudio
 import time
 import threading
-from nn_aktivierungswort.predictor import Predictor as PredictorAktivierungswort
+from neural_network.nn_aktivierungswort.predictor import Predictor as PredictorAktivierungswort
 
 class Audio:
     def __init__(self):

@@ -3,8 +3,8 @@ import config
 import webview
 from utils.data_controller.textklassifizierung_controller.model_textklassifizierung import ModelTextklassifizierung
 from utils.data_controller.textklassifizierung_controller.view import View
-from nn_textklassifizierung.predictor import Predictor as PredictorText
-from nn_textklassifizierung import train
+from neural_network.nn_textklassifizierung.predictor import Predictor as PredictorText
+from neural_network.nn_textklassifizierung import train
 
 class PresenterTextklassifizierung:
     def __init__(self):

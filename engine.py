@@ -4,10 +4,10 @@ from intents.todolist_intent import ToDoListIntent
 from intents.wikipedia_intent import WikipediaIntent
 from intents.uhrzeit_intent import UhrzeitIntent
 from intents.datum_intent import DatumIntent
-from nn_textklassifizierung.predictor import Predictor as PredictorText
-from nn_authentifizierung.predictor import Predictor as PredictorUser
+from neural_network.nn_textklassifizierung.predictor import Predictor as PredictorText
+from neural_network.nn_authentifizierung.predictor import Predictor as PredictorUser
 from utils.data_controller.user_controller.presenter import PresenterUser
-from nn_authentifizierung import train as train_merkmale
+from neural_network.nn_authentifizierung import train as train_merkmale
 import config
 from utils.audio import Audio
 import os

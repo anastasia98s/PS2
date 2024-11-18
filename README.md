@@ -4,6 +4,7 @@
 - Speech-zu-Text-Funktionalität implementiert
 - Text-zu-Speech-Funktionalität implementiert
 - Multithreading für ASR implementiert
+- Confusion Matrix implementiert
 - Datenbank erstellt
    - [Datenbank für Textklassifizierung (hauptsächlich für Datensatzeditoren)](data/data_controller/model_textklassifizierung.py)
    - [Datenbank für User + To-Do-Liste + Authentifizierung](data/data_controller/model_user.py)

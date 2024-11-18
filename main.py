@@ -1,9 +1,9 @@
 from utils.data_controller.textklassifizierung_controller.presenter import PresenterTextklassifizierung
 from utils.data_controller.aktivierungswort_controller.presenter import PresenterAktivierungswort
-from nn_textklassifizierung.predictor import Predictor as PredictorText
-from nn_aktivierungswort import train as train_aktivierungswort_ki
-from nn_textklassifizierung import train as train_textklassifizierung_ki
-from nn_authentifizierung import train as train_authentifizierung_ki
+from neural_network.nn_textklassifizierung.predictor import Predictor as PredictorText
+from neural_network.nn_aktivierungswort import train as train_aktivierungswort_ki
+from neural_network.nn_textklassifizierung import train as train_textklassifizierung_ki
+from neural_network.nn_authentifizierung import train as train_authentifizierung_ki
 import config
 
 def main():

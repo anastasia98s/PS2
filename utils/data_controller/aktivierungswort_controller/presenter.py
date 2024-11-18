@@ -1,6 +1,6 @@
 import config
 from utils.audio import Audio
-from nn_aktivierungswort.utils import extract_features
+from neural_network.nn_aktivierungswort.utils import extract_features
 from utils.data_controller.aktivierungswort_controller.model_aktivierungswort import ModelAktivierungswort
 
 class PresenterAktivierungswort(Audio):

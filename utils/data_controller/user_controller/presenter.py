@@ -1,5 +1,5 @@
 import config
-from nn_authentifizierung.utils import extract_features
+from neural_network.nn_authentifizierung.utils import extract_features
 from utils.data_controller.user_controller.model_user import ModelUser
 
 class PresenterUser:
