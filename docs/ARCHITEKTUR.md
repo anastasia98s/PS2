@@ -69,12 +69,17 @@ Die Textklassifikation KI gibt einen Output in drei Hauptkategorien zurück:
 3. **Anmerkung**: Dies sind die Variablen, die für die Absicht innerhalb des Szenarios verwendet werden.
 
 ## Beispiel:
-- Wie ist das Wetter heute in Berlin
+- Wie ist das Wetter heute in Berlin?
   - **Szenario**: "Wetter"
   - **Absicht**: "abfragen"
   - **Anmerkung**: "Standort: Berlin", "Datum: heute"
 
-- Lösche meine Besprechung morgen um 12 Uhr
+- Lösche meine Besprechung morgen um 12 Uhr!
   - **Szenario**: "Todo-Liste"
   - **Absicht**: "löschen"
   - **Anmerkung**: "Aktivität: Besprechung", "Datum: morgen", "Uhrzeit: 12 Uhr"
+
+- Um wie viel Uhr ist meine Besprechung am Freitag?
+  - **Szenario**: "Todo-Liste"
+  - **Absicht**: "abfragen"
+  - **Anmerkung**: "Aktivität: Besprechung", "Datum: Freitag"
