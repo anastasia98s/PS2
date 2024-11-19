@@ -66,10 +66,11 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
       - **Aktivierungswort:**
          - Hey [Name]
          - [Name]
-         - … (Wiederhole so viele Varianten wie möglich)
+         - … (Wiederhole mind. 10-20 Mal)
       - **Kein Aktivierungswort:**
          - [Zufällige Rede]
          - [Zufällige Geräusche]
+         - … (Wiederhole mind. 10-20 Mal)
    4. Wenn du fertig bist, trainiere die Datensätze.
 
    **Hinweis:**
