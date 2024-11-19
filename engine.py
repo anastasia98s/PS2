@@ -60,24 +60,24 @@ class Engine:
         if len(self.run_engine_processor) > 0:
             for engine_processor in self.run_engine_processor:
                 engine_processor.thread_event.set()
-                self.run_engine_processor.remove(engine_processor)
+                #self.run_engine_processor.remove(engine_processor)
 
     def finished_run_engine_processor(self, engine_processor):
-        print(len(self.run_engine_processor), engine_processor)
+        #print(len(self.run_engine_processor), engine_processor)
         self.run_engine_processor.remove(engine_processor)
-        print(len(self.run_engine_processor))
+        #print(len(self.run_engine_processor))
 
     def start(self):
         self.text_to_speech.text_to_speech("Ich bin bereit")
         while True:
             self.aktivierungswort.wake_word_recognize(config.AUDIO_SAMPLE_RATE)
-            
+            self.shutdown_run_engine_processor()
             self.text_to_speech.text_to_speech("Ja?")
             antwort_signal_trim, antwort_text = self.speech_to_text.listen_recognize(3, config.AUDIO_SAMPLE_RATE)
+            
             self.authentifizieren(antwort_signal_trim)
             if self.benutzer_id:
                 self.presenter_user.save_features(antwort_signal_trim, self.benutzer_id)
-                self.shutdown_run_engine_processor()
                 engine_processor = EngineProcessor(self.speech_to_text, self.text_to_speech, self)
                 self.run_engine_processor.append(engine_processor)
                 main_thread = threading.Thread(target=engine_processor.start, args=(self.benutzer_id, antwort_text))

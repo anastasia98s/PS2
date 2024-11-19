@@ -6,7 +6,7 @@ import librosa
 import pyaudio
 import time
 
-def listen(silence_duration, sample_rate, max_time=config.MAX_RECORDING_TIME, status_class_thread=None):
+def listen(silence_duration, sample_rate, max_time=config.MAX_RECORDING_TIME, status_class_thread=None, save_rec=True):
     audio = pyaudio.PyAudio()
     chunk = 1024
     stream = audio.open( format=pyaudio.paInt16,
@@ -73,13 +73,14 @@ def listen(silence_duration, sample_rate, max_time=config.MAX_RECORDING_TIME, st
     recording_concat = np.concatenate([np.frombuffer(chunk, dtype=np.int16) for chunk in recording])
 
     # Audioqualität testen
-    folder_path = os.path.dirname(config.RECORD_TMP_PATH)
-    os.makedirs(folder_path, exist_ok=True)
-    with wave.open(config.RECORD_TMP_PATH, 'wb') as wf:
-        wf.setnchannels(1)
-        wf.setsampwidth(2)
-        wf.setframerate(sample_rate)
-        wf.writeframes(recording_concat.tobytes())
+    if save_rec:
+        folder_path = os.path.dirname(config.RECORD_TMP_PATH)
+        os.makedirs(folder_path, exist_ok=True)
+        with wave.open(config.RECORD_TMP_PATH, 'wb') as wf:
+            wf.setnchannels(1)
+            wf.setsampwidth(2)
+            wf.setframerate(sample_rate)
+            wf.writeframes(recording_concat.tobytes())
 
     recording_flat = recording_concat.flatten().astype(np.float32)
     recording_trim, _ = librosa.effects.trim(recording_flat, top_db=config.AUDIO_DB)

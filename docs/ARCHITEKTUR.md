@@ -28,17 +28,16 @@
 
 ![KI-Modell](docs_image/KI-Modell.drawio.png)
 
-## 5. **Datenflussdiagramm**
-![Datenflussdiagramm](docs_image/komplexes_diagramm.drawio.png)
+## 5. **Systemdiagramm**
+![Systemdiagramm](docs_image/input_output.drawio.png)
 
-<!-- - **einfaches Version**
+## 6. **Authentifizierung/Anmeldung Flussdiagramm**
+![Flussdiagramm](docs_image/user_anmeldung.drawio.png)
 
-![Einfaches Datenflussdiagramm](docs_image/einfaches_diagramm.drawio.png) -->
+## 7. **Multithreading**
+![Multithreading](docs_image/thread.drawio.png)
 
-## 6. **Authentifizierung/Anmeldung Aktivitätsdiagramm**
-![Aktivitätsdiagramm](docs_image/user_anmeldung.drawio.png)
-
-## 7. **Confusion Matrix**
+## 8. **Confusion Matrix**
 ### Confusion Matrix von Authentifizierung-KI
 
 ![Confusion Matrix von Authentifizierung-KI](docs_image/auth_matrix.png)

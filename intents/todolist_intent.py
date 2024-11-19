@@ -4,9 +4,10 @@ import config
 from datetime import datetime
 
 class ToDoListIntent(Datenkonverter):
-    def __init__(self):
+    def __init__(self, processor_class_engine):
         super().__init__()
         self.model_user = ModelUser() # mit Datenbank verbinden
+        self.processor_class_engine = processor_class_engine
     
     def satz_konvertierung(self, todo_list, todo_datum):
         satze = []
@@ -29,6 +30,9 @@ class ToDoListIntent(Datenkonverter):
         return "\n".join(satze)
     
     def abfragen(self, i_aktivitaet, i_zeit, i_datum, i_benutzer_id):
+        if self.processor_class_engine.thread_event.is_set():
+            return None, None
+        
         datezeit = None
         datum = None
         if i_zeit or i_datum: # Frag nach Aktivität
@@ -53,12 +57,16 @@ class ToDoListIntent(Datenkonverter):
             return "Sie sind frei", None
     
     def eingeben(self, i_aktivitaet, i_zeit, i_datum, i_benutzer_id):
+        if self.processor_class_engine.thread_event.is_set():
+            return None, None
+        
         if i_aktivitaet:
             t_datum = super().date_text_cleaner(i_datum)
             t_zeit = super().date_text_cleaner(i_zeit, zeit=True)
             datezeit, errortyp = super().date_zeit_konverter(t_datum, t_zeit)
             if not datezeit:
                 return None, errortyp
+            
             self.model_user.add_todo(i_aktivitaet, datezeit, i_benutzer_id)
             return f"neue {i_aktivitaet} am {t_datum} um {t_zeit} wurde in To-Do-List eingegeben", None
         else:
@@ -66,6 +74,9 @@ class ToDoListIntent(Datenkonverter):
             # return "Ich kann das To-Do-Objekt nicht identifizieren", None
     
     def entfernen(self, i_aktivitaet, i_zeit, i_datum, i_benutzer_id):
+        if self.processor_class_engine.thread_event.is_set():
+            return None, None
+        
         datezeit = None
         datum = None
         if i_aktivitaet:
@@ -91,7 +102,7 @@ class ToDoListIntent(Datenkonverter):
             delete_result = self.model_user.delete_todo(i_aktivitaet, datum, datezeit, i_benutzer_id)
             if not delete_result:
                 antwort = f"Ich habe kein {i_aktivitaet} in Ihre To-Do-Liste gefunden"
-                
+            
             return antwort, None
         else:
             return None, config.ERROR_VARIABLE_AKTIVITAET

@@ -3,7 +3,7 @@
 - Textklassifizierung mit Intents verbunden
 - Speech-zu-Text-Funktionalität implementiert
 - Text-zu-Speech-Funktionalität implementiert
-- Multithreading für ASR implementiert
+- Multithreading implementiert
 - Confusion Matrix implementiert
 - Datenbank erstellt
    - [Datenbank für Textklassifizierung (hauptsächlich für Datensatzeditoren)](data/data_controller/model_textklassifizierung.py)
@@ -16,7 +16,8 @@
    - *musst du nur das `data`-Verzeichnis durch diese Daten richtig ersetzen.*
 
 ## To-Do
-- Multithreading/Multiprocessing implementieren
+- Text-zu-Speech verbessern
+ - *TTS von Microsoft funktioniert nicht so gut, wenn Multithreading implementiert werden. Stattdessen kann gTTs genutzt werden, allerdings benötigt gTTs eine Internetverbindung*
 - Mikroservice + API + neue Datenbank? erstellen
 - Intents "Suchintent, Wikipedia" erstellen. [Intends Ordner](intents).
 - Mehr Datasets/Testdaten für Textklassifizierung sammeln. *(weitere Datensätze in den **Data-Controller** in `main.py` eingeben)*

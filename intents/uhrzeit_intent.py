@@ -2,7 +2,8 @@ from datetime import datetime
 import pytz
 
 class UhrzeitIntent:
-    def __init__(self):
+    def __init__(self, processor_class_engine):
+        self.processor_class_engine = processor_class_engine
         self.time_zone = {
             "berlin": "Europe/Berlin",
             "new york": "America/New_York",
@@ -23,6 +24,9 @@ class UhrzeitIntent:
         }
         
     def abfragen(self, i_ort):
+        if self.processor_class_engine.thread_event.is_set():
+            return None, None
+        
         time = datetime.now(pytz.utc)
         if i_ort:
             if i_ort.lower() in self.time_zone:

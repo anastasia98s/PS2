@@ -13,7 +13,10 @@ class STT:
         else:
             self.recognizer = whisper.load_model(config.SPEECH_RECOGNITION_MODELL, config.DEVICE)
 
-    def recognize(self, signal):
+    def recognize(self, signal, status_class_thread=None):
+        if status_class_thread and status_class_thread.thread_event.is_set():
+            return None
+        
         if config.LEICHTES_ASR_MODELL:
             with sr.AudioFile(config.RECORD_TMP_PATH) as source:
                 audio_data = self.recognizer.record(source)
@@ -40,26 +43,36 @@ class STT:
             else:
                 return None
                 
-    def listen_recognize(self, silence_duration, sample_rate):
+    def listen_recognize(self, silence_duration, sample_rate, status_class_thread=None):
         while True:
-            antwort_signal, antwort_signal_trim = utils.audio.utils.listen(silence_duration, sample_rate)
-            antwort_text = self.recognize(antwort_signal)
+            if status_class_thread and status_class_thread.thread_event.is_set():
+                return None, None
+            
+            antwort_signal, antwort_signal_trim = utils.audio.utils.listen(silence_duration, sample_rate, status_class_thread=status_class_thread)
+            antwort_text = self.recognize(antwort_signal, status_class_thread=status_class_thread)
             
             if not antwort_text:
-                self.text_to_speech.text_to_speech("nochmal bitte")
+                self.text_to_speech.text_to_speech("nochmal bitte", status_class_thread=status_class_thread)
             else:
                 antwort_text = re.sub(r'[.!?]$', '', antwort_text)
                 print("Sie haben gesagt: " + antwort_text)
                 break
-
+        
         return antwort_signal_trim, antwort_text
     
-    def dialog(self, silence_duration, satz):
-        self.text_to_speech.text_to_speech(satz) # self.audio.text_to_speech(satz)
-        _, antwort_text = self.listen_recognize(silence_duration, config.AUDIO_SAMPLE_RATE)
+    def dialog(self, silence_duration, satz, status_class_thread=None):
+        if status_class_thread and status_class_thread.thread_event.is_set():
+            return None
+        
+        self.text_to_speech.text_to_speech(satz, status_class_thread=status_class_thread) # self.audio.text_to_speech(satz)
+        _, antwort_text = self.listen_recognize(silence_duration, config.AUDIO_SAMPLE_RATE, status_class_thread=status_class_thread)
+        
         return antwort_text
     
-    def intent_variable_error_reask(self, errortyp, neue_daten_abfragen=False):
+    def intent_variable_error_reask(self, errortyp, neue_daten_abfragen=False, status_class_thread=None):
+        if status_class_thread and status_class_thread.thread_event.is_set():
+                return None
+        
         wd_text = "nochmal " if not neue_daten_abfragen else ""
         
         variable_typen = {
@@ -71,6 +84,6 @@ class STT:
 
         variable_name = variable_typen.get(errortyp)
         if not variable_name:
-            self.text_to_speech.text_to_speech("Es gab ein Problem mit dem System. Bitte versuche es erneut.")
+            self.text_to_speech.text_to_speech("Es gab ein Problem mit dem System. Bitte versuche es erneut.", status_class_thread=status_class_thread)
             # sys.exit("Das Programm wird beendet.")
-        return self.dialog(1, f"Kannst du {variable_name} {wd_text}sagen?")
+        return self.dialog(1, f"Kannst du {variable_name} {wd_text}sagen?", status_class_thread=status_class_thread)

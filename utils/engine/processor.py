@@ -11,16 +11,16 @@ import threading
 class EngineProcessor:
     def __init__(self, speech_to_text, text_to_speech, main_class_engine):
         self.predictor_text = PredictorText(config.TEXTKLASSIFIZIERUNG_TRAINED_PATH)
-        self.wetter_intent = WetterIntent()
-        self.studienordnung_intent = StudienordnungIntent()
-        self.todolist_intent = ToDoListIntent()
-        self.wikipedia_intent = WikipediaIntent()
-        self.uhrzeit_intent = UhrzeitIntent()
-        self.datum_intent = DatumIntent()
+        self.wetter_intent = WetterIntent(self)
+        self.studienordnung_intent = StudienordnungIntent(self)
+        self.todolist_intent = ToDoListIntent(self)
+        self.wikipedia_intent = WikipediaIntent(self)
+        self.uhrzeit_intent = UhrzeitIntent(self)
+        self.datum_intent = DatumIntent(self)
         self.speech_to_text = speech_to_text
         self.text_to_speech = text_to_speech
-        self.thread_event = threading.Event()
         self.main_class_engine = main_class_engine
+        self.thread_event = threading.Event()
 
     def intent_filter(self, absicht, szenario, anmerkungen, anmerkungen_label, user_id):
         if not self.thread_event.is_set():
@@ -76,8 +76,8 @@ class EngineProcessor:
                             if not error_result:
                                 return intent_result
                             else:
-                                t_datum = self.speech_to_text.intent_variable_error_reask(error_result)
-                                if any(word in t_datum.lower().split() for word in ["nein", "ne"]):
+                                t_datum = self.speech_to_text.intent_variable_error_reask(error_result, status_class_thread=self)
+                                if t_datum and any(word in t_datum.lower().split() for word in ["nein", "ne"]):
                                     return "verstehe"
                         else:
                             return None
@@ -91,16 +91,16 @@ class EngineProcessor:
                                 return intent_result
                             else:
                                 if error_result == config.ERROR_VARIABLE_DATUM:
-                                    t_datum = self.speech_to_text.intent_variable_error_reask(error_result)
-                                    if any(word in t_datum.lower().split() for word in ["nein", "ne"]):
+                                    t_datum = self.speech_to_text.intent_variable_error_reask(error_result, status_class_thread=self)
+                                    if t_datum and any(word in t_datum.lower().split() for word in ["nein", "ne"]):
                                         return "verstehe"
                                 elif error_result == config.ERROR_VARIABLE_ZEIT:
-                                    t_zeit = self.speech_to_text.intent_variable_error_reask(error_result)
-                                    if any(word in t_zeit.lower().split() for word in ["nein", "ne"]):
+                                    t_zeit = self.speech_to_text.intent_variable_error_reask(error_result, status_class_thread=self)
+                                    if t_zeit and any(word in t_zeit.lower().split() for word in ["nein", "ne"]):
                                         return "verstehe"
                                 elif error_result == config.ERROR_VARIABLE_ORT:
-                                    t_ort = self.speech_to_text.intent_variable_error_reask(error_result)
-                                    if any(word in t_ort.lower().split() for word in ["nein", "ne"]):
+                                    t_ort = self.speech_to_text.intent_variable_error_reask(error_result, status_class_thread=self)
+                                    if t_ort and any(word in t_ort.lower().split() for word in ["nein", "ne"]):
                                         return "verstehe"
                         else:
                             return None
@@ -130,24 +130,24 @@ class EngineProcessor:
                                 return intent_result
                             else:
                                 if error_result == config.ERROR_VARIABLE_DATUM:
-                                    t_datum = self.speech_to_text.intent_variable_error_reask(error_result)
-                                    if any(word in t_datum.lower().split() for word in ["nein", "ne"]):
+                                    t_datum = self.speech_to_text.intent_variable_error_reask(error_result, status_class_thread=self)
+                                    if t_datum and any(word in t_datum.lower().split() for word in ["nein", "ne"]):
                                         return "verstehe"
                                 elif error_result == config.ERROR_VARIABLE_ZEIT:
-                                    t_zeit = self.speech_to_text.intent_variable_error_reask(error_result)
-                                    if any(word in t_zeit.lower().split() for word in ["nein", "ne"]):
+                                    t_zeit = self.speech_to_text.intent_variable_error_reask(error_result, status_class_thread=self)
+                                    if t_zeit and any(word in t_zeit.lower().split() for word in ["nein", "ne"]):
                                         return "verstehe"
                         else:
                             return None
                 case (config.SZENARIO_TODO_LIST, config.ABSICHT_EINGEBEN): # hinzufügen
                     
                     if not t_datum:
-                        t_datum = self.speech_to_text.intent_variable_error_reask(1, True)
-                        if any(word in t_datum.lower().split() for word in ["nein", "ne"]):
+                        t_datum = self.speech_to_text.intent_variable_error_reask(1, neue_daten_abfragen=True, status_class_thread=self)
+                        if t_datum and any(word in t_datum.lower().split() for word in ["nein", "ne"]):
                             return "verstehe"
                     if not t_zeit:
-                        t_zeit = self.speech_to_text.intent_variable_error_reask(2, True)
-                        if any(word in t_zeit.lower().split() for word in ["nein", "ne"]):
+                        t_zeit = self.speech_to_text.intent_variable_error_reask(2, neue_daten_abfragen=True, status_class_thread=self)
+                        if t_zeit and any(word in t_zeit.lower().split() for word in ["nein", "ne"]):
                             return "verstehe"
 
                     while True:
@@ -158,16 +158,16 @@ class EngineProcessor:
                                 return intent_result
                             else:
                                 if error_result == config.ERROR_VARIABLE_DATUM:
-                                    t_datum = self.speech_to_text.intent_variable_error_reask(error_result)
-                                    if any(word in t_datum.lower().split() for word in ["nein", "ne"]):
+                                    t_datum = self.speech_to_text.intent_variable_error_reask(error_result, status_class_thread=self)
+                                    if t_datum and any(word in t_datum.lower().split() for word in ["nein", "ne"]):
                                         return "verstehe"
                                 elif error_result == config.ERROR_VARIABLE_ZEIT:
-                                    t_zeit = self.speech_to_text.intent_variable_error_reask(error_result)
-                                    if any(word in t_zeit.lower().split() for word in ["nein", "ne"]):
+                                    t_zeit = self.speech_to_text.intent_variable_error_reask(error_result, status_class_thread=self)
+                                    if t_zeit and any(word in t_zeit.lower().split() for word in ["nein", "ne"]):
                                         return "verstehe"
                                 elif error_result == config.ERROR_VARIABLE_AKTIVITAET:
-                                    t_aktivitaet = self.speech_to_text.intent_variable_error_reask(error_result)
-                                    if any(word in t_aktivitaet.lower().split() for word in ["nein", "ne"]):
+                                    t_aktivitaet = self.speech_to_text.intent_variable_error_reask(error_result, status_class_thread=self)
+                                    if t_aktivitaet and any(word in t_aktivitaet.lower().split() for word in ["nein", "ne"]):
                                         return "verstehe"
                         else:
                             return None
@@ -180,16 +180,16 @@ class EngineProcessor:
                                 return intent_result
                             else:
                                 if error_result == config.ERROR_VARIABLE_DATUM:
-                                    t_datum = self.speech_to_text.intent_variable_error_reask(error_result)
-                                    if any(word in t_datum.lower().split() for word in ["nein", "ne"]):
+                                    t_datum = self.speech_to_text.intent_variable_error_reask(error_result, status_class_thread=self)
+                                    if t_datum and any(word in t_datum.lower().split() for word in ["nein", "ne"]):
                                         return "verstehe"
                                 elif error_result == config.ERROR_VARIABLE_ZEIT:
-                                    t_zeit = self.speech_to_text.intent_variable_error_reask(error_result)
-                                    if any(word in t_zeit.lower().split() for word in ["nein", "ne"]):
+                                    t_zeit = self.speech_to_text.intent_variable_error_reask(error_result, status_class_thread=self)
+                                    if t_zeit and any(word in t_zeit.lower().split() for word in ["nein", "ne"]):
                                         return "verstehe"
                                 elif error_result == config.ERROR_VARIABLE_AKTIVITAET:
-                                    t_aktivitaet = self.speech_to_text.intent_variable_error_reask(error_result)
-                                    if any(word in t_aktivitaet.lower().split() for word in ["nein", "ne"]):
+                                    t_aktivitaet = self.speech_to_text.intent_variable_error_reask(error_result, status_class_thread=self)
+                                    if t_aktivitaet and any(word in t_aktivitaet.lower().split() for word in ["nein", "ne"]):
                                         return "verstehe"
                         else:
                             return None
@@ -210,7 +210,6 @@ class EngineProcessor:
             else:
                 output_satz = "Ich verstehe ihren Absicht nicht"
 
-            if not self.thread_event.is_set():
-                self.text_to_speech.text_to_speech(output_satz)
+            self.text_to_speech.text_to_speech(output_satz, status_class_thread=self)
 
-            self.main_class_engine.finished_run_engine_processor(self)
+        self.main_class_engine.finished_run_engine_processor(self)

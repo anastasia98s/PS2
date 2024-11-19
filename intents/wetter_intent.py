@@ -3,10 +3,14 @@ import config
 from intents.datenkonverter import Datenkonverter
 
 class WetterIntent(Datenkonverter):
-    def __init__(self):
+    def __init__(self, processor_class_engine):
         super().__init__()
+        self.processor_class_engine = processor_class_engine
     
     def abfragen(self, i_zeit, i_datum, i_ort): # Bsp. Wie ist das Wetter um 18 Uhr morgen in Berlin
+        if self.processor_class_engine.thread_event.is_set():
+            return None, None
+        
         #url = f"http://example.com/weather?date={i_datum}&time={i_zeit}&location={i_ort}" # such ein besseres API
                 
         if not i_ort:

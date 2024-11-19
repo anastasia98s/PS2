@@ -9,7 +9,10 @@ class TTS:
         #self.set_sprache_text_to_speech(config.MICROSOFT_SPEECH)
         pass
             
-    def text_to_speech(self, satz):
+    def text_to_speech(self, satz, status_class_thread=None):
+        if status_class_thread and status_class_thread.thread_event.is_set():
+            return None
+        
         """ self.pyttsx3.setProperty('rate', 150)
         self.pyttsx3.setProperty('volume', 1)
         self.pyttsx3.say(satz)
