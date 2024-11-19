@@ -9,11 +9,15 @@ import re
 import pyaudio
 import time
 import threading
+import speech_recognition as sr
 from neural_network.nn_aktivierungswort.predictor import Predictor as PredictorAktivierungswort
 
 class Audio:
     def __init__(self):
-        self.recognizer = whisper.load_model(config.SPEECH_RECOGNITION_MODELL, config.DEVICE)
+        if config.LEICHTES_ASR_MODELL:
+            self.recognizer = sr.Recognizer()
+        else:
+            self.recognizer = whisper.load_model(config.SPEECH_RECOGNITION_MODELL, config.DEVICE)
         self.pyttsx3 = pyttsx3.init()
         self.set_sprache_text_to_speech(config.MICROSOFT_SPEECH)
         self.wake_word_recognize_stoppen = threading.Event()
@@ -105,18 +109,32 @@ class Audio:
     def recognize(self, signal):
         if self.wake_word_recognize_stoppen.is_set():
             return None
-        signal = signal.astype(np.float32)
-        signal = whisper.pad_or_trim(signal)
-        result = self.recognizer.transcribe(signal, language=config.WHISPER_SPRACHE)
-        sr_text = result["text"]
-        if sr_text:
-            no_speech_prob = result['segments'][0]['no_speech_prob']
-            if no_speech_prob < config.NO_SPEECH_MAX_NOTEN:
-                return sr_text.strip()
+        
+        if config.LEICHTES_ASR_MODELL:
+            with sr.AudioFile(config.RECORD_TMP_PATH) as source:
+                audio_data = self.recognizer.record(source)
+                try:
+                    text = self.recognizer.recognize_google(audio_data, language=config.AUDIO_SPRACHE)
+                    return text
+                except sr.UnknownValueError:
+                    print("Entschuldigung, ich konnte die Audioaufnahme nicht verstehen.")
+                    return None
+                except sr.RequestError as e:
+                    print("Konnte keine Ergebnisse anfordern; {0}".format(e))
+                    return None
+        else:
+            signal = signal.astype(np.float32)
+            signal = whisper.pad_or_trim(signal)
+            result = self.recognizer.transcribe(signal, language=config.WHISPER_SPRACHE)
+            sr_text = result["text"]
+            if sr_text:
+                no_speech_prob = result['segments'][0]['no_speech_prob']
+                if no_speech_prob < config.NO_SPEECH_MAX_NOTEN:
+                    return sr_text.strip()
+                else:
+                    return None
             else:
                 return None
-        else:
-            return None
                 
     def text_to_speech(self, satz):
         self.pyttsx3.setProperty('rate', 150)
