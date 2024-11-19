@@ -11,7 +11,7 @@ class Predictor:
         self.device = config.DEVICE
         
         self.model = Model(config.AKTIVIERUNGSWORT_HIDDEN_UNITS_1, config.AKTIVIERUNGSWORT_HIDDEN_UNITS_2)
-        self.model.load_state_dict(torch.load(model_path, weights_only=True))
+        self.model.load_state_dict(torch.load(model_path, weights_only=True, map_location=torch.device(config.DEVICE)))
         self.model.to(self.device).eval()
     
     def merkmale_prediction(self, mel_tensor):

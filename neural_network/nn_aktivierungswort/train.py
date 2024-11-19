@@ -35,7 +35,7 @@ def train():
 
         if config.AKTIVIERUNGSWORT_RETRAIN_MODEL:
             try:
-                model.load_state_dict(torch.load(config.AKTIVIERUNGSWORT_TRAINED_PATH))
+                model.load_state_dict(torch.load(config.AKTIVIERUNGSWORT_TRAINED_PATH, map_location=torch.device(config.DEVICE)))
                 print("\n!!!Retraining!!!")
             except Exception as e:
                 print(f"\nFehler beim Laden des Modells für das Retraining: {e}")

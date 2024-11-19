@@ -18,7 +18,7 @@ class Predictor:
         self.num_benutzerids = len(self.encoder_benutzerids.classes_)
 
         self.model = Model(self.num_benutzerids, config.AUTHENTIFIZIERUNG_HIDDEN_UNITS_1, config.AUTHENTIFIZIERUNG_HIDDEN_UNITS_2)
-        self.model.load_state_dict(torch.load(model_path, weights_only=True))
+        self.model.load_state_dict(torch.load(model_path, weights_only=True, map_location=torch.device(config.DEVICE)))
         self.model.to(self.device).eval()
     
     def merkmale_prediction(self, mfcc_tensor):

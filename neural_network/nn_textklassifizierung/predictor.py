@@ -26,7 +26,7 @@ class Predictor:
         self.num_szenario = len(self.encoder_szenario.classes_)
 
         self.model = Model(self.num_anmerkung, self.num_absicht, self.num_szenario)
-        self.model.load_state_dict(torch.load(model_path, weights_only=True))
+        self.model.load_state_dict(torch.load(model_path, weights_only=True, map_location=torch.device(config.DEVICE)))
         self.model.to(self.device).eval()
 
     def process_satz(self, satz):
