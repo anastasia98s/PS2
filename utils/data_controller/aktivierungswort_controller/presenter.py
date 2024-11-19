@@ -1,15 +1,15 @@
 import config
-from utils.audio import Audio
+from utils.audio.utils import listen
 from neural_network.nn_aktivierungswort.utils import extract_features
 from utils.data_controller.aktivierungswort_controller.model_aktivierungswort import ModelAktivierungswort
 
-class PresenterAktivierungswort(Audio):
+class PresenterAktivierungswort():
     def __init__(self):
         self.model = ModelAktivierungswort()
 
     def aktivierungswort_aufnehmen(self, silence_duration, sample_rate):
         while True:
-            antwort_signal, antwort_signal_trim = super().listen(silence_duration, sample_rate, ohne_init=True)
+            antwort_signal, antwort_signal_trim = listen(silence_duration, sample_rate)
             
             wort_typ = None
             skip = False

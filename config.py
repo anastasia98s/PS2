@@ -52,7 +52,7 @@ AKTIVIERUNGSWORT_AUFNAHME_DAUER = 2
 
 MAX_RECORDING_TIME = 8
 
-LEICHTES_ASR_MODELL = False # Google SR ist online, aber es ist leicht. (wenn du kein CUDA hast).
+LEICHTES_ASR_MODELL = True # Google SR ist online, aber es ist leicht. (wenn du kein CUDA hast).
 SPEECH_RECOGNITION_MODELL = "large"
 AUDIO_SPRACHE = "de-DE"
 ZEIT_STANDORT = "de_DE.UTF-8"
