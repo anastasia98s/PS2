@@ -217,6 +217,11 @@ def val_fn(data_loader, model,device, batch=None):
             active_preds_anmerkung = preds_anmerkung.view(-1)[active_mask]
             active_target_anmerkung = batch['target_anmerkung'].view(-1)[active_mask]
 
+            active_ids = batch['ids'].view(-1)[active_mask]
+            filter_ids = (active_ids != 101) & (active_ids != 102)
+            active_preds_anmerkung = active_preds_anmerkung[filter_ids]
+            active_target_anmerkung = active_target_anmerkung[filter_ids]
+
             preds_anmerkung_array.extend(active_preds_anmerkung)
             loesung_anmerkung_array.extend(active_target_anmerkung)
 
