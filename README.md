@@ -122,34 +122,6 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
    - **Bestimmte Aktivität löschen**
       - Kannst du mein Meeting morgen um 12:10 Uhr löschen?
 
-## Wetter-Befehle
-- **Wetter zu einem Zeitpunkt**
-   - Wie ist das Wetter am 11.12. um 12 Uhr?
-   - Wie ist das Wetter morgen früh?
-
-- **Wetter an einem Datum**
-   - Wie ist das Wetter am Dienstag?
-   - Wie ist das Wetter heute?
-   - Wie wird das Wetter übermorgen?
-   - Wie ist das Wetter am 11.10?
-   - Wie ist das Wetter?
-
-- **Wetter an einem Ort**
-   - Wie wird das Wetter morgen um 12:30 in Rio de Janeiro?
-   - Zeig mir das Wetter für heute Abend in New York.
-   - Wie wird das Wetter in Berlin?
-
-## Datum-Befehle
-- Welches Datum haben wir heute?
-- Welches Datum war (vor)gestern?
-- Was ist das Datum übermorgen?
-- Welches Datum hat der Donnerstag?
-
-## Uhrzeit-Befehle
-- Wie spät ist es jetzt?
-- Wie viel Uhr ist es in Berlin?
-- Welche Uhrzeit haben wir in New York?
-
 ## Studienordnung Befehle
 - Was ist eine PVL?
 - Wie läuft ne Mündliche Prüfung ab?
@@ -168,7 +140,41 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
 ## Wikipedia Befehle
 - TODO
 
-## Suchintent Befehle
-- TODO
+## Suchintent Wetter-Befehle
+- **Wetter zu einem Zeitpunkt**
+   - Wie ist das Wetter am 11.12. um 12 Uhr?
+   - Wie ist das Wetter morgen früh?
+
+- **Wetter an einem Datum**
+   - Wie ist das Wetter am Dienstag?
+   - Wie ist das Wetter heute?
+   - Wie wird das Wetter übermorgen?
+   - Wie ist das Wetter am 11.10?
+   - Wie ist das Wetter?
+
+- **Wetter an einem Ort**
+   - Wie wird das Wetter morgen um 12:30 in Rio de Janeiro?
+   - Zeig mir das Wetter für heute Abend in New York.
+   - Wie wird das Wetter in Berlin?
+
+## Suchintent Datum-Befehle
+- Welches Datum haben wir heute?
+- Welches Datum war (vor)gestern?
+- Was ist das Datum übermorgen?
+- Welches Datum hat der Donnerstag?
+
+## Suchintent Uhrzeit-Befehle
+- Wie spät ist es jetzt?
+- Wie viel Uhr ist es in Berlin?
+- Welche Uhrzeit haben wir in New York?
+
+## Suchintent Youtube Befehle
+- Such nach dem Podcast über Künstliche Intelligenz auf YouTube
+- Finde den Podcast von Fest und Flauschig auf YouTube
+- Such nach Musik von Beethoven auf YouTube
+- Spiel Let It Be von The Beatles auf YouTube
+- Such nach Shape of You auf YouTube
+- Finde ein Video über gesunde Ernährung
+- Such nach einem Video über Tipps für bessere Fotografie
 
 **Hinweis:** Um ein besseres Modell zu erhalten, kannst du im **Data-Controller** in `main.py` weitere Datensätze eingeben und trainieren.
