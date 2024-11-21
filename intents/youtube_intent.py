@@ -45,7 +45,8 @@ class YoutubeIntent(Datenkonverter):
                     if is_live:
                         print(f"Video {video_titel} ist ein Livestream. Download abgebrochen.")
                         return f"Such nach einem anderen Video", 2
-
+                        
+                    self.text_to_speech.text_to_speech(f"{video_titel} herunterladen")
                     if video_duration > config.MAX_YOUTUBE_FILE * 60:
                         print(f"Video {video_titel} ist zu lang (>{config.MAX_YOUTUBE_FILE} Minuten). Download abgebrochen.")
                         return f"Such nach einem anderen Video", 2
@@ -83,7 +84,7 @@ class YoutubeIntent(Datenkonverter):
         if self.prozess:
             self.aktion_abbrechen()
         
-        self.text_to_speech.text_to_speech("Audio herunterladen")
+        self.text_to_speech.text_to_speech("suche ein Video zum Herunterladen")
         message = None
         while True:
             message, error = self.download_video_as_audio()
