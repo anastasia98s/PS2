@@ -10,6 +10,8 @@ from neural_network.nn_aktivierungswort.model import Model
 import neural_network.utils
 
 def train():
+    if not os.path.isfile(config.AKTIVIERUNGSWORT_DATENBANK_PATH):
+        raise FileNotFoundError(f"\ndie Datenbank ist leer")
     merkmale, labels = neural_network.nn_aktivierungswort.utils.get_data(config.AKTIVIERUNGSWORT_DATENBANK_PATH)
 
     if len(merkmale > 1):

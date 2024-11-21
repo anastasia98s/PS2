@@ -79,7 +79,8 @@ class STT:
             config.ERROR_VARIABLE_DATUM: "das Datum",
             config.ERROR_VARIABLE_ZEIT: "die Zeit",
             config.ERROR_VARIABLE_ORT: "der Ort",
-            config.ERROR_VARIABLE_AKTIVITAET: "den Terminnamen oder die Aktivität"
+            config.ERROR_VARIABLE_AKTIVITAET: "den Terminnamen oder die Aktivität",
+            config.ERROR_VARIABLE_THEMA: "das Thema"
         }
 
         variable_name = variable_typen.get(errortyp)

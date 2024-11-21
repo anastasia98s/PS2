@@ -1,22 +1,31 @@
 import config
-from intents.wetter_intent import WetterIntent
-from intents.studienordnung.studienordnung_intent import StudienordnungIntent
-from intents.todolist_intent import ToDoListIntent
-from intents.wikipedia_intent import WikipediaIntent
-from intents.uhrzeit_intent import UhrzeitIntent
-from intents.datum_intent import DatumIntent
 from neural_network.nn_textklassifizierung.predictor import Predictor as PredictorText
 import threading
 
 class EngineProcessor:
-    def __init__(self, speech_to_text, text_to_speech, main_class_engine):
+    def __init__(self,
+                 speech_to_text,
+                 text_to_speech,
+                 main_class_engine,
+                 wetter_intent,
+                 studienordnung_intent,
+                 todolist_intent,
+                 wikipedia_intent,
+                 uhrzeit_intent,
+                 datum_intent,
+                 system_intent,
+                 youtube_intent,
+                 search_engine_intent):
         self.predictor_text = PredictorText(config.TEXTKLASSIFIZIERUNG_TRAINED_PATH)
-        self.wetter_intent = WetterIntent(self)
-        self.studienordnung_intent = StudienordnungIntent(self)
-        self.todolist_intent = ToDoListIntent(self)
-        self.wikipedia_intent = WikipediaIntent(self)
-        self.uhrzeit_intent = UhrzeitIntent(self)
-        self.datum_intent = DatumIntent(self)
+        self.wetter_intent = wetter_intent
+        self.studienordnung_intent = studienordnung_intent
+        self.todolist_intent = todolist_intent
+        self.wikipedia_intent = wikipedia_intent
+        self.uhrzeit_intent = uhrzeit_intent
+        self.datum_intent = datum_intent
+        self.system_intent = system_intent
+        self.youtube_intent = youtube_intent
+        self.search_engine_intent = search_engine_intent
         self.speech_to_text = speech_to_text
         self.text_to_speech = text_to_speech
         self.main_class_engine = main_class_engine
@@ -115,11 +124,18 @@ class EngineProcessor:
 
                 ################################### # Wikipedia
                 case (config.SZENARIO_WIKIPEDIA, config.ABSICHT_ABFRAGEN): # abfragen
-                    intent_result, error_result = self.wikipedia_intent.abfragen(t_thema)
-                    if not error_result:
-                        return intent_result
-                    else:
-                        return "Wikipedia Intent Error!"
+                    while True:
+                        if not self.thread_event.is_set():
+                            intent_result, error_result = self.wikipedia_intent.abfragen(t_thema)
+                            if not error_result:
+                                return intent_result
+                            else:
+                                if error_result == config.ERROR_VARIABLE_THEMA:
+                                    t_thema = self.speech_to_text.intent_variable_error_reask(error_result, status_class_thread=self)
+                                    if t_thema and any(word in t_thema.lower().split() for word in ["nein", "ne"]):
+                                        return "verstehe"
+                        else:
+                            return None
 
                 ################################### # todo list
                 case (config.SZENARIO_TODO_LIST, config.ABSICHT_ABFRAGEN): # abfragen
@@ -139,8 +155,8 @@ class EngineProcessor:
                                         return "verstehe"
                         else:
                             return None
+                        
                 case (config.SZENARIO_TODO_LIST, config.ABSICHT_EINGEBEN): # hinzufügen
-                    
                     if not t_datum:
                         t_datum = self.speech_to_text.intent_variable_error_reask(1, neue_daten_abfragen=True, status_class_thread=self)
                         if t_datum and any(word in t_datum.lower().split() for word in ["nein", "ne"]):
@@ -190,6 +206,64 @@ class EngineProcessor:
                                 elif error_result == config.ERROR_VARIABLE_AKTIVITAET:
                                     t_aktivitaet = self.speech_to_text.intent_variable_error_reask(error_result, status_class_thread=self)
                                     if t_aktivitaet and any(word in t_aktivitaet.lower().split() for word in ["nein", "ne"]):
+                                        return "verstehe"
+                        else:
+                            return None
+                        
+                ################################### # System
+                case (config.SZENARIO_SYSTEM, config.ABSICHT_ZURUECKGEHEN):
+                    intent_result, error_result = self.system_intent.zurueckgehen()
+                    if not error_result:
+                        return intent_result
+                    else:
+                        return "System Intent Error!"
+                    
+                case (config.SZENARIO_SYSTEM, config.ABSICHT_WEITERGEHEN):
+                    intent_result, error_result = self.system_intent.weitergehen()
+                    if not error_result:
+                        return intent_result
+                    else:
+                        return "System Intent Error!"
+                    
+                case (config.SZENARIO_SYSTEM, config.ABSICHT_WIEDERHOLEN):
+                    intent_result, error_result = self.system_intent.wiederholen()
+                    if not error_result:
+                        return intent_result
+                    else:
+                        return "System Intent Error!"
+                    
+                case (config.SZENARIO_SYSTEM, config.ABSICHT_ABBRECHEN):
+                    intent_result, error_result = self.system_intent.abbrechen()
+                    if not error_result:
+                        return intent_result
+                    else:
+                        return "System Intent Error!"
+                    
+                ################################### # Youtube
+                case (config.SZENARIO_YOUTUBE, config.ABSICHT_ABFRAGEN): # abfragen
+                    while True:
+                        if not self.thread_event.is_set():
+                            intent_result, error_result = self.youtube_intent.abfragen(t_thema)
+                            if not error_result:
+                                return intent_result
+                            else:
+                                if error_result == config.ERROR_VARIABLE_THEMA:
+                                    t_thema = self.speech_to_text.intent_variable_error_reask(error_result, status_class_thread=self)
+                                    if t_thema and any(word in t_thema.lower().split() for word in ["nein", "ne"]):
+                                        return "verstehe"
+                        else:
+                            return None
+                ################################### # Search Engine
+                case (config.SZENARIO_SEARCH_ENGINE, config.ABSICHT_ABFRAGEN): # abfragen
+                    while True:
+                        if not self.thread_event.is_set():
+                            intent_result, error_result = self.search_engine_intent.abfragen(t_thema)
+                            if not error_result:
+                                return intent_result
+                            else:
+                                if error_result == config.ERROR_VARIABLE_THEMA:
+                                    t_thema = self.speech_to_text.intent_variable_error_reask(error_result, status_class_thread=self)
+                                    if t_thema and any(word in t_thema.lower().split() for word in ["nein", "ne"]):
                                         return "verstehe"
                         else:
                             return None

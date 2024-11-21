@@ -8,7 +8,7 @@
 - Datenbank erstellt
    - [Datenbank für Textklassifizierung (hauptsächlich für Datensatzeditoren)](data/data_controller/model_textklassifizierung.py)
    - [Datenbank für User + To-Do-Liste + Authentifizierung](data/data_controller/model_user.py)
-- Intents "To-Do-Liste, Studienordnung, Datum, Wetter, Uhrzeit" abgeschlossen
+- Intents "To-Do-Liste, Studienordnung, Datum, Wetter, Uhrzeit, Suchintent, Wikipedia" abgeschlossen
 - Benutzer-Authentifizierung implementiert. *(Fingerabdruck einer Stimme)*
 - automatische Datasets/Testdaten zur Benutzerauthentifizierung implementiert. *(wird bei Verwendung automatisch gespeichert)*
 - Aktivierungswort-Funktionalität implementiert. *(Du musst den Aktivierungswort-Rufnamen-Assistenten in der Datei main.py mit deiner eigenen Stimme aufnehmen und trainieren)*
@@ -19,8 +19,6 @@
 - Text-zu-Speech verbessern
  - *TTS von Microsoft funktioniert nicht so gut, wenn Multithreading implementiert werden. Stattdessen kann gTTs genutzt werden, allerdings benötigt gTTs eine Internetverbindung*
 - Mikroservice + API + neue Datenbank? erstellen
-- Intents "Suchintent, Wikipedia" erstellen. [Intends Ordner](intents).
-- Mehr Datasets/Testdaten für Textklassifizierung sammeln. *(weitere Datensätze in den **Data-Controller** in `main.py` eingeben)*
 
 ## Architektur
 Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-Dokumentation](docs/ARCHITEKTUR.md).
@@ -122,6 +120,17 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
    - **Bestimmte Aktivität löschen**
       - Kannst du mein Meeting morgen um 12:10 Uhr löschen?
 
+## Datum-Befehle
+- Welches Datum haben wir heute?
+- Welches Datum war (vor)gestern?
+- Was ist das Datum übermorgen?
+- Welches Datum hat der Donnerstag?
+
+## Uhrzeit-Befehle
+- Wie spät ist es jetzt?
+- Wie viel Uhr ist es in Berlin?
+- Welche Uhrzeit haben wir in New York?
+
 ## Studienordnung Befehle
 - Was ist eine PVL?
 - Wie läuft ne Mündliche Prüfung ab?
@@ -138,7 +147,23 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
 - [mehr](https://github.com/anastasia98s/PS2/blob/PDF_Intent/testdaten.txt)
 
 ## Wikipedia Befehle
-- TODO
+- Wer ist Barack Obama?
+- Was ist Deutschland?
+- Informationen zu Dresden
+- Was ist eine Lerche?
+- Was sind Pommes?
+- Was ist ein Auto?
+- Wer war Angela Merkel?
+- Was ist der Eiffelturm?
+- Was ist ein Flugzeug?
+- Was ist der Mount Everest?
+- Was ist der Amazonas?
+- Wer war Albert Einstein?
+- Was ist die Berliner Mauer?
+- Was ist das Internet?
+- Wer war Ludwig van Beethoven?
+- Was ist die Mona Lisa?
+- [mehr](https://github.com/anastasia98s/PS2/blob/Wikipedia-Intent/testdaten_2.txt)
 
 ## Suchintent Wetter-Befehle
 - **Wetter zu einem Zeitpunkt**
@@ -157,17 +182,6 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
    - Zeig mir das Wetter für heute Abend in New York.
    - Wie wird das Wetter in Berlin?
 
-## Suchintent Datum-Befehle
-- Welches Datum haben wir heute?
-- Welches Datum war (vor)gestern?
-- Was ist das Datum übermorgen?
-- Welches Datum hat der Donnerstag?
-
-## Suchintent Uhrzeit-Befehle
-- Wie spät ist es jetzt?
-- Wie viel Uhr ist es in Berlin?
-- Welche Uhrzeit haben wir in New York?
-
 ## Suchintent Youtube Befehle
 - Such nach dem Podcast über Künstliche Intelligenz auf YouTube
 - Finde den Podcast von Fest und Flauschig auf YouTube
@@ -176,5 +190,37 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
 - Such nach Shape of You auf YouTube
 - Finde ein Video über gesunde Ernährung
 - Such nach einem Video über Tipps für bessere Fotografie
+
+## Suchintent Youtube Befehle
+- Such nach einem Hotel in Berlin
+- Finde eine Ferienwohnung in München
+- Such nach einem Kinoticket für den Film Avatar 2
+- Finde Tickets für das Theaterstück Hamlet
+- Flugticket nach Berlin
+- Zugticket nach München
+- Heutige Nachrichten zum Klimawandel
+- Nachrichten heute über die Corona-Pandemie
+- Beste Aktien 2024
+- Dividendenaktien
+- Aktienmarkt Nachrichten
+- Rezept Spaghetti Bolognese
+- Vegane Lasagne Rezept
+- Finde ein Rezept für indisches Curry
+- Such nach einem Rezept für Pfannkuchen
+- Finde ein Rezept für Linsensuppe
+
+## System Befehle (für Intent)
+- Gehe zurück
+- Weiter
+- Gehe weiter
+- Beende das
+- Gehe zur vorherigen Musik
+- Schließe die Website
+- Abbrechen das Video
+- Beende die Wiedergabe des Musikstücks
+- Starten Sie die Website neu
+- Gehe zum vorherigen Video
+- Weiter mit dem nächsten Video
+- Lade das nächste Video
 
 **Hinweis:** Um ein besseres Modell zu erhalten, kannst du im **Data-Controller** in `main.py` weitere Datensätze eingeben und trainieren.

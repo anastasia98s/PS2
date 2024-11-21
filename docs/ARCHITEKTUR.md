@@ -37,7 +37,7 @@
 ## 7. **Multithreading**
 ![Multithreading](docs_image/thread.drawio.png)
 
-## 8. **Confusion Matrix**
+## 8. **Plot**
 ### Confusion Matrix von Authentifizierung-KI
 
 ![Confusion Matrix von Authentifizierung-KI](docs_image/auth_matrix.png)
@@ -58,6 +58,9 @@
 
 ![Confusion Matrix von Textklassifizierung-KI (Szenario)](docs_image/szenario_cm.png)
 
+### Aktivierungswort vs kein Aktivierungswort
+![Aktivierungswort](docs_image/is_aktivierung.png)
+![kein Aktivierungswort](docs_image/not_aktivierung.png)
 
 # Intents-Sturktur
 

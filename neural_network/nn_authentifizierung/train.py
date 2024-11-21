@@ -11,6 +11,8 @@ import neural_network.nn_authentifizierung.utils
 from neural_network.nn_authentifizierung.model import Model
 
 def train():
+    if not os.path.isfile(config.USER_DATENBANK_PATH):
+        raise FileNotFoundError(f"\ndie Datenbank ist leer")
     merkmale, benutzerids, encoder_benutzerids = neural_network.nn_authentifizierung.utils.get_data(config.USER_DATENBANK_PATH)
     if len(merkmale > 1):
         meta_data = {

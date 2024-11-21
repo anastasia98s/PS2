@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 import re
 import locale
 import config
+from playwright.sync_api import sync_playwright
 
 class Datenkonverter:
     def __init__(self):
@@ -158,3 +159,13 @@ class Datenkonverter:
         if zeit:
             text = text.replace('.', ':')
         return text
+    
+    def web_indexing(self, url):
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            page = browser.new_page()
+            page.goto(url)
+            page.wait_for_load_state("networkidle")
+            content = page.content()
+            browser.close()
+            return content

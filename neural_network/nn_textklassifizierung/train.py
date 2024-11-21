@@ -15,7 +15,8 @@ from neural_network.nn_textklassifizierung.model import Model
 import neural_network.utils
 
 def train():
-    
+    if not os.path.isfile(config.TEXTKLASSIFIZIERUNG_DATASET_PATH):
+        raise FileNotFoundError(f"\ndie Datenbank ist leer")
     satze, target_anmerkung , target_absicht, target_szenario, encoder_anmerkung, encoder_absicht, encoder_szenario = neural_network.nn_textklassifizierung.utils.get_data(config.TEXTKLASSIFIZIERUNG_DATASET_PATH) #er_data
     
     num_anmerkung, num_absicht, num_szenario = len(encoder_anmerkung.classes_),len(encoder_absicht.classes_),len(encoder_szenario.classes_)
@@ -66,8 +67,8 @@ def train():
     best_loesung_absicht_array = []
     best_preds_szenario_array = []
     best_loesung_szenario_array = []
-
-    confusion_matrix_anmerkung_class = encoder_anmerkung.classes_
+    zwillinge_anmerkung_len = (len(encoder_anmerkung.classes_) - 1)/2
+    confusion_matrix_anmerkung_class = [num for num in encoder_anmerkung.classes_ if num >= 0]
     confusion_matrix_absicht_class = encoder_absicht.classes_
     confusion_matrix_szenario_class = encoder_szenario.classes_
     
@@ -89,6 +90,12 @@ def train():
         val_loss, preds_anmerkung_array, loesung_anmerkung_array, preds_absicht_array, loesung_absicht_array, preds_szenario_array, loesung_szenario_array = neural_network.nn_textklassifizierung.utils.val_fn(val_data_loader, model, device)
 
         if val_loss < best_loss and config.TEXTKLASSIFIZIERUNG_SAVE_MODEL:
+            
+            preds_anmerkung_array = [num + (zwillinge_anmerkung_len - num) * 2 if num < zwillinge_anmerkung_len else num for num in preds_anmerkung_array]
+            loesung_anmerkung_array = [num + (zwillinge_anmerkung_len - num) * 2 if num < zwillinge_anmerkung_len else num for num in loesung_anmerkung_array]
+
+            preds_anmerkung_array = [num - zwillinge_anmerkung_len for num in preds_anmerkung_array]
+            loesung_anmerkung_array = [num - zwillinge_anmerkung_len for num in loesung_anmerkung_array]
 
             best_preds_anmerkung_array = preds_anmerkung_array
             best_loesung_anmerkung_array = loesung_anmerkung_array

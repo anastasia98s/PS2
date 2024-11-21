@@ -75,13 +75,19 @@ class ModelTextklassifizierung:
             "Wikipedia",
             "ToDo",
             "Uhrzeit",
-            "Datum"
+            "Datum",
+            "System",
+            "Youtube"
         ]
 
         absichten_array = [
             "abfragen",
             "eingeben",
-            "entfernen"
+            "entfernen",
+            "zurückgehen",
+            "weitermachen",
+            "wiederholen",
+            "abbrechen"
         ]
 
         for anmerkung in anmerkung_array:

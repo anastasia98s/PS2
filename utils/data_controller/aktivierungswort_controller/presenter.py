@@ -1,4 +1,6 @@
 import config
+import librosa
+import matplotlib.pyplot as plt
 from utils.audio.utils import listen
 from neural_network.nn_aktivierungswort.utils import extract_features
 from utils.data_controller.aktivierungswort_controller.model_aktivierungswort import ModelAktivierungswort
@@ -10,7 +12,7 @@ class PresenterAktivierungswort():
     def aktivierungswort_aufnehmen(self, silence_duration, sample_rate):
         while True:
             antwort_signal, antwort_signal_trim = listen(silence_duration, sample_rate)
-            
+            titel = None
             wort_typ = None
             skip = False
             beenden = False
@@ -22,26 +24,37 @@ class PresenterAktivierungswort():
             while True:
                 antwort = input("Input: ")
                 if antwort == '1':
-                    print("Antwort: Aktivierungswort")
+                    titel = "Aktivierungswort"
                     wort_typ = 1
                     break
                 elif antwort == '2':
-                    print("Antwort: kein Aktivierungswort")
+                    titel = "kein Aktivierungswort"
                     wort_typ = 0
                     break
                 elif antwort == '3':
-                    print("Antwort: nicht speichern")
+                    titel = "nicht speichern"
                     skip = True
                     break
                 elif antwort == '4':
-                    print("Antwort: nicht speichern und züruck")
+                    titel = "nicht speichern und züruck"
                     beenden = True
                     break
+
+            print(f"Antwort: {titel}")
+            
+            features = extract_features(antwort_signal, config.AUDIO_SAMPLE_RATE)
+            if config.AKTIVIERUNGSWORT_AUFNAHME_PLOT:
+                plt.figure(figsize=(10, 4))
+                librosa.display.specshow(features, sr=22050, hop_length=512, x_axis='time', y_axis='mel')
+                plt.colorbar(format='%+2.0f dB')
+                plt.title(f'Mel-Spectrogram\n{titel}')
+                plt.tight_layout()
+                plt.show()
+                
             if skip:
                 continue
             elif beenden:
                 break
             else:
-                features = extract_features(antwort_signal, config.AUDIO_SAMPLE_RATE)
-                print(features.shape)
+                # features = extract_features(antwort_signal, config.AUDIO_SAMPLE_RATE)
                 self.model.add_merkmale(features, wort_typ)

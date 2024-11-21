@@ -9,6 +9,15 @@ from utils.audio.aktivierungswort import Aktivierungswort
 from utils.audio.speech_to_text import STT
 from utils.audio.text_to_speech import TTS
 from utils.engine.processor import EngineProcessor
+from intents.wetter_intent import WetterIntent
+from intents.studienordnung.studienordnung_intent import StudienordnungIntent
+from intents.todolist_intent import ToDoListIntent
+from intents.wikipedia_intent import WikipediaIntent
+from intents.uhrzeit_intent import UhrzeitIntent
+from intents.datum_intent import DatumIntent
+from intents.system_intent import SystemIntent
+from intents.youtube_intent import YoutubeIntent
+from intents.search_engine_intent import SearchEngineIntent
 warnings.filterwarnings("ignore")
 
 class Engine:
@@ -17,6 +26,15 @@ class Engine:
         self.aktivierungswort = Aktivierungswort()
         self.text_to_speech = TTS()
         self.speech_to_text = STT(self.text_to_speech)
+        self.wetter_intent = WetterIntent()
+        self.studienordnung_intent = StudienordnungIntent()
+        self.todolist_intent = ToDoListIntent()
+        self.wikipedia_intent = WikipediaIntent()
+        self.uhrzeit_intent = UhrzeitIntent()
+        self.datum_intent = DatumIntent()
+        self.system_intent = SystemIntent()
+        self.youtube_intent = YoutubeIntent(self.system_intent)
+        self.search_engine_intent = SearchEngineIntent(self.system_intent)
         self.benutzer_id = None
         self.run_engine_processor = []
         if os.path.exists(config.AUTHENTIFIZIERUNG_TRAINED_PATH):
@@ -78,7 +96,18 @@ class Engine:
             self.authentifizieren(antwort_signal_trim)
             if self.benutzer_id:
                 self.presenter_user.save_features(antwort_signal_trim, self.benutzer_id)
-                engine_processor = EngineProcessor(self.speech_to_text, self.text_to_speech, self)
+                engine_processor = EngineProcessor(self.speech_to_text,
+                                                   self.text_to_speech,
+                                                   self,
+                                                   self.wetter_intent,
+                                                   self.studienordnung_intent,
+                                                   self.todolist_intent,
+                                                   self.wikipedia_intent,
+                                                   self.uhrzeit_intent,
+                                                   self.datum_intent,
+                                                   self.system_intent,
+                                                   self.youtube_intent,
+                                                   self.search_engine_intent)
                 self.run_engine_processor.append(engine_processor)
                 main_thread = threading.Thread(target=engine_processor.start, args=(self.benutzer_id, antwort_text))
                 main_thread.start()

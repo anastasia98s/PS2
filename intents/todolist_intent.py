@@ -4,10 +4,9 @@ import config
 from datetime import datetime
 
 class ToDoListIntent(Datenkonverter):
-    def __init__(self, processor_class_engine):
+    def __init__(self):
         super().__init__()
         self.model_user = ModelUser() # mit Datenbank verbinden
-        self.processor_class_engine = processor_class_engine
     
     def satz_konvertierung(self, todo_list, todo_datum):
         satze = []
@@ -30,8 +29,6 @@ class ToDoListIntent(Datenkonverter):
         return "\n".join(satze)
     
     def abfragen(self, i_aktivitaet, i_zeit, i_datum, i_benutzer_id):
-        if self.processor_class_engine.thread_event.is_set():
-            return None, None
         
         datezeit = None
         datum = None
@@ -57,8 +54,6 @@ class ToDoListIntent(Datenkonverter):
             return "Sie sind frei", None
     
     def eingeben(self, i_aktivitaet, i_zeit, i_datum, i_benutzer_id):
-        if self.processor_class_engine.thread_event.is_set():
-            return None, None
         
         if i_aktivitaet:
             t_datum = super().date_text_cleaner(i_datum)
@@ -74,8 +69,6 @@ class ToDoListIntent(Datenkonverter):
             # return "Ich kann das To-Do-Objekt nicht identifizieren", None
     
     def entfernen(self, i_aktivitaet, i_zeit, i_datum, i_benutzer_id):
-        if self.processor_class_engine.thread_event.is_set():
-            return None, None
         
         datezeit = None
         datum = None
