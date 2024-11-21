@@ -45,6 +45,10 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
    pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
    ```
 
+   ```shell
+   playwright install
+   ```
+
    **Hinweis:**
    - Wenn es zu Fehlermeldungen kommt, kannst du die Pakete manuell installieren. *(Ich benutze Python 3.11.9 und 3.12.1 ohne Probleme)*
    - Stelle sicher, dass FFMPEG installiert ist und im PATH-Umgebungsvariable eingetragen ist. [Link zum Herunterladen](https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip)

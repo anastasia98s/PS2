@@ -38,7 +38,7 @@ def listen(silence_duration, sample_rate, max_time=config.MAX_RECORDING_TIME, st
             if recording_runden % 5 == 0 or recording_runden == 1:
                 if recording_animation_index == 5:
                     recording_animation_index = 0
-                print("\r", "Frame: " + str(len(recording)) + " |Amplitude: " + str(round(amplitude)) +" |Bitte sprechen Sie" + "." * recording_animation_index, end="", flush=True)
+                print("\r", "Frame: " + str(len(recording)) + " |Amplitude: " + str(round(amplitude)) + "/"+ str(config.AUDIO_THRESHOLD) + " |Bitte sprechen Sie" + "." * recording_animation_index, end="", flush=True)
                 recording_animation_index += 1
             recording_runden += 1
 
