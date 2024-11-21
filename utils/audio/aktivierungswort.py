@@ -6,7 +6,8 @@ import utils.audio.utils
 class Aktivierungswort:
     def __init__(self):
         self.thread_event = threading.Event()
-        self.predictor_aktivierungswort = PredictorAktivierungswort(config.AKTIVIERUNGSWORT_TRAINED_PATH)
+        if config.AKTIVIERUNGSWORT_IST_AN:
+            self.predictor_aktivierungswort = PredictorAktivierungswort(config.AKTIVIERUNGSWORT_TRAINED_PATH)
 
     def wake_word_recognize(self, sample_rate):
         if config.AKTIVIERUNGSWORT_IST_AN:
