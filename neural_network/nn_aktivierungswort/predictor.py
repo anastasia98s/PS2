@@ -7,7 +7,7 @@ import os
 class Predictor:
     def __init__(self, model_path):
         if not os.path.isfile(model_path):
-            raise FileNotFoundError(f"\n\n!!!Sie müssen Aktivierungswort-KI auf main.py trainieren oder die Variable 'AKTIVIERUNGSWORT_IST_AN' auf False setzen!!!")
+            raise FileNotFoundError(f"\n\n!!!Sie müssen Aktivierungswort-KI auf main.py trainieren!!!")
         self.device = config.DEVICE
         
         self.model = Model(config.AKTIVIERUNGSWORT_HIDDEN_UNITS_1, config.AKTIVIERUNGSWORT_HIDDEN_UNITS_2)

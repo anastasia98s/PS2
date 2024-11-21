@@ -103,9 +103,6 @@ ERROR_VARIABLE_AKTIVITAET = 4
 ERROR_VARIABLE_THEMA = 5
 #############################################################################
 
-AKTIVIERUNGSWORT_IST_AN = True
-
-
 STUDIENORDNUNG_OLLAMA_MODELL = "llama3.2:latest"
 STUDIENORDNUNG_PDF_PATH = "data/intents_data/studienordnung/I42b_2010_PO.pdf"
 

@@ -78,7 +78,6 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
 
    **Hinweis:**
    - Das trainierte Aktivierungswort ist `Molly`. Mit meiner Stimme funktioniert es gut, aber es könnte sein, dass es mit anderen Geräten oder Personen schlechter erkannt wird.
-   - Falls es zu kompliziert wird, kannst du das Aktivierungswort deaktivieren, indem du in der Datei `config.py` die Variable `AKTIVIERUNGSWORT_IST_AN` auf `False` setzt.
 
 5. **Starte das Engine-Skript:**
    ```shell
