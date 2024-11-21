@@ -7,12 +7,13 @@ from urllib.parse import quote
 from intents.datenkonverter import Datenkonverter
 
 class YoutubeIntent(Datenkonverter):
-    def __init__(self, system_presenter):
+    def __init__(self, system_presenter, text_to_speech):
         self.prozess = None
         self.gesuchte_videos_list = []
         self.gesuchte_videos_index = 0
         self.YOUTUBE_FILE_PATH = f"{config.YOUTUBE_FILE_DIR}/{config.YOUTUBE_FILE_NAME}"
         self.system_presenter = system_presenter
+        self.text_to_speech = text_to_speech
 
     def get_videos(self, i_thema):
         self.gesuchte_videos_list = []
@@ -67,7 +68,8 @@ class YoutubeIntent(Datenkonverter):
     def video_abspielen(self):
         if self.prozess:
             self.aktion_abbrechen()
-            
+        
+        self.text_to_speech.text_to_speech("Audio herunterladen")
         message, error = self.download_video_as_audio()
         if not error:
             self.prozess = subprocess.Popen("start " + self.YOUTUBE_FILE_PATH, shell=True)

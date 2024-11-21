@@ -90,7 +90,8 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
 2. **Assistent**: Ja
 3. **Benutzer**: `Befehl eingeben`
 
-## To-Do-List Befehle
+# Testdaten
+## To-Do-List
 - **Eingeben**
    - Trage ein Meeting für morgen Nachmittag ein!
    - Trage ein Meeting am Freitag um 12 Uhr ein!
@@ -120,18 +121,18 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
    - **Bestimmte Aktivität löschen**
       - Kannst du mein Meeting morgen um 12:10 Uhr löschen?
 
-## Datum-Befehle
+## Datum
 - Welches Datum haben wir heute?
 - Welches Datum war (vor)gestern?
 - Was ist das Datum übermorgen?
 - Welches Datum hat der Donnerstag?
 
-## Uhrzeit-Befehle
+## Uhrzeit
 - Wie spät ist es jetzt?
 - Wie viel Uhr ist es in Berlin?
 - Welche Uhrzeit haben wir in New York?
 
-## Studienordnung Befehle
+## Studienordnung
 - Was ist eine PVL?
 - Wie läuft ne Mündliche Prüfung ab?
 - Was ist ein Freiversuch?
@@ -146,7 +147,7 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
 - Wie kann ich mich von einer Prüfung abmelden?
 - [mehr](https://github.com/anastasia98s/PS2/blob/PDF_Intent/testdaten.txt)
 
-## Wikipedia Befehle
+## Wikipedia
 - Wer ist Barack Obama?
 - Was ist Deutschland?
 - Informationen zu Dresden
@@ -165,7 +166,7 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
 - Was ist die Mona Lisa?
 - [mehr](https://github.com/anastasia98s/PS2/blob/Wikipedia-Intent/testdaten_2.txt)
 
-## Suchintent Wetter-Befehle
+## Suchintent Wetter
 - **Wetter zu einem Zeitpunkt**
    - Wie ist das Wetter am 11.12. um 12 Uhr?
    - Wie ist das Wetter morgen früh?
@@ -182,7 +183,7 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
    - Zeig mir das Wetter für heute Abend in New York.
    - Wie wird das Wetter in Berlin?
 
-## Suchintent Youtube Befehle
+## Suchintent Youtube
 - Such nach dem Podcast über Künstliche Intelligenz auf YouTube
 - Finde den Podcast von Fest und Flauschig auf YouTube
 - Such nach Musik von Beethoven auf YouTube
@@ -191,7 +192,7 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
 - Finde ein Video über gesunde Ernährung
 - Such nach einem Video über Tipps für bessere Fotografie
 
-## Suchintent Youtube Befehle
+## Suchintent Search Engine
 - Such nach einem Hotel in Berlin
 - Finde eine Ferienwohnung in München
 - Such nach einem Kinoticket für den Film Avatar 2

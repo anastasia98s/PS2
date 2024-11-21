@@ -27,13 +27,13 @@ class Engine:
         self.text_to_speech = TTS()
         self.speech_to_text = STT(self.text_to_speech)
         self.wetter_intent = WetterIntent()
-        self.studienordnung_intent = StudienordnungIntent()
+        self.studienordnung_intent = StudienordnungIntent(self.text_to_speech)
         self.todolist_intent = ToDoListIntent()
         self.wikipedia_intent = WikipediaIntent()
         self.uhrzeit_intent = UhrzeitIntent()
         self.datum_intent = DatumIntent()
         self.system_intent = SystemIntent()
-        self.youtube_intent = YoutubeIntent(self.system_intent)
+        self.youtube_intent = YoutubeIntent(self.system_intent, self.text_to_speech)
         self.search_engine_intent = SearchEngineIntent(self.system_intent)
         self.benutzer_id = None
         self.run_engine_processor = []
