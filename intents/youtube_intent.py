@@ -16,6 +16,7 @@ class YoutubeIntent(Datenkonverter):
         self.text_to_speech = text_to_speech
 
     def get_videos(self, i_thema):
+        self.text_to_speech.text_to_speech(f"Suche nach {i_thema} auf YouTube")
         self.gesuchte_videos_list = []
 
         thema_urlencode = quote(i_thema)
@@ -35,6 +36,19 @@ class YoutubeIntent(Datenkonverter):
             
             video_url = f"https://www.youtube.com/watch?v={video_id}"
             try:
+
+                with yt_dlp.YoutubeDL({'quiet': True}) as ydl:
+                    video_info = ydl.extract_info(video_url, download=False)
+                    video_duration = video_info.get('duration', 0)
+                    is_live = video_info.get('is_live', False)
+
+                    if is_live:
+                        print(f"Video {video_titel} ist ein Livestream. Download abgebrochen.")
+                        return f"Such nach einem anderen Video", 2
+
+                    if video_duration > config.MAX_YOUTUBE_FILE * 60:
+                        print(f"Video {video_titel} ist zu lang (>{config.MAX_YOUTUBE_FILE} Minuten). Download abgebrochen.")
+                        return f"Such nach einem anderen Video", 2
                 if os.path.exists(self.YOUTUBE_FILE_PATH):
                     os.remove(self.YOUTUBE_FILE_PATH)
 
@@ -70,7 +84,14 @@ class YoutubeIntent(Datenkonverter):
             self.aktion_abbrechen()
         
         self.text_to_speech.text_to_speech("Audio herunterladen")
-        message, error = self.download_video_as_audio()
+        message = None
+        while True:
+            message, error = self.download_video_as_audio()
+            if error == 2:
+                self.text_to_speech.text_to_speech(message)
+                del self.gesuchte_videos_list[self.gesuchte_videos_index]
+            else:
+                break
         if not error:
             self.prozess = subprocess.Popen("start " + self.YOUTUBE_FILE_PATH, shell=True)
             # os.system("start " + self.YOUTUBE_FILE_PATH)

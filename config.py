@@ -111,3 +111,4 @@ STUDIENORDNUNG_PDF_PATH = "data/intents_data/studienordnung/I42b_2010_PO.pdf"
 
 YOUTUBE_FILE_DIR = "data/intents_data/youtube"
 YOUTUBE_FILE_NAME = "youtube.mp3"
+MAX_YOUTUBE_FILE = 30
