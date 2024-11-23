@@ -33,9 +33,9 @@ class ToDoListIntent(Datenkonverter):
         datezeit = None
         datum = None
         if i_zeit or i_datum: # Frag nach Aktivität
-            t_datum = super().date_text_cleaner(i_datum)
+            t_datum = super().date_zeit_text_cleaner(i_datum)
             if i_zeit: # Was habe ich morgen um 12 Uhr
-                t_zeit = super().date_text_cleaner(i_zeit, zeit=True)
+                t_zeit = super().date_zeit_text_cleaner(i_zeit, zeit=True)
                 datezeit, errortyp = super().date_zeit_konverter(t_datum, t_zeit)
                 if not datezeit:
                     return None, errortyp
@@ -48,7 +48,7 @@ class ToDoListIntent(Datenkonverter):
         
         to_do_liste = self.model_user.show_todo(i_aktivitaet, datum, datezeit, i_benutzer_id)
         if len(to_do_liste):
-            t_datum = super().date_text_cleaner(i_datum)
+            t_datum = super().date_zeit_text_cleaner(i_datum)
             return self.satz_konvertierung(to_do_liste, t_datum), None
         else:
             return "Sie sind frei", None
@@ -56,8 +56,8 @@ class ToDoListIntent(Datenkonverter):
     def eingeben(self, i_aktivitaet, i_zeit, i_datum, i_benutzer_id):
         
         if i_aktivitaet:
-            t_datum = super().date_text_cleaner(i_datum)
-            t_zeit = super().date_text_cleaner(i_zeit, zeit=True)
+            t_datum = super().date_zeit_text_cleaner(i_datum)
+            t_zeit = super().date_zeit_text_cleaner(i_zeit, zeit=True)
             datezeit, errortyp = super().date_zeit_konverter(t_datum, t_zeit)
             if not datezeit:
                 return None, errortyp
@@ -74,9 +74,9 @@ class ToDoListIntent(Datenkonverter):
         datum = None
         if i_aktivitaet:
             if i_datum:
-                t_datum = super().date_text_cleaner(i_datum)
+                t_datum = super().date_zeit_text_cleaner(i_datum)
                 if i_zeit:
-                    t_zeit = super().date_text_cleaner(i_zeit, zeit=True)
+                    t_zeit = super().date_zeit_text_cleaner(i_zeit, zeit=True)
                     datezeit, errortyp = super().date_zeit_konverter(t_datum, t_zeit)
                     if not datezeit:
                         return None, errortyp
