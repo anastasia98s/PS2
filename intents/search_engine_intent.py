@@ -8,11 +8,12 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
 class SearchEngineIntent(Datenkonverter):
-    def __init__(self, system_presenter):
+    def __init__(self, system_presenter, text_to_speech):
         self.gesuchte_websites_list = []
         self.gesuchte_websites_index = 0
         self.system_presenter = system_presenter
         self.driver = None
+        self.text_to_speech = text_to_speech
 
     def get_websites(self, i_thema):
         self.gesuchte_websites_list = []
@@ -27,6 +28,7 @@ class SearchEngineIntent(Datenkonverter):
             self.gesuchte_websites_list.append((website_title, website_url))
 
     def website_oeffnen(self):
+        self.text_to_speech.text_to_speech(f"Moment bitte")
         website_titel, website_url = self.gesuchte_websites_list[self.gesuchte_websites_index]
         options = Options()
         options.headless = False
@@ -68,7 +70,7 @@ class SearchEngineIntent(Datenkonverter):
 
         if not i_thema:
             return None, config.ERROR_VARIABLE_THEMA # frage nochmal zum Thema
-        
+        self.text_to_speech.text_to_speech(f"Suche nach {i_thema}")
         self.system_presenter.intent_presenter = self # bei system_intent anmelden
         self.get_websites(i_thema)
         return self.website_oeffnen()

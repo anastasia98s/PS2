@@ -34,7 +34,7 @@ class Engine:
         self.datum_intent = DatumIntent()
         self.system_intent = SystemIntent()
         self.youtube_intent = YoutubeIntent(self.system_intent, self.text_to_speech)
-        self.search_engine_intent = SearchEngineIntent(self.system_intent)
+        self.search_engine_intent = SearchEngineIntent(self.system_intent, self.text_to_speech)
         self.benutzer_id = None
         self.run_engine_processor = []
         if os.path.exists(config.AUTHENTIFIZIERUNG_TRAINED_PATH):
