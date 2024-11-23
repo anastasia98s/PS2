@@ -6,8 +6,8 @@ import os
 import warnings
 import threading
 from utils.audio.aktivierungswort import Aktivierungswort
-from utils.audio.speech_to_text import STT
-from utils.audio.text_to_speech import TTS
+from utils.audio.speech_to_text import SpeechToText
+from utils.audio.text_to_speech import TextToSpeech
 from utils.engine.processor import EngineProcessor
 from intents.wetter_intent import WetterIntent
 from intents.studienordnung.studienordnung_intent import StudienordnungIntent
@@ -24,12 +24,12 @@ class Engine:
     def __init__(self):
         self.presenter_user = PresenterUser()
         self.aktivierungswort = Aktivierungswort()
-        self.text_to_speech = TTS()
-        self.speech_to_text = STT(self.text_to_speech)
-        self.wetter_intent = WetterIntent()
+        self.text_to_speech = TextToSpeech()
+        self.speech_to_text = SpeechToText(self.text_to_speech)
+        self.wetter_intent = WetterIntent(self.text_to_speech)
         self.studienordnung_intent = StudienordnungIntent(self.text_to_speech)
         self.todolist_intent = ToDoListIntent()
-        self.wikipedia_intent = WikipediaIntent()
+        self.wikipedia_intent = WikipediaIntent(self.text_to_speech)
         self.uhrzeit_intent = UhrzeitIntent()
         self.datum_intent = DatumIntent()
         self.system_intent = SystemIntent()

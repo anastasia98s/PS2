@@ -3,8 +3,9 @@ import config
 from intents.datenkonverter import Datenkonverter
 
 class WetterIntent(Datenkonverter):
-    def __init__(self):
+    def __init__(self, text_to_speech):
         super().__init__()
+        self.text_to_speech = text_to_speech
     
     def abfragen(self, i_zeit, i_datum, i_ort): # Bsp. Wie ist das Wetter um 18 Uhr morgen in Berlin
         
@@ -33,6 +34,8 @@ class WetterIntent(Datenkonverter):
             else:
                 bedingung_url = f"http://wttr.in/{i_ort}?format=%C&lang=de"
                 temperatur_url = f"http://wttr.in/{i_ort}?format=%t"
+
+            self.text_to_speech.text_to_speech(f"such Wetter {i_datum} {i_zeit} in {i_ort}")
 
             bedingung_response = requests.get(bedingung_url)
             temperatur_response = requests.get(temperatur_url)

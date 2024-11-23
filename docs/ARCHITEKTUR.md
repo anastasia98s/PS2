@@ -23,7 +23,8 @@
 - **Authentifizierung der Benutzer (CNN-Modell)**: identifiziert Benutzer durch ihre Stimme
 - **Aktivierungswort (CNN-Modell)**: identifiziert den Aufruf des Benutzers an den Assistenten
 - **Spracherkennungsmodell (Whisper)**: transkribiert gesprochene Sprache in Text
-- **Text-zu-Sprache-Modell (Microsoft)**: generiert gesprochene Antworten aus Text
+- **Text-zu-Sprache-Modell (Coqui)**: generiert gesprochene Antworten aus Text 
+  - Datensatz von Thorsten-Voice: ![hier](https://github.com/thorstenMueller/Thorsten-Voice)
 - **PDF-Verstehen (Ollama)**: beantwortet Fragen zu Inhalten eines PDFs
 
 ![KI-Modell](docs_image/KI-Modell.drawio.png)

@@ -10,7 +10,7 @@ class StudienordnungIntent:
     
     def abfragen(self, i_satz):        
         # config.STUDIENORDNUNG_PDF_PATH = "data/intents_data/studienordnung/I42b_2010_PO.pdf"
-        self.text_to_speech.text_to_speech("Laden auf Ollama")
+        self.text_to_speech.text_to_speech("Moment, ich frage bei Ollama nach")
         pdf_text = convert_to_text(config.STUDIENORDNUNG_PDF_PATH)
         chunks = split_text_into_paragraphs(pdf_text)
         paragraphs = get_top_relevant_chunks(chunks, i_satz)

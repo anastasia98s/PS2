@@ -5,7 +5,7 @@ import re
 import speech_recognition as sr
 import utils.audio.utils
 
-class STT:
+class SpeechToText:
     def __init__(self, text_to_speech):
         self.text_to_speech = text_to_speech
         if config.LEICHTES_ASR_MODELL:

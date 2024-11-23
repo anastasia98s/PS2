@@ -7,7 +7,8 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 class WikipediaIntent:
-    def __init__(self):
+    def __init__(self, text_to_speech):
+        self.text_to_speech = text_to_speech
         wikipedia.set_lang("de")
     
     def abfragen(self, i_thema):
@@ -20,6 +21,8 @@ class WikipediaIntent:
 
         if not i_thema:
             return None, config.ERROR_VARIABLE_THEMA # frage nochmal zum Thema
+        
+        self.text_to_speech.text_to_speech(f"Moment, suche nach {i_thema} in Wikipedia")
         
         logger.info(f"Wikipedia Intent aufgerufen. Thema: '{i_thema}'")
         

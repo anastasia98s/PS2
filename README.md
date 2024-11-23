@@ -15,9 +15,7 @@
 - **trainierte Modell** auf der Cloud hochgeladen. [Link zum Herunterladen](https://drive.google.com/drive/folders/1I27FN5USWLdT6kTXWMWGypINOeeF8oru?usp=drive_link)
    - *musst du nur das `data`-Verzeichnis durch diese Daten richtig ersetzen.*
 
-## To-Do
-- Text-zu-Speech verbessern
- - *TTS von Microsoft funktioniert nicht so gut, wenn Multithreading implementiert werden. Stattdessen kann gTTs genutzt werden, allerdings benötigt gTTs eine Internetverbindung*
+## To-Do 
 - Mikroservice + API + neue Datenbank? erstellen
 
 ## Architektur

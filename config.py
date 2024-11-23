@@ -3,6 +3,9 @@ import torch
 
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
+TTS_TRAINED_PATH = 'data/result/tts/model_file.pth'
+TTS_JSON_PATH = 'data/result/tts/config.json'
+
 TEXTKLASSIFIZIERUNG_DATASET_PATH  = 'data/database/textklassifizierung.db'
 TEXTKLASSIFIZIERUNG_TRAINED_PATH = 'data/result/textklassifizierung.pth'
 TEXTKLASSIFIZIERUNG_META_PATH = 'data/textklassifizierung_meta.bin'
