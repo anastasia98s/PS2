@@ -69,8 +69,9 @@ class TextToSpeech:
             if status_class_thread and status_class_thread.thread_event.is_set():
                 return None
             
-            #folder_path = os.path.dirname(config.RECORD_TMP_PATH)
-            #os.makedirs(folder_path, exist_ok=True)
+            folder_path = os.path.dirname(config.RECORD_TMP_PATH)
+            os.makedirs(folder_path, exist_ok=True)
+            
             #tts = gTTS(text=satz, lang='de')
             #tts.save(config.RECORD_TMP_PATH)
 
