@@ -21,7 +21,10 @@
 ## Architektur
 Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-Dokumentation](docs/ARCHITEKTUR.md).
 
-## Startanweisungen (9 GB + Ollama Speicherplatz erforderlich)
+## Test
+[Test-Dokumentation](docs/TEST.md).
+
+## Startanweisungen (10 GB + Ollama Speicherplatz erforderlich)
 1. **Repository klonen und virtuelle Umgebung einrichten**
    ```shell
    git clone -b Nathaniel https://github.com/anastasia98s/PS2.git assistant_ai

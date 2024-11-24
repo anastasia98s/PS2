@@ -142,10 +142,27 @@ class ModelTextklassifizierung:
         conn.close()
         return absichten
     
-    def show_satz(self):
+    def show_satz(self, id_szenario=None, id_absicht=None, id_anmerkung=None):
         conn = self.connect_db()
         cursor = conn.cursor()
-        cursor.execute('SELECT sp_satz.satz_id, sp_wort.wort_id, sp_wort.wort, sp_anmerkung.anmerkung_id, sp_anmerkung.anmerkung, sp_szenario.szenario_id, sp_szenario.szenario, sp_absicht.absicht_id, sp_absicht.absicht FROM sp_satz JOIN sp_wort ON sp_satz.satz_id = sp_wort.satz_id JOIN sp_szenario ON sp_satz.szenario_id = sp_szenario.szenario_id JOIN sp_absicht ON sp_satz.absicht_id = sp_absicht.absicht_id JOIN sp_anmerkung ON sp_wort.anmerkung_id = sp_anmerkung.anmerkung_id ORDER BY sp_satz.satz_id DESC')
+
+        if id_anmerkung or id_szenario or id_absicht:
+            where_text = "WHERE "
+            conditions = []
+
+            if id_anmerkung:
+                conditions.append(f" sp_anmerkung.anmerkung_id = {id_anmerkung}")
+            if id_szenario:
+                conditions.append(f" sp_szenario.szenario_id = {id_szenario}")
+            if id_absicht:
+                conditions.append(f" sp_absicht.absicht_id = {id_absicht}")
+            
+            where_text += " AND ".join(conditions)
+        else:
+            where_text = ""
+        
+        cursor.execute(f'SELECT sp_satz.satz_id, sp_wort.wort_id, sp_wort.wort, sp_anmerkung.anmerkung_id, sp_anmerkung.anmerkung, sp_szenario.szenario_id, sp_szenario.szenario, sp_absicht.absicht_id, sp_absicht.absicht FROM sp_satz JOIN sp_wort ON sp_satz.satz_id = sp_wort.satz_id JOIN sp_szenario ON sp_satz.szenario_id = sp_szenario.szenario_id JOIN sp_absicht ON sp_satz.absicht_id = sp_absicht.absicht_id JOIN sp_anmerkung ON sp_wort.anmerkung_id = sp_anmerkung.anmerkung_id {where_text} ORDER BY sp_satz.satz_id DESC')
+        
         saetze = cursor.fetchall()
         conn.close()
         return saetze
@@ -283,3 +300,13 @@ class ModelTextklassifizierung:
         conn.commit()
         conn.close()
         return True
+    
+    # CM
+    def search_data(self, table, column, value, target):
+        conn = self.connect_db()
+        cursor = conn.cursor()
+        query = f"SELECT {target} FROM {table} WHERE {column} = ?"
+        cursor.execute(query, (value,))
+        result = cursor.fetchone()
+        conn.close()
+        return result[0]

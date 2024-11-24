@@ -8,7 +8,10 @@ head = r"""
             let json_satze = [];
 
             function load_satz_1() {
-                window.pywebview.api.show_satz().then(results => {
+                const szenario_select_filter = document.getElementById("szenario_select_filter");
+                const absicht_select_filter = document.getElementById("absicht_select_filter");
+                const anmerkung_select_filter = document.getElementById("anmerkung_select_filter");
+                window.pywebview.api.show_satz(szenario_select_filter.value, absicht_select_filter.value, anmerkung_select_filter.value).then(results => {
                     const satz_list = document.getElementById('satz_list');
                     satz_list.innerHTML = '';
                     results = JSON.parse(results);
@@ -115,9 +118,12 @@ head = r"""
                 });
             }
 
-            function load_anmerkung_1() {
-                window.pywebview.api.show_anmerkung().then(results => {
-                    json_anmerkungen_1 = JSON.parse(results);
+            function option_anmerkung_1(container){
+                json_anmerkungen_1.forEach(json_anmerkung => {
+                    const optionElement = document.createElement("option");
+                    optionElement.value = json_anmerkung.anmerkung_id;
+                    optionElement.textContent = json_anmerkung.anmerkung;
+                    container.appendChild(optionElement);
                 });
             }
 
@@ -139,21 +145,42 @@ head = r"""
                 });
             }
 
+            function load_anmerkung_1() {
+                window.pywebview.api.show_anmerkung().then(results => {
+                    const anmerkung_select_filter = document.getElementById("anmerkung_select_filter");
+                    anmerkung_select_filter.innerHTML = '<option value="">alles</option>';
+                    json_anmerkungen_1 = JSON.parse(results);
+                    option_anmerkung_1(anmerkung_select_filter);
+
+                    anmerkung_select_filter.onchange = load_satz_1;
+                });
+            }
+
             function load_absicht_1() {
                 window.pywebview.api.show_absicht().then(results => {
                     const absicht_select = document.getElementById("absicht_select");
+                    const absicht_select_filter = document.getElementById("absicht_select_filter");
                     absicht_select.innerHTML = '';
+                    absicht_select_filter.innerHTML = '<option value="">alles</option>';
                     json_absicht_1 = JSON.parse(results);
                     option_absicht_1(absicht_select);
+                    option_absicht_1(absicht_select_filter);
+
+                    absicht_select_filter.onchange = load_satz_1;
                 });
             }
 
             function load_szenario_1() {
                 window.pywebview.api.show_szenario().then(results => {
                     const szenario_select = document.getElementById("szenario_select");
+                    const szenario_select_filter = document.getElementById("szenario_select_filter");
                     szenario_select.innerHTML = '';
+                    szenario_select_filter.innerHTML = '<option value="">alles</option>';
                     json_szenario_1 = JSON.parse(results);
                     option_szenario_1(szenario_select);
+                    option_szenario_1(szenario_select_filter);
+
+                    szenario_select_filter.onchange = load_satz_1;
                 });
             }
 
@@ -250,12 +277,15 @@ head = r"""
                         selectElement.style.padding = "5px";
                         selectElement.style.marginLeft = "10px";
 
+                        option_anmerkung_1(selectElement);
+                        /*
                         json_anmerkungen_1.forEach(json_anmerkung => {
                             const optionElement = document.createElement("option");
                             optionElement.value = json_anmerkung.anmerkung_id;
                             optionElement.textContent = json_anmerkung.anmerkung;
                             selectElement.appendChild(optionElement);
                         });
+                        */
 
                         if (anmerkungen_ids_ai_preds[index]){
                             selectElement.value = anmerkungen_ids_ai_preds[index];
@@ -509,11 +539,11 @@ body = r"""
 
                     <div id="woerter_array_editor" style="margin-bottom: 20px; padding: 10px;"></div>
 
-                    <div style="margin-bottom: 20px; display: flex; gap: 10px">
+                    <div style="margin-bottom: 20px; display: flex; gap: 10px;">
                         <h3 style="width:15%">Absicht</h3>
                         <select id="absicht_select" style="padding: 10px; width: 100%; margin-bottom: 10px;"></select>
                     </div>
-                    <div style="margin-bottom: 20px; display: flex; gap: 10px">
+                    <div style="margin-bottom: 20px; display: flex; gap: 10px;">
                         <h3 style="width:15%">Szenario</h3>
                         <select id="szenario_select" style="padding: 10px; width: 100%; margin-bottom: 10px;"></select>
                     </div>
@@ -521,8 +551,24 @@ body = r"""
                     <button id="submit_satz" onclick="upload_satz_1()" style="width: 100%; padding: 10px 15px; cursor: pointer;">Upload</button>
                 </div>
             </div>
-            
-            <div style="margin-top:10px; margin-left: 5px;"><b>Total:</b> <span id="total_satz">0</span></div>
 
-            <div id="satz_list" style="margin: 0; padding: 2px 5px 10px 5px; overflow:visible"></div>
+            <div style="margin-top:10px;">
+                <div style="max-width:800px;">
+                    <div style="margin-bottom: 5px; display: flex; gap: 10px; align-items: center;">
+                        <b style="min-width: 140px;">Anmerkungsfilter</b>
+                        <select id="anmerkung_select_filter" style="padding: 5px; width: 200px;"></select>
+                    </div>
+                    <div style="margin-bottom: 5px; display: flex; gap: 10px; align-items: center;">
+                        <b style="min-width: 140px;">Absichtsfilter</b>
+                        <select id="absicht_select_filter" style="padding: 5px; width: 200px;"></select>
+                    </div>
+                    <div style="margin-bottom: 5px; display: flex; gap: 10px; align-items: center;">
+                        <b style="min-width: 140px;">Szenariofilter</b>
+                        <select id="szenario_select_filter" style="padding: 5px; width: 200px;"></select>
+                    </div>
+                </div>
+
+                <div style="margin-top:10px; margin-left: 5px;"><b>Total:</b> <span id="total_satz">0</span></div>
+                <div id="satz_list" style="margin: 0; padding: 2px 5px 10px 5px; overflow:visible"></div>
+            </div>
         """

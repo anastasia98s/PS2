@@ -15,6 +15,9 @@ from neural_network.nn_textklassifizierung.model import Model
 import neural_network.utils
 
 def train():
+    from utils.data_controller.textklassifizierung_controller.presenter import PresenterTextklassifizierung
+    presenter_textklassifizierung = PresenterTextklassifizierung()
+    
     if not os.path.isfile(config.TEXTKLASSIFIZIERUNG_DATASET_PATH):
         raise FileNotFoundError(f"\ndie Datenbank ist leer")
     satze, target_anmerkung , target_absicht, target_szenario, encoder_anmerkung, encoder_absicht, encoder_szenario = neural_network.nn_textklassifizierung.utils.get_data(config.TEXTKLASSIFIZIERUNG_DATASET_PATH) #er_data
@@ -68,9 +71,10 @@ def train():
     best_preds_szenario_array = []
     best_loesung_szenario_array = []
     zwillinge_anmerkung_len = (len(encoder_anmerkung.classes_) - 1)/2
-    confusion_matrix_anmerkung_class = [num for num in encoder_anmerkung.classes_ if num >= 0]
-    confusion_matrix_absicht_class = encoder_absicht.classes_
-    confusion_matrix_szenario_class = encoder_szenario.classes_
+    positive_anmerkung_class = [num for num in encoder_anmerkung.classes_ if num >= 0]
+    confusion_matrix_anmerkung_class = [presenter_textklassifizierung.such_anmerkung(num) for num in positive_anmerkung_class]
+    confusion_matrix_absicht_class = [presenter_textklassifizierung.such_absicht(num) for num in encoder_absicht.classes_]
+    confusion_matrix_szenario_class = [presenter_textklassifizierung.such_szenario(num) for num in encoder_szenario.classes_]
     
     print("=" * 10)
     print("Device: " + str(device))
@@ -87,15 +91,19 @@ def train():
         
         print(f'Train Loss: {train_loss}')
         
-        val_loss, preds_anmerkung_array, loesung_anmerkung_array, preds_absicht_array, loesung_absicht_array, preds_szenario_array, loesung_szenario_array = neural_network.nn_textklassifizierung.utils.val_fn(val_data_loader, model, device)
+        val_loss, raw_preds_anmerkung_array, raw_loesung_anmerkung_array, preds_absicht_array, loesung_absicht_array, preds_szenario_array, loesung_szenario_array = neural_network.nn_textklassifizierung.utils.val_fn(val_data_loader, model, device)
 
         if val_loss < best_loss and config.TEXTKLASSIFIZIERUNG_SAVE_MODEL:
             
-            preds_anmerkung_array = [num + (zwillinge_anmerkung_len - num) * 2 if num < zwillinge_anmerkung_len else num for num in preds_anmerkung_array]
-            loesung_anmerkung_array = [num + (zwillinge_anmerkung_len - num) * 2 if num < zwillinge_anmerkung_len else num for num in loesung_anmerkung_array]
+            preds_anmerkung_array = []
+            loesung_anmerkung_array = []
+            for index in range(len(raw_preds_anmerkung_array)):
+                preds_anmerkung_array_tmp = [num + (zwillinge_anmerkung_len - num) * 2 if num < zwillinge_anmerkung_len else num for num in raw_preds_anmerkung_array[index]]
+                loesung_anmerkung_array_tmp = [num + (zwillinge_anmerkung_len - num) * 2 if num < zwillinge_anmerkung_len else num for num in raw_loesung_anmerkung_array[index]]
 
-            preds_anmerkung_array = [num - zwillinge_anmerkung_len for num in preds_anmerkung_array]
-            loesung_anmerkung_array = [num - zwillinge_anmerkung_len for num in loesung_anmerkung_array]
+                #print([num - zwillinge_anmerkung_len for num in preds_anmerkung_array])
+                preds_anmerkung_array.append([num - zwillinge_anmerkung_len for num in preds_anmerkung_array_tmp])
+                loesung_anmerkung_array.append([num - zwillinge_anmerkung_len for num in loesung_anmerkung_array_tmp])
 
             best_preds_anmerkung_array = preds_anmerkung_array
             best_loesung_anmerkung_array = loesung_anmerkung_array
@@ -103,6 +111,9 @@ def train():
             best_loesung_absicht_array = loesung_absicht_array
             best_preds_szenario_array = preds_szenario_array
             best_loesung_szenario_array = loesung_szenario_array
+
+            preds_anmerkung_array = [item for sublist in preds_anmerkung_array for item in sublist] #torch.cat(preds_anmerkung_array)
+            loesung_anmerkung_array = [item for sublist in loesung_anmerkung_array for item in sublist] # torch.cat(loesung_anmerkung_array)
 
             neural_network.utils.show_conf_matrix(preds_anmerkung_array, loesung_anmerkung_array, confusion_matrix_anmerkung_class, "Textklassifizierung-KI (Anmerkung)")
             neural_network.utils.show_conf_matrix(preds_absicht_array, loesung_absicht_array, confusion_matrix_absicht_class, "Textklassifizierung-KI (Absicht)")
@@ -120,7 +131,55 @@ def train():
     trainingsdauer = (end_zeit - start_zeit) / 60
 
     print(f"\nTrainingsdauer: {trainingsdauer:.2f} Minuten")
+    
+    flat_preds_anmerkung_array = [item for sublist in best_preds_anmerkung_array for item in sublist]
+    flat_loesung_anmerkung_array = [item for sublist in best_loesung_anmerkung_array for item in sublist]
+    neural_network.utils.show_conf_matrix(flat_preds_anmerkung_array, flat_loesung_anmerkung_array, confusion_matrix_anmerkung_class, f"Best {config.TEXTKLASSIFIZIERUNG_EPOCHS} Epochs | Total: {len(flat_preds_anmerkung_array)} | Textklassifizierung-KI (Anmerkung)", plot=True)
+    neural_network.utils.show_conf_matrix(best_preds_absicht_array, best_loesung_absicht_array, confusion_matrix_absicht_class, f"Best {config.TEXTKLASSIFIZIERUNG_EPOCHS} Epochs | Total: {len(best_preds_absicht_array)} | Textklassifizierung-KI (Absicht)", plot=True)
+    neural_network.utils.show_conf_matrix(best_preds_szenario_array, best_loesung_szenario_array, confusion_matrix_szenario_class, f"Best {config.TEXTKLASSIFIZIERUNG_EPOCHS} Epochs | Total: {len(best_preds_szenario_array)} | Textklassifizierung-KI (Szenario)", plot=True)
 
-    neural_network.utils.show_conf_matrix(best_preds_anmerkung_array, best_loesung_anmerkung_array, confusion_matrix_anmerkung_class, f"Best {config.TEXTKLASSIFIZIERUNG_EPOCHS} Epochs\nTextklassifizierung-KI (Anmerkung)", plot=True)
-    neural_network.utils.show_conf_matrix(best_preds_absicht_array, best_loesung_absicht_array, confusion_matrix_absicht_class, f"Best {config.TEXTKLASSIFIZIERUNG_EPOCHS} Epochs\nTextklassifizierung-KI (Absicht)", plot=True)
-    neural_network.utils.show_conf_matrix(best_preds_szenario_array, best_loesung_szenario_array, confusion_matrix_szenario_class, f"Best {config.TEXTKLASSIFIZIERUNG_EPOCHS} Epochs\nTextklassifizierung-KI (Szenario)", plot=True)
+    absicht_szenario_label = []
+    absicht_szenario_vorhersage = []
+    absicht_szenario_loesung = []
+
+    for i in range(len(best_preds_absicht_array)):
+        pair_vorhersage = (int(best_preds_szenario_array[i]), int(best_preds_absicht_array[i]))
+        pair_loesung = (int(best_loesung_szenario_array[i]), int(best_loesung_absicht_array[i]))
+
+        if pair_vorhersage not in absicht_szenario_label:
+            absicht_szenario_label.append(pair_vorhersage)
+        if pair_loesung not in absicht_szenario_label:
+            absicht_szenario_label.append(pair_loesung)
+
+        index_vorhersage = absicht_szenario_label.index(pair_vorhersage)
+        absicht_szenario_vorhersage.append(index_vorhersage)
+
+        index_loesung = absicht_szenario_label.index(pair_loesung)
+        absicht_szenario_loesung.append(index_loesung)
+
+    absicht_szenario_label = [f"{presenter_textklassifizierung.such_szenario(encoder_szenario.classes_[szenario])} {presenter_textklassifizierung.such_absicht(encoder_absicht.classes_[absicht])}" for szenario, absicht in absicht_szenario_label]
+    
+    neural_network.utils.show_conf_matrix(absicht_szenario_vorhersage, absicht_szenario_loesung, absicht_szenario_label, f"Best {config.TEXTKLASSIFIZIERUNG_EPOCHS} Epochs | Total: {len(absicht_szenario_vorhersage)} | Textklassifizierung-KI (Absicht + Szenario)", plot=True)
+
+    anmerkung_absicht_szenario_label = []
+    anmerkung_absicht_szenario_vorhersage = []
+    anmerkung_absicht_szenario_loesung = []
+
+    for i in range(len(best_preds_absicht_array)):
+        for j in range(len(best_preds_anmerkung_array[i])):
+            pair_vorhersage = (int(best_preds_anmerkung_array[i][j]), int(best_preds_szenario_array[i]), int(best_preds_absicht_array[i]))
+            pair_loesung = (int(best_loesung_anmerkung_array[i][j]), int(best_loesung_szenario_array[i]), int(best_loesung_absicht_array[i]))
+
+            if pair_vorhersage not in anmerkung_absicht_szenario_label:
+                anmerkung_absicht_szenario_label.append(pair_vorhersage)
+            if pair_loesung not in anmerkung_absicht_szenario_label:
+                anmerkung_absicht_szenario_label.append(pair_loesung)
+
+            index_vorhersage = anmerkung_absicht_szenario_label.index(pair_vorhersage)
+            anmerkung_absicht_szenario_vorhersage.append(index_vorhersage)
+
+            index_loesung = anmerkung_absicht_szenario_label.index(pair_loesung)
+            anmerkung_absicht_szenario_loesung.append(index_loesung)
+
+    anmerkung_absicht_szenario_label = [ (presenter_textklassifizierung.such_anmerkung(positive_anmerkung_class[anmerkung]), f"{presenter_textklassifizierung.such_szenario(encoder_szenario.classes_[szenario])} {presenter_textklassifizierung.such_absicht(encoder_absicht.classes_[absicht])}") for anmerkung, szenario, absicht in anmerkung_absicht_szenario_label]
+    neural_network.utils.show_conf_matrix(anmerkung_absicht_szenario_vorhersage, anmerkung_absicht_szenario_loesung, anmerkung_absicht_szenario_label, f"Best {config.TEXTKLASSIFIZIERUNG_EPOCHS} Epochs | Total: {len(anmerkung_absicht_szenario_vorhersage)} | Textklassifizierung-KI (Anmerkung + Absicht + Szenario)", plot=True)

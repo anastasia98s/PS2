@@ -13,9 +13,9 @@ class PresenterTextklassifizierung:
 
     # Model ##########################################################################
 
-    def show_satz(self):
+    def show_satz(self, id_szenario, id_absicht, id_anmerkung):
         try:
-            saetze = self.model.show_satz()
+            saetze = self.model.show_satz(id_szenario, id_absicht, id_anmerkung)
             saetze_list = [
                 {"satz_id": satz[0],
                 "wort_id": satz[1],
@@ -230,6 +230,29 @@ class PresenterTextklassifizierung:
                 return "Error!!"
         except Exception as e:
             return f"Error: {str(e)}"
+        
+    # Model CM
+    def such_szenario(self, id):
+        id = int(id)
+        try:
+            return self.model.search_data('sp_szenario', 'szenario_id', id, 'szenario')
+        except Exception as e:
+            return f"Error: {str(e)}"
+        
+    def such_absicht(self, id):
+        id = int(id)
+        try:
+            return self.model.search_data('sp_absicht', 'absicht_id', id, 'absicht')
+        except Exception as e:
+            return f"Error: {str(e)}"
+        
+    def such_anmerkung(self, id):
+        id = int(id)
+        try:
+            return self.model.search_data('sp_anmerkung', 'anmerkung_id', id, 'anmerkung')
+        except Exception as e:
+            return f"Error: {str(e)}"
+
     # View ##########################################################################
 
     def showPage(self, site):

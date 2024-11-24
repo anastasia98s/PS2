@@ -204,32 +204,43 @@ def val_fn(data_loader, model,device, batch=None):
             loss = (anmerkung_loss + absicht_loss + szenario_loss)/3
             final_loss += loss
 
-            #_, preds_absicht = torch.max(absicht_logits, dim=-1)
-            #_, preds_szenario = torch.max(szenario_logits, dim=-1)
-            _, preds_anmerkung = torch.max(anmerkung_logits, dim=-1)
-            preds_anmerkung = preds_anmerkung.view(-1)
+            #preds_anmerkung_array = []
+            #loesung_anmerkung_array = []
+            for index in range(len(anmerkung_logits)):
+                active_mask = batch['mask'][index] == 1
+                _, preds_anmerkung = torch.max(anmerkung_logits[index], dim=-1)
+                active_preds_anmerkung = preds_anmerkung[active_mask]
+                active_target_anmerkung = batch['target_anmerkung'][index][active_mask]
 
-            #_, preds_anmerkung = neural_network.utils.to_yhat(anmerkung_logits)
+                active_ids = batch['ids'][index][active_mask]
+                filter_ids = (active_ids != 101) & (active_ids != 102)
+                preds_anmerkung_array.append(active_preds_anmerkung[filter_ids])
+                loesung_anmerkung_array.append(active_target_anmerkung[filter_ids])
+
             _, preds_absicht = neural_network.utils.to_yhat(absicht_logits)
             _, preds_szenario = neural_network.utils.to_yhat(szenario_logits)
 
-            active_mask = batch['mask'].view(-1) == 1
-            active_preds_anmerkung = preds_anmerkung.view(-1)[active_mask]
-            active_target_anmerkung = batch['target_anmerkung'].view(-1)[active_mask]
+            #active_mask = batch['mask'].view(-1) == 1
+            #active_preds_anmerkung = preds_anmerkung.view(-1)[active_mask]
+            #active_target_anmerkung = batch['target_anmerkung'].view(-1)[active_mask]
 
-            active_ids = batch['ids'].view(-1)[active_mask]
-            filter_ids = (active_ids != 101) & (active_ids != 102)
-            active_preds_anmerkung = active_preds_anmerkung[filter_ids]
-            active_target_anmerkung = active_target_anmerkung[filter_ids]
-
-            preds_anmerkung_array.extend(active_preds_anmerkung)
-            loesung_anmerkung_array.extend(active_target_anmerkung)
+            #active_ids = batch['ids'].view(-1)[active_mask]
+            #filter_ids = (active_ids != 101) & (active_ids != 102)
+            #active_preds_anmerkung = active_preds_anmerkung[filter_ids]
+            #active_target_anmerkung = active_target_anmerkung[filter_ids]
+            #preds_anmerkung_array.extend(active_preds_anmerkung)
+            #loesung_anmerkung_array.extend(active_target_anmerkung)
 
             preds_absicht_array.extend(preds_absicht)
             loesung_absicht_array.extend(batch['target_absicht'].view(-1))
 
             preds_szenario_array.extend(preds_szenario)
             loesung_szenario_array.extend(batch['target_szenario'].view(-1))
+
+    #preds_anmerkung_array = preds_anmerkung_array[2]
+    #loesung_anmerkung_array = loesung_anmerkung_array[2]
+    #print(preds_anmerkung_array)
+    #print(loesung_anmerkung_array)
 
     return final_loss/len(data_loader), preds_anmerkung_array, loesung_anmerkung_array, preds_absicht_array, loesung_absicht_array, preds_szenario_array, loesung_szenario_array
 

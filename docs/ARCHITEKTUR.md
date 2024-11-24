@@ -24,7 +24,7 @@
 - **Aktivierungswort (CNN-Modell)**: identifiziert den Aufruf des Benutzers an den Assistenten
 - **Spracherkennungsmodell (Whisper)**: transkribiert gesprochene Sprache in Text
 - **Text-zu-Sprache-Modell (Coqui)**: generiert gesprochene Antworten aus Text 
-  - Datensatz von Thorsten-Voice: ![hier](https://github.com/thorstenMueller/Thorsten-Voice)
+  - Datensatz von Thorsten-Voice: [hier](https://github.com/thorstenMueller/Thorsten-Voice)
 - **PDF-Verstehen (Ollama)**: beantwortet Fragen zu Inhalten eines PDFs
 
 ![KI-Modell](docs_image/KI-Modell.drawio.png)
@@ -38,33 +38,7 @@
 ## 7. **Multithreading**
 ![Multithreading](docs_image/thread.drawio.png)
 
-## 8. **Plot**
-### Confusion Matrix von Authentifizierung-KI
-
-![Confusion Matrix von Authentifizierung-KI](docs_image/auth_matrix.png)
-
-### Confusion Matrix von Aktivierungswort-KI
-
-![Confusion Matrix von Aktivierungswort-KI](docs_image/aktivierung_cm.png)
-
-### Confusion Matrix von Textklassifizierung-KI (Anmerkung)
-
-![Confusion Matrix von Textklassifizierung-KI (Anmerkung)](docs_image/anmerkung_cm.png)
-
-### Confusion Matrix von Textklassifizierung-KI (Absicht)
-
-![Confusion Matrix von Textklassifizierung-KI (Absicht)](docs_image/absicht_cm.png)
-
-### Confusion Matrix von Textklassifizierung-KI (Szenario)
-
-![Confusion Matrix von Textklassifizierung-KI (Szenario)](docs_image/szenario_cm.png)
-
-### Aktivierungswort vs kein Aktivierungswort
-![Aktivierungswort](docs_image/is_aktivierung.png)
-![kein Aktivierungswort](docs_image/not_aktivierung.png)
-
 # Intents-Sturktur
-
 Die Textklassifikation KI gibt einen Output in drei Hauptkategorien zurück:
 
 1. **Szenario**: Dies ist der Klassenname, der das Kontextumfeld der Anfrage beschreibt.
