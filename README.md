@@ -38,6 +38,7 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
    ```shell
    ai_env\Scripts\activate
    ```
+   
 2. **Installiere alle erforderlichen Pakete:**
    ```shell
    pip install -r requirements.txt
@@ -63,6 +64,7 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
    ```shell
    ollama -v
    ```
+
 4. **Aktivierungswort mit eigener Stimme aufnehmen und trainieren:**
    1. Öffne `main.py`.
    2. Suche das Menü „Aktivierungswort aufnehmen“.
