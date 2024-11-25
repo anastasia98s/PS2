@@ -27,7 +27,6 @@ class TextToSpeech:
 
         def_config_path = config.TTS_JSON_PATH
         def_model_path = config.TTS_TRAINED_PATH
-        self.def_out_path = config.RECORD_TMP_PATH
 
         self.pipe_out = sys.stdout if def_pipe_out else None
 
@@ -86,7 +85,6 @@ class TextToSpeech:
                 reference_speaker_name=self.def_reference_speaker_idx,
             )
 
-            print(" > Saving output to {}".format(self.def_out_path))
-            self.synthesizer.save_wav(wav, self.def_out_path, pipe_out=self.pipe_out)
+            self.synthesizer.save_wav(wav, config.RECORD_TMP_PATH, pipe_out=self.pipe_out)
 
             os.system("start " + config.RECORD_TMP_PATH)
