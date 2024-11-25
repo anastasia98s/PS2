@@ -11,7 +11,7 @@
 - Intents "To-Do-Liste, Studienordnung, Datum, Wetter, Uhrzeit, Suchintent, Wikipedia" abgeschlossen
 - Benutzer-Authentifizierung implementiert. *(Fingerabdruck einer Stimme)*
 - automatische Datasets/Testdaten zur Benutzerauthentifizierung implementiert. *(wird bei Verwendung automatisch gespeichert)*
-- Aktivierungswort-Funktionalität implementiert. *(Du musst den Aktivierungswort-Rufnamen-Assistenten in der Datei main.py mit deiner eigenen Stimme aufnehmen und trainieren)*
+- Aktivierungswort-Funktionalität implementiert.
 - **trainierte Modell** auf der Cloud hochgeladen. [Link zum Herunterladen](https://drive.google.com/drive/folders/1I27FN5USWLdT6kTXWMWGypINOeeF8oru?usp=drive_link)
    - *musst du nur das `data`-Verzeichnis durch diese Daten richtig ersetzen.*
 
