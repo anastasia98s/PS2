@@ -253,6 +253,14 @@ class EngineProcessor:
                                         return "verstehe"
                         else:
                             return None
+                        
+                case (config.SZENARIO_YOUTUBE, config.ABSICHT_HERUNTERLADEN): # Youtube-Video herunterladen
+                    intent_result, error_result = self.youtube_intent.herunterladen(t_thema)
+                    if not error_result:
+                        return intent_result
+                    else:
+                        return "Youtube Intent Error!"
+                    
                 ################################### # Search Engine
                 case (config.SZENARIO_SEARCH_ENGINE, config.ABSICHT_ABFRAGEN): # abfragen
                     while True:

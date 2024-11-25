@@ -73,7 +73,7 @@ class ModelTextklassifizierung:
             "Wetter",
             "Studienordnung",
             "Wikipedia",
-            "ToDo",
+            "Todo",
             "Uhrzeit",
             "Datum",
             "System",
@@ -87,7 +87,8 @@ class ModelTextklassifizierung:
             "zurückgehen",
             "weitermachen",
             "wiederholen",
-            "abbrechen"
+            "abbrechen",
+            "herunterladen"
         ]
 
         for anmerkung in anmerkung_array:

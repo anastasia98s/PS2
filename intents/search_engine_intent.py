@@ -3,9 +3,7 @@ import config
 from urllib.parse import quote
 from intents.datenkonverter import Datenkonverter
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 
 class SearchEngineIntent(Datenkonverter):
     def __init__(self, system_presenter, text_to_speech):
@@ -28,15 +26,18 @@ class SearchEngineIntent(Datenkonverter):
             self.gesuchte_websites_list.append((website_title, website_url))
 
     def website_oeffnen(self):
-        self.text_to_speech.text_to_speech(f"Moment bitte")
-        website_titel, website_url = self.gesuchte_websites_list[self.gesuchte_websites_index]
-        options = Options()
-        options.headless = False
-        driver = webdriver.Chrome() # service=Service(ChromeDriverManager().install()), options=options
-        driver.get(website_url)
-        self.driver = driver
-        print("Link:", website_url)
-        return f"der Titel is {website_titel}", None
+        if len(self.gesuchte_websites_list) > 0:
+            self.text_to_speech.text_to_speech(f"Moment bitte")
+            website_titel, website_url = self.gesuchte_websites_list[self.gesuchte_websites_index]
+            options = Options()
+            options.headless = False
+            driver = webdriver.Chrome(options=options) # service=Service(ChromeDriverManager().install()), options=options
+            driver.get(website_url)
+            self.driver = driver
+            print("Link:", website_url)
+            return f"der Titel is {website_titel}", None
+        else:
+            return f"Ich habe keine Website gefunden.", 1
     
     ########################################################
 
@@ -59,7 +60,7 @@ class SearchEngineIntent(Datenkonverter):
     def aktion_abbrechen(self):
         if self.driver:
             self.driver.quit()
-            return "website wurde geschlosses", None
+            return "die Website wurde geschlossen", None
         else:
             return "kein Vorgang gefunden", None
     

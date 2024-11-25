@@ -165,9 +165,17 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
 - Was ist der Amazonas?
 - Wer war Albert Einstein?
 - Was ist die Berliner Mauer?
-- Was ist das Internet?
+- Gib mir mehr Informationen über Nanotechnologie
 - Wer war Ludwig van Beethoven?
-- Was ist die Mona Lisa?
+- Was fällt unter den Begriff Ethik
+- Was bedeutet Python?
+- Definiere maschinelles Lernen.
+- Erkläre was ein Algorithmus ist.
+- Erkläre den Begriff Quantenphysik?
+- Gib mir die Definition von Künstliche Intelligenz?
+- Was versteht man unter Demokratie?
+- Was ist der Begriff Nachhaltigkeit?
+- Was ist damit gemeint, wenn von Cybersecurity gesprochen wird?
 - [mehr](https://github.com/anastasia98s/PS2/blob/Wikipedia-Intent/testdaten_2.txt)
 
 ## Suchintent Wetter
@@ -188,13 +196,19 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
    - Wie wird das Wetter in Berlin?
 
 ## Suchintent Youtube
-- Such nach dem Podcast über Künstliche Intelligenz auf YouTube
-- Finde den Podcast von Fest und Flauschig auf YouTube
-- Such nach Musik von Beethoven auf YouTube
-- Spiel Let It Be von The Beatles auf YouTube
-- Such nach Shape of You auf YouTube
-- Finde ein Video über gesunde Ernährung
-- Such nach einem Video über Tipps für bessere Fotografie
+- **Youtube abspielen**
+   - Such nach dem Podcast über Künstliche Intelligenz auf YouTube
+   - Finde den Podcast von Fest und Flauschig auf YouTube
+   - Such nach Musik von Beethoven auf YouTube
+   - Spiel Let It Be von The Beatles auf YouTube
+   - Such nach Shape of You auf YouTube
+   - Finde ein Video über gesunde Ernährung
+   - Such nach einem Video über Tipps für bessere Fotografie
+   - Spiel ein Video über AI ab
+- **Youtube herunterladen (als Audio)**
+   - Lade das neueste Video von PewDiePie herunter
+   - Lade ein lustiges Video herunter
+   - Lade dieses Video herunter
 
 ## Suchintent Search Engine
 - Such nach einem Hotel in Berlin
@@ -212,7 +226,6 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
 - Vegane Lasagne Rezept
 - Finde ein Rezept für indisches Curry
 - Such nach einem Rezept für Pfannkuchen
-- Finde ein Rezept für Linsensuppe
 
 ## System Befehle (für Intent)
 - Gehe zurück

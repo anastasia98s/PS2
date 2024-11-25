@@ -32,7 +32,7 @@ def train():
     
     joblib.dump(meta_data, config.TEXTKLASSIFIZIERUNG_META_PATH)
  
-    (train_satze, val_satze, train_anmerkung, val_anmerkung, train_absicht, val_absicht, train_szenario, val_szenario) = model_selection.train_test_split(satze, target_anmerkung, target_absicht, target_szenario, random_state=42, test_size=0.1) # stratify=target_absicht
+    train_satze, val_satze, train_anmerkung, val_anmerkung, train_absicht, val_absicht, train_szenario, val_szenario = model_selection.train_test_split(satze, target_anmerkung, target_absicht, target_szenario, random_state=42, test_size=0.1, stratify=target_szenario) # stratify=target_absicht
     
     # train
     train_dataset = neural_network.nn_textklassifizierung.utils.SatzDataset(train_satze, train_anmerkung, train_absicht, train_szenario)
@@ -64,6 +64,7 @@ def train():
     )
     
     best_loss = np.inf
+    best_epochs = 1
     best_preds_anmerkung_array = []
     best_loesung_anmerkung_array = []
     best_preds_absicht_array = []
@@ -122,6 +123,7 @@ def train():
             os.makedirs(os.path.dirname(config.TEXTKLASSIFIZIERUNG_TRAINED_PATH), exist_ok=True)
             torch.save(model.state_dict(), config.TEXTKLASSIFIZIERUNG_TRAINED_PATH)
             best_loss = val_loss
+            best_epochs = epoch + 1
             print(f'Validation Loss: {best_loss}, neues Modell')
         else:
             print(f'Validation Loss: {val_loss}')
@@ -134,9 +136,9 @@ def train():
     
     flat_preds_anmerkung_array = [item for sublist in best_preds_anmerkung_array for item in sublist]
     flat_loesung_anmerkung_array = [item for sublist in best_loesung_anmerkung_array for item in sublist]
-    neural_network.utils.show_conf_matrix(flat_preds_anmerkung_array, flat_loesung_anmerkung_array, confusion_matrix_anmerkung_class, f"Best {config.TEXTKLASSIFIZIERUNG_EPOCHS} Epochs | Total: {len(flat_preds_anmerkung_array)} | Textklassifizierung-KI (Anmerkung)", plot=True)
-    neural_network.utils.show_conf_matrix(best_preds_absicht_array, best_loesung_absicht_array, confusion_matrix_absicht_class, f"Best {config.TEXTKLASSIFIZIERUNG_EPOCHS} Epochs | Total: {len(best_preds_absicht_array)} | Textklassifizierung-KI (Absicht)", plot=True)
-    neural_network.utils.show_conf_matrix(best_preds_szenario_array, best_loesung_szenario_array, confusion_matrix_szenario_class, f"Best {config.TEXTKLASSIFIZIERUNG_EPOCHS} Epochs | Total: {len(best_preds_szenario_array)} | Textklassifizierung-KI (Szenario)", plot=True)
+    neural_network.utils.show_conf_matrix(flat_preds_anmerkung_array, flat_loesung_anmerkung_array, confusion_matrix_anmerkung_class, f"{best_epochs} Epochs | Total: {len(flat_preds_anmerkung_array)} | Textklassifizierung-KI (Anmerkung)", plot=True)
+    neural_network.utils.show_conf_matrix(best_preds_absicht_array, best_loesung_absicht_array, confusion_matrix_absicht_class, f"{best_epochs} Epochs | Total: {len(best_preds_absicht_array)} | Textklassifizierung-KI (Absicht)", plot=True)
+    neural_network.utils.show_conf_matrix(best_preds_szenario_array, best_loesung_szenario_array, confusion_matrix_szenario_class, f"{best_epochs} Epochs | Total: {len(best_preds_szenario_array)} | Textklassifizierung-KI (Szenario)", plot=True)
 
     absicht_szenario_label = []
     absicht_szenario_vorhersage = []
@@ -159,7 +161,7 @@ def train():
 
     absicht_szenario_label = [f"{presenter_textklassifizierung.such_szenario(encoder_szenario.classes_[szenario])} {presenter_textklassifizierung.such_absicht(encoder_absicht.classes_[absicht])}" for szenario, absicht in absicht_szenario_label]
     
-    neural_network.utils.show_conf_matrix(absicht_szenario_vorhersage, absicht_szenario_loesung, absicht_szenario_label, f"Best {config.TEXTKLASSIFIZIERUNG_EPOCHS} Epochs | Total: {len(absicht_szenario_vorhersage)} | Textklassifizierung-KI (Absicht + Szenario)", plot=True)
+    neural_network.utils.show_conf_matrix(absicht_szenario_vorhersage, absicht_szenario_loesung, absicht_szenario_label, f"{best_epochs} Epochs | Total: {len(absicht_szenario_vorhersage)} | Textklassifizierung-KI (Absicht + Szenario)", plot=True)
 
     anmerkung_absicht_szenario_label = []
     anmerkung_absicht_szenario_vorhersage = []
@@ -182,4 +184,4 @@ def train():
             anmerkung_absicht_szenario_loesung.append(index_loesung)
 
     anmerkung_absicht_szenario_label = [ (presenter_textklassifizierung.such_anmerkung(positive_anmerkung_class[anmerkung]), f"{presenter_textklassifizierung.such_szenario(encoder_szenario.classes_[szenario])} {presenter_textklassifizierung.such_absicht(encoder_absicht.classes_[absicht])}") for anmerkung, szenario, absicht in anmerkung_absicht_szenario_label]
-    neural_network.utils.show_conf_matrix(anmerkung_absicht_szenario_vorhersage, anmerkung_absicht_szenario_loesung, anmerkung_absicht_szenario_label, f"Best {config.TEXTKLASSIFIZIERUNG_EPOCHS} Epochs | Total: {len(anmerkung_absicht_szenario_vorhersage)} | Textklassifizierung-KI (Anmerkung + Absicht + Szenario)", plot=True)
+    neural_network.utils.show_conf_matrix(anmerkung_absicht_szenario_vorhersage, anmerkung_absicht_szenario_loesung, anmerkung_absicht_szenario_label, f"{best_epochs} Epochs | Total: {len(anmerkung_absicht_szenario_vorhersage)} | Textklassifizierung-KI (Anmerkung + Absicht + Szenario)", plot=True)
