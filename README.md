@@ -16,7 +16,7 @@
    - *musst du nur das `data`-Verzeichnis durch diese Daten richtig ersetzen.*
 
 ## To-Do 
-- Mikroservice + API + neue Datenbank? erstellen
+- Mikroservice + API + neue Datenbank erstellen
 
 ## Architektur
 Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-Dokumentation](docs/ARCHITEKTUR.md).
