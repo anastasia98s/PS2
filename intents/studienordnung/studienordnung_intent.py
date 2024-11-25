@@ -11,9 +11,14 @@ class StudienordnungIntent:
     def abfragen(self, i_satz):        
         # config.STUDIENORDNUNG_PDF_PATH = "data/intents_data/studienordnung/I42b_2010_PO.pdf"
         self.text_to_speech.text_to_speech("Moment, ich frage bei Ollama nach")
-        pdf_text = convert_to_text(config.STUDIENORDNUNG_PDF_PATH)
-        chunks = split_text_into_paragraphs(pdf_text)
-        paragraphs = get_top_relevant_chunks(chunks, i_satz)
-        final_answer = get_aggregated_answer(paragraphs, i_satz)
+        try:
+            pdf_text = convert_to_text(config.STUDIENORDNUNG_PDF_PATH)
+            chunks = split_text_into_paragraphs(pdf_text)
+            paragraphs = get_top_relevant_chunks(chunks, i_satz)
+            final_answer = get_aggregated_answer(paragraphs, i_satz)
 
-        return final_answer, None
+            return final_answer, None
+        except FileNotFoundError:
+            return "Studienordnung-PDF wurde nicht gefunden.", None
+        except Exception as e:
+            return "Fehler bei Ollama", None

@@ -4,9 +4,11 @@ import whisper
 import re
 import speech_recognition as sr
 import utils.audio.utils
+import threading
 
 class SpeechToText:
     def __init__(self, text_to_speech):
+        self.lock = threading.Lock()
         self.text_to_speech = text_to_speech
         if config.LEICHTES_ASR_MODELL:
             self.recognizer = sr.Recognizer()
@@ -14,34 +16,38 @@ class SpeechToText:
             self.recognizer = whisper.load_model(config.SPEECH_RECOGNITION_MODELL, config.DEVICE)
 
     def recognize(self, signal, status_class_thread=None):
-        if status_class_thread and status_class_thread.thread_event.is_set():
-            return None
-        
-        if config.LEICHTES_ASR_MODELL:
-            with sr.AudioFile(config.RECORD_TMP_PATH) as source:
-                audio_data = self.recognizer.record(source)
-                try:
-                    text = self.recognizer.recognize_google(audio_data, language=config.AUDIO_SPRACHE)
-                    return text
-                except sr.UnknownValueError:
-                    print("Entschuldigung, ich konnte die Audioaufnahme nicht verstehen.")
-                    return None
-                except sr.RequestError as e:
-                    print("Konnte keine Ergebnisse anfordern; {0}".format(e))
-                    return None
-        else:
-            signal = signal.astype(np.float32)
-            signal = whisper.pad_or_trim(signal)
-            result = self.recognizer.transcribe(signal, language=config.WHISPER_SPRACHE)
-            sr_text = result["text"]
-            if sr_text:
-                no_speech_prob = result['segments'][0]['no_speech_prob']
-                if no_speech_prob < config.NO_SPEECH_MAX_NOTEN:
-                    return sr_text.strip()
-                else:
-                    return None
-            else:
+        with self.lock:
+            if status_class_thread and status_class_thread.thread_event.is_set():
                 return None
+            
+            if config.LEICHTES_ASR_MODELL:
+                with sr.AudioFile(config.RECORD_TMP_PATH) as source:
+                    audio_data = self.recognizer.record(source)
+                    try:
+                        text = self.recognizer.recognize_google(audio_data, language=config.AUDIO_SPRACHE)
+                        return text
+                    except sr.UnknownValueError:
+                        print("Entschuldigung, ich konnte die Audioaufnahme nicht verstehen.")
+                        return None
+                    except sr.RequestError as e:
+                        print("Konnte keine Ergebnisse anfordern; {0}".format(e))
+                        return None
+            else:
+                try:
+                    signal = signal.astype(np.float32)
+                    signal = whisper.pad_or_trim(signal)
+                    result = self.recognizer.transcribe(signal, language=config.WHISPER_SPRACHE)
+                    sr_text = result["text"]
+                    if sr_text:
+                        no_speech_prob = result['segments'][0]['no_speech_prob']
+                        if no_speech_prob < config.NO_SPEECH_MAX_NOTEN:
+                            return sr_text.strip()
+                        else:
+                            return None
+                    else:
+                        return None
+                except Exception as e:
+                    return None
                 
     def listen_recognize(self, silence_duration, sample_rate, status_class_thread=None):
         while True:

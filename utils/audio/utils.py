@@ -72,8 +72,7 @@ def listen(silence_duration, sample_rate, max_time=config.MAX_RECORDING_TIME, st
 
     recording_concat = np.concatenate([np.frombuffer(chunk, dtype=np.int16) for chunk in recording])
 
-    # Audioqualität testen
-    if save_rec:
+    if save_rec and config.LEICHTES_ASR_MODELL:
         folder_path = os.path.dirname(config.RECORD_TMP_PATH)
         os.makedirs(folder_path, exist_ok=True)
         with wave.open(config.RECORD_TMP_PATH, 'wb') as wf:
