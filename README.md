@@ -51,7 +51,7 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
    ```
 
    **Hinweis:**
-   - Wenn es zu Fehlermeldungen kommt, kannst du die Pakete manuell installieren. *(Ich benutze Python 3.11.9 und 3.12.1 ohne Probleme)*
+   - Wenn es zu Fehlermeldungen kommt, kannst du die Pakete manuell installieren. *(Ich benutze Python 3.11.4 ohne Probleme)*
    - Stelle sicher, dass FFMPEG installiert ist und im PATH-Umgebungsvariable eingetragen ist. [Link zum Herunterladen](https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip)
    - Stelle sicher, dass Ollama installiert ist. Weitere Informationen und den Download findest du hier: [Link zum Herunterladen](https://ollama.com/download/windows).
    - Überprüfe, ob das LLM-Modell von Ollama bereits heruntergeladen wurde. *(den LLM-Modellnamen findest du in `config.py`)*
