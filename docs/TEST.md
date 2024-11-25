@@ -28,6 +28,6 @@
 ![Confusion Matrix von Textklassifizierung-KI (Szenario + Absicht + Anmerkung)](docs_image/anmerkung_absicht_szenario_cm.png)
 
 
-### Aktivierungswort vs kein Aktivierungswort
+<!-- ### Aktivierungswort vs kein Aktivierungswort
 ![Aktivierungswort](docs_image/is_aktivierung.png)
-![kein Aktivierungswort](docs_image/not_aktivierung.png)
+![kein Aktivierungswort](docs_image/not_aktivierung.png) -->
