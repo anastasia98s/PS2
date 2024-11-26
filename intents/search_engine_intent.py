@@ -14,6 +14,7 @@ class SearchEngineIntent(Datenkonverter):
         self.text_to_speech = text_to_speech
 
     def get_websites(self, i_thema):
+        self.text_to_speech.text_to_speech(f"Suche nach {i_thema}")
         self.gesuchte_websites_list = []
 
         thema_urlencode = quote(i_thema)
@@ -27,7 +28,7 @@ class SearchEngineIntent(Datenkonverter):
 
     def website_oeffnen(self):
         if len(self.gesuchte_websites_list) > 0:
-            self.text_to_speech.text_to_speech(f"Moment bitte")
+            # self.text_to_speech.text_to_speech(f"Moment bitte")
             website_titel, website_url = self.gesuchte_websites_list[self.gesuchte_websites_index]
             options = Options()
             options.headless = False
@@ -71,7 +72,6 @@ class SearchEngineIntent(Datenkonverter):
 
         if not i_thema:
             return None, config.ERROR_VARIABLE_THEMA # frage nochmal zum Thema
-        self.text_to_speech.text_to_speech(f"Suche nach {i_thema}")
         self.system_presenter.intent_presenter = self # bei system_intent anmelden
         self.get_websites(i_thema)
         return self.website_oeffnen()

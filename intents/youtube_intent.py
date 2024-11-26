@@ -85,7 +85,7 @@ class YoutubeIntent(Datenkonverter):
         
     def video_abspielen(self):
         if len(self.gesuchte_videos_list) > 0:
-            self.text_to_speech.text_to_speech(f"Moment bitte")
+            # self.text_to_speech.text_to_speech(f"Moment bitte")
             video_titel, video_id = self.gesuchte_videos_list[self.gesuchte_videos_index]
             options = Options()
             options.headless = False
