@@ -80,7 +80,7 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
    4. Wenn du fertig bist, trainiere die Datensätze.
 
    **Hinweis:**
-   - Das trainierte Aktivierungswort ist `Molly`. Mit meiner Stimme funktioniert es gut, aber es könnte sein, dass es mit anderen Geräten oder Personen schlechter erkannt wird.
+   - Das trainierte Aktivierungswort ist `Tom`. Mit meiner Stimme funktioniert es gut, aber es könnte sein, dass es mit anderen Geräten oder Personen schlechter erkannt wird.
 
 5. **Starte das Engine-Skript:**
    ```shell
