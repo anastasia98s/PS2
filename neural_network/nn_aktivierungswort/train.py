@@ -15,7 +15,7 @@ def train():
     merkmale, labels = neural_network.nn_aktivierungswort.utils.get_data(config.AKTIVIERUNGSWORT_DATENBANK_PATH)
 
     if len(merkmale > 1):
-        train_merkmale, val_merkmale, train_labels, val_labels = train_test_split(merkmale, labels, test_size=0.2, random_state=42) #stratify=labels
+        train_merkmale, val_merkmale, train_labels, val_labels = train_test_split(merkmale, labels, test_size=0.2, random_state=42, stratify=labels) #stratify=labels
 
         train_dataset = neural_network.nn_aktivierungswort.utils.MerkmaleDataset(train_merkmale, train_labels)
         train_data_loader = DataLoader( train_dataset,
