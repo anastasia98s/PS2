@@ -49,9 +49,8 @@ def train():
 
         optimizer = optim.Adam(model.parameters(), lr=0.001, weight_decay=0.01)
 
-        start_zeit = time.time()
-
         best_loss = float('inf')
+        best_epochs = 1
         best_preds_authentifizierung_array = []
         best_loesung_authentifizierung_array = []
 
@@ -66,6 +65,8 @@ def train():
         print(f'Training Data: {len(train_merkmale)}')
         print(f'Validation Data: {len(val_merkmale)}')
         print(f'Total Data: {len(merkmale)}')
+
+        start_zeit = time.time()
 
         for epoch in range(config.AUTHENTIFIZIERUNG_EPOCHS):
             train_loss = neural_network.nn_authentifizierung.utils.train_fn(train_data_loader, model, optimizer, device)
@@ -82,6 +83,7 @@ def train():
                     os.makedirs(os.path.dirname(config.AUTHENTIFIZIERUNG_TRAINED_PATH), exist_ok=True)
                     torch.save(model.state_dict(), config.AUTHENTIFIZIERUNG_TRAINED_PATH)
                     best_loss = val_loss
+                    best_epochs = epoch + 1
                     print(f'Validation Loss: {best_loss}, neues Modell')
                 else:
                     print(f'Validation Loss: {val_loss}')
@@ -92,6 +94,6 @@ def train():
 
         print(f"\nTrainingsdauer: {trainingsdauer:.2f} Minuten")
 
-        neural_network.utils.show_conf_matrix(best_preds_authentifizierung_array, best_loesung_authentifizierung_array, confusion_matrix_class, f"Best {config.AUTHENTIFIZIERUNG_EPOCHS} Epochs\nAuthentifizierung-KI", plot=config.AUTHENTIFIZIERUNG_PLOT_CONFUSION_MATRIX)
+        neural_network.utils.show_conf_matrix(best_preds_authentifizierung_array, best_loesung_authentifizierung_array, confusion_matrix_class, f"{best_epochs} Epochs | Total: {len(best_preds_authentifizierung_array)} | Authentifizierung-KI", plot=config.AUTHENTIFIZIERUNG_PLOT_CONFUSION_MATRIX)
     else:
         print("\n !!!Zu wenige Daten, um Authentifizierungs-KI zu trainieren!!!")

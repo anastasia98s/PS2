@@ -44,9 +44,8 @@ def train():
 
         optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
-        start_zeit = time.time()
-
         best_loss = float('inf')
+        best_epochs = 1
         best_preds_aktivierung_array = []
         best_loesung_aktivierung_array = []
 
@@ -57,6 +56,8 @@ def train():
         print(f'Training Data: {len(train_merkmale)}')
         print(f'Validation Data: {len(val_merkmale)}')
         print(f'Total Data: {len(merkmale)}')
+
+        start_zeit = time.time()
 
         for epoch in range(config.AKTIVIERUNGSWORT_EPOCHS):
             train_loss = neural_network.nn_aktivierungswort.utils.train_fn(train_data_loader, model, optimizer, device)
@@ -73,6 +74,7 @@ def train():
                     os.makedirs(os.path.dirname(config.AKTIVIERUNGSWORT_TRAINED_PATH), exist_ok=True)
                     torch.save(model.state_dict(), config.AKTIVIERUNGSWORT_TRAINED_PATH)
                     best_loss = val_loss
+                    best_epochs = epoch + 1
                     print(f'Validation Loss: {best_loss}, neues Modell')
                 else:
                     print(f'Validation Loss: {val_loss}')
@@ -83,6 +85,6 @@ def train():
 
         print(f"\nTrainingsdauer: {trainingsdauer:.2f} Minuten")
 
-        neural_network.utils.show_conf_matrix(best_preds_aktivierung_array, best_loesung_aktivierung_array, confusion_matrix_class, f"Best {config.AKTIVIERUNGSWORT_EPOCHS} Epochs\nAktivierungsword-KI", binary=True, plot=True)
+        neural_network.utils.show_conf_matrix(best_preds_aktivierung_array, best_loesung_aktivierung_array, confusion_matrix_class, f"{best_epochs} Epochs | Total: {len(best_preds_aktivierung_array)} | Aktivierungsword-KI", binary=True, plot=True)
     else:
         print("\n!!!Zu wenige Daten, um Aktivierungswort-KI zu trainieren!!!")
