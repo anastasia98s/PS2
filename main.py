@@ -2,17 +2,25 @@ from fastapi import FastAPI, HTTPException, Depends
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import create_engine
 from typing import List
-from models import classifications, intends
-from schemas import ClassificationSchema, IntendSchema
+from models import classifications, YoutubeIntend, wikipedia_intends, studienordnung_intends, todo_intends
+from schemas import (
+    ClassificationSchema,
+    IntendSchema,
+    WikipediaIntendSchema,
+    StudienordnungIntendSchema,
+    TodoIntendSchema,
+    ClassificationType
+)
 import uvicorn
 
 # FastAPI-App erstellen
 app = FastAPI()
 
 # Datenbankverbindung einrichten
-db_url = "sqlite:///input_output_analyse.db"
+db_url = "sqlite:///test.db"
 engine = create_engine(db_url, connect_args={"check_same_thread": False})
 SessionLocal = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
+
 
 # Hilfsfunktion: Datenbank-Sitzung abrufen
 def get_db():
@@ -22,101 +30,102 @@ def get_db():
     finally:
         db.close()
 
+
 # CRUD-Endpunkte für Classifications
 @app.get("/classifications", response_model=List[ClassificationSchema])
 def get_classifications(db: SessionLocal = Depends(get_db)):
     return db.query(classifications).all()
 
+
 @app.post("/classifications", response_model=ClassificationSchema)
 def create_classification(data: ClassificationSchema, db: SessionLocal = Depends(get_db)):
-    new_classification = classifications(Auswahl=data.Auswahl)
+    # Überprüfe, ob die Auswahl ein gültiger Typ ist
+    if data.Auswahl not in ClassificationType:
+        raise HTTPException(status_code=400, detail="Invalid classification type provided.")
+    
+    # Klassifikation erstellen
+    new_classification = classifications(Auswahl=data.Auswahl.value)  # .value, um den String-Wert aus Enum zu bekommen
     db.add(new_classification)
     db.commit()
     db.refresh(new_classification)
-    return new_classification
+    return ClassificationSchema(id=new_classification.id, Auswahl=new_classification.Auswahl)
 
-@app.get("/classifications/{classification_id}", response_model=ClassificationSchema)
-def get_classification_by_id(classification_id: int, db: SessionLocal = Depends(get_db)):
-    classification = db.query(classifications).filter_by(id=classification_id).first()
-    if not classification:
-        raise HTTPException(status_code=404, detail="Classification not found")
-    return classification
 
-@app.put("/classifications/{classification_id}", response_model=ClassificationSchema)
-def update_classification(classification_id: int, data: ClassificationSchema, db: SessionLocal = Depends(get_db)):
-    classification = db.query(classifications).filter_by(id=classification_id).first()
-    if not classification:
-        raise HTTPException(status_code=404, detail="Classification not found")
-    classification.Auswahl = data.Auswahl
-    db.commit()
-    db.refresh(classification)
-    return classification
 
-@app.delete("/classifications/{classification_id}")
-def delete_classification(classification_id: int, db: SessionLocal = Depends(get_db)):
-    classification = db.query(classifications).filter_by(id=classification_id).first()
-    if not classification:
-        raise HTTPException(status_code=404, detail="Classification not found")
-    db.delete(classification)
-    db.commit()
-    return {"deleted": classification_id}
+# CRUD-Endpunkte für YoutubeIntend
+@app.get("/youtube-intend", response_model=List[IntendSchema])
+def get_youtube_intends(db: SessionLocal = Depends(get_db)):
+    return db.query(YoutubeIntend).all()
 
-# CRUD-Endpunkte für Intends
-@app.get("/intends", response_model=List[IntendSchema])
-def get_intends(db: SessionLocal = Depends(get_db)):
-    return db.query(intends).all()
 
-@app.post("/intends", response_model=IntendSchema)
-def create_intend(data: IntendSchema, db: SessionLocal = Depends(get_db)):
-    new_intend = intends(
+@app.post("/youtube-intend", response_model=IntendSchema)
+def create_youtube_intend(data: IntendSchema, db: SessionLocal = Depends(get_db)):
+    new_intend = YoutubeIntend(
         classification_id=data.classification_id,
-        input_suchintend=data.input_suchintend,
-        output_suchintend=data.output_suchintend,
-        input_wikipedia=data.input_wikipedia,
-        output_wikipedia=data.output_wikipedia,
-        input_studienordnung=data.input_studienordnung,
-        output_studienordnung=data.output_studienordnung,
-        input_to_do_liste=data.input_to_do_liste,
-        output_to_do_liste=data.output_to_do_liste,
+        input_YoutubeIntend=data.input_YoutubeIntend,
+        output_YoutubeIntend=data.output_YoutubeIntend,
     )
     db.add(new_intend)
     db.commit()
     db.refresh(new_intend)
     return new_intend
 
-@app.get("/intends/{intend_id}", response_model=IntendSchema)
-def get_intend_by_id(intend_id: int, db: SessionLocal = Depends(get_db)):
-    intend = db.query(intends).filter_by(id=intend_id).first()
-    if not intend:
-        raise HTTPException(status_code=404, detail="Intend not found")
-    return intend
 
-@app.put("/intends/{intend_id}", response_model=IntendSchema)
-def update_intend(intend_id: int, data: IntendSchema, db: SessionLocal = Depends(get_db)):
-    intend = db.query(intends).filter_by(id=intend_id).first()
-    if not intend:
-        raise HTTPException(status_code=404, detail="Intend not found")
-    intend.classification_id = data.classification_id
-    intend.input_suchintend = data.input_suchintend
-    intend.output_suchintend = data.output_suchintend
-    intend.input_wikipedia = data.input_wikipedia
-    intend.output_wikipedia = data.output_wikipedia
-    intend.input_studienordnung = data.input_studienordnung
-    intend.output_studienordnung = data.output_studienordnung
-    intend.input_to_do_liste = data.input_to_do_liste
-    intend.output_to_do_liste = data.output_to_do_liste
-    db.commit()
-    db.refresh(intend)
-    return intend
+# CRUD-Endpunkte für Wikipedia Intends
+@app.get("/wikipedia-intend", response_model=List[WikipediaIntendSchema])
+def get_wikipedia_intends(db: SessionLocal = Depends(get_db)):
+    return db.query(wikipedia_intends).all()
 
-@app.delete("/intends/{intend_id}")
-def delete_intend(intend_id: int, db: SessionLocal = Depends(get_db)):
-    intend = db.query(intends).filter_by(id=intend_id).first()
-    if not intend:
-        raise HTTPException(status_code=404, detail="Intend not found")
-    db.delete(intend)
+
+@app.post("/wikipedia-intend", response_model=WikipediaIntendSchema)
+def create_wikipedia_intend(data: WikipediaIntendSchema, db: SessionLocal = Depends(get_db)):
+    new_wikipedia_intend = wikipedia_intends(
+        classification_id=data.classification_id,
+        input_wikipedia=data.input_wikipedia,
+        output_wikipedia=data.output_wikipedia,
+    )
+    db.add(new_wikipedia_intend)
     db.commit()
-    return {"deleted": intend_id}
+    db.refresh(new_wikipedia_intend)
+    return new_wikipedia_intend
+
+
+# Ähnliche Routen für Studienordnung und To-Do-Listen
+@app.get("/studienordnung-intend", response_model=List[StudienordnungIntendSchema])
+def get_studienordnung_intends(db: SessionLocal = Depends(get_db)):
+    return db.query(studienordnung_intends).all()
+
+
+@app.post("/studienordnung-intend", response_model=StudienordnungIntendSchema)
+def create_studienordnung_intend(data: StudienordnungIntendSchema, db: SessionLocal = Depends(get_db)):
+    new_studienordnung_intend = studienordnung_intends(
+        classification_id=data.classification_id,
+        input_studienordnung=data.input_studienordnung,
+        output_studienordnung=data.output_studienordnung,
+    )
+    db.add(new_studienordnung_intend)
+    db.commit()
+    db.refresh(new_studienordnung_intend)
+    return new_studienordnung_intend
+
+
+@app.get("/todo-intend", response_model=List[TodoIntendSchema])
+def get_todo_intends(db: SessionLocal = Depends(get_db)):
+    return db.query(todo_intends).all()
+
+
+@app.post("/todo-intends", response_model=TodoIntendSchema)
+def create_todo_intend(data: TodoIntendSchema, db: SessionLocal = Depends(get_db)):
+    new_todo_intend = todo_intends(
+        classification_id=data.classification_id,
+        input_to_do_liste=data.input_to_do_liste,
+        output_to_do_liste=data.output_to_do_liste,
+    )
+    db.add(new_todo_intend)
+    db.commit()
+    db.refresh(new_todo_intend)
+    return new_todo_intend
+
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000)
