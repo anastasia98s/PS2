@@ -64,7 +64,7 @@ class SearchEngineIntent(Datenkonverter):
             self.driver = None
             return "die Website wurde geschlossen", None
         else:
-            return "kein Vorgang gefunden", None
+            return None, None
     
     ########################################################
 

@@ -137,7 +137,7 @@ class YoutubeIntent(Datenkonverter):
             self.driver = None
             return "das Video wurde geschlossen", None
         else:
-            return "kein Vorgang gefunden", None
+            return None, None
             
     ########################################################
 
