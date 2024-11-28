@@ -55,7 +55,7 @@ class SpeechToText:
                 return None, None
             
             antwort_signal, antwort_signal_trim = utils.audio.utils.listen(silence_duration, sample_rate, status_class_thread=status_class_thread)
-            if loading_speech:
+            if loading_speech and not config.LEICHTES_ASR_MODELL:
                 self.text_to_speech.text_to_speech("einen Moment", status_class_thread=status_class_thread)
             antwort_text = self.recognize(antwort_signal, status_class_thread=status_class_thread)
             
