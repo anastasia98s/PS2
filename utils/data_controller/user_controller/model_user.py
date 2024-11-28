@@ -125,9 +125,9 @@ class ModelUser:
             cursor.execute("PRAGMA foreign_keys = ON")
             if aktivitaet: # Frag nach Zeit
                 if datum:  # Bsp. Wann ist mein Meeting morgen
-                    cursor.execute('SELECT * FROM sp_todo WHERE todo = ? AND DATE(datum) = ? AND benutzer_id = ?', (aktivitaet, datum, benutzer_id))
+                    cursor.execute('SELECT * FROM sp_todo WHERE todo LIKE ? AND DATE(datum) = ? AND benutzer_id = ?', (f'%{aktivitaet}%', datum, benutzer_id))
                 else: # Bsp. Wann ist mein Meeting
-                    cursor.execute('SELECT * FROM sp_todo WHERE todo = ? AND benutzer_id = ?', (aktivitaet, benutzer_id))
+                    cursor.execute('SELECT * FROM sp_todo WHERE todo LIKE ? AND benutzer_id = ?', (f'%{aktivitaet}%', benutzer_id))
             elif datezeit or datum:
                 if datezeit: # Was habe ich morgen um 12 Uhr
                     cursor.execute('SELECT * FROM sp_todo WHERE datum = ? AND benutzer_id = ?', (datezeit, benutzer_id))
@@ -149,12 +149,12 @@ class ModelUser:
             cursor = conn.cursor()
             cursor.execute("PRAGMA foreign_keys = ON")
             if datezeit:
-                cursor.execute('DELETE FROM sp_todo WHERE todo = ? AND datum = ? AND benutzer_id = ?', (aktivitaet, datezeit, benutzer_id))
+                cursor.execute('DELETE FROM sp_todo WHERE todo LIKE ? AND datum = ? AND benutzer_id = ?', (f'%{aktivitaet}%', datezeit, benutzer_id))
             else:
                 if datum:
-                    cursor.execute('DELETE FROM sp_todo WHERE todo = ? AND DATE(datum) = ? AND benutzer_id = ?', (aktivitaet, datum, benutzer_id))
+                    cursor.execute('DELETE FROM sp_todo WHERE todo LIKE ? AND DATE(datum) = ? AND benutzer_id = ?', (f'%{aktivitaet}%', datum, benutzer_id))
                 else:
-                    cursor.execute('DELETE FROM sp_todo WHERE todo = ? AND benutzer_id = ?', (aktivitaet, benutzer_id))
+                    cursor.execute('DELETE FROM sp_todo WHERE todo LIKE ? AND benutzer_id = ?', (f'%{aktivitaet}%', benutzer_id))
             conn.commit()
             return cursor.rowcount > 0
         except Exception as e:

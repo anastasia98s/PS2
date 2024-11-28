@@ -91,7 +91,7 @@ class Engine:
             self.aktivierungswort.wake_word_recognize(config.AUDIO_SAMPLE_RATE)
             self.shutdown_run_engine_processor()
             self.text_to_speech.text_to_speech("Ja?")
-            antwort_signal_trim, antwort_text = self.speech_to_text.listen_recognize(3, config.AUDIO_SAMPLE_RATE)
+            antwort_signal_trim, antwort_text = self.speech_to_text.listen_recognize(3, config.AUDIO_SAMPLE_RATE, loading_speech=True)
             
             self.authentifizieren(antwort_signal_trim)
             if self.benutzer_id:

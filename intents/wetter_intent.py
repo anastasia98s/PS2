@@ -8,7 +8,7 @@ class WetterIntent(Datenkonverter):
         self.text_to_speech = text_to_speech
     
     def abfragen(self, i_zeit, i_datum, i_ort): # Bsp. Wie ist das Wetter um 18 Uhr morgen in Berlin
-        self.text_to_speech.text_to_speech(f"Moment bitte")
+        #self.text_to_speech.text_to_speech(f"Moment bitte")
         
         #url = f"http://example.com/weather?date={i_datum}&time={i_zeit}&location={i_ort}" # such ein besseres API
                 
@@ -16,29 +16,34 @@ class WetterIntent(Datenkonverter):
             i_ort = config.DEFAULT_ORT
 
         try:
-            if i_datum:
+            if i_datum or i_zeit:
+                
+                if not i_datum:
+                    i_datum = "heute"
+
                 i_datum = super().date_zeit_text_cleaner(i_datum)
                 if i_zeit:
                     i_zeit = super().date_zeit_text_cleaner(i_zeit)
                     datezeit, errortyp = super().date_zeit_konverter(i_datum, i_zeit) # Die API kann derzeit an bestimmten Tagen keine Abfragen durchführen
                     if not datezeit:
                         return None, errortyp
+                    
+                    # datum + uhrzeit
                     bedingung_url = f"http://wttr.in/{i_ort}?format=%C&lang=de"
                     temperatur_url = f"http://wttr.in/{i_ort}?format=%t"
 
-                    i_zeit = f"um {i_zeit} Uhr"
                 else:
                     datum, errortyp = super().date_konverter(i_datum) # API Die API kann derzeit an bestimmten Tagen keine Abfragen durchführen
                     if not datum:
                         return None, errortyp
                     else:
                         datum = datum.strftime("%Y-%m-%d")
-                        
+                    
+                    # datum
                     bedingung_url = f"http://wttr.in/{i_ort}?format=%C&lang=de"
                     temperatur_url = f"http://wttr.in/{i_ort}?format=%t"
-
-                i_datum = f"am {i_datum}"
             else:
+                # jetzt
                 bedingung_url = f"http://wttr.in/{i_ort}?format=%C&lang=de"
                 temperatur_url = f"http://wttr.in/{i_ort}?format=%t"
 
@@ -48,7 +53,7 @@ class WetterIntent(Datenkonverter):
                 bedingung = bedingung_response.text.strip()
                 temperatur = temperatur_response.text.strip()
                 temperatur = ''.join(filter(str.isdigit, temperatur))
-                return f"in {i_ort} ist es {i_datum} {i_zeit} {bedingung} bei {temperatur} Grad", None
+                return f"in {i_ort} ist es {super().date_text_konverter(i_datum)} {super().zeit_text_konverter(i_zeit)} {bedingung} bei {temperatur} Grad", None
             else:
                 return None, config.ERROR_VARIABLE_ORT
         except Exception as e:

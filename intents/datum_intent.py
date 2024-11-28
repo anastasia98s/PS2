@@ -11,4 +11,4 @@ class DatumIntent(Datenkonverter):
         else:
             datum = datum.strftime("%d. %B %Y")
         
-        return f"{i_datum} ist {datum}", None
+        return f"{i_datum} ist der {datum}", None

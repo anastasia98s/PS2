@@ -27,4 +27,4 @@ class SystemIntent: #für intent mit prozess wie: musik/videos/timer
         if self.intent_presenter:
             return self.intent_presenter.aktion_abbrechen()
         else:
-            return "kein Vorgang gefunden", None
+            return None, None

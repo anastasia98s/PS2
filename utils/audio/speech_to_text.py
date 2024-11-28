@@ -49,12 +49,14 @@ class SpeechToText:
                 except Exception as e:
                     return None
                 
-    def listen_recognize(self, silence_duration, sample_rate, status_class_thread=None):
+    def listen_recognize(self, silence_duration, sample_rate, status_class_thread=None, loading_speech=False):
         while True:
             if status_class_thread and status_class_thread.thread_event.is_set():
                 return None, None
             
             antwort_signal, antwort_signal_trim = utils.audio.utils.listen(silence_duration, sample_rate, status_class_thread=status_class_thread)
+            if loading_speech:
+                self.text_to_speech.text_to_speech("einen Moment", status_class_thread=status_class_thread)
             antwort_text = self.recognize(antwort_signal, status_class_thread=status_class_thread)
             
             if not antwort_text:

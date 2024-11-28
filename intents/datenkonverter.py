@@ -8,6 +8,46 @@ class Datenkonverter:
     def __init__(self):
         locale.setlocale(locale.LC_TIME, config.ZEIT_STANDORT)
 
+        self.zeitzuordnungen = [
+            {"key": "morgen", "value": "08:00", "typ": 0},
+            {"key": "mittag", "value": "12:00", "typ": 0},
+            {"key": "nachmittag", "value": "15:00", "typ": 0},
+            {"key": "abend", "value": "18:00", "typ": 0},
+            {"key": "nachts", "value": "22:00", "typ": 0},
+            {"key": "früh", "value": "07:00", "typ": 0},
+            {"key": "spät", "value": "21:00", "typ": 0},
+            {"key": "vormittag", "value": "10:00", "typ": 0},
+            {"key": "eins", "value": "01:00", "typ": 1},
+            {"key": "zwei", "value": "02:00", "typ": 1},
+            {"key": "drei", "value": "03:00", "typ": 1},
+            {"key": "vier", "value": "04:00", "typ": 1},
+            {"key": "fünf", "value": "05:00", "typ": 1},
+            {"key": "sechs", "value": "06:00", "typ": 1},
+            {"key": "sieben", "value": "07:00", "typ": 1},
+            {"key": "acht", "value": "08:00", "typ": 1},
+            {"key": "neun", "value": "09:00", "typ": 1},
+            {"key": "zehn", "value": "10:00", "typ": 1},
+            {"key": "elf", "value": "11:00", "typ": 1},
+            {"key": "zwölf", "value": "12:00", "typ": 1},
+            {"key": "dreizehn", "value": "13:00", "typ": 1},
+            {"key": "vierzehn", "value": "14:00", "typ": 1},
+            {"key": "fünfzehn", "value": "15:00", "typ": 1},
+            {"key": "sechzehn", "value": "16:00", "typ": 1},
+            {"key": "siebzehn", "value": "17:00", "typ": 1},
+            {"key": "achtzehn", "value": "18:00", "typ": 1},
+            {"key": "neunzehn", "value": "19:00", "typ": 1},
+            {"key": "zwanzig", "value": "20:00", "typ": 1},
+            {"key": "einundzwanzig", "value": "21:00", "typ": 1},
+            {"key": "zweiundzwanzig", "value": "22:00", "typ": 1},
+            {"key": "dreiundzwanzig", "value": "23:00", "typ": 1},
+            {"key": "vierundzwanzig", "value": "24:00", "typ": 1}
+        ]
+
+        self.wochentage = {
+            "montag": 0, "dienstag": 1, "mittwoch": 2, "donnerstag": 3, 
+            "freitag": 4, "samstag": 5, "wochenende":5, "sonntag": 6
+        }
+
     def date_konverter(self, datum):
         if not datum:
             return None, config.ERROR_VARIABLE_DATUM
@@ -22,15 +62,10 @@ class Datenkonverter:
         if re.search(r"\b(gestern|vorgestern)\b", datum.lower()):
             return jetzt - timedelta(days=1), None
         
-        wochentage = {
-            "montag": 0, "dienstag": 1, "mittwoch": 2, "donnerstag": 3, 
-            "freitag": 4, "samstag": 5, "sonntag": 6
-        }
-        
         datum_lower = datum.lower()
-        if datum_lower in wochentage:
+        if datum_lower in self.wochentage:
             aktueller_wochentag = jetzt.weekday()
-            ziel_wochentag = wochentage[datum_lower]
+            ziel_wochentag = self.wochentage[datum_lower]
             
             tage_bis_ziel = (ziel_wochentag - aktueller_wochentag + 7) % 7
             if tage_bis_ziel == 0:
@@ -89,41 +124,32 @@ class Datenkonverter:
             
         return None, config.ERROR_VARIABLE_DATUM
     
+    def zeit_text_konverter(self, zeit):
+        if zeit:
+            for item in self.zeitzuordnungen:
+                if item["key"] == zeit.lower():
+                    if item["typ"] == 1:
+                        zeit = f"um {item['value']} Uhr"
+                    break
+            else:
+                zeit = zeit.replace('.', ':')
+                if ':' not in zeit:
+                    zeit = f"{zeit}:00"
+                zeit = f"um {zeit} Uhr"
+            
+        return zeit
+    
+    def date_text_konverter(self, datum):
+        if datum:
+            datum_lower = datum.lower()
+            if datum_lower in self.wochentage or any(char.isdigit() for char in datum):
+                return f"am {datum}"
+            else:
+                return datum
+        else:
+            return datum
+    
     def date_zeit_konverter(self, datum, zeit):
-        zeitzuordnungen = {
-            "morgen": "08:00",
-            "mittag": "12:00",
-            "nachmittag": "15:00",
-            "abend": "18:00",
-            "nacht": "22:00",
-            "früh": "07:00",
-            "spät": "21:00",
-            "vormittag": "10:00",
-            "eins": "01:00",
-            "zwei": "02:00",
-            "drei": "03:00",
-            "vier": "04:00",
-            "fünf": "05:00",
-            "sechs": "06:00",
-            "sieben": "07:00",
-            "acht": "08:00",
-            "neun": "09:00",
-            "zehn": "10:00",
-            "elf": "11:00",
-            "zwölf": "12:00",
-            "dreizehn": "13:00",
-            "vierzehn": "14:00",
-            "fünfzehn": "15:00",
-            "sechzehn": "16:00",
-            "siebzehn": "17:00",
-            "achtzehn": "18:00",
-            "neunzehn": "19:00",
-            "zwanzig": "20:00",
-            "einundzwanzig": "21:00",
-            "zweiundzwanzig": "22:00",
-            "dreiundzwanzig": "23:00",
-            "vierundzwanzig": "24:00"
-        }
         
         datum, errortyp = self.date_konverter(datum)
 
@@ -135,8 +161,10 @@ class Datenkonverter:
 
         # Zeit
         try:
-            if zeit.lower() in zeitzuordnungen:
-                zeit = zeitzuordnungen[zeit.lower()]
+            for item in self.zeitzuordnungen:
+                if item["key"] == zeit.lower():
+                    zeit = item["value"]
+                    break
             else:
                 if '.' in zeit:
                     zeit = zeit.replace('.', ':')

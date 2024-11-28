@@ -93,7 +93,7 @@ class YoutubeIntent(Datenkonverter):
             driver = webdriver.Chrome(options=options)
             driver.get(f"https://www.youtube.com/embed/{video_id}?autoplay=1")
             self.driver = driver
-            return f"der Titel is {video_titel}", None
+            return None, None # f"der Titel is {video_titel}"
         else:
             return f"Ich habe kein Video gefunden.", 1
 

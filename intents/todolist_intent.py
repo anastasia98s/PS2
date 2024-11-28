@@ -24,12 +24,11 @@ class ToDoListIntent(Datenkonverter):
                 else:
                     todo_datum = datum_objekt.strftime("%d. %B %Y")
 
-            satze.append(f"Sie haben am {todo_datum} um {todo_zeit} Uhr {todo}")
+            satze.append(f"Sie haben {todo} {super().date_text_konverter(todo_datum)} {super().zeit_text_konverter(todo_zeit)}")
 
         return "\n".join(satze)
     
     def abfragen(self, i_aktivitaet, i_zeit, i_datum, i_benutzer_id):
-        
         datezeit = None
         datum = None
         if i_zeit or i_datum: # Frag nach Aktivität
@@ -54,7 +53,6 @@ class ToDoListIntent(Datenkonverter):
             return "Sie sind frei", None
     
     def eingeben(self, i_aktivitaet, i_zeit, i_datum, i_benutzer_id):
-        
         if i_aktivitaet:
             t_datum = super().date_zeit_text_cleaner(i_datum)
             t_zeit = super().date_zeit_text_cleaner(i_zeit, zeit=True)
@@ -63,13 +61,12 @@ class ToDoListIntent(Datenkonverter):
                 return None, errortyp
             
             self.model_user.add_todo(i_aktivitaet, datezeit, i_benutzer_id)
-            return f"neue {i_aktivitaet} am {t_datum} um {t_zeit} wurde in To-Do-List eingegeben", None
+            return f"neue {i_aktivitaet} {super().date_text_konverter(t_datum)} {super().zeit_text_konverter(t_zeit)} wurde in To-Do-List eingegeben", None
         else:
             return None, config.ERROR_VARIABLE_AKTIVITAET
             # return "Ich kann das To-Do-Objekt nicht identifizieren", None
     
     def entfernen(self, i_aktivitaet, i_zeit, i_datum, i_benutzer_id):
-        
         datezeit = None
         datum = None
         if i_aktivitaet:
@@ -80,14 +77,14 @@ class ToDoListIntent(Datenkonverter):
                     datezeit, errortyp = super().date_zeit_konverter(t_datum, t_zeit)
                     if not datezeit:
                         return None, errortyp
-                    antwort = f"{i_aktivitaet} am {t_datum} um {t_zeit} Uhr wurde in To-Do-List gelöscht"
+                    antwort = f"{i_aktivitaet} {super().date_text_konverter(t_datum)} {super().zeit_text_konverter(t_zeit)} wurde in To-Do-List gelöscht"
                 else:
                     datum, errortyp = super().date_konverter(t_datum)
                     if not datum:
                         return None, errortyp
                     else:
                         datum = datum.strftime("%Y-%m-%d")
-                    antwort = f"Alle {i_aktivitaet} am {t_datum} wurde in To-Do-List gelöscht"
+                    antwort = f"Alle {i_aktivitaet} {super().date_text_konverter(t_datum)} wurde in To-Do-List gelöscht"
             else:
                 datezeit = None
                 antwort = f"Alle {i_aktivitaet} wurde in To-Do-List gelöscht"

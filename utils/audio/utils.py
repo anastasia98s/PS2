@@ -73,13 +73,16 @@ def listen(silence_duration, sample_rate, max_time=config.MAX_RECORDING_TIME, st
     recording_concat = np.concatenate([np.frombuffer(chunk, dtype=np.int16) for chunk in recording])
 
     if save_rec and config.LEICHTES_ASR_MODELL:
-        folder_path = os.path.dirname(config.RECORD_TMP_PATH)
-        os.makedirs(folder_path, exist_ok=True)
-        with wave.open(config.RECORD_TMP_PATH, 'wb') as wf:
-            wf.setnchannels(1)
-            wf.setsampwidth(2)
-            wf.setframerate(sample_rate)
-            wf.writeframes(recording_concat.tobytes())
+        try:
+            folder_path = os.path.dirname(config.RECORD_TMP_PATH)
+            os.makedirs(folder_path, exist_ok=True)
+            with wave.open(config.RECORD_TMP_PATH, 'wb') as wf:
+                wf.setnchannels(1)
+                wf.setsampwidth(2)
+                wf.setframerate(sample_rate)
+                wf.writeframes(recording_concat.tobytes())
+        except (OSError, wave.Error) as e:
+            print(f"\n!!! Fehler beim Speichern der Aufzeichnung: {e}")
 
     recording_flat = recording_concat.flatten().astype(np.float32)
     recording_trim, _ = librosa.effects.trim(recording_flat, top_db=config.AUDIO_DB)
