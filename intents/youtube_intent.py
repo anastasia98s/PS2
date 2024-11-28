@@ -134,6 +134,7 @@ class YoutubeIntent(Datenkonverter):
     def aktion_abbrechen(self):
         if self.driver:
             self.driver.quit()
+            self.driver = None
             return "das Video wurde geschlossen", None
         else:
             return "kein Vorgang gefunden", None

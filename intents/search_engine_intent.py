@@ -61,6 +61,7 @@ class SearchEngineIntent(Datenkonverter):
     def aktion_abbrechen(self):
         if self.driver:
             self.driver.quit()
+            self.driver = None
             return "die Website wurde geschlossen", None
         else:
             return "kein Vorgang gefunden", None
