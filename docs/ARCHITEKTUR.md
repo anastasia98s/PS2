@@ -29,8 +29,8 @@
 
 ![KI-Modell](docs_image/KI-Modell.drawio.png)
 
-## 5. **Systemdiagramm**
-![Systemdiagramm](docs_image/input_output.drawio.png)
+## 5. **Aktivitätsdiagramm**
+![Aktivitätsdiagramm](docs_image/aktivitätsdiagramm.drawio.png)
 
 ## 6. **Authentifizierung/Anmeldung Flussdiagramm**
 ![Flussdiagramm](docs_image/user_anmeldung.drawio.png)
