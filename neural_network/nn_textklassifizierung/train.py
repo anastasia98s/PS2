@@ -15,11 +15,12 @@ from neural_network.nn_textklassifizierung.model import Model
 import neural_network.utils
 
 def train():
+    if not os.path.isfile(config.TEXTKLASSIFIZIERUNG_DATASET_PATH):
+        raise FileNotFoundError(f"\ndie Datenbank ist leer")
+    
     from utils.data_controller.textklassifizierung_controller.presenter import PresenterTextklassifizierung
     presenter_textklassifizierung = PresenterTextklassifizierung()
     
-    if not os.path.isfile(config.TEXTKLASSIFIZIERUNG_DATASET_PATH):
-        raise FileNotFoundError(f"\ndie Datenbank ist leer")
     satze, target_anmerkung , target_absicht, target_szenario, encoder_anmerkung, encoder_absicht, encoder_szenario = neural_network.nn_textklassifizierung.utils.get_data(config.TEXTKLASSIFIZIERUNG_DATASET_PATH) #er_data
     
     num_anmerkung, num_absicht, num_szenario = len(encoder_anmerkung.classes_),len(encoder_absicht.classes_),len(encoder_szenario.classes_)
