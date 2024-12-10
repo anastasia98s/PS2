@@ -1,3 +1,3 @@
 @echo off
-py main.py --ip localhost --port 8000
+py main.py --main_server_ip localhost --main_server_port 8000
 pause

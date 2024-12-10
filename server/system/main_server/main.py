@@ -6,7 +6,7 @@ import uvicorn
 
 app = FastAPI()
 
-@app.post("/shared_data/config")
+@app.post("/main_server/config")
 def show_config():
     return {
         "TEXTKLASSIFIZIERUNG_SERVICE_IP": config.TEXTKLASSIFIZIERUNG_SERVICE_IP,
@@ -62,36 +62,36 @@ def show_config():
         "ERROR_VARIABLE_THEMA": config.ERROR_VARIABLE_THEMA,
     }
 
-@app.post("/shared_data/date_konverter")
+@app.post("/main_server/date_konverter")
 def date_konverter(datum: str = Body(...)):
     result, error = datenkonverter.date_konverter(datum)
     return {"result": result, "error": error}
 
-@app.post("/shared_data/zeit_text_konverter")
+@app.post("/main_server/zeit_text_konverter")
 def zeit_text_konverter(zeit: str = Body(...)):
     return {"result": datenkonverter.zeit_text_konverter(zeit)}
 
-@app.post("/shared_data/date_text_konverter")
+@app.post("/main_server/date_text_konverter")
 def date_text_konverter(datum: str = Body(...)):
     return {"result": datenkonverter.date_text_konverter(datum)}
 
-@app.post("/shared_data/date_zeit_konverter")
+@app.post("/main_server/date_zeit_konverter")
 def date_zeit_konverter(item: Dict[Any, Any]):
     datum = item.get("datum")
     zeit = item.get("zeit")
     result, error = datenkonverter.date_zeit_konverter(datum, zeit)
     return {"result": result, "error": error}
 
-@app.post("/shared_data/date_zeit_text_cleaner")
+@app.post("/main_server/date_zeit_text_cleaner")
 def date_zeit_text_cleaner(item: Dict[Any, Any]):
     text = item.get("text")
     is_zeit = item.get("is_zeit") # false/true/none
     return {"result": datenkonverter.date_zeit_text_cleaner(text, is_zeit)}
 
-@app.post("/shared_data/web_indexing")
+@app.post("/main_server/web_indexing")
 def web_indexing(url: str = Body(...)):
     result, error = datenkonverter.web_indexing(url)
     return {"result": result, "error_indexing": error}
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host=config.SHARED_DATA_SERVICE_IP, port=config.SHARED_DATA_SERVICE_PORT)
+    uvicorn.run("main:app", host=config.MAIN_SERVER_SERVICE_IP, port=config.MAIN_SERVER_SERVICE_PORT)

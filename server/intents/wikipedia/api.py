@@ -1,25 +1,25 @@
 import requests
 import argparse
 
-parser = argparse.ArgumentParser(description="Shared-Data-Service (Server)")
-parser.add_argument('--ip', type=str, required=True, help='Shared-Data-Service IP')
-parser.add_argument('--port', type=int, required=True, help='Shared-Data-Service Port')
+parser = argparse.ArgumentParser(description="Main-Server-Service")
+parser.add_argument('--main_server_ip', type=str, required=True, help='Main-Server-Service IP')
+parser.add_argument('--main_server_port', type=int, required=True, help='Main-Server-Service Port')
 args = parser.parse_args()
 #############################################################################
-SHARED_DATA_SERVICE_IP = args.ip
-SHARED_DATA_SERVICE_PORT = args.port
+MAIN_SERVER_SERVICE_IP = args.main_server_ip
+MAIN_SERVER_SERVICE_PORT = args.main_server_port
 #############################################################################
-shared_data = None
+
 
 try:
-    SHARED_SERVICE_RESPONSE = requests.post(f"http://{SHARED_DATA_SERVICE_IP}:{SHARED_DATA_SERVICE_PORT}/shared_data/config")
+    MAIN_SERVER_SERVICE_RESPONSE = requests.post(f"http://{MAIN_SERVER_SERVICE_IP}:{MAIN_SERVER_SERVICE_PORT}/main_server/config")
 
-    if SHARED_SERVICE_RESPONSE.status_code == 200:
-        config_data = SHARED_SERVICE_RESPONSE.json()
+    if MAIN_SERVER_SERVICE_RESPONSE.status_code == 200:
+        config_data = MAIN_SERVER_SERVICE_RESPONSE.json()
     else:
-        raise FileNotFoundError(f"\nFehler beim Abrufen der SHARED-CONFIG {SHARED_SERVICE_RESPONSE.status_code}")
+        raise FileNotFoundError(f"\nFehler beim Abrufen der MAIN-SERVER-CONFIG {MAIN_SERVER_SERVICE_RESPONSE.status_code}")
 except Exception:
-    raise FileNotFoundError(f"\n\n!!!Fehler beim Abrufen der SHARED-CONFIG!!!")
+    raise FileNotFoundError(f"\n\n!!!Fehler beim Abrufen der MAIN-SERVER-CONFIG!!!")
 
 WIKIPEDIA_INTENT_SERVICE_IP = config_data['WIKIPEDIA_INTENT_SERVICE_IP']
 WIKIPEDIA_INTENT_SERVICE_PORT = config_data['WIKIPEDIA_INTENT_SERVICE_PORT']
