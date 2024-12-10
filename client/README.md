@@ -26,10 +26,10 @@
       pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
       ```
 
-   **Hinweis:**
-   - **Trainierte Modelle** auf der Cloud. [Link zum Herunterladen](https://drive.google.com/drive/folders/1I27FN5USWLdT6kTXWMWGypINOeeF8oru?usp=drive_link)
+   <!-- **Hinweis:**
+   - **Trainierte Modelle** auf der Cloud. [Link zum Herunterladen](https://drive.google.com/drive/folders/1I27FN5USWLdT6kTXWMWGypINOeeF8oru?usp=drive_link) -->
 
-1. **Aktivierungswort mit eigener Stimme aufnehmen und trainieren:**
+<!-- 1. **Aktivierungswort mit eigener Stimme aufnehmen und trainieren:**
    1. Öffne `setting.py`.
    2. Suche das Menü „Aktivierungswort aufnehmen“.
    3. Sprich die folgenden Beispiele nach:
@@ -46,7 +46,7 @@
    **Hinweis:**
    - **HTW DRESDEN SERVER** 
       - Server-IP: `141.56.137.185`
-      - Server-Port: `8000`
+      - Server-Port: `8000` -->
 
 2. **Starte das Engine-Skript:**
    ```shell
@@ -60,6 +60,7 @@
 
 ## Assistenten aufrufen
 - Du musst zunächst den Assistenten aktivieren, indem du das Aktivierungswort verwendest.
-1. **Benutzer**: Hey [Name]
+- Standardaktivierungswort: `Tim`
+1. **Benutzer**: Hey Tim
 2. **Assistent**: Ja
 3. **Benutzer**: `Befehl eingeben`
