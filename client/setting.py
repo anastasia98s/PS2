@@ -137,13 +137,12 @@ def main():
 
                             print("AI\t:", output_satz)
                             if not error_output and verlauf_input == "y":
+                                print("\n- Bitte bewerten Sie die Ausgabe auf einer Skala von 1 bis 5:\n"
+                                        "  0 - nicht speichern\n"
+                                        "  1 - beste Bewertung\n"
+                                        "  5 - schlechteste Bewertung")
                                 while True:
                                     try:
-                                        print("\n- Bitte bewerten Sie die Ausgabe auf einer Skala von 1 bis 5:\n"
-                                            "  0 - nicht speichern\n"
-                                            "  1 - beste Bewertung\n"
-                                            "  5 - schlechteste Bewertung")
-
                                         note_input = int(input("- Note: "))
                                         if 1 <= note_input <= 5:
                                             if note_input != 0:
@@ -156,7 +155,7 @@ def main():
                                                 print("- Der Verlauf wurde nicht gespeichert!\n")
                                             break
                                     except ValueError:
-                                        print("Ungültige Eingabe. Bitte 0 bis 5 eingeben.")
+                                        print("!!Ungültige Eingabe. Bitte 0 bis 5 eingeben!!")
                     else:
                         print("Ungültige Eingabe. Bitte 'y' oder 'n' eingeben.")
                 if auswahl == '2':
