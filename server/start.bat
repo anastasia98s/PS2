@@ -1,5 +1,5 @@
 @echo off
-cd /d "%~dp0\system\main_server"
+cd /d "%~dp0\main_server"
 start python main.py \
   --main_server_ip localhost --main_server_port 8000 \
   --textklassifizierung_ip localhost --textklassifizierung_port 8001 \

@@ -58,7 +58,7 @@ python main.py \
 --search_engine_intent_ip localhost --search_engine_intent_port 8011 \
 --youtube_intent_ip localhost --youtube_intent_port 8012
 ```
-**Services (äüßer Main-Server)**
+**Services (außer dem Main-Server)**
 ```shell
 python main.py --main_server_ip localhost --main_server_port 8000
 ```
