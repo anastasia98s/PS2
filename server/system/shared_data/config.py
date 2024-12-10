@@ -1,4 +1,3 @@
-import torch
 import argparse
 
 parser = argparse.ArgumentParser(description="Shared-Data-Service (Server)")
@@ -45,7 +44,6 @@ SEARCH_ENGINE_INTENT_SERVICE_PORT = 8011
 YOUTUBE_INTENT_SERVICE_IP = "localhost"
 YOUTUBE_INTENT_SERVICE_PORT = 8012
 #############################################################################
-DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 ZEIT_STANDORT = "de_DE.UTF-8"
 AUDIO_SAMPLE_RATE = 16000

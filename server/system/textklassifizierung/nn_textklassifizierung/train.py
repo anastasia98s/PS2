@@ -47,13 +47,13 @@ def train():
         
         val_data_loader = DataLoader(val_dataset, batch_size = config.TEXTKLASSIFIZIERUNG_VALIDATION_BATCH_SIZE, shuffle=False)
             
-        device = api.DEVICE
+        device = config.DEVICE
         model = Model(num_anmerkung, num_absicht, num_szenario)
         model.to(device)
 
         if config.TEXTKLASSIFIZIERUNG_RETRAIN_MODEL:
             try:
-                model.load_state_dict(torch.load(config.TEXTKLASSIFIZIERUNG_TRAINED_PATH, map_location=torch.device(api.DEVICE)))
+                model.load_state_dict(torch.load(config.TEXTKLASSIFIZIERUNG_TRAINED_PATH, map_location=torch.device(config.DEVICE)))
                 print("\n!!!Retraining!!!")
             except Exception as e:
                 print(f"\nFehler beim Laden des Modells für das Retraining: {e}")

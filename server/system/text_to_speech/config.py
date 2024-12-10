@@ -1,5 +1,8 @@
 import contextlib
 import sys
+import torch
+
+DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 TTS_TRAINED_PATH = 'data/model_file.pth'
 TTS_JSON_PATH = 'data/config.json'

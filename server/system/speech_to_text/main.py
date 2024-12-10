@@ -7,7 +7,7 @@ import whisper
 import numpy as np
 
 app = FastAPI()
-recognizer = whisper.load_model(config.SPEECH_RECOGNITION_MODELL, api.DEVICE)
+recognizer = whisper.load_model(config.SPEECH_RECOGNITION_MODELL, config.DEVICE)
 
 @app.post("/speech_to_text/recognize")
 def recognize(signal: List[float]):

@@ -26,7 +26,7 @@ synthesizer = Synthesizer(
     config.vc_path,
     config.vc_config_path,
     config.model_dir,
-    config.def_voice_dir).to(api.DEVICE)
+    config.def_voice_dir).to(config.DEVICE)
 
 app = FastAPI()
 

@@ -10,7 +10,7 @@ class Predictor:
     def __init__(self, model_path):
         if not os.path.isfile(model_path):
             raise FileNotFoundError(f"\nSie müssen Authentifizierung-KI auf main.py trainieren")
-        self.device = api.DEVICE
+        self.device = config.DEVICE
         self.meta_data = joblib.load(config.AUTHENTIFIZIERUNG_META_PATH)
         
         self.encoder_benutzerids = self.meta_data['encoder_benutzerids']
@@ -18,7 +18,7 @@ class Predictor:
         self.num_benutzerids = len(self.encoder_benutzerids.classes_)
 
         self.model = Model(self.num_benutzerids, config.AUTHENTIFIZIERUNG_HIDDEN_UNITS_1, config.AUTHENTIFIZIERUNG_HIDDEN_UNITS_2)
-        self.model.load_state_dict(torch.load(model_path, weights_only=True, map_location=torch.device(api.DEVICE)))
+        self.model.load_state_dict(torch.load(model_path, weights_only=True, map_location=torch.device(config.DEVICE)))
         self.model.to(self.device).eval()
     
     def merkmale_prediction(self, mfcc_tensor):

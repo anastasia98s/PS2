@@ -9,7 +9,6 @@ app = FastAPI()
 @app.post("/shared_data/config")
 def show_config():
     return {
-        "DEVICE": str(config.DEVICE),
         "TEXTKLASSIFIZIERUNG_SERVICE_IP": config.TEXTKLASSIFIZIERUNG_SERVICE_IP,
         "TEXTKLASSIFIZIERUNG_SERVICE_PORT": config.TEXTKLASSIFIZIERUNG_SERVICE_PORT,
         "KONTOVERWALTUNG_SERVICE_IP": config.KONTOVERWALTUNG_SERVICE_IP,

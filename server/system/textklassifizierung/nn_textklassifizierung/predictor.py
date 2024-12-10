@@ -14,7 +14,7 @@ class Predictor:
             # raise FileNotFoundError(f"\nSie müssen Textklassifizierung-KI auf main.py trainieren")
         self.tokenizer = config.TEXTKLASSIFIZIERUNG_TOKENIZER
         self.max_len = config.TEXTKLASSIFIZIERUNG_MAX_LEN
-        self.device = api.DEVICE
+        self.device = config.DEVICE
         
         self.meta_data = joblib.load(config.TEXTKLASSIFIZIERUNG_META_PATH)
         
@@ -27,7 +27,7 @@ class Predictor:
         self.num_szenario = len(self.encoder_szenario.classes_)
 
         self.model = Model(self.num_anmerkung, self.num_absicht, self.num_szenario)
-        self.model.load_state_dict(torch.load(model_path, weights_only=True, map_location=torch.device(api.DEVICE)))
+        self.model.load_state_dict(torch.load(model_path, weights_only=True, map_location=torch.device(config.DEVICE)))
         self.model.to(self.device).eval()
 
     def process_satz(self, satz):

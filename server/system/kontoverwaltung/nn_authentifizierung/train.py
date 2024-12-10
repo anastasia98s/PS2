@@ -38,13 +38,13 @@ def train():
             
             num_benutzerids = len(encoder_benutzerids.classes_)
 
-            device = api.DEVICE 
+            device = config.DEVICE 
             model = Model(num_benutzerids, config.AUTHENTIFIZIERUNG_HIDDEN_UNITS_1, config.AUTHENTIFIZIERUNG_HIDDEN_UNITS_2)
             model.to(device)
 
             if config.AUTHENTIFIZIERUNG_RETRAIN_MODEL:
                 try:
-                    model.load_state_dict(torch.load(config.AUTHENTIFIZIERUNG_TRAINED_PATH, map_location=torch.device(api.DEVICE)))
+                    model.load_state_dict(torch.load(config.AUTHENTIFIZIERUNG_TRAINED_PATH, map_location=torch.device(config.DEVICE)))
                     print("\n!!!Retraining!!!")
                 except Exception as e:
                     print(f"\nFehler beim Laden des Modells für das Retraining: {e}")

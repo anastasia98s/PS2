@@ -1,5 +1,7 @@
 import transformers
+import torch
 
+DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 TEXTKLASSIFIZIERUNG_DATASET_PATH  = 'data/textklassifizierung.db'
 TEXTKLASSIFIZIERUNG_TRAINED_PATH = 'data/textklassifizierung.pth'
 TEXTKLASSIFIZIERUNG_META_PATH = 'data/textklassifizierung_meta.bin'

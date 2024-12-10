@@ -1,3 +1,6 @@
+import torch
+
+DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 USER_DATENBANK_PATH = 'data/benutzerdatenbank.db'
 AUTHENTIFIZIERUNG_SAVE_MODEL = True
 AUTHENTIFIZIERUNG_RETRAIN_MODEL = False

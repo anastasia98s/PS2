@@ -20,6 +20,5 @@ try:
 except Exception:
     raise FileNotFoundError(f"\n\n!!!Fehler beim Abrufen der SHARED-CONFIG!!!")
 
-DEVICE = config_data['DEVICE']
 SPEECH_TO_TEXT_SERVICE_IP = config_data['SPEECH_TO_TEXT_SERVICE_IP']
 SPEECH_TO_TEXT_SERVICE_PORT = config_data['SPEECH_TO_TEXT_SERVICE_PORT']

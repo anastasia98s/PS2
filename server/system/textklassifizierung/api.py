@@ -20,6 +20,5 @@ try:
 except Exception:
     raise FileNotFoundError(f"\n\n!!!Fehler beim Abrufen der SHARED-CONFIG!!!")
 
-DEVICE = config_data['DEVICE']
 TEXTKLASSIFIZIERUNG_SERVICE_IP = config_data['TEXTKLASSIFIZIERUNG_SERVICE_IP']
 TEXTKLASSIFIZIERUNG_SERVICE_PORT = config_data['TEXTKLASSIFIZIERUNG_SERVICE_PORT']

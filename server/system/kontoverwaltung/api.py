@@ -21,7 +21,6 @@ try:
 except Exception:
     raise FileNotFoundError(f"\n\n!!!Fehler beim Abrufen der SHARED-CONFIG!!!")
 
-DEVICE = config_data['DEVICE']
 KONTOVERWALTUNG_SERVICE_IP = config_data['KONTOVERWALTUNG_SERVICE_IP']
 KONTOVERWALTUNG_SERVICE_PORT = config_data['KONTOVERWALTUNG_SERVICE_PORT']
 AUDIO_SAMPLE_RATE = config_data['AUDIO_SAMPLE_RATE']
