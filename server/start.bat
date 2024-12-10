@@ -2,8 +2,8 @@
 cd /d "%~dp0\main_server"
 start python main.py \
   --main_server_ip localhost --main_server_port 8000 \
-  --textklassifizierung_ip localhost --textklassifizierung_port 8001 \
-  --kontoverwaltung_ip localhost --kontoverwaltung_port 8002 \
+  --kontoverwaltung_ip localhost --kontoverwaltung_port 8001 \
+  --textklassifizierung_ip localhost --textklassifizierung_port 8002 \
   --speech_to_text_ip localhost --speech_to_text_port 8003 \
   --text_to_speech_ip localhost --text_to_speech_port 8004 \
   --datum_intent_ip localhost --datum_intent_port 8005 \

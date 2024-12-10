@@ -3,10 +3,10 @@ import argparse
 parser = argparse.ArgumentParser(description="Main-Service")
 parser.add_argument('--main_server_ip', type=str, required=True, help='Main-Service IP')
 parser.add_argument('--main_server_port', type=int, required=True, help='Main-Service Port')
-parser.add_argument('--textklassifizierung_ip', type=str, required=True, help='Textklassifizierung-Service IP')
-parser.add_argument('--textklassifizierung_port', type=int, required=True, help='Textklassifizierung-Service Port')
 parser.add_argument('--kontoverwaltung_ip', type=str, required=True, help='Kontoverwaltung-Service IP')
 parser.add_argument('--kontoverwaltung_port', type=int, required=True, help='Kontoverwaltung-Service Port')
+parser.add_argument('--textklassifizierung_ip', type=str, required=True, help='Textklassifizierung-Service IP')
+parser.add_argument('--textklassifizierung_port', type=int, required=True, help='Textklassifizierung-Service Port')
 parser.add_argument('--speech_to_text_ip', type=str, required=True, help='Speech-to-Text-Service IP')
 parser.add_argument('--speech_to_text_port', type=int, required=True, help='Speech-to-Text-Service Port')
 parser.add_argument('--text_to_speech_ip', type=str, required=True, help='Text-to-Speech-Service IP')
@@ -33,11 +33,11 @@ args = parser.parse_args()
 MAIN_SERVER_SERVICE_IP = args.main_server_ip
 MAIN_SERVER_SERVICE_PORT = args.main_server_port
 
-TEXTKLASSIFIZIERUNG_SERVICE_IP = args.textklassifizierung_ip
-TEXTKLASSIFIZIERUNG_SERVICE_PORT = args.textklassifizierung_port
-
 KONTOVERWALTUNG_SERVICE_IP = args.kontoverwaltung_ip
 KONTOVERWALTUNG_SERVICE_PORT = args.kontoverwaltung_port
+
+TEXTKLASSIFIZIERUNG_SERVICE_IP = args.textklassifizierung_ip
+TEXTKLASSIFIZIERUNG_SERVICE_PORT = args.textklassifizierung_port
 
 SPEECH_TO_TEXT_SERVICE_IP = args.speech_to_text_ip
 SPEECH_TO_TEXT_SERVICE_PORT = args.speech_to_text_port
