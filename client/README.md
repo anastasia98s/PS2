@@ -54,7 +54,7 @@
    ```
 
    **Hinweis:**
-   - **HTW DRESDEN SERVER** 
+   - **HTW DRESDEN SERVER**
       - Server-IP: `141.56.137.185`
       - Server-Port: `8000`
 
