@@ -5,96 +5,18 @@
 - Text-zu-Speech-Funktionalität implementiert
 - Multithreading implementiert
 - Confusion Matrix implementiert
+- Mikroservice implementiert
 - Datenbank erstellt
-   - [Datenbank für Textklassifizierung (hauptsächlich für Datensatzeditoren)](data/data_controller/model_textklassifizierung.py)
-   - [Datenbank für User + To-Do-Liste + Authentifizierung](data/data_controller/model_user.py)
 - Intents "To-Do-Liste, Studienordnung, Datum, Wetter, Uhrzeit, Suchintent, Wikipedia" abgeschlossen
 - Benutzer-Authentifizierung implementiert. *(Fingerabdruck einer Stimme)*
 - automatische Datasets/Testdaten zur Benutzerauthentifizierung implementiert. *(wird bei Verwendung automatisch gespeichert)*
 - Aktivierungswort-Funktionalität implementiert.
-- **trainierte Modell** auf der Cloud hochgeladen. [Link zum Herunterladen](https://drive.google.com/drive/folders/1I27FN5USWLdT6kTXWMWGypINOeeF8oru?usp=drive_link)
-   - *musst du nur das `data`-Verzeichnis durch diese Daten richtig ersetzen.*
-
-## To-Do 
-- Mikroservice + API + neue Datenbank erstellen
 
 ## Architektur
 Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-Dokumentation](docs/ARCHITEKTUR.md).
 
 ## Test
 [Test-Dokumentation](docs/TEST.md).
-
-## Startanweisungen (10 GB + Ollama Speicherplatz erforderlich)
-1. **Repository klonen und virtuelle Umgebung einrichten**
-   ```shell
-   git clone -b Nathaniel https://github.com/anastasia98s/PS2.git assistant_ai
-   ```
-   ```shell
-   cd assistant_ai
-   ```
-   ```shell
-   python -m venv ai_env
-   ```
-   ```shell
-   ai_env\Scripts\activate
-   ```
-   
-2. **Installiere alle erforderlichen Pakete:**
-   ```shell
-   pip install -r requirements.txt
-   ```
-   ```shell
-   pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
-   ```
-
-   ```shell
-   playwright install
-   ```
-
-   **Hinweis:**
-   - Wenn es zu Fehlermeldungen kommt, kannst du die Pakete manuell installieren. *(Ich benutze Python 3.11.4 ohne Probleme)*
-   - Stelle sicher, dass FFMPEG installiert ist und im PATH-Umgebungsvariable eingetragen ist. [Link zum Herunterladen](https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip)
-   - Stelle sicher, dass Ollama installiert ist. Weitere Informationen und den Download findest du hier: [Link zum Herunterladen](https://ollama.com/download/windows).
-   - Überprüfe, ob das LLM-Modell von Ollama bereits heruntergeladen wurde. *(der LLM-Modellname: `llama3.2:latest`)*
-   - Du kannst ohne Ollama starten, aber es wird eine Fehlermeldung angezeigt, wenn du den Studienordnung-Intent aufrufst.
-
-   ```shell
-   ffmpeg -version
-   ```
-   ```shell
-   ollama -v
-   ```
-
-4. **Aktivierungswort mit eigener Stimme aufnehmen und trainieren:**
-   1. Öffne `main.py`.
-   2. Suche das Menü „Aktivierungswort aufnehmen“.
-   3. Sprich die folgenden Beispiele nach:
-      - **Aktivierungswort:**
-         - Hey [Name]
-         - [Name]
-         - … (Wiederhole mind. 10-20 Mal)
-      - **Kein Aktivierungswort:**
-         - [Zufällige Rede]
-         - [Zufällige Geräusche]
-         - … (Wiederhole mind. 10-20 Mal)
-   4. Wenn du fertig bist, trainiere die Datensätze.
-
-   **Hinweis:**
-   - Das trainierte Aktivierungswort ist `Tom`. Mit meiner Stimme funktioniert es gut, aber es könnte sein, dass es mit anderen Geräten oder Personen schlechter erkannt wird.
-
-5. **Starte das Engine-Skript:**
-   ```shell
-   python engine.py
-   ```
-
-   **Hinweis:**
-   - Wenn du das **trainierte Modell** benutzen willst, [Link zum Herunterladen](https://drive.google.com/drive/folders/1I27FN5USWLdT6kTXWMWGypINOeeF8oru?usp=drive_link), dann musst du das `data`-Verzeichnis durch diese Daten richtig ersetzen.
-
-## Assistenten aufrufen
-- Du musst zunächst den Assistenten aktivieren, indem du das Aktivierungswort verwendest.
-1. **Benutzer**: Hey [Name]
-2. **Assistent**: Ja
-3. **Benutzer**: `Befehl eingeben`
 
 # Testdaten
 ## To-Do-List
@@ -242,5 +164,3 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
 - Gehe zum vorherigen Video
 - Weiter mit dem nächsten Video
 - Lade das nächste Video
-
-**Hinweis:** Um ein besseres Modell zu erhalten, kannst du im **Data-Controller** in `main.py` weitere Datensätze eingeben und trainieren.

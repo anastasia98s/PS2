@@ -1,0 +1,170 @@
+import config
+from aktivierungswort.aktivierungswort_controller.presenter import PresenterAktivierungswort
+from aktivierungswort.nn_aktivierungswort import train
+import utils.api
+from utils.utils import anmerkungen_inhalt_extrahieren
+import csv
+import tkinter as tk
+from tkinter import filedialog
+
+def intent_filter(absicht, szenario, anmerkungen, anmerkungen_label, user_id):
+    t_satz, t_thema, t_aktivitaet, t_zeit, t_datum, t_ort = anmerkungen_inhalt_extrahieren(anmerkungen, anmerkungen_label)
+
+    match (szenario, absicht):
+        case (utils.api.SZENARIO_UHRZEIT, utils.api.ABSICHT_ABFRAGEN):
+            intent_result, error_result = utils.api.uhrzeit_intent_abfragen(t_ort)
+        case (utils.api.SZENARIO_DATUM, utils.api.ABSICHT_ABFRAGEN):
+            intent_result, error_result = utils.api.datum_intent_abfragen(t_datum)
+        case (utils.api.SZENARIO_WETTER, utils.api.ABSICHT_ABFRAGEN):
+            intent_result, error_result = utils.api.wetter_intent_abfragen(t_zeit, t_datum, t_ort)
+        case (utils.api.SZENARIO_STUDIENORDNUNG, utils.api.ABSICHT_ABFRAGEN):
+            intent_result, error_result = utils.api.studienordnung_intent_abfragen(t_satz)
+        case (utils.api.SZENARIO_WIKIPEDIA, utils.api.ABSICHT_ABFRAGEN):
+            intent_result, error_result = utils.api.wikipedia_intent_abfragen(t_thema)
+        case (utils.api.SZENARIO_TODO_LIST, utils.api.ABSICHT_ABFRAGEN): # abfragen
+            intent_result, error_result = utils.api.todolist_intent_abfragen(t_aktivitaet, t_zeit, t_datum, user_id)
+        case (utils.api.SZENARIO_TODO_LIST, utils.api.ABSICHT_EINGEBEN): # hinzufügen
+            intent_result, error_result = utils.api.todolist_intent_eingeben(t_aktivitaet, t_zeit, t_datum, user_id)
+        case (utils.api.SZENARIO_TODO_LIST, utils.api.ABSICHT_ENTFERNEN): # löschen
+            intent_result, error_result = utils.api.todolist_intent_entfernen(t_aktivitaet, t_zeit, t_datum, user_id)
+        case (utils.api.SZENARIO_SYSTEM, utils.api.ABSICHT_ZURUECKGEHEN):
+            intent_result, error_result = "Öffne die vorherige Playlist", None
+        case (utils.api.SZENARIO_SYSTEM, utils.api.ABSICHT_WEITERGEHEN):
+            intent_result, error_result = "Öffne eine andere Playlist", None
+        case (utils.api.SZENARIO_SYSTEM, utils.api.ABSICHT_WIEDERHOLEN):
+            intent_result, error_result = "Die Webseite wurde erfolgreich aktualisiert", None
+        case (utils.api.SZENARIO_SYSTEM, utils.api.ABSICHT_ABBRECHEN):
+            intent_result, error_result = "Die Website wurde geschlossen", None
+        case (utils.api.SZENARIO_YOUTUBE, utils.api.ABSICHT_ABFRAGEN):
+            intent_result, error_result, error_request = utils.api.youtube_intent_abfragen(t_thema)
+            if not error_result and not error_request:
+                if intent_result:
+                    intent_result, error_result = f"Ich habe {intent_result[0][0]} in Youtube gefunden", None
+                else:
+                    intent_result, error_result = f"Ich habe kein Video über {t_thema} in Youtube gefunden", None
+                                    
+        case (utils.api.SZENARIO_SEARCH_ENGINE, utils.api.ABSICHT_ABFRAGEN): # abfragen
+            intent_result, error_result, error_request = utils.api.search_engine_intent_abfragen(t_thema)
+            if not error_result and not error_request:
+                if intent_result:
+                    intent_result, error_result = f"Ich habe {intent_result[0][0]} in Google gefunden", None
+                else:
+                    intent_result, error_result = f"Ich habe kein Thema über {t_thema} in Google gefunden", None
+        case _:
+            intent_result, error_result = "Ich verstehe dich nicht.", None
+    if error_result:
+        return "Test kann nicht ausgeführt werden, es fehlen Variablen!", 1
+    else:
+        return intent_result, None
+
+root = tk.Tk()
+root.withdraw()
+def save_csv_file(data, fname):
+    try:
+        file_path = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("CSV Files", "*.csv"), ("All Files", "*.*")], initialfile=f"{fname}.csv")
+        if file_path:
+            with open(file_path, mode='w', newline='', encoding='utf-8') as file:
+                writer = csv.writer(file)
+                writer.writerow(["Szenario", "Absicht", "Eingabe", "Ausgabe", "Note"])
+                writer.writerows(data)
+            print(f"Speicherpfad: {file_path}")
+        else:
+            print("Speichern abgebrochen")
+    except Exception as e:
+        print(f"Error: {e}")
+
+def main():
+    while True:
+        print("\nBitte wähle eine Option:")
+        print("1. AI Aktivierungswort")
+        print("2. Testprogramm")
+        print("3. Beenden")
+        auswahl = input("Gib die Nummer der Option ein: ")
+        
+        if auswahl == '1':
+            presenter = PresenterAktivierungswort()
+            while True:
+                print("\n==Aktivierungswort")
+                print("Bitte wähle eine Option:")
+                print("1. Aktivierungswort aufnehmen")
+                print("2. Aktivierungswort-AI Training")
+                print("3. züruck")
+                auswahl = input("Gib die Nummer der Option ein: ")
+                
+                if auswahl == '1':
+                    presenter.aktivierungswort_aufnehmen(config.AKTIVIERUNGSWORT_AUFNAHME_DAUER, utils.api.AUDIO_SAMPLE_RATE)
+                if auswahl == '2':
+                    train.train()
+                if auswahl == '3':
+                    break
+        elif auswahl == '2':
+            while True:
+                print("\n==Auswertung")
+                print("Bitte wähle eine Option:")
+                print("1. Chat")
+                print("2. CSV")
+                print("3. züruck")
+                auswahl = input("Gib die Nummer der Option ein: ")
+                if auswahl == '1':
+                    test_benutzer_id, error_request = utils.api.add_benutzer("test user")
+                    print("\n\n!Dies ist nur ein Testprogramm, viele Funktionen fehlen und die Antworten sind nicht so gut wie im Originalprogramm!\n")
+                    
+                    verlauf_input = input("Wollen Sie den Verlauf in Server speichern? (y/n): ").strip().lower()
+                    if verlauf_input in ('y', 'n'):
+                        print("„quit“ zum Beenden\n")
+                        while True:
+                            chat_input = input("You\t: ")
+                            if chat_input == "quit": break
+                            textklassifizierung_data, error_request = utils.api.predictor_text_predict(chat_input)
+
+                            if not error_request:
+                                anmerkung_satz_labels = textklassifizierung_data["anmerkung_satz_labels"]
+                                woerter_anmerkungen = textklassifizierung_data["woerter_anmerkungen"]
+                                absicht_satz_labels = textklassifizierung_data["absicht_satz_labels"]
+                                absicht_class_scores = textklassifizierung_data["absicht_class_scores"]
+                                szenario_satz_labels = textklassifizierung_data["szenario_satz_labels"]
+                                szenario_class_scores = textklassifizierung_data["szenario_class_scores"]
+                                
+                                pred_absicht_noten = absicht_class_scores[1][absicht_satz_labels]
+                                pred_szenario_noten = szenario_class_scores[1][szenario_satz_labels]
+                                #print("Absichtswahrscheinlichkeit: " + str(pred_absicht_noten) + "/" + str(config.TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN))
+                                #print("Szenarioswahrscheinlichkeit: " + str(pred_szenario_noten) + "/" + str(config.TEXTKLASSIFIZIERUNG_SZENARIO_MIN_NOTEN))
+                                if pred_absicht_noten >= config.TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN and pred_szenario_noten >= config.TEXTKLASSIFIZIERUNG_SZENARIO_MIN_NOTEN:
+                                    output_satz, error_output = intent_filter(absicht_class_scores[0][absicht_satz_labels], szenario_class_scores[0][szenario_satz_labels], woerter_anmerkungen, anmerkung_satz_labels, test_benutzer_id)
+                                else:
+                                    output_satz, error_output = (f"""Ich verstehe ihren Absicht nicht!\n- Absichtswahrscheinlichkeit: {pred_absicht_noten}/{config.TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN}\n- Szenarioswahrscheinlichkeit: {pred_szenario_noten}/{config.TEXTKLASSIFIZIERUNG_SZENARIO_MIN_NOTEN}""", 1)
+                            else:
+                                output_satz, error_output = textklassifizierung_data, 1
+
+                            print("AI\t:", output_satz)
+                            if not error_output and verlauf_input == "y":
+                                while True:
+                                    try:
+                                        note_input = int(input("- Note (1-5): "))
+                                        if 1 <= note_input <= 5:
+                                            res_add_verlauf, error_request = utils.api.add_verlauf(szenario_class_scores[0][szenario_satz_labels], absicht_class_scores[0][absicht_satz_labels], chat_input, output_satz, note_input)
+                                            if error_request:
+                                                print(f"- {str(res_add_verlauf)}\n")
+                                            else:
+                                                print("- Der Verlauf wurde gespeichert!\n")
+                                            break
+                                    except ValueError:
+                                        print("Ungültige Eingabe. Bitte 1 bis 5 eingeben.")
+                    else:
+                        print("Ungültige Eingabe. Bitte 'y' oder 'n' eingeben.")
+                if auswahl == '2':
+                    res_show_verlauf, error_request = utils.api.show_verlauf()
+                    if not error_request:
+                        if res_show_verlauf:
+                            save_csv_file(res_show_verlauf, "verlauf_data")
+                        else:
+                            print("Verlaufsdatenbak ist leer!")
+                if auswahl == '3':
+                    break
+        elif auswahl == '3':
+            break
+        else:
+            print("Ungültige Auswahl, bitte versuche es erneut.")
+
+if __name__ == "__main__":
+    main()
