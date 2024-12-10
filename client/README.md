@@ -61,6 +61,6 @@
 ## Assistenten aufrufen
 - Du musst zunächst den Assistenten aktivieren, indem du das Aktivierungswort verwendest.
 - Standardaktivierungswort: `Tim`
-1. **Benutzer**: Hey Tim
-2. **Assistent**: Ja
-3. **Benutzer**: `Befehl eingeben`
+   1. **Benutzer**: Hey Tim
+   2. **Assistent**: Ja
+   3. **Benutzer**: `Befehl eingeben`
