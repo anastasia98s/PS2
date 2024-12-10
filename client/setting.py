@@ -127,12 +127,11 @@ def main():
                                 
                                 pred_absicht_noten = absicht_class_scores[1][absicht_satz_labels]
                                 pred_szenario_noten = szenario_class_scores[1][szenario_satz_labels]
-                                #print("Absichtswahrscheinlichkeit: " + str(pred_absicht_noten) + "/" + str(config.TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN))
-                                #print("Szenarioswahrscheinlichkeit: " + str(pred_szenario_noten) + "/" + str(config.TEXTKLASSIFIZIERUNG_SZENARIO_MIN_NOTEN))
                                 if pred_absicht_noten >= config.TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN and pred_szenario_noten >= config.TEXTKLASSIFIZIERUNG_SZENARIO_MIN_NOTEN:
                                     output_satz, error_output = intent_filter(absicht_class_scores[0][absicht_satz_labels], szenario_class_scores[0][szenario_satz_labels], woerter_anmerkungen, anmerkung_satz_labels, test_benutzer_id)
                                 else:
-                                    output_satz, error_output = (f"""Ich verstehe ihren Absicht nicht!\n- Absichtswahrscheinlichkeit: {pred_absicht_noten}/{config.TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN}\n- Szenarioswahrscheinlichkeit: {pred_szenario_noten}/{config.TEXTKLASSIFIZIERUNG_SZENARIO_MIN_NOTEN}""", 1)
+                                    print(f"=> Absichtswahrscheinlichkeit: {pred_absicht_noten}/{config.TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN} | => Szenarioswahrscheinlichkeit: {pred_szenario_noten}/{config.TEXTKLASSIFIZIERUNG_SZENARIO_MIN_NOTEN}")
+                                    output_satz, error_output = (f"Ich bin für diese Absicht noch nicht trainiert!", None)
                             else:
                                 output_satz, error_output = textklassifizierung_data, 1
 
@@ -140,16 +139,24 @@ def main():
                             if not error_output and verlauf_input == "y":
                                 while True:
                                     try:
-                                        note_input = int(input("- Note (1-5): "))
+                                        print("\n- Bitte bewerten Sie die Ausgabe auf einer Skala von 1 bis 5:\n"
+                                            "  0 - nicht speichern\n"
+                                            "  1 - beste Bewertung\n"
+                                            "  5 - schlechteste Bewertung")
+
+                                        note_input = int(input("- Note: "))
                                         if 1 <= note_input <= 5:
-                                            res_add_verlauf, error_request = utils.api.add_verlauf(szenario_class_scores[0][szenario_satz_labels], absicht_class_scores[0][absicht_satz_labels], chat_input, output_satz, note_input)
-                                            if error_request:
-                                                print(f"- {str(res_add_verlauf)}\n")
+                                            if note_input != 0:
+                                                res_add_verlauf, error_request = utils.api.add_verlauf(szenario_class_scores[0][szenario_satz_labels], absicht_class_scores[0][absicht_satz_labels], chat_input, output_satz, note_input)
+                                                if error_request:
+                                                    print(f"- {str(res_add_verlauf)}\n")
+                                                else:
+                                                    print("- Der Verlauf wurde gespeichert!\n")
                                             else:
-                                                print("- Der Verlauf wurde gespeichert!\n")
+                                                print("- Der Verlauf wurde nicht gespeichert!\n")
                                             break
                                     except ValueError:
-                                        print("Ungültige Eingabe. Bitte 1 bis 5 eingeben.")
+                                        print("Ungültige Eingabe. Bitte 0 bis 5 eingeben.")
                     else:
                         print("Ungültige Eingabe. Bitte 'y' oder 'n' eingeben.")
                 if auswahl == '2':
