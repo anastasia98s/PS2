@@ -100,8 +100,7 @@ class ModelTextklassifizierung:
             "zurückgehen",
             "weitermachen",
             "wiederholen",
-            "abbrechen",
-            "herunterladen"
+            "abbrechen"
         ]
 
         for anmerkung in anmerkung_array:

@@ -129,10 +129,6 @@ Um mehr über die Architektur des Projekts zu erfahren, siehe die [Architektur-D
    - Finde ein Video über gesunde Ernährung
    - Such nach einem Video über Tipps für bessere Fotografie
    - Spiel ein Video über AI ab
-- **Youtube herunterladen (als Audio)**
-   - Lade das neueste Video von PewDiePie herunter
-   - Lade ein lustiges Video herunter
-   - Lade dieses Video herunter
 
 ## Suchintent Search Engine
 - Such nach einem Hotel in Berlin

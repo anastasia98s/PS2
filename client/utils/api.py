@@ -1,13 +1,13 @@
 import requests
-import argparse
+""" import argparse
 
 parser = argparse.ArgumentParser(description="Shared-Data-Service (Server)")
 parser.add_argument('--ip', type=str, required=True, help='Shared-Data-Service IP')
 parser.add_argument('--port', type=int, required=True, help='Shared-Data-Service Port')
-args = parser.parse_args()
+args = parser.parse_args() """
 #############################################################################
-SHARED_DATA_SERVICE_IP = args.ip
-SHARED_DATA_SERVICE_PORT = args.port
+SHARED_DATA_SERVICE_IP = input("Server-IP: ") #args.ip
+SHARED_DATA_SERVICE_PORT = input("Server-Port: ") #args.port
 #############################################################################
 shared_data = None
 

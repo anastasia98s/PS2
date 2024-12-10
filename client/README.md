@@ -32,24 +32,34 @@
 1. **Aktivierungswort mit eigener Stimme aufnehmen und trainieren:**
    1. Öffne `setting.py`.
       ```shell
-      python setting.py --ip [Server-Shared-Data-Service-IP] --port [Server-Shared-Data-Service-IP]
+      python setting.py --ip [Server-Shared-Data-Service-IP] --port [Server-Shared-Data-Service-PORT]
       ```
    2. Suche das Menü „Aktivierungswort aufnehmen“.
    3. Sprich die folgenden Beispiele nach:
       - **Aktivierungswort:**
          - Hey [Name]
          - [Name]
-         - … (Wiederhole 10 Mal)
+         - … (Wiederhole 20-30 Mal)
       - **Kein Aktivierungswort:**
          - [Zufällige Rede]
          - [Zufällige Geräusche]
-         - … (Wiederhole 10 Mal)
+         - … (Wiederhole 20-30 Mal)
    4. Wenn du fertig bist, trainiere die Datensätze.
+
+   **Hinweis:**
+   - **HTW DRESDEN SERVER** 
+      - Server-Shared-Data-Service-IP: `141.56.137.185`
+      - Server-Shared-Data-Service-Port: `8000`
 
 2. **Starte das Engine-Skript:**
    ```shell
-   python engine.py --ip [Server-Shared-Data-Service-IP] --port [Server-Shared-Data-Service-IP]
+   python engine.py --ip [Server-Shared-Data-Service-IP] --port [Server-Shared-Data-Service-PORT]
    ```
+
+   **Hinweis:**
+   - **HTW DRESDEN SERVER** 
+      - Server-Shared-Data-Service-IP: `141.56.137.185`
+      - Server-Shared-Data-Service-Port: `8000`
 
 ## Assistenten aufrufen
 - Du musst zunächst den Assistenten aktivieren, indem du das Aktivierungswort verwendest.
