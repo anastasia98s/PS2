@@ -25,13 +25,12 @@ def ensure_jsonable(obj):
     else:
         return obj
 
-if os.path.exists(config.AUTHENTIFIZIERUNG_TRAINED_PATH):
-    predictor_user = Predictor(config.AUTHENTIFIZIERUNG_TRAINED_PATH)
-else:
-    predictor_user = None
-
 @app.post("/kontoverwaltung/authentifizierung")
 def authentifizierung(signal: List[float]):
+    if os.path.exists(config.AUTHENTIFIZIERUNG_TRAINED_PATH):
+        predictor_user = Predictor(config.AUTHENTIFIZIERUNG_TRAINED_PATH)
+    else:
+        predictor_user = None
     if predictor_user:
         signal = np.array(signal, dtype=np.float32)
         name_index, name_label = predictor_user.predict(signal)

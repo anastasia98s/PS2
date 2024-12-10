@@ -33,7 +33,7 @@ class Engine:
                 if any(word in antwort_text.lower().split() for word in ["ja", "genau"]):
                     return pred_id, None
             
-            if name_label:
+            if isinstance(name_label, list) and len(name_label) > 1:
                 antwort_text = self.speech_to_text.dialog(0.5, "Haben Sie bereits ein Konto?")
                 if any(word in antwort_text.lower().split() for word in ["ja", "genau"]):
                     for label in name_label[0]:
