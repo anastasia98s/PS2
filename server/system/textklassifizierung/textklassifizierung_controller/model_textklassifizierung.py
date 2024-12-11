@@ -342,7 +342,7 @@ class ModelTextklassifizierung:
         conn = self.connect_db()
         try:
             cursor = conn.cursor()
-            cursor.execute('SELECT sp_verlauf.verlauf_id, sp_szenario.szenario, sp_absicht.absicht, sp_verlauf.eingabe, sp_verlauf.ausgabe, sp_verlauf.note FROM sp_verlauf JOIN sp_szenario ON sp_verlauf.szenario_id = sp_szenario.szenario_id JOIN sp_absicht ON sp_verlauf.absicht_id = sp_absicht.absicht_id ORDER BY sp_verlauf.szenario_id, sp_verlauf.absicht_id')
+            cursor.execute('SELECT sp_verlauf.verlauf_id, sp_szenario.szenario, sp_absicht.absicht, sp_verlauf.eingabe, sp_verlauf.ausgabe, sp_verlauf.note FROM sp_verlauf JOIN sp_szenario ON sp_verlauf.szenario_id = sp_szenario.szenario_id JOIN sp_absicht ON sp_verlauf.absicht_id = sp_absicht.absicht_id ORDER BY sp_verlauf.szenario_id, sp_verlauf.absicht_id, sp_verlauf.eingabe')
             verlauf_data = cursor.fetchall()
         except Exception as e:
             print(f"Error: {e}")

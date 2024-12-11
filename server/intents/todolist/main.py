@@ -166,6 +166,8 @@ def entfernen(item: Dict[Any, Any]):
                     return datum_text, None
                 antwort = f"Alle {i_aktivitaet} {datum_text} wurde in To-Do-List gelöscht"
         else:
+            if i_zeit:
+                return None, api.ERROR_VARIABLE_DATUM
             datezeit = None
             antwort = f"Alle {i_aktivitaet} wurde in To-Do-List gelöscht"
 
