@@ -41,8 +41,8 @@
 # Intents-Sturktur
 Die Textklassifikation KI gibt einen Output in drei Hauptkategorien zurück:
 
-1. **Szenario**: Dies ist der Klassenname, der das Kontextumfeld der Anfrage beschreibt.
-2. **Absicht**: Dies ist die Funktion innerhalb der jeweiligen Klasse (Szenario).
+1. **Szenario**: Dies ist der Name des Services.
+2. **Absicht**: Dies ist die Funktion innerhalb des jeweiligen Services (Szenarios).
 3. **Anmerkung**: Dies sind die Variablen, die für die Absicht innerhalb des Szenarios verwendet werden.
 
 ## Beispiel:
