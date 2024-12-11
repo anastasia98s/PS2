@@ -34,7 +34,7 @@ def satz_konvertierung(todo_list, todo_datum):
         datum_text, error_request = api.date_text_konverter(todo_datum)
         if error_request:
             return zeit_text
-        satze.append(f"Sie haben {todo} {datum_text} {zeit_text}")
+        satze.append(f"Sie haben {datum_text} {zeit_text} {todo}")
 
     return "\n".join(satze)
 
