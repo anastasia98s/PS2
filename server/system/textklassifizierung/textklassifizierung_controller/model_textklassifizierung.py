@@ -342,7 +342,7 @@ class ModelTextklassifizierung:
         conn = self.connect_db()
         try:
             cursor = conn.cursor()
-            cursor.execute('SELECT sp_szenario.szenario, sp_absicht.absicht, sp_verlauf.eingabe, sp_verlauf.ausgabe, sp_verlauf.note FROM sp_verlauf JOIN sp_szenario ON sp_verlauf.szenario_id = sp_szenario.szenario_id JOIN sp_absicht ON sp_verlauf.absicht_id = sp_absicht.absicht_id')
+            cursor.execute('SELECT sp_verlauf.verlauf_id, sp_szenario.szenario, sp_absicht.absicht, sp_verlauf.eingabe, sp_verlauf.ausgabe, sp_verlauf.note FROM sp_verlauf JOIN sp_szenario ON sp_verlauf.szenario_id = sp_szenario.szenario_id JOIN sp_absicht ON sp_verlauf.absicht_id = sp_absicht.absicht_id ORDER BY sp_verlauf.szenario_id, sp_verlauf.absicht_id')
             verlauf_data = cursor.fetchall()
         except Exception as e:
             print(f"Error: {e}")
@@ -351,3 +351,20 @@ class ModelTextklassifizierung:
             conn.close()
 
         return verlauf_data
+    
+    def delete_verlauf(self, id_verlauf):
+        conn = self.connect_db()
+        try:
+            cursor = conn.cursor()
+            cursor.execute("PRAGMA journal_mode = OFF")
+            cursor.execute("PRAGMA foreign_keys = ON")
+            cursor.execute('DELETE FROM sp_verlauf WHERE verlauf_id = ?', (id_verlauf,))
+            if cursor.rowcount > 0:
+                conn.commit()
+                return f"ID: {id_verlauf} wurde gelöscht", None
+            else:
+                return f"ID: {id_verlauf} wurde nicht gelöscht", 1
+        except Exception as e:
+            return f"Error: {e}", 1
+        finally:
+            conn.close()

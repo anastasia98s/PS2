@@ -57,5 +57,13 @@ def add_benutzer():
     klassifizierungsdatenbank = ModelTextklassifizierung()
     return {"result": klassifizierungsdatenbank.show_verlauf()}
 
+@app.post("/textklassifizierung/delete_verlauf")
+def delete_verlauf(id: int = Body(...)):
+    try:
+        klassifizierungsdatenbank = ModelTextklassifizierung()
+        return {"result": klassifizierungsdatenbank.delete_verlauf(id)}
+    except Exception as e:
+        return f"Ein unerwarteter Fehler ist aufgetreten: {e}", 1
+
 if __name__ == "__main__":
     uvicorn.run("main:app", host=api.TEXTKLASSIFIZIERUNG_SERVICE_IP, port=api.TEXTKLASSIFIZIERUNG_SERVICE_PORT)

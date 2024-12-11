@@ -6,7 +6,7 @@ parser.add_argument('--main_server_ip', type=str, required=True, help='Main-Serv
 parser.add_argument('--main_server_port', type=int, required=True, help='Main-Server-Service Port')
 args = parser.parse_args() """
 #############################################################################
-MAIN_SERVER_SERVICE_IP = input("Main-Server-IP: ") #args.main_server_ip
+MAIN_SERVER_SERVICE_IP = input("Main-Server-IP\t: ") #args.main_server_ip
 MAIN_SERVER_SERVICE_PORT = input("Main-Server-Port: ") #args.main_server_port
 #############################################################################
 
@@ -427,3 +427,20 @@ def show_verlauf():
         return "Fehler: Die Anfrage hat zu lange gedauert. Bitte versuchen Sie es später erneut.", 1
     except Exception as e:
         return f"Ein unerwarteter Fehler ist aufgetreten: {e}", 1
+    
+def delete_verlauf(verlauf_id):
+    try:
+        response = requests.post(f"http://{TEXTKLASSIFIZIERUNG_SERVICE_IP}:{TEXTKLASSIFIZIERUNG_SERVICE_PORT}/textklassifizierung/delete_verlauf", json=verlauf_id)
+
+        if response.status_code == 200:
+            result = response.json()
+            delete_result, delete_error = result["result"]
+            return delete_result, delete_error, None
+        else:
+            return f"Error: {response.status_code}", 1
+    except requests.ConnectionError:
+        return "Fehler: Verbindung zum Server fehlgeschlagen. Bitte prüfen Sie den Serverstatus.", None, 1
+    except requests.Timeout:
+        return "Fehler: Die Anfrage hat zu lange gedauert. Bitte versuchen Sie es später erneut.", None, 1
+    except Exception as e:
+        return f"Ein unerwarteter Fehler ist aufgetreten: {e}", None, 1

@@ -3,6 +3,7 @@ from aktivierungswort.aktivierungswort_controller.presenter import PresenterAkti
 from aktivierungswort.nn_aktivierungswort import train
 import utils.api
 from utils.utils import anmerkungen_inhalt_extrahieren
+import re
 import csv
 import tkinter as tk
 from tkinter import filedialog
@@ -51,7 +52,7 @@ def intent_filter(absicht, szenario, anmerkungen, anmerkungen_label, user_id):
                 else:
                     intent_result, error_result = f"Ich habe kein Thema über {t_thema} in Google gefunden", None
         case _:
-            intent_result, error_result = "Ich verstehe dich nicht.", None
+            intent_result, error_result = "Ich verstehe ihren Absicht nicht!", None
     if error_result:
         return "Test kann nicht ausgeführt werden, es fehlen Variablen!", 1
     else:
@@ -59,19 +60,36 @@ def intent_filter(absicht, szenario, anmerkungen, anmerkungen_label, user_id):
 
 root = tk.Tk()
 root.withdraw()
-def save_csv_file(data, fname):
+def save_csv_file(data, label, fname):
     try:
+        print("- Wenn der Popup-Ordner nicht erscheint, schau mal im Hintergrund!")
         file_path = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("CSV Files", "*.csv"), ("All Files", "*.*")], initialfile=f"{fname}.csv")
         if file_path:
             with open(file_path, mode='w', newline='', encoding='utf-8') as file:
                 writer = csv.writer(file)
-                writer.writerow(["Szenario", "Absicht", "Eingabe", "Ausgabe", "Note"])
+                writer.writerow(label)
                 writer.writerows(data)
             print(f"Speicherpfad: {file_path}")
         else:
             print("Speichern abgebrochen")
     except Exception as e:
         print(f"Error: {e}")
+
+def verlauf_anzeigen():
+    res_show_verlauf, error_request = utils.api.show_verlauf()
+    if not error_request:
+        if res_show_verlauf:
+            print("=" * 20)
+            for item in res_show_verlauf:
+                print(f"\nID\t: {item[0]}\nIntent\t: {item[1]} {item[2]}\nEingabe\t: {item[3]}\nAusgabe\t: {item[4]}\nNote\t: {item[5]}\n")
+            print("=" * 20)
+            return None
+        else:
+            print("- Verlaufsdatenbak ist leer!")
+            return 1
+    else:
+        print("- Es liegt ein Fehler auf dem Server vor!")
+        return 1
 
 def main():
     while True:
@@ -99,11 +117,13 @@ def main():
                     break
         elif auswahl == '2':
             while True:
-                print("\n==Auswertung")
+                print("\n==Testprogramm")
                 print("Bitte wähle eine Option:")
                 print("1. Chat")
-                print("2. CSV")
-                print("3. züruck")
+                print("2. als CSV speichern")
+                print("3. Verlauf anzeigen")
+                print("4. Verlauf löschen")
+                print("5. züruck")
                 auswahl = input("Gib die Nummer der Option ein: ")
                 if auswahl == '1':
                     test_benutzer_id, error_request = utils.api.add_benutzer("test user")
@@ -115,7 +135,7 @@ def main():
                         while True:
                             chat_input = input("You\t: ")
                             if chat_input == "quit": break
-                            textklassifizierung_data, error_request = utils.api.predictor_text_predict(chat_input)
+                            textklassifizierung_data, error_request = utils.api.predictor_text_predict(re.sub(r'[.!?]+$', '', chat_input))
 
                             if not error_request:
                                 anmerkung_satz_labels = textklassifizierung_data["anmerkung_satz_labels"]
@@ -137,14 +157,12 @@ def main():
 
                             print("AI\t:", output_satz)
                             if not error_output and verlauf_input == "y":
-                                print("\n- Bitte bewerten Sie die Ausgabe auf einer Skala von 1 bis 5:\n"
-                                        "  0 - nicht speichern\n"
-                                        "  1 - beste Bewertung\n"
-                                        "  5 - schlechteste Bewertung")
+                                print("\nBitte bewerten Sie die Ausgabe auf einer Skala von 1 (beste) bis 5 (schlechteste):\n"
+                                        "0 - nicht speichern")
                                 while True:
                                     try:
                                         note_input = int(input("- Note: "))
-                                        if 1 <= note_input <= 5:
+                                        if 0 <= note_input <= 5:
                                             if note_input != 0:
                                                 res_add_verlauf, error_request = utils.api.add_verlauf(szenario_class_scores[0][szenario_satz_labels], absicht_class_scores[0][absicht_satz_labels], chat_input, output_satz, note_input)
                                                 if error_request:
@@ -158,19 +176,37 @@ def main():
                                         print("!!Ungültige Eingabe. Bitte 0 bis 5 eingeben!!")
                     else:
                         print("Ungültige Eingabe. Bitte 'y' oder 'n' eingeben.")
-                if auswahl == '2':
+                elif auswahl == '2':
                     res_show_verlauf, error_request = utils.api.show_verlauf()
                     if not error_request:
                         if res_show_verlauf:
-                            save_csv_file(res_show_verlauf, "verlauf_data")
+                            res_show_verlauf_ohne_id = [item[1:] for item in res_show_verlauf]
+                            save_csv_file(res_show_verlauf_ohne_id, ["Szenario", "Absicht", "Eingabe", "Ausgabe", "Note"], "verlauf_data")
                         else:
-                            print("Verlaufsdatenbak ist leer!")
-                if auswahl == '3':
+                            print("- Verlaufsdatenbak ist leer!")
+                    else:
+                        print("- Es liegt ein Fehler auf dem Server vor!")
+                elif auswahl == '3':
+                    _ = verlauf_anzeigen()
+                elif auswahl == '4':
+                    verlauf_anzeigen_leer = verlauf_anzeigen()
+                    if not verlauf_anzeigen_leer:
+                        print("0 - züruck")
+                        delete_input = input("ID: ")
+                        if delete_input.isdigit():
+                            if delete_input != '0':
+                                delete_result, delete_error, error_request = utils.api.delete_verlauf(delete_input)
+                                print(f"- {str(delete_result)}")
+                        else:
+                            print("- !!Ungültige Eingabe!!")
+                elif auswahl == '5':
                     break
+                else:
+                    print("- Ungültige Auswahl, bitte versuche es erneut.")
         elif auswahl == '3':
             break
         else:
-            print("Ungültige Auswahl, bitte versuche es erneut.")
+            print("- Ungültige Auswahl, bitte versuche es erneut.")
 
 if __name__ == "__main__":
     main()
