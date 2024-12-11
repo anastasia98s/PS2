@@ -123,7 +123,7 @@ class ModelUser:
         try:
             cursor = conn.cursor()
             cursor.execute("PRAGMA foreign_keys = ON")
-            if aktivitaet: # Frag nach Zeit
+            if aktivitaet and not datezeit: # Frag nach Zeit
                 if datum:  # Bsp. Wann ist mein Meeting morgen
                     cursor.execute('SELECT * FROM sp_todo WHERE todo LIKE ? AND DATE(datum) = ? AND benutzer_id = ?', (f'%{aktivitaet}%', datum, benutzer_id))
                 else: # Bsp. Wann ist mein Meeting
