@@ -9,7 +9,7 @@ app = FastAPI()
 
 @app.post("/uhrzeit_intent/abfragen")
 def abfragen(i_ort: str = Body(...)):
-    time = datetime.now(pytz.utc)
+    time = datetime.now(pytz.timezone(config.DEFAULT_TIMEZONE))
     if i_ort:
         if i_ort.lower() in config.TIMEZONE:
             timezone = pytz.timezone(config.TIMEZONE[i_ort.lower()])

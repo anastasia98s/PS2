@@ -14,3 +14,5 @@ TIMEZONE = {"berlin": "Europe/Berlin",
             "cairo": "Africa/Cairo",
             "mexico city": "America/Mexico_City",
             "cape town": "Africa/Johannesburg"}
+
+DEFAULT_TIMEZONE = "Europe/Berlin"
