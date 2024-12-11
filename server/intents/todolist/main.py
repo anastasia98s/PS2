@@ -140,6 +140,9 @@ def entfernen(item: Dict[Any, Any]):
 
     datezeit = None
     datum = None
+    t_datum = None
+    t_zeit = None
+
     if i_aktivitaet:
         if i_datum:
             t_datum, error_request = api.date_zeit_text_cleaner(i_datum)
@@ -185,7 +188,14 @@ def entfernen(item: Dict[Any, Any]):
         if error_request:
             return is_erfolgreich, None
         if not is_erfolgreich:
-            antwort = f"Ich habe kein {i_aktivitaet} in Ihre To-Do-Liste gefunden"
+
+            zeit_text, error_request = api.zeit_text_konverter(t_zeit) if t_zeit else ("", None)
+            if error_request:
+                zeit_text = ""
+
+            datum_text = f"für {t_datum}" if t_datum else ""
+
+            antwort = f"Ich habe kein {i_aktivitaet} {datum_text} {zeit_text} in Ihre To-Do-Liste gefunden"
         
         return antwort, None
     else:
