@@ -121,11 +121,12 @@ def main():
                 print("Bitte wähle eine Option:")
                 print("1. Chat")
                 print("2. als CSV speichern")
-                print("3. Verlauf anzeigen")
+                print("3. Verläufe anzeigen")
                 print("4. Verlauf löschen")
                 print("5. züruck")
                 auswahl = input("Gib die Nummer der Option ein: ")
                 if auswahl == '1':
+                    print("\n==Chat")
                     test_benutzer_id, error_request = utils.api.add_benutzer("test user")
                     print("\n\n!Dies ist nur ein Testprogramm, viele Funktionen fehlen und die Antworten sind nicht so gut wie im Originalprogramm!\n")
                     
@@ -133,6 +134,7 @@ def main():
                     if verlauf_input in ('y', 'n'):
                         print("„quit“ zum Beenden\n")
                         while True:
+                            print("\n" + "="* 30)
                             chat_input = input("You\t: ")
                             if chat_input == "quit": break
                             textklassifizierung_data, error_request = utils.api.predictor_text_predict(re.sub(r'[.!?]+$', '', chat_input))
@@ -149,6 +151,7 @@ def main():
                                 pred_szenario_noten = szenario_class_scores[1][szenario_satz_labels]
                                 if pred_absicht_noten >= config.TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN and pred_szenario_noten >= config.TEXTKLASSIFIZIERUNG_SZENARIO_MIN_NOTEN:
                                     output_satz, error_output = intent_filter(absicht_class_scores[0][absicht_satz_labels], szenario_class_scores[0][szenario_satz_labels], woerter_anmerkungen, anmerkung_satz_labels, test_benutzer_id)
+                                    output_satz = " ".join(output_satz.splitlines())
                                 else:
                                     print(f"=> Absichtswahrscheinlichkeit: {pred_absicht_noten}/{config.TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN} | => Szenarioswahrscheinlichkeit: {pred_szenario_noten}/{config.TEXTKLASSIFIZIERUNG_SZENARIO_MIN_NOTEN}")
                                     output_satz, error_output = (f"Ich bin für diese Absicht noch nicht trainiert!", None)
@@ -177,6 +180,7 @@ def main():
                     else:
                         print("Ungültige Eingabe. Bitte 'y' oder 'n' eingeben.")
                 elif auswahl == '2':
+                    print("\n==als CSV speichern")
                     res_show_verlauf, error_request = utils.api.show_verlauf()
                     if not error_request:
                         if res_show_verlauf:
@@ -187,10 +191,12 @@ def main():
                     else:
                         print("- Es liegt ein Fehler auf dem Server vor!")
                 elif auswahl == '3':
+                    print("\n==Verläufe anzeigen")
                     _ = verlauf_anzeigen()
                 elif auswahl == '4':
                     verlauf_anzeigen_leer = verlauf_anzeigen()
                     if not verlauf_anzeigen_leer:
+                        print("\n==Verlauf löschen")
                         print("0 - züruck")
                         delete_input = input("ID: ")
                         if delete_input.isdigit():
