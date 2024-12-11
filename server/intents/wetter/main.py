@@ -73,7 +73,7 @@ def abfragen(item: Dict[Any, Any]): # Bsp. Wie ist das Wetter um 18 Uhr morgen i
                 i_datum = ""
                 
             if i_zeit:
-                i_zeit, error_request = api.date_text_konverter(i_zeit)
+                i_zeit, error_request = api.zeit_text_konverter(i_zeit)
                 if error_request:
                     return i_zeit, None
             else:
