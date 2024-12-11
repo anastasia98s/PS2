@@ -82,7 +82,7 @@ def verlauf_anzeigen():
             print("=" * 20)
             for item in res_show_verlauf:
                 print(f"\nID\t: {item[0]}\nIntent\t: {item[1]} {item[2]}\nEingabe\t: {item[3]}\nAusgabe\t: {item[4]}\nNote\t: {item[5]}\n")
-            print("=" * 20)
+                print("=" * 20)
             return None
         else:
             print("- Verlaufsdatenbak ist leer!")
@@ -128,7 +128,7 @@ def main():
                 if auswahl == '1':
                     print("\n==Chat")
                     test_benutzer_id, error_request = utils.api.add_benutzer("test user")
-                    print("\n\n!Dies ist nur ein Testprogramm, viele Funktionen fehlen und die Antworten sind nicht so gut wie im Originalprogramm!\n")
+                    print("\n!Dies ist nur ein Testprogramm, viele Funktionen fehlen und die Antworten sind nicht so gut wie im Originalprogramm!\n")
                     
                     verlauf_input = input("Wollen Sie den Verlauf in Server speichern? (y/n): ").strip().lower()
                     if verlauf_input in ('y', 'n'):
@@ -151,7 +151,7 @@ def main():
                                 pred_szenario_noten = szenario_class_scores[1][szenario_satz_labels]
                                 if pred_absicht_noten >= config.TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN and pred_szenario_noten >= config.TEXTKLASSIFIZIERUNG_SZENARIO_MIN_NOTEN:
                                     output_satz, error_output = intent_filter(absicht_class_scores[0][absicht_satz_labels], szenario_class_scores[0][szenario_satz_labels], woerter_anmerkungen, anmerkung_satz_labels, test_benutzer_id)
-                                    output_satz = " ".join(output_satz.splitlines())
+                                    # output_satz = " ".join(output_satz.splitlines())
                                 else:
                                     print(f"=> Absichtswahrscheinlichkeit: {pred_absicht_noten}/{config.TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN} | => Szenarioswahrscheinlichkeit: {pred_szenario_noten}/{config.TEXTKLASSIFIZIERUNG_SZENARIO_MIN_NOTEN}")
                                     output_satz, error_output = (f"Ich bin für diese Absicht noch nicht trainiert!", None)
