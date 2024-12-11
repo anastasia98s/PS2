@@ -78,7 +78,15 @@ def abfragen(item: Dict[Any, Any]):
             return t_datum, None
         return satz_konvertierung(to_do_liste, t_datum), None
     else:
-        return "Sie sind frei", None
+        zeit_text, error_request = api.zeit_text_konverter(t_zeit) if t_zeit else ("", None)
+        if error_request:
+            zeit_text = ""
+
+        datum_text, error_request = api.date_text_konverter(t_datum) if t_datum else ("", None)
+        if error_request:
+            datum_text = ""
+
+        return f"Sie sind {datum_text} {zeit_text} frei", None
 
 @app.post("/todolist_intent/eingeben") 
 def eingeben(item: Dict[Any, Any]):
