@@ -46,6 +46,8 @@ def abfragen(item: Dict[Any, Any]):
     i_benutzer_id = item.get("benutzer_id")
     datezeit = None
     datum = None
+    t_zeit = None
+    t_datum = None
     if i_zeit or i_datum: # Frag nach Aktivität
         t_datum, error_request = api.date_zeit_text_cleaner(i_datum)
         if error_request:
