@@ -49,8 +49,8 @@ wochentage = {
 feiertage = {
     "neujahr": "01-01",
     "heilige drei könige": "06-01",
-    "arbeit": "01-05",
-    "einheit": "03-10",
+    "tag der arbeit": "01-05",
+    "tag der einheit": "03-10",
     "reformation": "31-10",
     "allerheiligen": "01-11",
     "weihnachten": "24-12",
@@ -64,6 +64,7 @@ feiertage = {
     "pfingstmontag": "01-06",
     "fronleichnam": "11-06",
     "valentinstag": "14-02",
+    "valentine": "14-02",
     "frauentag": "08-03",
     "halloween": "31-10",
     "thanksgiving": "25-11",
