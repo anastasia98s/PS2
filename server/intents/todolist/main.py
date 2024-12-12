@@ -127,7 +127,7 @@ def eingeben(item: Dict[Any, Any]):
         if error_request:
             return datum_text, None
         
-        return f"neue {i_aktivitaet} {datum_text} {zeit_text} wurde in To-Do-List eingegeben", None
+        return f"{i_aktivitaet} {datum_text} {zeit_text} wurde in To-Do-List eingegeben", None
     else:
         return None, api.ERROR_VARIABLE_AKTIVITAET
         # return "Ich kann das To-Do-Objekt nicht identifizieren", None
