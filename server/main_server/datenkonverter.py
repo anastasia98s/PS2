@@ -46,6 +46,47 @@ wochentage = {
     "freitag": 4, "samstag": 5, "wochenende":5, "sonntag": 6
 }
 
+feiertage = {
+    "neujahr": "01-01",
+    "heilige drei könige": "06-01",
+    "arbeit": "01-05",
+    "einheit": "03-10",
+    "reformation": "31-10",
+    "allerheiligen": "01-11",
+    "weihnachten": "24-12",
+    "1. weihnachten": "25-12",
+    "2. weihnachten": "26-12",
+    "silvester": "31-12",
+    "karfreitag": "10-04",
+    "ostern": "12-04",
+    "ostermontag": "13-04",
+    "pfingsten": "31-05",
+    "pfingstmontag": "01-06",
+    "fronleichnam": "11-06",
+    "valentinstag": "14-02",
+    "frauentag": "08-03",
+    "halloween": "31-10",
+    "thanksgiving": "25-11",
+    "chinesisches neujahr": "12-02",
+    "diwali": "04-11",
+    "hanukkah": "28-11",
+    "eid al-fitr": "13-05",
+    "eid al-adha": "20-07",
+    "unabhängigkeit usa": "04-07",
+    "kanada": "01-07",
+    "australischer nationalfeiertag": "26-01",
+    "bastille": "14-07",
+    "guy fawkes": "05-11",
+    "martin luther king jr.": "17-01",
+    "st. patrick": "17-03",
+    "toten": "02-11",
+    "unabhängigkeit indien": "15-08",
+    "republik indien": "26-01",
+    "goldene woche japan": "29-04",
+    "goldene woche china": "01-10",
+    "ramadan anfang": "02-04"
+}
+
 def date_konverter(datum):
     if not datum:
         return None, config.ERROR_VARIABLE_DATUM
@@ -60,6 +101,7 @@ def date_konverter(datum):
     if re.search(r"\b(gestern|vorgestern)\b", datum.lower()):
         return heute - timedelta(days=1), None
     
+    # Wochentage
     datum_lower = datum.lower()
     if datum_lower in wochentage:
         aktueller_wochentag = heute.weekday()
@@ -70,6 +112,15 @@ def date_konverter(datum):
             tage_bis_ziel = 7
             
         return heute + timedelta(days=tage_bis_ziel), None
+    
+    # Feiertage
+    if datum_lower in feiertage:
+        jahr = heute.year
+        tag, monat = map(int, feiertage[datum_lower].split("-"))
+        feiertagsdatum = datetime(jahr, monat, tag).date()
+        if feiertagsdatum < heute:
+            feiertagsdatum = datetime(jahr + 1, monat, tag).date()
+        return feiertagsdatum, None
     
     try:
         # dd.mm.yyyy
@@ -140,7 +191,7 @@ def zeit_text_konverter(zeit):
 def date_text_konverter(datum):
     if datum:
         datum_lower = datum.lower()
-        if datum_lower in wochentage or any(char.isdigit() for char in datum):
+        if datum_lower in wochentage or datum_lower in feiertage or any(char.isdigit() for char in datum):
             return f"am {datum}"
         else:
             return datum
