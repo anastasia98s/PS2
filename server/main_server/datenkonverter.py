@@ -94,8 +94,8 @@ def date_konverter(datum):
     datum_lower_split_stemmed = [stemmer.stem(word) for word in datum.lower().split()]
 
     # Wochentage
-    for tage, wochenindex in wochentage.items():
-        if stemmer.stem(tage) in datum_lower_split_stemmed:
+    for wochen_tag, wochenindex in wochentage.items():
+        if stemmer.stem(wochen_tag) in datum_lower_split_stemmed:
             aktueller_wochentag = heute.weekday()            
             tage_bis_ziel = (wochenindex - aktueller_wochentag + 7) % 7
             if tage_bis_ziel == 0:
@@ -104,13 +104,13 @@ def date_konverter(datum):
             return heute + timedelta(days=tage_bis_ziel), None
     
     # Feiertage
-    for fest, datum in feiertage.items():
+    for fest, fest_datum in feiertage.items():
         if stemmer.stem(fest) in datum_lower_split_stemmed:
-            jahr = heute.year
-            tag, monat = map(int, datum.split("-"))
-            feiertagsdatum = datetime(jahr, monat, tag).date()
+            fest_jahr = heute.year
+            fest_tag, fest_monat = map(int, fest_datum.split("-"))
+            feiertagsdatum = datetime(fest_jahr, fest_monat, fest_tag).date()
             if feiertagsdatum < heute:
-                feiertagsdatum = datetime(jahr + 1, monat, tag).date()
+                feiertagsdatum = datetime(fest_jahr + 1, fest_monat, fest_tag).date()
             return feiertagsdatum, None
     
     try:
@@ -227,6 +227,7 @@ def date_zeit_konverter(datum, zeit):
 def date_zeit_text_cleaner(text: str, is_zeit: bool) -> str:
     text = re.sub(r'\bum\b|\buhr\b', '', text, flags=re.IGNORECASE).strip()
     text = re.sub(r'\bam\b', '', text, flags=re.IGNORECASE).strip()
+    text = re.sub(r'\ban\b', '', text, flags=re.IGNORECASE).strip()
     text = re.sub(r'\s+', ' ', text).strip()
     if is_zeit:
         text = text.replace('.', ':')
