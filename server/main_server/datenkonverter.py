@@ -3,6 +3,11 @@ import re
 import locale
 import config
 from playwright.sync_api import sync_playwright
+import nltk
+from nltk.stem.snowball import SnowballStemmer
+
+nltk.download('punkt')
+stemmer = SnowballStemmer("german")
 
 locale.setlocale(locale.LC_TIME, config.ZEIT_STANDORT)
 
@@ -48,14 +53,11 @@ wochentage = {
 
 feiertage = {
     "neujahr": "01-01",
-    "heilige drei könige": "06-01",
-    "tag der arbeit": "01-05",
-    "tag der einheit": "03-10",
+    "einheit": "03-10",
     "reformation": "31-10",
+    "reformationstag": "31-10",
     "allerheiligen": "01-11",
     "weihnachten": "24-12",
-    "1. weihnachten": "25-12",
-    "2. weihnachten": "26-12",
     "silvester": "31-12",
     "karfreitag": "10-04",
     "ostern": "12-04",
@@ -68,29 +70,16 @@ feiertage = {
     "frauentag": "08-03",
     "halloween": "31-10",
     "thanksgiving": "25-11",
-    "chinesisches neujahr": "12-02",
     "diwali": "04-11",
     "hanukkah": "28-11",
-    "eid al-fitr": "13-05",
-    "eid al-adha": "20-07",
-    "unabhängigkeit usa": "04-07",
-    "kanada": "01-07",
-    "australischer nationalfeiertag": "26-01",
     "bastille": "14-07",
-    "guy fawkes": "05-11",
-    "martin luther king jr.": "17-01",
-    "st. patrick": "17-03",
-    "toten": "02-11",
-    "unabhängigkeit indien": "15-08",
-    "republik indien": "26-01",
-    "goldene woche japan": "29-04",
-    "goldene woche china": "01-10",
-    "ramadan anfang": "02-04"
+    "ramadan": "02-04"
 }
 
 def date_konverter(datum):
     if not datum:
         return None, config.ERROR_VARIABLE_DATUM
+    
     heute = datetime.now().date()
     
     if re.search(r"\bheute\b", datum.lower()):
@@ -102,26 +91,27 @@ def date_konverter(datum):
     if re.search(r"\b(gestern|vorgestern)\b", datum.lower()):
         return heute - timedelta(days=1), None
     
+    datum_lower_split_stemmed = [stemmer.stem(word) for word in datum.lower().split()]
+
     # Wochentage
-    datum_lower = datum.lower()
-    if datum_lower in wochentage:
-        aktueller_wochentag = heute.weekday()
-        ziel_wochentag = wochentage[datum_lower]
-        
-        tage_bis_ziel = (ziel_wochentag - aktueller_wochentag + 7) % 7
-        if tage_bis_ziel == 0:
-            tage_bis_ziel = 7
-            
-        return heute + timedelta(days=tage_bis_ziel), None
+    for tage, wochenindex in wochentage.items():
+        if stemmer.stem(tage) in datum_lower_split_stemmed:
+            aktueller_wochentag = heute.weekday()            
+            tage_bis_ziel = (wochenindex - aktueller_wochentag + 7) % 7
+            if tage_bis_ziel == 0:
+                tage_bis_ziel = 7
+                
+            return heute + timedelta(days=tage_bis_ziel), None
     
     # Feiertage
-    if datum_lower in feiertage:
-        jahr = heute.year
-        tag, monat = map(int, feiertage[datum_lower].split("-"))
-        feiertagsdatum = datetime(jahr, monat, tag).date()
-        if feiertagsdatum < heute:
-            feiertagsdatum = datetime(jahr + 1, monat, tag).date()
-        return feiertagsdatum, None
+    for fest, datum in feiertage.items():
+        if stemmer.stem(fest) in datum_lower_split_stemmed:
+            jahr = heute.year
+            tag, monat = map(int, datum.split("-"))
+            feiertagsdatum = datetime(jahr, monat, tag).date()
+            if feiertagsdatum < heute:
+                feiertagsdatum = datetime(jahr + 1, monat, tag).date()
+            return feiertagsdatum, None
     
     try:
         # dd.mm.yyyy
@@ -191,9 +181,13 @@ def zeit_text_konverter(zeit):
 
 def date_text_konverter(datum):
     if datum:
-        datum_lower = datum.lower()
-        if datum_lower in wochentage or datum_lower in feiertage or any(char.isdigit() for char in datum):
+        datum_lower_split_stemmed = [stemmer.stem(word) for word in datum.lower().split()]
+        wochentage_stemmed = [stemmer.stem(word) for word in wochentage.keys()]
+        feiertage_stemmed = [stemmer.stem(word) for word in feiertage.keys()]
+        if any(word in wochentage_stemmed for word in datum_lower_split_stemmed) or any(char.isdigit() for char in datum):
             return f"am {datum}"
+        elif any(word in feiertage_stemmed for word in datum_lower_split_stemmed):
+            return f"an {datum}"
         else:
             return datum
     else:

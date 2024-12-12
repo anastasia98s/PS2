@@ -1,4 +1,5 @@
 import api
+import config
 from fastapi import FastAPI
 from typing import Dict, Any
 import uvicorn
@@ -144,6 +145,8 @@ def entfernen(item: Dict[Any, Any]):
     t_zeit = None
 
     if i_aktivitaet:
+        if not i_datum and config.SICHERE_LÖSCHUNG:
+            i_datum = "heute"
         if i_datum:
             t_datum, error_request = api.date_zeit_text_cleaner(i_datum)
             if error_request:
