@@ -1,8 +1,8 @@
-import config
 import re
 import utils.audio.utils
 import threading
 import utils.api
+from utils.utils import reask_text
 
 class SpeechToText:
     def __init__(self, text_to_speech):
@@ -48,20 +48,11 @@ class SpeechToText:
     
     def intent_variable_error_reask(self, errortyp, neue_daten_abfragen=False, status_class_thread=None):
         if status_class_thread and status_class_thread.thread_event.is_set():
-                return None
+            return None
         
-        wd_text = "nochmal " if not neue_daten_abfragen else ""
+        result_reask, error_variable = reask_text(errortyp, neue_daten_abfragen)
         
-        variable_typen = {
-            utils.api.ERROR_VARIABLE_DATUM: "das Datum",
-            utils.api.ERROR_VARIABLE_ZEIT: "die Zeit",
-            utils.api.ERROR_VARIABLE_ORT: "der Ort",
-            utils.api.ERROR_VARIABLE_AKTIVITAET: "den Terminnamen oder die Aktivität",
-            utils.api.ERROR_VARIABLE_THEMA: "das Thema"
-        }
-
-        variable_name = variable_typen.get(errortyp)
-        if not variable_name:
-            self.text_to_speech.text_to_speech("Es gab ein Problem mit dem System. Bitte versuche es erneut.", status_class_thread=status_class_thread)
-            # sys.exit("Das Programm wird beendet.")
-        return self.dialog(1, f"Kannst du {variable_name} {wd_text}sagen?", status_class_thread=status_class_thread)
+        if error_variable:
+            self.text_to_speech.text_to_speech(result_reask, status_class_thread=status_class_thread)
+            
+        return self.dialog(1, result_reask, status_class_thread=status_class_thread)

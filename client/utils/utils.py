@@ -1,5 +1,21 @@
 import utils.api
 
+def reask_text(errortyp, neue_daten_abfragen=False):
+    wd_text = "nochmal " if not neue_daten_abfragen else ""
+    variable_typen = {
+        utils.api.ERROR_VARIABLE_DATUM: "ein genaues Datum",
+        utils.api.ERROR_VARIABLE_ZEIT: "eine genaue Zeit",
+        utils.api.ERROR_VARIABLE_ORT: "der Ort",
+        utils.api.ERROR_VARIABLE_AKTIVITAET: "eine genaue Aktivität",
+        utils.api.ERROR_VARIABLE_THEMA: "das Thema"
+    }
+
+    variable_name = variable_typen.get(errortyp)
+    if not variable_name:
+        return "Es gab ein Problem mit dem System. Bitte versuche es erneut", 1
+    else:
+        return f"Kannst du {variable_name} {wd_text}sagen?", None
+
 def anmerkungen_inhalt_extrahieren(anmerkungen, anmerkungen_label):
     v_satz = []
     v_thema = []

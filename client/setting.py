@@ -7,6 +7,7 @@ import re
 import csv
 import tkinter as tk
 from tkinter import filedialog
+from utils.utils import reask_text
 
 def intent_filter(absicht, szenario, anmerkungen, anmerkungen_label, user_id):
     t_satz, t_thema, t_aktivitaet, t_zeit, t_datum, t_ort = anmerkungen_inhalt_extrahieren(anmerkungen, anmerkungen_label)
@@ -54,7 +55,11 @@ def intent_filter(absicht, szenario, anmerkungen, anmerkungen_label, user_id):
         case _:
             intent_result, error_result = "Ich verstehe ihren Absicht nicht!", None
     if error_result:
-        return "Test kann nicht ausgeführt werden, es fehlen Variablen!", 1
+        result_reask, error_variable = reask_text(error_result)
+        if error_variable:
+            return result_reask, 1
+        else:
+            return f"{result_reask} | !!Im Testprogramm kann man nicht antworten!!", None
     else:
         return intent_result, None
 

@@ -98,39 +98,59 @@ def eingeben(item: Dict[Any, Any]):
     i_datum = item.get("datum")
     i_benutzer_id = item.get("benutzer_id")
     if i_aktivitaet:
-        if not i_datum:
-            i_datum = "heute"
-
-        t_datum, error_request = api.date_zeit_text_cleaner(i_datum)
-        if error_request:
-            return t_datum, None
         if i_zeit:
+            if not i_datum:
+                i_datum = "heute"
+
+            t_datum, error_request = api.date_zeit_text_cleaner(i_datum)
+            if error_request:
+                return t_datum, None
             t_zeit, error_request = api.date_zeit_text_cleaner(i_zeit, is_zeit=True)
             if error_request:
                 return t_zeit, None
+            
             datezeit, errortyp, error_request = api.date_zeit_konverter(t_datum, t_zeit)
             if error_request:
                 return datezeit, None
+            if not datezeit:
+                return None, errortyp
+                        
+            is_erfolgreich, error_request = api.add_todo(i_aktivitaet, datezeit, i_benutzer_id)
+            if error_request:
+                return is_erfolgreich, None
+            
+            datum_text, error_request = api.date_text_konverter(t_datum)
+            if error_request:
+                return datum_text, None
             zeit_text, error_request = api.zeit_text_konverter(t_zeit)
             if error_request:
                 return zeit_text, None
-        else:
-            datezeit, errortyp, error_request = api.date_konverter(t_datum)
+            
+            return f"{i_aktivitaet} {datum_text} {zeit_text} wurde in To-Do-List eingegeben", None
+        elif i_datum:
+            t_datum, error_request = api.date_zeit_text_cleaner(i_datum)
             if error_request:
-                return datezeit, None
-            zeit_text = ""
-        
-        is_erfolgreich, error_request = api.add_todo(i_aktivitaet, datezeit, i_benutzer_id)
-        if error_request:
-            return is_erfolgreich, None
-        datum_text, error_request = api.date_text_konverter(t_datum)
-        if error_request:
-            return datum_text, None
-        
-        return f"{i_aktivitaet} {datum_text} {zeit_text} wurde in To-Do-List eingegeben", None
+                return t_datum, None
+            
+            datum, errortyp, error_request = api.date_konverter(t_datum)
+            if error_request:
+                return datum, None
+            if not datum:
+                return None, errortyp
+                        
+            is_erfolgreich, error_request = api.add_todo(i_aktivitaet, datum, i_benutzer_id)
+            if error_request:
+                return is_erfolgreich, None
+            
+            datum_text, error_request = api.date_text_konverter(t_datum)
+            if error_request:
+                return datum_text, None
+            
+            return f"{i_aktivitaet} {datum_text} wurde in To-Do-List eingegeben", None
+        else:
+            return None, api.ERROR_VARIABLE_DATUM
     else:
         return None, api.ERROR_VARIABLE_AKTIVITAET
-        # return "Ich kann das To-Do-Objekt nicht identifizieren", None
 
 @app.post("/todolist_intent/entfernen") 
 def entfernen(item: Dict[Any, Any]):
