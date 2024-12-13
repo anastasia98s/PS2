@@ -10,6 +10,7 @@ from user_controller.model_user import ModelUser
 import config
 import nn_authentifizierung.utils
 from nn_authentifizierung.model import Model
+from torchinfo import summary
 
 def train():
     try:
@@ -97,6 +98,7 @@ def train():
             print(f"\nTrainingsdauer: {trainingsdauer:.2f} Minuten")
 
             nn_authentifizierung.utils.show_conf_matrix(best_preds_authentifizierung_array, best_loesung_authentifizierung_array, confusion_matrix_class, f"{best_epochs} Epochs | Total: {len(best_preds_authentifizierung_array)} | Authentifizierung-KI", plot=config.AUTHENTIFIZIERUNG_PLOT_CONFUSION_MATRIX)
+            summary(model, input_size=(config.AUTHENTIFIZIERUNG_TRAIN_BATCH_SIZE, 193))
         else:
             print("\n !!!Zu wenige Daten, um Authentifizierungs-KI zu trainieren!!!")
     except Exception as e:

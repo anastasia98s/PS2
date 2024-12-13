@@ -28,6 +28,15 @@
 ![Confusion Matrix von Textklassifizierung-KI (Szenario + Absicht + Anmerkung)](docs_image/anmerkung_absicht_szenario_cm.png)
 
 
+### Zusammenfassung von Aktivierungswort-KI
+![Zusammenfassung von Aktivierungswort-KI](docs_image/aktivierung_sum.png)
+
+### Zusammenfassung von Authentifizierung-KI
+![Zusammenfassung von Authentifizierung-KI](docs_image/authentifizierung_sum.png)
+
+### Zusammenfassung von Textklassifizierung-KI
+![Zusammenfassung von Textklassifizierung-KI](docs_image/textklassifizierung_sum.png)
+
 ### Aktivierungswort vs kein Aktivierungswort
 ![Aktivierungswort](docs_image/is_aktivierung.png)
 ![kein Aktivierungswort](docs_image/not_aktivierung.png)

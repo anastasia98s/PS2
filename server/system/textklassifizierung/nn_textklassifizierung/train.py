@@ -6,7 +6,7 @@ from transformers import get_linear_schedule_with_warmup
 import joblib
 import os
 import time
-
+from torchinfo import summary
 import numpy as np
 from sklearn import model_selection
 
@@ -188,5 +188,6 @@ def train():
 
         anmerkung_absicht_szenario_label = [ (presenter_textklassifizierung.such_anmerkung(positive_anmerkung_class[anmerkung]), f"{presenter_textklassifizierung.such_szenario(encoder_szenario.classes_[szenario])} {presenter_textklassifizierung.such_absicht(encoder_absicht.classes_[absicht])}") for anmerkung, szenario, absicht in anmerkung_absicht_szenario_label]
         nn_textklassifizierung.utils.show_conf_matrix(anmerkung_absicht_szenario_vorhersage, anmerkung_absicht_szenario_loesung, anmerkung_absicht_szenario_label, f"{best_epochs} Epochs | Total: {len(anmerkung_absicht_szenario_vorhersage)} | Textklassifizierung-KI (Anmerkung + Absicht + Szenario)", plot=True)
+        summary(model, input_data=(torch.randint(0, 10000, (config.TEXTKLASSIFIZIERUNG_TRAIN_BATCH_SIZE, config.TEXTKLASSIFIZIERUNG_MAX_LEN), dtype=torch.long).to(device), torch.ones(config.TEXTKLASSIFIZIERUNG_TRAIN_BATCH_SIZE, config.TEXTKLASSIFIZIERUNG_MAX_LEN, dtype=torch.long).to(device), torch.zeros(config.TEXTKLASSIFIZIERUNG_TRAIN_BATCH_SIZE, config.TEXTKLASSIFIZIERUNG_MAX_LEN, dtype=torch.long).to(device)))
     except Exception as e:
         raise FileNotFoundError(f"\nFehler im Trainingsprozess")

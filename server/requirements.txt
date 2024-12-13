@@ -16,6 +16,7 @@ pywebview==5.2
 Requests==2.32.3
 scikit_learn==1.5.2
 selenium==4.26.1
+torchinfo==1.8.0
 torchmetrics==1.6.0
 transformers==4.46.1
 uvicorn==0.32.1

@@ -7,6 +7,7 @@ from sklearn.model_selection import train_test_split
 import config
 import aktivierungswort.nn_aktivierungswort.utils
 from aktivierungswort.nn_aktivierungswort.model import Model
+from torchinfo import summary
 
 def train():
     try:
@@ -86,6 +87,7 @@ def train():
             print(f"\nTrainingsdauer: {trainingsdauer:.2f} Minuten")
 
             aktivierungswort.nn_aktivierungswort.utils.show_conf_matrix(best_preds_aktivierung_array, best_loesung_aktivierung_array, confusion_matrix_class, f"{best_epochs} Epochs | Total: {len(best_preds_aktivierung_array)} | Aktivierungsword-KI", binary=True, plot=True)
+            summary(model, input_size=(config.AKTIVIERUNGSWORT_TRAIN_BATCH_SIZE, 1, 128, 63))
         else:
             print("\n!!!Zu wenige Daten, um Aktivierungswort-KI zu trainieren!!!")
     except Exception as e:
