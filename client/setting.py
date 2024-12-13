@@ -158,8 +158,7 @@ def main():
                                     output_satz, error_output = intent_filter(absicht_class_scores[0][absicht_satz_labels], szenario_class_scores[0][szenario_satz_labels], woerter_anmerkungen, anmerkung_satz_labels, test_benutzer_id)
                                     # output_satz = " ".join(output_satz.splitlines())
                                 else:
-                                    print(f"=> Absichtswahrscheinlichkeit: {pred_absicht_noten}/{config.TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN} | => Szenarioswahrscheinlichkeit: {pred_szenario_noten}/{config.TEXTKLASSIFIZIERUNG_SZENARIO_MIN_NOTEN}")
-                                    output_satz, error_output = (f"Ich bin für diese Absicht noch nicht trainiert!", None)
+                                    output_satz, error_output = (f"Ich bin für diese Absicht noch nicht trainiert!\n=> Absichtswahrscheinlichkeit: {pred_absicht_noten}/{config.TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN} | => Szenarioswahrscheinlichkeit: {pred_szenario_noten}/{config.TEXTKLASSIFIZIERUNG_SZENARIO_MIN_NOTEN}", None)
                             else:
                                 output_satz, error_output = textklassifizierung_data, 1
 
