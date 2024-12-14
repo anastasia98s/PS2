@@ -251,9 +251,9 @@ def studienordnung_intent_abfragen(i_satz):
     except Exception as e:
         return f"Ein unerwarteter Fehler ist aufgetreten: {e}", None
     
-def wikipedia_intent_abfragen(i_thema):
+def wikipedia_intent_abfragen(i_satz, i_thema):
     try:
-        response = requests.post(f"http://{WIKIPEDIA_INTENT_SERVICE_IP}:{WIKIPEDIA_INTENT_SERVICE_PORT}/wikipedia_intent/abfragen", json=i_thema)
+        response = requests.post(f"http://{WIKIPEDIA_INTENT_SERVICE_IP}:{WIKIPEDIA_INTENT_SERVICE_PORT}/wikipedia_intent/abfragen", json={"satz":i_satz, "thema":i_thema})
 
         if response.status_code == 200:
             result, error = response.json()        

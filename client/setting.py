@@ -22,7 +22,7 @@ def intent_filter(absicht, szenario, anmerkungen, anmerkungen_label, user_id):
         case (utils.api.SZENARIO_STUDIENORDNUNG, utils.api.ABSICHT_ABFRAGEN):
             intent_result, error_result = utils.api.studienordnung_intent_abfragen(t_satz)
         case (utils.api.SZENARIO_WIKIPEDIA, utils.api.ABSICHT_ABFRAGEN):
-            intent_result, error_result = utils.api.wikipedia_intent_abfragen(t_thema)
+            intent_result, error_result = utils.api.wikipedia_intent_abfragen(t_satz, t_thema)
         case (utils.api.SZENARIO_TODO_LIST, utils.api.ABSICHT_ABFRAGEN): # abfragen
             intent_result, error_result = utils.api.todolist_intent_abfragen(t_aktivitaet, t_zeit, t_datum, user_id)
         case (utils.api.SZENARIO_TODO_LIST, utils.api.ABSICHT_EINGEBEN): # hinzufügen

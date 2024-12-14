@@ -81,7 +81,7 @@ class EngineProcessor:
                         self.text_to_speech.text_to_speech(f"suche nach {t_thema} in Wikipedia", status_class_thread=self)
                     while True:
                         if not self.thread_event.is_set():
-                            intent_result, error_result = utils.api.wikipedia_intent_abfragen(t_thema)
+                            intent_result, error_result = utils.api.wikipedia_intent_abfragen(t_satz, t_thema)
                             if not error_result:
                                 return intent_result
                             else:

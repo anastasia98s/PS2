@@ -1,8 +1,11 @@
 import api
-from fastapi import FastAPI, Body
+from fastapi import FastAPI
+from typing import Dict, Any
 import uvicorn
 import wikipedia
 import logging
+from langchain_ollama import OllamaLLM
+import config
 
 # Logger konfigurieren
 logger = logging.getLogger(__name__)
@@ -12,8 +15,18 @@ wikipedia.set_lang("de")
 
 app = FastAPI()
 
+def ollama_fragen(information, question):
+    if not information or not question:
+        return "Wikipedia-Fehler, ich weiß es nicht!"
+
+    prompt = f"Informationen: {information} \n\nFrage: {question}"
+    model = OllamaLLM(model=config.STUDIENORDNUNG_OLLAMA_MODELL) 
+    return model(prompt)
+
 @app.post("/wikipedia_intent/abfragen") 
-def abfragen(i_thema: str = Body(...)):
+def abfragen(item: Dict[Any, Any]):
+    i_satz = item.get("satz")
+    i_thema = item.get("thema")
     """
     Ruft eine kurze Zusammenfassung eines Wikipedia-Artikels ab.
 
@@ -30,7 +43,8 @@ def abfragen(i_thema: str = Body(...)):
         # Wikipedia-Zusammenfassung für das angegebene Thema holen
         summary = wikipedia.summary(i_thema, sentences=5)
         logger.info("Zusammenfassung erfolgreich abgerufen.")
-        return summary, None
+        ollama_antwort = ollama_fragen(summary, i_satz)
+        return ollama_antwort, None
     except wikipedia.DisambiguationError as e:
         logger.warning(f"Mehrdeutigkeit festgestellt: {e.options}")
         return f"Das Thema '{i_thema}' ist mehrdeutig. Versuche es spezifischer zu formulieren.", None

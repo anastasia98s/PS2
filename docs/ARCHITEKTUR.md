@@ -25,7 +25,7 @@
 - **Spracherkennungsmodell (Whisper)**: transkribiert gesprochene Sprache in Text
 - **Text-zu-Sprache-Modell (Coqui)**: generiert gesprochene Antworten aus Text 
   - Datensatz von Thorsten-Voice: [hier](https://github.com/thorstenMueller/Thorsten-Voice)
-- **PDF-Verstehen (Ollama)**: beantwortet Fragen zu Inhalten eines PDFs
+- **PDF-Verstehen (Ollama)**: beantwortet Fragen zu Inhalten eines PDFs und Hilft bei der Suche nach Informationspunkten auf Wikipedia
 
 ![KI-Modell](docs_image/KI-Modell.drawio.png)
 

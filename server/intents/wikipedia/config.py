@@ -1,0 +1,1 @@
+STUDIENORDNUNG_OLLAMA_MODELL = "llama3.2:latest"
