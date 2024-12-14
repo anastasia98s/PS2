@@ -15,7 +15,7 @@ MAIN_SERVER_SERVICE_RESPONSE = requests.post(f"http://{MAIN_SERVER_SERVICE_IP}:{
 if MAIN_SERVER_SERVICE_RESPONSE.status_code == 200:
     config_data = MAIN_SERVER_SERVICE_RESPONSE.json()
 else:
-    raise FileNotFoundError(f"\nFehler beim Abrufen der MAIN-SERVER-CONFIG {MAIN_SERVER_SERVICE_RESPONSE.status_code}")
+    raise ConnectionError(f"\nFehler beim Abrufen der MAIN-SERVER-CONFIG {MAIN_SERVER_SERVICE_RESPONSE.status_code}")
 
 TODOLIST_INTENT_SERVICE_IP = config_data['TODOLIST_INTENT_SERVICE_IP']
 TODOLIST_INTENT_SERVICE_PORT = config_data['TODOLIST_INTENT_SERVICE_PORT']

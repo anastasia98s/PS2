@@ -16,9 +16,9 @@ try:
     if MAIN_SERVER_SERVICE_RESPONSE.status_code == 200:
         config_data = MAIN_SERVER_SERVICE_RESPONSE.json()
     else:
-        raise FileNotFoundError(f"\nFehler beim Abrufen der MAIN-SERVER-CONFIG {MAIN_SERVER_SERVICE_RESPONSE.status_code}")
+        raise ConnectionError(f"\nFehler beim Abrufen der MAIN-SERVER-CONFIG {MAIN_SERVER_SERVICE_RESPONSE.status_code}")
 except Exception:
-    raise FileNotFoundError(f"\n\n!!!Fehler beim Abrufen der MAIN-SERVER-CONFIG!!!")
+    raise ConnectionError(f"\n\n!!!Fehler beim Abrufen der MAIN-SERVER-CONFIG!!!")
 
 SPEECH_TO_TEXT_SERVICE_IP = config_data['SPEECH_TO_TEXT_SERVICE_IP']
 SPEECH_TO_TEXT_SERVICE_PORT = config_data['SPEECH_TO_TEXT_SERVICE_PORT']
