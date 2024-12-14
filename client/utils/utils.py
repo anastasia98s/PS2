@@ -3,7 +3,7 @@ import utils.api
 def reask_text(errortyp, neue_daten_abfragen=False):
     wd_text = "nochmal " if not neue_daten_abfragen else ""
     variable_typen = {
-        utils.api.ERROR_VARIABLE_DATUM: "ein genaues Datum",
+        utils.api.ERROR_VARIABLE_DATUM: "ein genaues Datum oder einen Feiertag",
         utils.api.ERROR_VARIABLE_ZEIT: "eine genaue Zeit",
         utils.api.ERROR_VARIABLE_ORT: "der Ort",
         utils.api.ERROR_VARIABLE_AKTIVITAET: "eine genaue Aktivität",
