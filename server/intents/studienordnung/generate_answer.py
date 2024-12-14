@@ -4,7 +4,7 @@ import config
 def get_aggregated_answer(chunks, question):
     all_answers = []
     for chunk in chunks:
-        prompt = f"Lies den folgenden Text und beantworte die Frage kurz und nur auf Grundlage der bereitgestellten Informationen: {chunk} \n\nFrage: {question}"
+        prompt = f"Informationen: {chunk} \n\nFrage: {question}. Beantworte die Frage so kurz wie möglich anhand der Informationen."
         answer = get_chat_response(config.STUDIENORDNUNG_OLLAMA_MODELL, prompt)
         all_answers.append(answer)
     

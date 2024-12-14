@@ -17,9 +17,9 @@ app = FastAPI()
 
 def ollama_fragen(information, question):
     if not information or not question:
-        return "Wikipedia-Fehler, ich weiß es nicht!"
+        return "Wikipedia-Fehler"
 
-    prompt = f"Informationen: {information} \n\nFrage: {question}"
+    prompt = f"Informationen: {information} \n\nFrage: {question}. Beantworte die Frage so kurz wie möglich anhand der Informationen."
     model = OllamaLLM(model=config.STUDIENORDNUNG_OLLAMA_MODELL) 
     return model(prompt)
 
