@@ -192,6 +192,20 @@ def date_text_konverter(datum):
             return datum
     else:
         return datum
+    
+def date_text_next_konverter(datum):
+    if datum:
+        datum_lower_split_stemmed = [stemmer.stem(word) for word in datum.lower().split()]
+        wochentage_stemmed = [stemmer.stem(word) for word in wochentage.keys()]
+        feiertage_stemmed = [stemmer.stem(word) for word in feiertage.keys()]
+        if any(word in wochentage_stemmed for word in datum_lower_split_stemmed) or any(char.isdigit() for char in datum):
+            return f"nächsten {datum}"
+        elif any(word in feiertage_stemmed for word in datum_lower_split_stemmed):
+            return f"nächsten {datum}"
+        else:
+            return datum
+    else:
+        return datum
 
 def date_zeit_konverter(datum, zeit):
     

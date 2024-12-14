@@ -39,3 +39,33 @@ def date_konverter(i_datum):
             return f"Error: {response.status_code}", None, 1
     except Exception:
         return "Fehler: Anfrage konnte nicht verarbeitet werden", None, 1
+    
+def date_zeit_text_cleaner(i_text, is_zeit=False):
+    try:
+        response = requests.post(f"http://{MAIN_SERVER_SERVICE_IP}:{MAIN_SERVER_SERVICE_PORT}/main_server/date_zeit_text_cleaner", json={"text": i_text, "is_zeit": is_zeit})
+
+        if response.status_code == 200:
+            result = response.json()
+            
+            clean_text = result["result"]
+            
+            return clean_text, None
+        else:
+            return f"Error: {response.status_code}", 1
+    except Exception:
+        return "Fehler: Anfrage konnte nicht verarbeitet werden", 1
+    
+def date_text_next_konverter(i_datum):
+    try:
+        response = requests.post(f"http://{MAIN_SERVER_SERVICE_IP}:{MAIN_SERVER_SERVICE_PORT}/main_server/date_text_next_konverter", json=i_datum)
+
+        if response.status_code == 200:
+            result = response.json()
+            
+            datum = result["result"]
+            
+            return datum, None
+        else:
+            return f"Error: {response.status_code}", 1
+    except Exception:
+        return "Fehler: Anfrage konnte nicht verarbeitet werden", 1

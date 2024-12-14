@@ -75,6 +75,10 @@ def zeit_text_konverter(zeit: str = Body(...)):
 def date_text_konverter(datum: str = Body(...)):
     return {"result": datenkonverter.date_text_konverter(datum)}
 
+@app.post("/main_server/date_text_next_konverter")
+def date_text_next_konverter(datum: str = Body(...)):
+    return {"result": datenkonverter.date_text_next_konverter(datum)}
+
 @app.post("/main_server/date_zeit_konverter")
 def date_zeit_konverter(item: Dict[Any, Any]):
     datum = item.get("datum")
