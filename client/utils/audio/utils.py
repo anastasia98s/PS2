@@ -85,5 +85,5 @@ def listen(silence_duration, sample_rate, max_time=config.MAX_RECORDING_TIME, st
             print(f"\n!!! Fehler beim Speichern der Aufzeichnung: {e}")
 
     recording_flat = recording_concat.flatten().astype(np.float32)
-    recording_trim, _ = librosa.effects.trim(recording_flat, top_db=config.AUDIO_DB)
+    recording_trim = None # recording_trim, _ = librosa.effects.trim(recording_flat, top_db=config.AUDIO_DB)
     return recording_flat, recording_trim
