@@ -115,7 +115,7 @@ def main():
                 auswahl = input("Gib die Nummer der Option ein: ")
                 
                 if auswahl == '1':
-                    presenter.aktivierungswort_aufnehmen(config.AKTIVIERUNGSWORT_AUFNAHME_DAUER, utils.api.AUDIO_SAMPLE_RATE)
+                    presenter.aktivierungswort_aufnehmen(config.AKTIVIERUNGSWORT_AUFNAHME_STILL, utils.api.AUDIO_SAMPLE_RATE)
                 if auswahl == '2':
                     train.train()
                 if auswahl == '3':

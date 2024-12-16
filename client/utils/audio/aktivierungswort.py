@@ -22,7 +22,7 @@ class Aktivierungswort:
                         self.thread_event.set()
         threads = []
         while True:
-            antwort_signal, _ = utils.audio.utils.listen(config.AKTIVIERUNGSWORT_AUFNAHME_DAUER, sample_rate, max_time=2, status_class_thread=self)
+            antwort_signal, _ = utils.audio.utils.listen(config.AKTIVIERUNGSWORT_AUFNAHME_STILL, sample_rate, max_time=config.AKTIVIERUNGSWORT_AUFNAHME_MAX, status_class_thread=self)
 
             if not self.thread_event.is_set():
                 if antwort_signal is not None:
