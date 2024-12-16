@@ -63,20 +63,29 @@ def save_features(item: Dict[Any, Any]):
     benutzer_id = item.get("benutzer_id")
 
     signal = np.array(signal, dtype=np.float32)
-    target_length = config.AUDIO_SIGNAL_LENGTH_SAVE
+
     signal_length = len(signal)
-    num_parts = (signal_length - target_length) // target_length
-    
-    for i in range(num_parts):
-        signal_part = signal[i * target_length : (i + 1) * target_length]
+    part_length = signal_length // config.AUDIO_SAVE_SPLIT
+    for i in range(config.AUDIO_SAVE_SPLIT):
+        start_index = i * part_length
+        end_index = (i + 1) * part_length if i < 1 else signal_length
+        signal_part = signal[start_index:end_index]
         features = extract_features(signal_part, api.AUDIO_SAMPLE_RATE)
         benutzerdatenbank.add_merkmale(benutzer_id, features)
-    
-    remainder_length = signal_length % target_length
-    if remainder_length > 0:
-        signal_part = signal[num_parts * target_length:]
-        features = extract_features(signal_part, api.AUDIO_SAMPLE_RATE)
-        benutzerdatenbank.add_merkmale(benutzer_id, features)
+
+    # target_length = config.AUDIO_SIGNAL_LENGTH_SAVE
+    # num_parts = (signal_length - target_length) // target_length
+    # 
+    # for i in range(num_parts):
+    #     signal_part = signal[i * target_length : (i + 1) * target_length]
+    #     features = extract_features(signal_part, api.AUDIO_SAMPLE_RATE)
+    #     benutzerdatenbank.add_merkmale(benutzer_id, features)
+    # 
+    # remainder_length = signal_length % target_length
+    # if remainder_length > 0:
+    #     signal_part = signal[num_parts * target_length:]
+    #     features = extract_features(signal_part, api.AUDIO_SAMPLE_RATE)
+    #     benutzerdatenbank.add_merkmale(benutzer_id, features)
     
     train.train()
 
