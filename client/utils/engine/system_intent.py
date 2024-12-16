@@ -37,7 +37,7 @@ class SystemIntent:
             except Exception:
                 return "Der Browser wurde geschlossen. Bitte starten Sie ihn erneut.", None
         else:
-             return "Kein aktiver Webdriver gefunden. Bitte zuerst eine Webseite öffnen", None
+            return "Kein aktiver Webdriver gefunden. Bitte zuerst eine Webseite öffnen", None
     
     def abbrechen(self):
         if hasattr(self, 'driver') and self.driver:
@@ -45,4 +45,4 @@ class SystemIntent:
             self.driver = None
             return "Die Website wurde geschlossen", None
         else:
-            return None, None
+            return "Kein aktiver Webdriver gefunden", None
