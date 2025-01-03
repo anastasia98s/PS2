@@ -20,7 +20,7 @@ def ollama_fragen(information, question):
         return "Wikipedia-Fehler"
 
     prompt = f"Informationen: {information} \n\nFrage: {question}. Beantworte die Frage so kurz wie möglich anhand der Informationen."
-    model = OllamaLLM(model=config.STUDIENORDNUNG_OLLAMA_MODELL) 
+    model = OllamaLLM(model=config.WIKIPEDIA_OLLAMA_MODELL) 
     return model(prompt)
 
 @app.post("/wikipedia_intent/abfragen") 
