@@ -1,0 +1,6 @@
+:project-name: Lokale KI-Sprachassistent
+
+:toc:
+:toc-title: Inhaltsverzeichnis
+:toclevels: 3
+:sectnums:

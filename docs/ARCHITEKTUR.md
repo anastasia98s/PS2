@@ -1,22 +1,22 @@
 # Architektur für das Assistant AI Projekt
 
 ## 1. **Benutzerdatenbank Struktur**
-![Benutzerdatenbank](docs_image/benutzerprofil.png)
+![Benutzerdatenbank](assets/benutzerprofil.png)
 - **Hauptinhalt**: Benutzerdaten, Merkmale, TODO
 - **Merkmale**: Datensatz zur Trainings-Authentifikations-KI
 
-![Beispielinhalt der Benutzerdatenbank](docs_image/ex_data_benutzer_db.png)
+![Beispielinhalt der Benutzerdatenbank](assets/ex_data_benutzer_db.png)
 
 ## 2. **Aktivierungswort-Datenbank Struktur**
-![Textklassifizierungsdatenbank](docs_image/textklassifizierung.png)
+![Textklassifizierungsdatenbank](assets/textklassifizierung.png)
 - **Hauptinhalt**: Sätze, Anmerkungen, Szenarien, Absichten
 
-![Beispielinhalt der Textklassifizierungsdatenbank](docs_image/ex_data_textklassifizierung_db.png)
+![Beispielinhalt der Textklassifizierungsdatenbank](assets/ex_data_textklassifizierung_db.png)
 
 ## 3. **Aktivierungswort-Datenbank Struktur**
-![Aktivierungswort-Datenbank](docs_image/aktivierungswort.png)
+![Aktivierungswort-Datenbank](assets/aktivierungswort.png)
 
-![Beispielinhalt der Aktivierungswort-Datenbank](docs_image/ex_data_aktivierungswort_db.png)
+![Beispielinhalt der Aktivierungswort-Datenbank](assets/ex_data_aktivierungswort_db.png)
 
 ## 4. **KI-Technologie**
 - **Intent- und Entitätserkennung (BERT Architektur)**: erkennt Benutzereingaben und Entitäten
@@ -27,16 +27,16 @@
   - Datensatz von Thorsten-Voice: [hier](https://github.com/thorstenMueller/Thorsten-Voice)
 - **PDF-Verstehen (Ollama)**: beantwortet Fragen zu Inhalten eines PDFs und Hilft bei der Suche nach Informationspunkten auf Wikipedia
 
-![KI-Modell](docs_image/KI-Modell.drawio.png)
+![KI-Modell](assets/KI-Modell.drawio.png)
 
 ## 5. **Aktivitätsdiagramm**
-![Aktivitätsdiagramm](docs_image/aktivitätsdiagramm.drawio.png)
+![Aktivitätsdiagramm](assets/aktivitätsdiagramm.drawio.png)
 
 ## 6. **Authentifizierung/Anmeldung Flussdiagramm**
-![Flussdiagramm](docs_image/user_anmeldung.drawio.png)
+![Flussdiagramm](assets/user_anmeldung.drawio.png)
 
 ## 7. **Multithreading**
-![Multithreading](docs_image/thread.drawio.png)
+![Multithreading](assets/thread.drawio.png)
 
 # Intents-Sturktur
 Die Textklassifikation KI gibt einen Output in drei Hauptkategorien zurück:

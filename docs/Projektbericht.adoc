@@ -1,0 +1,43 @@
+:dir: projektbericht_template
+:dir_assets: assets
+include::{dir}/config.adoc[]
+:doctype: book
+:chapter-signifier:
+//:source-highlighter: rouge
+:rouge-style: github
+:figure-caption: Abbildung
+:table-caption: Tabelle
+:listing-caption: Listing
+:xrefstyle: full
+:icons: font
+= Projektbericht: {project-name}
+
+include::{dir}/einleitung.adoc[]
+
+<<<
+
+include::{dir}/projektplanung.adoc[]
+
+<<<
+
+include::{dir}/technologien.adoc[]
+
+<<<
+
+include::{dir}/systemarchitektur.adoc[]
+
+<<<
+
+include::{dir}/testing.adoc[]
+
+<<<
+
+include::{dir}/zukunftsperspektiven.adoc[]
+
+<<<
+
+include::{dir}/fazit.adoc[]
+
+<<<
+
+include::{dir}/anhang.adoc[]

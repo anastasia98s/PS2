@@ -1,0 +1,51 @@
+== Projektplanung
+=== Projektorganisation
+|===
+| Name         | Studiengang       | Rolle im Team
+
+| Erik             | Wirtschaftsinformatik | Team Leiter, Suchintent Entwickler
+| Merte            | Wirtschaftsinformatik | Studienordnungintent Entwickler
+| Tore             | Wirtschaftsinformatik | Wikipediaintent Entwickler
+| Nathaniel        | Wirtschaftsinformatik | KI-Modelle Entwickler
+| Nuha             | Wirtschaftsinformatik | Todointent Entwickler
+| Anastasia        | Wirtschaftsinformatik | Todointent Entwickler
+|===
+
+=== Kommunikation und Planung im Projekt
+Die Kommunikation fand zu großen Teilen in den Meetings statt, wo auch das weitere Vorgehen und die nächsten Termine geplant wurden. Falls akut probleme auftraten wurden diese in der Whatsapp gruppe besprochen.
+
+=== Funktionale Anforderungen
+Die funktionalen Anforderungen beschreiben, was der lokale KI-Sprachassistent leisten soll:
+
+- **Spracherkennung**: Präzise Erkennung von Sprachbefehlen in Echtzeit.
+- **Natürliche Sprachverarbeitung (NLP)**: Verstehen und Verarbeiten von Benutzeranfragen.
+- **Lokale Verarbeitung**: Alle Datenverarbeitung erfolgt auf dem Endgerät ohne Cloud-Anbindung.
+- **Offline-Funktionalität**: Volle Funktionsfähigkeit ohne Internetverbindung.
+- **Befehlsausführung**: Ausführen von Aufgaben wie Timer setzen, Erinnerungen erstellen, lokale Dateien suchen usw.
+- **Datenschutz**: Keine Speicherung oder Übertragung von Benutzerdaten an Dritte.
+- **Benutzerinteraktion**: Feedback an den Benutzer über Sprachausgabe oder visuelle Rückmeldungen.
+
+
+=== Nicht-funktionale Anforderungen
+Diese Anforderungen definieren, wie das System funktionieren soll:
+
+- **Performance**: Echtzeitverarbeitung mit akzeptabler Latenz.
+// - **Skalierbarkeit**: Unterstützung mehrerer Benutzer und Geräte.
+- **Benutzerfreundlichkeit**: Intuitive Bedienung und klare Sprachbefehle.
+- **Robustheit**: Zuverlässige Funktionsweise auch bei Hintergrundgeräuschen.
+- **Energieeffizienz**: Geringer Ressourcenverbrauch auf dem Endgerät.
+- **Kompatibilität**: Unterstützung für verschiedene Betriebssysteme (z. B. Windows, Linux, macOS).
+
+=== Projektplanung und Meilensteine
+Die Projektplanung umfasst die zeitliche und organisatorische Strukturierung des Projekts:
+
+==== Projektphasen
+- **Analysephase**: Anforderungserhebung und Marktrecherche (1 Wochen).
+- **Entwurfsphase**: Systemarchitektur und Technologieauswahl (1 Wochen).
+- **Implementierungsphase & Testphase**: Entwicklung der Kernfunktionen (8 Wochen).
+- **Evaluierungsphase**: Feedback-Einbindung (1 Wochen).
+- **Abschlussphase**: Dokumentation und Präsentation (2 Wochen).
+
+==== Meilensteine
+- Meilenstein 1: !!! TODO !!!
+- Meilenstein 2: !!! TODO !!!

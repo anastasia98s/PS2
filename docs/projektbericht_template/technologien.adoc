@@ -1,0 +1,111 @@
+== Technologien
+In diesem Abschnitt werden die wichtigsten Technologien und Komponenten beschrieben, die für die Entwicklung des lokalen KI-Sprachassistenten verwendet wurden. Dazu gehören Text-to-Speech, Speech-to-Text, Authentifizierung, Textklassifizierung, Aktivierungswort sowie die Implementierung einer PDF-/Informationsanalyse.
+
+=== Text To Speech  (TTS)
+Für die Sprachausgabe (Text-to-Speech) wurde das Open-Source-Tool Coqui TTS verwendet. Als Datengrundlage diente das Thorsten Voice Dataset, das eine natürliche und hochwertige Sprachsynthese ermöglicht. Dieses Modell wurde gewählt, da es eine flexible Anpassung an die spezifischen Anforderungen des Projekts bietet und gleichzeitig eine hohe Qualität der Sprachausgabe gewährleistet.
+
+=== Speech To Text (STT)
+Die Spracherkennung (Speech-to-Text) wurde mit dem Open-Source-Modell Whisper umgesetzt. Whisper zeichnet sich durch seine hohe Genauigkeit und Robustheit bei der Umwandlung von gesprochener Sprache in Text aus. Es unterstützt mehrere Sprachen und eignet sich besonders gut für lokale Anwendungen, da es ohne Cloud-Anbindung betrieben werden kann.
+
+=== Authentifizierung
+Um eine sichere und benutzerfreundliche Authentifizierung zu ermöglichen, wurde ein 1D-Convolutional Neural Network (CNN)-Modell implementiert. Dieses Modell dient dazu, Nutzer anhand ihrer Stimme zu identifizieren und zu authentifizieren. Mit 11.561 Parametern ist das Modell effizient und dennoch leistungsstark genug, um eine hohe Genauigkeit bei der Benutzererkennung zu gewährleisten.
+
+Als Datengrundlage wurden verschiedene akustische Merkmale extrahiert, darunter:
+- Sprachstruktur (MFCC)
+- Tonalität (Chroma)
+- Klangenergie (Mel-Spektrogramm)
+- Spektrale Unterschiede (Kontrast)
+. Harmonie (Tonnetz)
+
+Diese Merkmale wurden zu einem einzigen Array mit einer Länge von 193 Werten kombiniert, das als Eingabe für das Modell dient. Dieser Ansatz ermöglicht eine robuste und zuverlässige Spracherkennung sowie eine präzise Benutzeridentifikation, selbst in anspruchsvollen akustischen Umgebungen.
+
+==== Zusammenfassung des Authentifizierungsmodells
+image::{dir_assets}/authentifizierung_sum.png[Zusammenfassung des Authentifizierungsmodells, align=center, title="Zusammenfassung des Authentifizierungsmodells"]
+
+=== Textklassifizierung
+In diesem Projekt haben wir ein BERT-Modell mit einem eigenen Datensatz feinabgestimmt, um die Textklassifizierung zu verbessern. Dabei setzen wir das IOB2-Format zur Annotation ein und implementierten eine feinere Unterteilung der Intents für eine präzisere Klassifikation.
+
+==== Methodik
+Unser Forschungsansatz basiert auf einer zweigeteilten Intent-Klassifikation:
+
+. **Anmerkung (Entität)**: Zur Markierung spezifischer Elemente innerhalb eines Satzes.
+. **Intent**: Aufgeteilt in zwei Kategorien:
+    - **Szenario**: Das übergeordnete Thema der Anfrage
+    - **Absicht**: Das zugehörige Verb bzw. die Aktion
+
+Diese Struktur ermöglicht eine verbesserte Qualität der KI, da die Unterteilung eine präzisere Erkennung von Objekten und Verben erlaubt.
+
+==== Beispielhafte Umsetzung
+Zur Veranschaulichung der Funktionsweise wird ein Trainingsbeispiel herangezogen, bei dem die KI ausschließlich auf die Erkennung von Datumsanfragen trainiert wurde
+
+===== Fall 1: Getrennte Intents
+|===
+|Eingabe |Szenario |Absicht
+
+|Welches Datum ist jetzt? |Datum |Abfragen
+|Welche Uhrzeit ist jetzt? |(Nicht erkannt / unbekannt) |Abfragen
+|===
+- In diesem Fall wird die Absicht „Abfragen“ korrekt erkannt, obwohl das Szenario („Uhrzeit“) nicht explizit trainiert wurde. Die KI versteht die Anfrage dennoch, da die übergeordnete Absicht („Abfragen“) zutrifft.
+
+===== Fall 2: Ungetrennte Intents
+|===
+|Eingabe |Intent
+
+|Welches Datum ist jetzt? |Datum Abfragen
+|Welche Uhrzeit ist jetzt? |(Nicht erkannt / unbekannt)
+|===
+- Hier zeigt sich eine Schwäche der starren Intent-Struktur: Da die KI nicht auf die Erkennung von „Uhrzeit“ trainiert wurde, kann sie die Anfrage nicht korrekt interpretieren. Dies verdeutlicht, wie wichtig eine differenzierte und umfassende Trainingsdatenbasis ist, um die Robustheit des Systems zu gewährleisten.
+
+Durch die Aufteilung des Intents in "Szenario" und "Absicht" konnten wir die Flexibilität und Genauigkeit der KI verbessern. Diese Struktur ermöglicht eine robustere Generalisierung und eine präzisere Klassifikation, insbesondere bei unbekannten oder leicht abweichenden Anfragen.
+
+==== Zusammenfassung des Textklassifizierungsmodells
+image::{dir_assets}/textklassifizierung_sum.png[Zusammenfassung des Textklassifizierungsmodells, align=center, title="Zusammenfassung des Textklassifizierungsmodells"]
+
+=== Aktivierungswort
+Zur Erkennung des Aktivierungsworts wurde ein 2D-Convolutional Neural Network (CNN)-Modell implementiert. Dieses Modell wurde speziell für die Verarbeitung von Mel-Spektrogrammen trainiert, die aus den Audiodaten generiert wurden. Mit insgesamt 7.499.457 Parametern bietet das Modell eine hohe Genauigkeit bei der Identifikation des Aktivierungsworts, selbst in Umgebungen mit Hintergrundgeräuschen. Die Verwendung von Mel-Spektrogrammen als Eingabedaten ermöglicht eine effiziente und robuste Merkmalsextraktion, was die Erkennungsleistung deutlich verbessert.
+
+==== Zusammenfassung des Aktivierungswortmodells
+image::{dir_assets}/aktivierung_sum.png[Zusammenfassung des Aktivierungswortmodells, align=center, title="Zusammenfassung des Aktivierungswortmodells"]
+
+=== PDF/Information Analyse
+Für die Analyse von PDF-Dokumenten und anderen textbasierten Informationen wurde das Open-Source-Modell LLama 3.2 integriert. Dieses Modell ermöglicht die Extraktion und Interpretation von relevanten Informationen, wie z. B. Studienordnungen oder Wikipedia-Inhalten. Es wurde speziell für die Erkennung von Intents wie StudienordnungIntent und WikipediaIntent trainiert, um gezielte und präzise Antworten auf Benutzeranfragen zu liefern.
+
+=== Verwendete Bibliotheken
+Für die Implementierung unseres Projekts wurden folgende Bibliotheken genutzt:
+
+==== Audioverarbeitung und Spracherkennung
+- *librosa==0.10.2.post1*: Analyse und Verarbeitung von Audiodaten (z. B. Feature-Extraction für Sprachdaten).
+- *PyAudio==0.2.14*: Aufnahme und Wiedergabe von Audiodaten in Echtzeit.
+- *openai_whisper==20240930*: Modell für Spracherkennung (Speech-to-Text).
+
+==== Machine Learning und KI-Modelle
+- *scikit_learn==1.5.2*: Machine-Learning-Algorithmen für Klassifikation, Regression und Datenverarbeitung.
+- *torchmetrics==1.6.0*: Metriken zur Bewertung von Modellen (z. B. Genauigkeit, F1-Score).
+- *transformers==4.46.1*: Nutzung von State-of-the-Art NLP-Modellen (z. B. BERT).
+- *torchinfo==1.8.0*: Visualisierung und Analyse von PyTorch-Modellen.
+- *mlxtend==0.23.3*: Hilfsfunktionen für Machine Learning und Datenanalyse.
+- *nltk==3.9.1*: Verarbeitung und Analyse von Textdaten (Tokenisierung, Stemming, etc.).
+- *langchain-ollama==0.2.0*: Framework für die Erstellung von KI-gestützten Sprachassistenten und NLP-Pipelines.
+
+==== Web-Scraping und Web-Automatisierung
+- *selenium==4.26.1*: Automatisierung von Webbrowsern für das Extrahieren von Daten oder Interaktion mit Webseiten.
+- *playwright==1.48.0*: Modernes Tool zur Browser-Automatisierung und Testing.
+- *webdriver_manager==4.0.2*: Verwaltung von WebDriver-Instanzen für Selenium.
+- *beautifulsoup4==4.12.3*: Parsen von HTML- und XML-Daten für Web-Scraping.
+- *Requests==2.32.3*: HTTP-Anfragen für das Abrufen von Webinhalten.
+
+==== Datenverarbeitung und Visualisierung
+- *matplotlib==3.9.2*: Erstellung von Diagrammen und Visualisierungen.
+- *pdfplumber==0.11.4*: Extrahieren und Analysieren von Daten aus PDF-Dateien.
+- *joblib==1.4.2*: Effiziente Speicherung und Laden von großen Datenmengen (z. B. Modelle).
+
+==== Backend und API-Entwicklung
+- *fastapi==0.115.6*: Framework zur Erstellung von APIs für den Sprachassistenten.
+- *uvicorn==0.32.1*: ASGI-Server für die Bereitstellung der FastAPI-Anwendung.
+
+==== GUI-Entwicklung
+- *pywebview==5.2*: Erstellung von einfachen GUI-Anwendungen mit Webtechnologien.
+
+==== Sonstige Hilfsbibliotheken
+- *pytz==2024.1*: Zeitzonenunterstützung für Datums- und Zeitoperationen.
+- *wikipedia==1.4.0*: Zugriff auf Wikipedia-Daten für Informationsbeschaffung.

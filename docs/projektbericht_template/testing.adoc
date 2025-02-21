@@ -1,0 +1,100 @@
+== Testing und Evaluation
+===  Teststrategie und -methoden
+Um die Leistungsfähigkeit des lokalen KI-Sprachassistenten zu bewerten, wurde eine umfassende Teststrategie entwickelt. Diese umfasst:
+
+- **Funktionale Tests**: Überprüfung der korrekten Ausführung von Befehlen und Anfragen.  
+// - **Leistungstests**: Messung der Antwortzeiten.  
+- **Benutzertests**: Bewertung der Benutzerfreundlichkeit und Genauigkeit der Spracherkennung (Aktivierungswortmodells und Authentifizierungsmodells).
+* Die Tests wurden mit einem diversen Datensatz durchgeführt, der verschiedene Sprachgeschwindigkeiten und Umgebungsgeräusche abdeckt.
+
+=== Ergebnisse der Funktions- und Leistungstests
+==== Ausgabeergebnisse
+Die Ergebnisse der Tests zeigen, dass der Sprachassistent in der Lage ist, die meisten Anfragen korrekt zu verarbeiten und angemessene Antworten zu liefern. Die wichtigsten Erkenntnisse sind:
+
+===== Notenverteilung
+Die Assistenten wurden mit 195 verschiedenen Fragen getestet. 
+[cols="2*", options="header"]
+|===
+|Szenario |Testdatenmenge
+|Wetter |8
+|Studienordnung |57
+|Wikipedia |55
+|Todo |56
+|Datum |11
+|Youtube |3
+|Search Engine |5
+|Gesamttestmenge |195
+|===
+
+Nachfolgend sind die erzielten Ergebnisse dargestellt:
+
+image::{dir_assets}/notenverteilung.png[Notenverteilung, align=center, title="Notenverteilung"]
+
+===== Beispielausgaben
+[cols="1,1,1,1", options="header"]
+|===
+| Szenario | Eingabe | Ausgabe | Note
+
+| Wetter
+| Wie ist das Wetter am 11.12. um 12 Uhr?
+| in Dresden ist es am 11.12. um 12:00 Uhr Bedeckt bei 1 Grad
+| 1
+
+| Studienordnung
+| Wie lange dauert das Studium eigentlich?
+| Die Regelstudienzeit für das Vollzeitstudium beträgt 6 Semester.
+| 1
+
+| Wikipedia
+| In welchem Land wurde Marie Curie geboren?
+| Marie Curie wurde in Warschau, Russisches Kaiserreich (heute Polen) geboren.
+| 1
+
+| Wikipedia
+| Was bedeutet Python?
+| "Universal nutzbare höhere Programmiersprache".
+| 3
+
+| Todo
+| Ich habe ein Meeting mit Tim am übernächsten Freitag
+| Ich bin für diese Absicht noch nicht trainiert!
+| 5
+
+| Studienordnung
+| Welche Module haben im ersten Semester nur Vorlesungen?
+| Da die genauen Details nicht explizit angegeben sind, ist es schwer, eine präzise Antwort zu geben.
+| 5
+|===
+
+- **Fehleranalyse**: Die häufigsten Fehler treten bei den Intents für Wikipedia und die Studienordnung auf.
+
+==== Konfusionsmatrix
+Zur Bewertung der Klassifikationsgenauigkeit des Sprachassistenten wurde eine Konfusionsmatrix erstellt. Diese zeigt, wie oft die erkannten Sprachbefehle korrekt oder falsch klassifiziert wurden.
+
+- Diagonale Werte: Zeigen die korrekt klassifizierten Befehle an.
+- Nicht-diagonale Werte: Zeigen Fehlklassifikationen an.
+
+===== Konfusionsmatrix der Textklassifizierungsmodells
+image::{dir_assets}/absicht_cm.png[Absicht, align=center, title="Absicht"]
+image::{dir_assets}/szenario_cm.png[Szenario, align=center, title="Szenario"]
+image::{dir_assets}/absicht_cm.png[Anmerkung, align=center, title="Anmerkung"]
+image::{dir_assets}/anmerkung_absicht_szenario_cm.png[Anmerkung & Absicht & Szenario align=center, title="Anmerkung & Absicht & Szenario"]
+
+Die Konfusionsmatrix für das Textklassifizierungsmodell zeigt eine beeindruckende Genauigkeit von über 99%, was darauf hindeutet, dass das Modell in der überwiegenden Mehrheit der Fälle die richtigen Absichten und Szenarien korrekt identifizieren konnte. Dies ist ein hervorragendes Ergebnis und unterstreicht die Effektivität des Modells bei der Verarbeitung von Benutzeranfragen. Allerdings gibt es einige wenige Fehlklassifikationen, die auf bestimmte Herausforderungen zurückzuführen sind.
+
+Mögliche Ursachen für Fehlklassifikationen
+
+- **Ähnlich klingende Befehle**: Einige Befehle sind semantisch oder syntaktisch sehr ähnlich, was die Unterscheidung für das Modell erschwert. Zum Beispiel könnten Fragen wie "Wie lange dauert das Studium?" und "Wie viele Semester hat das Studium?" vom Modell leicht verwechselt werden, da sie sich auf sehr ähnliche Themen beziehen.
+- **Komplexe Anfragen**: Komplexe oder mehrdeutige Anfragen, die eine hohe Kontextabhängigkeit erfordern, können zu Fehlklassifikationen führen. Zum Beispiel könnte eine Frage wie "Was muss ich im ersten Semester beachten?" je nach Kontext unterschiedliche Antworten erfordern, was das Modell verwirren könnte.
+- **Fehler im Datensatz**: Da der Datensatz selbst erstellt wurde, könnten möglicherweise Fehler oder Ungenauigkeiten im Datensatz vorhanden sein. Dies könnte beispielsweise falsch annotierte Daten oder unzureichende Variationen in den Trainingsdaten umfassen. Solche Fehler im Datensatz können die Leistung des Modells beeinträchtigen, selbst wenn das Modell an sich gut trainiert ist.
+- **Begrenzte Trainingsdaten**: Obwohl der Datensatz umfangreich ist, könnte es dennoch Lücken geben, insbesondere bei seltenen oder spezifischen Anfragen. Ein begrenzter oder unausgewogener Datensatz kann dazu führen, dass das Modell in bestimmten Szenarien weniger genau arbeitet.
+
+===== Konfusionsmatrix der Aktivierungswortmodells
+image::{dir_assets}/aktivierung_cm.png[Aktivierungswort, align=center, title="Aktivierungswort"]
+
+Das Aktivierungswortmodell, das für die Erkennung des Aktivierungsworts (z.B. "Hey Assistent") verantwortlich ist, hat in den durchgeführten Tests eine perfekte Genauigkeit von 100% erreicht. Dies bedeutet, dass das Modell in allen Testfällen das Aktivierungswort korrekt erkannt hat, ohne falsch positive oder falsch negative Ergebnisse. Dies ist ein herausragendes Ergebnis und unterstreicht die Robustheit und Zuverlässigkeit des Modells.
+
+===== Konfusionsmatrix der Authentifizierungsmodells
+image::{dir_assets}/auth_matrix.png[Authentifizierung, align=center, title="Authentifizierung"]
+
+Das Authentifizierungsmodell, das für die Benutzerauthentifizierung verantwortlich ist, zeigte ebenfalls eine sehr hohe Genauigkeit. Dies bedeutet, dass das Modell in der Lage war, die Stimme des Benutzers korrekt zu identifizieren und unbefugte Zugriffe effektiv zu verhindern.

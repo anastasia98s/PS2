@@ -22,12 +22,14 @@ class TextToSpeech:
             if error_request:
                 print(wav_binary)
             elif wav_binary:
-                base64_audio = wav_binary
-                audio_data = base64.b64decode(base64_audio)
-                wav_array = np.frombuffer(audio_data, dtype=np.int16)
-                wav_array = wav_array.astype(np.int16)
-                scipy.io.wavfile.write(config.AUDIO_TMP_PATH, 22050, wav_array)
-
-                os.system("start " + config.AUDIO_TMP_PATH)
+                try:
+                    base64_audio = wav_binary
+                    audio_data = base64.b64decode(base64_audio)
+                    wav_array = np.frombuffer(audio_data, dtype=np.int16)
+                    wav_array = wav_array.astype(np.int16)
+                    scipy.io.wavfile.write(config.AUDIO_TMP_PATH, 22050, wav_array)
+                    os.system("start " + config.AUDIO_TMP_PATH)
+                except Exception as e:
+                    print(f"Media Player-Fehler!: {e}")
             else:
                 print("TTS ERROR!")
