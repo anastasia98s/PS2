@@ -3,19 +3,19 @@
 |===
 | Name         | Studiengang       | Rolle im Team
 
-| Erik             | Wirtschaftsinformatik | Team Leiter, Suchintent Entwickler
-| Merte            | Wirtschaftsinformatik | Studienordnungintent Entwickler
-| Tore             | Wirtschaftsinformatik | Wikipediaintent Entwickler
-| Nathaniel        | Wirtschaftsinformatik | KI-Modelle Entwickler
-| Nuha             | Wirtschaftsinformatik | Todointent Entwickler
-| Anastasia        | Wirtschaftsinformatik | Todointent Entwickler
+| Erik Böhme            | Wirtschaftsinformatik | Team Leiter, Suchintent Entwickler
+| Merte Laurentia Korpowski            | Wirtschaftsinformatik | Studienordnungintent Entwickler
+| Tore Lemke             | Wirtschaftsinformatik | Wikipediaintent Entwickler
+| Nathaniel Nathaniel       | Wirtschaftsinformatik | KI-Modelle Entwickler
+| Nuha Alhamidi            | Wirtschaftsinformatik | Todointent Entwickler
+| Anastasia Suglobow        | Wirtschaftsinformatik | Todointent Entwickler
 |===
 
 === Kommunikation und Planung im Projekt
-Die Kommunikation fand zu großen Teilen in den Meetings statt, wo auch das weitere Vorgehen und die nächsten Termine geplant wurden. Falls akut probleme auftraten wurden diese in der Whatsapp gruppe besprochen.
+Die Kommunikation fand zu großen Teilen in den Meetings statt, wo auch das weitere Vorgehen und die nächsten Termine geplant wurden. Falls akut Probleme auftraten wurden diese in einer privaten WhatsApp-Gruppe besprochen und gelegentlich zusätzliche Meeting über Microsoft Teams abgehalten.
 
 === Funktionale Anforderungen
-Die funktionalen Anforderungen beschreiben, was der lokale KI-Sprachassistent leisten soll:
+Die funktionalen Anforderungen beschreiben, welche Funktionalitäten der lokale KI-Sprachassistent umfassen soll:
 
 - **Spracherkennung**: Präzise Erkennung von Sprachbefehlen in Echtzeit.
 - **Natürliche Sprachverarbeitung (NLP)**: Verstehen und Verarbeiten von Benutzeranfragen.

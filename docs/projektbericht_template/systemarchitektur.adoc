@@ -14,7 +14,7 @@ image::{dir_assets}/aktivitätsdiagramm.drawio.png[Aktivitätsdiagramm, align=ce
 Im Rahmen des Projekts zur Entwicklung eines lokalen KI-Sprachassistenten wurden drei Datenbanken angelegt, um die erforderlichen Daten effizient zu speichern und zu verwalten. Jede Datenbank erfüllt spezifische Anforderungen und unterstützt die Funktionalitäten des Systems. Für die Implementierung wurde SQLite3 als Datenbankmanagementsystem gewählt, da es leichtgewichtig, einfach zu integrieren und ideal für lokale Anwendungen geeignet ist. Im Folgenden wird die Struktur und der Zweck jeder Datenbank beschrieben.
 
 ==== Benutzerdatenbank
-Diese Datenbank dient der Speicherung von Informationen, die für die Authentifizierung und Personalisierung der Nutzer erforderlich sind. Sie enthält Daten wie die Merkmale der Stimme des Nutzers, die für die Authentifizierung durch die KI verwendet werden. Zusätzlich werden hier die persönlichen Daten der Nutzer, wie z. B. der Name, sowie ihre individuellen To-Do-Listen gespeichert. Diese Datenbank ist zentral für die Benutzerverwaltung und die Bereitstellung personalisierter Dienste.
+Diese Datenbank dient der Speicherung von Informationen, die für die Authentifizierung und Personalisierung der Nutzer erforderlich sind. Sie enthält Daten wie die Merkmale der Stimme des Nutzers, die für die Authentifizierung durch die KI verwendet werden. Zusätzlich werden hier die persönlichen Daten der Nutzer, wie z.B. der Name, sowie ihre individuellen To-Do-Listen gespeichert. Diese Datenbank ist zentral für die Benutzerverwaltung und die Bereitstellung personalisierter Dienste.
 
 ===== Schema
 image::{dir_assets}/benutzerprofil.png[Benutzerdatenbank, align=center, title="Benutzerdatenbank"]
