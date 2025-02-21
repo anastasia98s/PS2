@@ -64,5 +64,4 @@
 2. **Assistent**: Ja
 3. **Benutzer**: `Befehl eingeben`
 
-**Hinweis**
-Der Assistent verwendet standardmäßig den Windows Media Player, um Audio auszugeben. Falls der MediaPlayer jedoch nicht funktioniert, können Sie eine andere Audio-Wiedergabe-Software verwenden.
+**Hinweis**: Der Assistent verwendet standardmäßig den Windows Media Player, um Audio auszugeben. Falls der MediaPlayer jedoch nicht funktioniert, können Sie eine andere Audio-Wiedergabe-Software verwenden.
