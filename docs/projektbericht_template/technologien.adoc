@@ -11,11 +11,12 @@ Die Spracherkennung (Speech-to-Text) wurde mit dem Open-Source-Modell Whisper um
 Um eine sichere und benutzerfreundliche Authentifizierung zu ermöglichen, wurde ein 1D-Convolutional Neural Network (CNN)-Modell implementiert. Dieses Modell dient dazu, Nutzer anhand ihrer Stimme zu identifizieren und zu authentifizieren. Mit 11.561 Parametern ist das Modell effizient und dennoch leistungsstark genug, um eine hohe Genauigkeit bei der Benutzererkennung zu gewährleisten.
 
 Als Datengrundlage wurden verschiedene akustische Merkmale extrahiert, darunter:
+
 - Sprachstruktur (MFCC)
 - Tonalität (Chroma)
 - Klangenergie (Mel-Spektrogramm)
 - Spektrale Unterschiede (Kontrast)
-. Harmonie (Tonnetz)
+- Harmonie (Tonnetz)
 
 Diese Merkmale wurden zu einem einzigen Array mit einer Länge von 193 Werten kombiniert, das als Eingabe für das Modell dient. Dieser Ansatz ermöglicht eine robuste und zuverlässige Spracherkennung sowie eine präzise Benutzeridentifikation, selbst in anspruchsvollen akustischen Umgebungen.
 
