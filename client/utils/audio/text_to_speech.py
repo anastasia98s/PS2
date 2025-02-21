@@ -14,8 +14,8 @@ class TextToSpeech:
             if status_class_thread and status_class_thread.thread_event.is_set():
                 return None
             
-            folder_path = os.path.dirname(config.AUDIO_TMP_PATH)
-            os.makedirs(folder_path, exist_ok=True)
+            #folder_path = os.path.dirname(config.AUDIO_TMP_PATH)
+            os.makedirs(config.AUDIO_DIR, exist_ok=True)
             
             wav_binary, error_request = utils.api.text_to_speech_generieren(satz)
 
@@ -27,8 +27,20 @@ class TextToSpeech:
                     audio_data = base64.b64decode(base64_audio)
                     wav_array = np.frombuffer(audio_data, dtype=np.int16)
                     wav_array = wav_array.astype(np.int16)
-                    scipy.io.wavfile.write(config.AUDIO_TMP_PATH, 22050, wav_array)
-                    os.system("start " + config.AUDIO_TMP_PATH)
+                    num_index = 1
+
+                    while num_index <= config.MAX_AUDIO_RETRIES:
+                        file_path = os.path.join(config.AUDIO_DIR, f"audio_tmp{num_index}.wav")
+                        try:
+                            scipy.io.wavfile.write(file_path, 22050, wav_array)
+                            break
+                        except PermissionError:
+                            num_index += 1
+
+                    if num_index > config.MAX_AUDIO_RETRIES:
+                        print("Sie müssen Ihren Mediaplayer schließen und es noch einmal probieren!")
+                    else:
+                        os.system("start " + file_path)
                 except Exception as e:
                     print(f"Media Player-Fehler!: {e}")
             else:

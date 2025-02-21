@@ -28,14 +28,16 @@ playwright install
 
 **Hinweis:**
 - Python 3.12 und höher ist für TTS nicht kompatibel. *(Python 3.11.4 ohne Probleme)*
-- FFMPEG installieren und PATH-Umgebungsvariable eintragen: [Link zum Herunterladen](https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip)
+<!--
+- FFMPEG installieren und PATH-Umgebungsvariable eintragen: [Link zum Herunterladen](https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip) -->
 - Ollama installieren: [Link zum Herunterladen](https://ollama.com/download/windows).
 - LLM-Modell bei Ollama installieren. *(der LLM-Modellname: `llama3.2:latest`)*
 - **trainierte Modelle** auf der Cloud. [Link zum Herunterladen](https://drive.google.com/drive/folders/1I27FN5USWLdT6kTXWMWGypINOeeF8oru?usp=drive_link)
 
+<!--
 ```shell
 ffmpeg -version
-```
+``` -->
 ```shell
 ollama -v
 ```

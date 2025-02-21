@@ -243,29 +243,53 @@ class EngineProcessor:
         else:
             return None
             
-    def start(self, benutzer_id, antwort_text):
+    def start(self, wake_word_signal):
         if not self.thread_event.is_set():
-            textklassifizierung_data, error_request = utils.api.predictor_text_predict(antwort_text)
 
+
+            id_auth_result, error_request = self.main_class_engine.authentifizieren(wake_word_signal, status_class_thread=self) #antwort_signal_trim
             if not error_request:
-                anmerkung_satz_labels = textklassifizierung_data["anmerkung_satz_labels"]
-                woerter_anmerkungen = textklassifizierung_data["woerter_anmerkungen"]
-                absicht_satz_labels = textklassifizierung_data["absicht_satz_labels"]
-                absicht_class_scores = textklassifizierung_data["absicht_class_scores"]
-                szenario_satz_labels = textklassifizierung_data["szenario_satz_labels"]
-                szenario_class_scores = textklassifizierung_data["szenario_class_scores"]
-                
-                pred_absicht_noten = absicht_class_scores[1][absicht_satz_labels]
-                pred_szenario_noten = szenario_class_scores[1][szenario_satz_labels]
-                print("Absichtswahrscheinlichkeit: " + str(pred_absicht_noten) + "/" + str(config.TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN))
-                print("Szenarioswahrscheinlichkeit: " + str(pred_szenario_noten) + "/" + str(config.TEXTKLASSIFIZIERUNG_SZENARIO_MIN_NOTEN))
-                if pred_absicht_noten >= config.TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN and pred_szenario_noten >= config.TEXTKLASSIFIZIERUNG_SZENARIO_MIN_NOTEN:
-                    output_satz = self.intent_filter(absicht_class_scores[0][absicht_satz_labels], szenario_class_scores[0][szenario_satz_labels], woerter_anmerkungen, anmerkung_satz_labels, benutzer_id)
-                else:
-                    output_satz = "Ich bin für diese Absicht noch nicht trainiert!"
-            else:
-                output_satz = textklassifizierung_data
+                self.main_class_engine.benutzer_id = id_auth_result
+                if self.main_class_engine.benutzer_id:
+                    self.text_to_speech.text_to_speech("Ja?", status_class_thread=self)
+                    antwort_signal_trim, antwort_text = self.speech_to_text.listen_recognize(3, utils.api.AUDIO_SAMPLE_RATE, status_class_thread=self, loading_speech=True if self.main_class_engine.benutzer_id else False)
+                    # -------------------------------------------------------------------------------------------------
 
-            self.text_to_speech.text_to_speech(output_satz, status_class_thread=self)
+                    textklassifizierung_data, error_request = utils.api.predictor_text_predict(antwort_text)
+
+                    if not error_request:
+                        anmerkung_satz_labels = textklassifizierung_data["anmerkung_satz_labels"]
+                        woerter_anmerkungen = textklassifizierung_data["woerter_anmerkungen"]
+                        absicht_satz_labels = textklassifizierung_data["absicht_satz_labels"]
+                        absicht_class_scores = textklassifizierung_data["absicht_class_scores"]
+                        szenario_satz_labels = textklassifizierung_data["szenario_satz_labels"]
+                        szenario_class_scores = textklassifizierung_data["szenario_class_scores"]
+                        
+                        pred_absicht_noten = absicht_class_scores[1][absicht_satz_labels]
+                        pred_szenario_noten = szenario_class_scores[1][szenario_satz_labels]
+                        print("Absichtswahrscheinlichkeit: " + str(pred_absicht_noten) + "/" + str(config.TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN))
+                        print("Szenarioswahrscheinlichkeit: " + str(pred_szenario_noten) + "/" + str(config.TEXTKLASSIFIZIERUNG_SZENARIO_MIN_NOTEN))
+                        if pred_absicht_noten >= config.TEXTKLASSIFIZIERUNG_ABSICHT_MIN_NOTEN and pred_szenario_noten >= config.TEXTKLASSIFIZIERUNG_SZENARIO_MIN_NOTEN:
+                            output_satz = self.intent_filter(absicht_class_scores[0][absicht_satz_labels], szenario_class_scores[0][szenario_satz_labels], woerter_anmerkungen, anmerkung_satz_labels, self.main_class_engine.benutzer_id)
+                        else:
+                            output_satz = "Ich bin für diese Absicht noch nicht trainiert!"
+                    else:
+                        output_satz = textklassifizierung_data
+
+                    self.text_to_speech.text_to_speech(output_satz, status_class_thread=self)
+
+                    # ------------------------------------------------------------------------------------------------
+                    save_features_result, error_request = utils.api.save_features(wake_word_signal, self.main_class_engine.benutzer_id) #antwort_signal_trim
+                    if error_request:
+                        print(save_features_result)
+                    
+                    """ if config.AUTHENTIFIZIERUNG_AUTO_TRAINING:
+                        train_auth_ki_result, error_request = utils.api.train_authentifizierung_ki()
+                        if error_request:
+                            print(train_auth_ki_result) """
+                else:
+                    self.text_to_speech.text_to_speech("Sie müssen ein Konto haben.", status_class_thread=self)
+            else:
+                self.text_to_speech.text_to_speech(id_auth_result, status_class_thread=self)
 
         self.main_class_engine.finished_run_engine_processor(self)
