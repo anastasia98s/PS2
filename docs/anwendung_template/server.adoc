@@ -1,0 +1,134 @@
+== Installation des Servers
+Bei dem Sprachassistenten handelt es sich um eine Konsolenanwendung. Das heißt alle in der folgenden Anleitung
+genannten Befehle müssen im Terminal aufgerufen werden. 
+
+=== Repository klonen
+[source,cmd]
+----
+git clone -b Nathaniel https://github.com/anastasia98s/PS2.git assistant_ai
+----
+
+=== Virtuelle Umgebung für den Server erstellen und aktivieren
+In das Server Verzeichnis wechseln
+[source,cmd]
+----
+cd assistant_ai\server
+----
+
+Virtuelle Umgebung erstellen
+[source,cmd]
+----
+python -m venv assistant_ai_server
+----
+
+Hinweis: Es tritt keine Bestätigung auf, dass die Virtuelle Umgebung erstellt wurde.
+
+Virtuelle Umgebung aktivieren
+[source,cmd]
+----
+assistant_ai_server\Scripts\activate
+----
+Hinweis: Bei korrekter Aktivierung steht nun "(assistant_ai_server)" vor dem Eingabe-Prompt.
+
+=== Installation aller Pakete
+Alle erforderlichen Pakete sind in der requirements.txt festgehalten und werden mithilfe dieser manuell installiert.
+
+[source,cmd]
+----
+pip install -r requirements.txt
+----
+
+Hinweis: Die Installation kann einige Zeit in Anspruch nehmen.
+
+=== Installation von Playwright
+Playwright ist ein Open-Source-Tool zur Webautomatisierung. Es wird vom KI-Sprachassistenten verwendet, um effizient Webseiten wie YouTube oder Wikipedia zu durchsuchen.
+
+==== Installation
+Nach der Paketinstallation muss Playwright manuell mit folgendem Befehl installiert werden:
+
+[source,cmd]
+----
+playwright install
+----
+
+=== Installation von Ollama
+Ollama ist ein Tool zur Verwaltung von Large Language Models (LLMs). Es ermöglicht den Zugriff auf und die Nutzung von LLM-Modellen, die für die Verarbeitung von Anfragen im Sprachassistenten erforderlich sind.
+
+==== Installation
+1. Lade Ollama von [diesem Link](https://ollama.com/download/windows) herunter.
+2. Folge den Installationsanweisungen auf der Website, um das Tool auf deinem Betriebssystem zu installieren.
+
+==== Modellinstallation
+Nachdem Ollama installiert ist, musst du das LLM-Modell `llama3.2:latest` hinzufügen, um die gewünschten Funktionalitäten des Sprachassistenten zu ermöglichen.
+
+[source,cmd]
+----
+ollama pull llama3.2:latest
+----
+
+==== Überprüfung der Installation
+Überprüfe, ob Ollama korrekt installiert wurde, indem du folgenden Befehl in der Kommandozeile ausführst:
+[source,cmd]
+----
+ollama -v
+----
+Bei korrekter Installation wird die aktuelle Version angezeigt.
+
+=== Optionale Installation von Torch
+Torch ist eine leistungsstarke Machine-Learning-Bibliothek, die vom KI-Sprachassistenten für KI-Modelle genutzt wird. Sie ermöglicht GPU-Unterstützung und beschleunigt die Verarbeitung großer Modelle. Die Installation von Torch ist optional, wird aber empfohlen, wenn dein System eine dedizierte GPU besitzt.
+
+==== Installation
+Installiere Torch mit GPU-Unterstützung (CUDA) mit folgendem Befehl:
+
+[source,cmd]
+----
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+----
+Installation von Torch für schnellere Arbeit mit der GPU optional
+
+==== Systemanforderungen
+- Dedizierte GPU
+- aktuelle CUDA-Version, die mit dem GPU-Treiber 
+
+==== Hinweis
+Wenn keine GPU verfügbar ist, verwendet Torch die CPU, was zu längeren Verarbeitungszeiten führen kann.
+
+=== Mikroservices starten
+Zuerst in das Verzeichnis main_server wechseln, dort liegt die main.py-Datei.
+
+[source,cmd]
+----
+cd .\main_server
+----
+Es existieren 13 Mikroservices, die in der richtigen Reigenfolge gestartet werden müssen
+
+==== Main-Server-Service
+
+Zuerst muss der Main-Server-Service gestartet werden
+[source,cmd]
+----
+python main.py ^
+  --main_server_ip localhost --main_server_port 8000 ^
+  --kontoverwaltung_ip localhost --kontoverwaltung_port 8001 ^
+  --textklassifizierung_ip localhost --textklassifizierung_port 8002 ^
+  --speech_to_text_ip localhost --speech_to_text_port 8003 ^
+  --text_to_speech_ip localhost --text_to_speech_port 8004 ^
+  --datum_intent_ip localhost --datum_intent_port 8005 ^
+  --uhrzeit_intent_ip localhost --uhrzeit_intent_port 8006 ^
+  --wetter_intent_ip localhost --wetter_intent_port 8007 ^
+  --wikipedia_intent_ip localhost --wikipedia_intent_port 8008 ^
+  --studienordnung_intent_ip localhost --studienordnung_intent_port 8009 ^
+  --todolist_intent_ip localhost --todolist_intent_port 8010 ^
+  --search_engine_intent_ip localhost --search_engine_intent_port 8011 ^
+  --youtube_intent_ip localhost --youtube_intent_port 8012
+----
+==== Weitere Services (außer dem Main-Server)
+[source,cmd]
+----
+python main.py --main_server_ip localhost --main_server_port 8000
+----
+
+==== Hinweis:
+- Es gibt 13 Microservice.
+- Der erste Microservice, der gestartet werden muss, ist der Main-Server-Service.
+- Der zweite Microservice, der gestartet werden muss, ist der Kontoverwaltung-Service.

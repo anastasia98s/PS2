@@ -1,0 +1,78 @@
+== Client Setup
+=== Repository klonen
+Dieser Schritt kann übersprungen werden, wenn Server und Client auf demselben Gerät laufen
+[source,cmd]
+----
+git clone -b Nathaniel https://github.com/anastasia98s/PS2.git assistant_ai
+----
+
+=== Virtuelle Umgebung für den Client erstellen und aktivieren
+In das Client Verzeichnis wechseln
+[source,cmd]
+----
+cd assistant_ai\client
+----
+Virtuelle Umgebung erstellen
+[source,cmd]
+----
+python -m venv assistant_ai_client
+----
+Virtuelle Umgebung aktivieren
+[source,cmd]
+----
+assistant_ai_client\Scripts\activate
+----
+
+=== Installation aller Pakete
+
+Alle erforderlichen Pakete sind in der requirements.txt fetsgehalten und werden mithilfe dieser manuell installiert.
+[source,cmd]
+----
+pip install -r requirements.txt
+----
+
+=== Installation von Playwright
+
+Playwright ist ein Open-Source-Tool zur Webautomatisierung. Es wird vom KI-Sprachassistenten verwendet, um effizient Webseiten wie YouTube oder Wikipedia zu durchsuchen.
+
+==== Installation
+Während der Paketinstallation wird Playwright automatisch eingerichtet. Alternativ kannst du es manuell mit folgendem Befehl installieren:
+
+[source,cmd]
+----
+playwright install
+----
+
+=== Optionale Installation von Torch
+
+Torch ist eine leistungsstarke Machine-Learning-Bibliothek, die vom KI-Sprachassistenten für KI-Modelle genutzt wird. Sie ermöglicht GPU-Unterstützung und beschleunigt die Verarbeitung großer Modelle. Die Installation von Torch ist optional, wird aber empfohlen, wenn dein System eine dedizierte GPU besitzt.
+
+==== Installation
+Installiere Torch mit GPU-Unterstützung (CUDA) mit folgendem Befehl:
+
+[source,cmd]
+----
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+----
+Installation von Torch für schnellere Arbeit mit der GPU optional
+
+==== Systemanforderungen
+- Dedizierte GPU
+- aktuelle CUDA-Version, die mit dem GPU-Treiber 
+
+==== Hinweis
+Wenn keine GPU verfügbar ist, verwendet Torch die CPU, was zu längeren Verarbeitungszeiten führen kann.
+
+
+=== Starte das Engine-Skript:
+[source,cmd]
+----
+python engine.py
+----
+==== Hinweis:
+   - HTW DRESDEN SERVER
+      - Server-IP: `141.56.137.185`
+      - Server-Port: `8000`
+   - Eigener Server 
+      - Server-IP: `localhost`
+      - Server-Port: `8000`

@@ -1,15 +1,4 @@
-:dir: projektbericht_template
-:dir_assets: assets
-include::{dir}/config.adoc[]
-:doctype: book
-:chapter-signifier:
-//:source-highlighter: rouge
-:rouge-style: github
-:figure-caption: Abbildung
-:table-caption: Tabelle
-:listing-caption: Listing
-:xrefstyle: full
-:icons: font
+include::config.adoc[]
 = Projektbericht: {project-name}
 
 include::{dir}/einleitung.adoc[]

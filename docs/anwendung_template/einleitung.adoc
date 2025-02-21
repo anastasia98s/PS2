@@ -1,0 +1,8 @@
+== Einleitung
+=== Projektübersicht
+Im Fokus des Projektes „Lokaler KI-Sprachassistent“ stand die Entwicklung eines Sprachassistenten. 
+Dieser soll nur lokale Ressourcen nutzen, um Problem wie den Datenschutz zu umgehen. 
+Der Sprachassistent nutzt Künstliche Intelligenz, um die Nutzeranfragen zu bearbeiten und auf diese zu antworten. Dabei werden 4 Kategorien abgedeckt: Anfragen an Wikipedia, Anfragen an YouTube, Anfragen, die mit Hilfe einer PDF, in diesem Fall eine Studienordnung, beantwortet werden, sowie Wetteranfragen. Ebenfalls ist es möglich eine To Do Liste zu erstellen und auf diese zuzugreifen und sie zu bearbeiten. 
+
+=== Zielgruppe
+Diese Dokumentation ist für Anwender des lokalen KI-Sprachassistenten gedacht, die den Sprachassistenten lokal installieren und nutzen wollen.
