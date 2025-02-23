@@ -75,10 +75,10 @@ Zur Bewertung der Klassifikationsgenauigkeit des Sprachassistenten wurde eine Ko
 - Nicht-diagonale Werte: Zeigen Fehlklassifikationen an.
 
 ===== Konfusionsmatrix der Textklassifizierungsmodells
-image::{dir_assets}/absicht_cm.png[Absicht, width=50%, align=center, title="Absicht"]
-image::{dir_assets}/szenario_cm.png[Szenario, width=50%, align=center, title="Szenario"]
-image::{dir_assets}/absicht_szenario_cm.png[Absicht & Szenario, width=90%, align=center, title="Absicht & Szenario"]
-image::{dir_assets}/absicht_cm.png[Anmerkung, width=50%, align=center, title="Anmerkung"]
+image::{dir_assets}/absicht_cm.png[Absicht, width=55%, align=center, title="Absicht"]
+image::{dir_assets}/szenario_cm.png[Szenario, width=55%, align=center, title="Szenario"]
+image::{dir_assets}/absicht_szenario_cm.png[Absicht & Szenario, width=80%, align=center, title="Absicht & Szenario"]
+image::{dir_assets}/absicht_cm.png[Anmerkung, width=60%, align=center, title="Anmerkung"]
 image::{dir_assets}/anmerkung_absicht_szenario_cm.png[Anmerkung & Absicht & Szenario align=center, title="Anmerkung & Absicht & Szenario"]
 
 Die Konfusionsmatrix für das Textklassifizierungsmodell zeigt eine beeindruckende Genauigkeit von über 99%, was darauf hindeutet, dass das Modell in der überwiegenden Mehrheit der Fälle die richtigen Absichten und Szenarien korrekt identifizieren konnte. Dies ist ein hervorragendes Ergebnis und unterstreicht die Effektivität des Modells bei der Verarbeitung von Benutzeranfragen. Allerdings gibt es einige wenige Fehlklassifikationen, die auf bestimmte Herausforderungen zurückzuführen sind.
