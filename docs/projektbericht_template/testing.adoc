@@ -91,7 +91,7 @@ Mögliche Ursachen für Fehlklassifikationen
 - **Begrenzte Trainingsdaten**: Obwohl der Datensatz umfangreich ist, könnte es dennoch Lücken geben, insbesondere bei seltenen oder spezifischen Anfragen. Ein begrenzter oder unausgewogener Datensatz kann dazu führen, dass das Modell in bestimmten Szenarien weniger genau arbeitet.
 
 ===== Konfusionsmatrix der Aktivierungswortmodells
-image::{dir_assets}/aktivierung_cm.png[Aktivierungswort, width=60%, align=center, title="Aktivierungswort"]
+image::{dir_assets}/aktivierung_cm.png[Aktivierungswort, width=90%, align=center, title="Aktivierungswort"]
 
 Das Aktivierungswortmodell, das für die Erkennung des Aktivierungsworts (z.B. "Hey Assistent") verantwortlich ist, hat in den durchgeführten Tests eine perfekte Genauigkeit von 100% erreicht. Dies bedeutet, dass das Modell in allen Testfällen das Aktivierungswort korrekt erkannt hat, ohne falsch positive oder falsch negative Ergebnisse. Dies ist ein herausragendes Ergebnis und unterstreicht die Robustheit und Zuverlässigkeit des Modells.
 
