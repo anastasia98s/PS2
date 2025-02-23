@@ -1,4 +1,5 @@
 include::config.adoc[]
+:toclevels: 2
 = Anwenderdokumentation: {project-name}
 
 include::{dir_anwendung}/einleitung.adoc[]

@@ -2,7 +2,6 @@
 
 :toc:
 :toc-title: Inhaltsverzeichnis
-:toclevels: 3
 :sectnums:
 
 :dir_assets: assets

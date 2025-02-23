@@ -1,4 +1,5 @@
 include::config.adoc[]
+:toclevels: 3
 = Projektbericht: {project-name}
 
 include::{dir}/einleitung.adoc[]

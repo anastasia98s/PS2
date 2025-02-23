@@ -9,7 +9,7 @@
 ==== Server (empfohlen)
 - Prozessor: Intel Core i7 oder besser
 - GPU: NVIDIA RTX 2060 oder besser
-- RAM: 16 GB oder mehr
+- RAM: 32 GB oder mehr
 - freier Speicherplatz: 25 GB oder mehr
 
 === Software

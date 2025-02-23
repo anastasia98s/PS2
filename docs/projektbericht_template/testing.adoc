@@ -28,7 +28,7 @@ Die Assistenten wurden mit 195 verschiedenen Fragen getestet.
 
 Nachfolgend sind die erzielten Ergebnisse dargestellt:
 
-image::{dir_assets}/notenverteilung.png[Notenverteilung, align=center, title="Notenverteilung"]
+image::{dir_assets}/notenverteilung.png[Notenverteilung, width=50%, align=center, title="Notenverteilung"]
 
 ===== Beispielausgaben
 [cols="1,1,1,1", options="header"]
