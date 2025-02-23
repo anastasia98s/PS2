@@ -95,6 +95,8 @@ image::{dir_assets}/aktivierung_cm.png[Aktivierungswort, width=60%, align=center
 
 Das Aktivierungswortmodell, das für die Erkennung des Aktivierungsworts (z.B. "Hey Assistent") verantwortlich ist, hat in den durchgeführten Tests eine perfekte Genauigkeit von 100% erreicht. Dies bedeutet, dass das Modell in allen Testfällen das Aktivierungswort korrekt erkannt hat, ohne falsch positive oder falsch negative Ergebnisse. Dies ist ein herausragendes Ergebnis und unterstreicht die Robustheit und Zuverlässigkeit des Modells.
 
+<<<
+
 ===== Konfusionsmatrix der Authentifizierungsmodells
 image::{dir_assets}/auth_matrix.png[Authentifizierung, align=center, title="Authentifizierung"]
 

@@ -51,6 +51,8 @@ image::{dir_assets}/aktivierungswort.png[Aktivierungswortdatenbank, align=center
 //===== Inhaltsbeispiel
 //image::{dir_assets}/ex_data_aktivierungswort_db.png[Aktivierungswortdatenbankinhalt, align=center, title="Aktivierungswortdatenbankinhalt"]
 
+<<<
+
 ==== Textklassifizierungsdatenbank
 Diese Datenbank ist für die Speicherung von Daten zur Textklassifizierung vorgesehen. Sie enthält Sätze, Wörter, Entitäten, Szenarien, Absichten und Anmerkungen, die für das Training der KI zur Textverarbeitung und -analyse verwendet werden. Die Datenbank unterstützt die KI dabei, die Absichten der Nutzer zu verstehen, Kontexte zu erkennen und entsprechende Aktionen abzuleiten. Sie ist ein zentraler Bestandteil für die natürliche Sprachverarbeitung (NLP) des Systems.
 

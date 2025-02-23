@@ -38,6 +38,8 @@ Alle erforderlichen Pakete sind in der `requirements.txt` festgehalten und könn
 pip install -r requirements.txt
 ----
 
+<<<
+
 ### Download der trainierten Modelle
 1. **Textklassifizierungsmodell**:
    - Laden Sie die Datei `textklassifizierung_modell.zip` von https://drive.google.com/drive/folders/1I27FN5USWLdT6kTXWMWGypINOeeF8oru herunter.
@@ -96,10 +98,13 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 - Die Installation von Torch mit GPU-Unterstützung ist optional, ermöglicht jedoch eine deutlich schnellere Verarbeitung, falls eine Nvidia-GPU verfügbar ist.
 - Falls keine GPU vorhanden ist, verwendet Torch automatisch die CPU. Dies kann jedoch zu deutlich längeren Verarbeitungszeiten führen.
 
+<<<
+
 === Mikroservices starten
 ==== Main-Server-Service
 
 Zuerst muss der Main-Server-Service gestartet werden. Dazu wechseln Sie in das Verzeichnis `main_server`, in dem sich die Datei `main.py` befindet.
+
 [source,cmd]
 ----
 python main.py ^
