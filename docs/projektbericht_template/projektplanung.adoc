@@ -49,3 +49,5 @@ Die Projektplanung umfasst die zeitliche und organisatorische Strukturierung des
 ==== Meilensteine
 - Meilenstein 1: !!! TODO !!!
 - Meilenstein 2: !!! TODO !!!
+
+Die erreichten Meilensteine wurden im Projekt durch eine agile Arbeitsweise schrittweise erarbeitet. Im Gegensatz zum Wasserfallmodell, bei dem alle Meilensteine von Anfang an festgelegt werden, haben sich diese im Laufe des Projekts dynamisch entwickelt. Die Meilensteine leiteten sich aus den definierten Zielen ab, die in regelmäßigen Meetings durch SOLL-IST-Wert-Überprüfungen überprüft und angepasst wurden.

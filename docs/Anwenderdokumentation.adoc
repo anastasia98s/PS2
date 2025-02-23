@@ -17,12 +17,11 @@ include::{dir_anwendung}/client.adoc[]
 
 <<<
 
-include::{dir_anwendung}/aufrufen.adoc[]
-
+include::{dir_anwendung}/beispiel.adoc[]
 
 <<<
 
-include::{dir_anwendung}/beispiel.adoc[]
+include::{dir_anwendung}/finetuning.adoc[]
 
 <<<
 

@@ -31,13 +31,11 @@ Alle erforderlichen Pakete sind in der requirements.txt fetsgehalten und werden 
 pip install -r requirements.txt
 ----
 
-=== Installation von Playwright
+==== Installation von Playwright
 
 Playwright ist ein Open-Source-Tool zur Webautomatisierung. Es wird vom KI-Sprachassistenten verwendet, um effizient Webseiten wie YouTube oder Wikipedia zu durchsuchen.
 
 ==== Installation
-Während der Paketinstallation wird Playwright automatisch eingerichtet. Alternativ kannst du es manuell mit folgendem Befehl installieren:
-
 [source,cmd]
 ----
 playwright install
@@ -48,31 +46,33 @@ playwright install
 Torch ist eine leistungsstarke Machine-Learning-Bibliothek, die vom KI-Sprachassistenten für KI-Modelle genutzt wird. Sie ermöglicht GPU-Unterstützung und beschleunigt die Verarbeitung großer Modelle. Die Installation von Torch ist optional, wird aber empfohlen, wenn dein System eine dedizierte GPU besitzt.
 
 ==== Installation
-Installiere Torch mit GPU-Unterstützung (CUDA) mit folgendem Befehl:
+Um Torch mit GPU-Unterstützung (CUDA) zu installieren, führen Sie den folgenden Befehl aus (Windows):
 
 [source,cmd]
 ----
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
 ----
-Installation von Torch für schnellere Arbeit mit der GPU optional
 
-==== Systemanforderungen
-- Dedizierte GPU
-- aktuelle CUDA-Version, die mit dem GPU-Treiber 
-
-==== Hinweis
-Wenn keine GPU verfügbar ist, verwendet Torch die CPU, was zu längeren Verarbeitungszeiten führen kann.
-
+- Die Installation von Torch mit GPU-Unterstützung ist optional, ermöglicht jedoch eine deutlich schnellere Verarbeitung, falls eine Nvidia-GPU verfügbar ist.
+- Falls keine GPU vorhanden ist, verwendet Torch automatisch die CPU. Dies kann jedoch zu deutlich längeren Verarbeitungszeiten führen.
 
 === Starte das Engine-Skript:
 [source,cmd]
 ----
 python engine.py
 ----
-==== Hinweis:
-   - HTW DRESDEN SERVER
-      - Server-IP: `141.56.137.185`
-      - Server-Port: `8000`
-   - Eigener Server 
-      - Server-IP: `localhost`
-      - Server-Port: `8000`
+
+Geben Sie anschließend die **IP-Adresse** und den **Port** des Main-Server-Services ein, wenn Sie dazu aufgefordert werden.
+
+==== Assistenten aufrufen
+Nun kann der Assistent nach belieben aufgerufen werden
+
+Standardaktivierungswort: `Tim`
+
+1. Benutzer: Hey Tim
+2. Assistent: Ja
+3. Benutzer: `Befehl eingeben`
+
+==== Hinweis
+- Falls die Spracherkennung zu empfindlich ist, können Sie den Wert `AUDIO_THRESHOLD` in der Datei `config.json` anpassen. Je höher der Wert, desto weniger empfindlich reagiert das System.  
+- Sollte das Standardaktivierungswort nicht zuverlässig erkannt werden, können Sie das Aktivierungswort-Modell in der Datei `setting.py` mit Ihrer eigenen Stimme finetunen, um die Erkennungsgenauigkeit zu verbessern.
