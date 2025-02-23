@@ -77,6 +77,7 @@ Zur Bewertung der Klassifikationsgenauigkeit des Sprachassistenten wurde eine Ko
 ===== Konfusionsmatrix der Textklassifizierungsmodells
 image::{dir_assets}/absicht_cm.png[Absicht, align=center, title="Absicht"]
 image::{dir_assets}/szenario_cm.png[Szenario, align=center, title="Szenario"]
+image::{dir_assets}/absicht_szenario_cm.png[Absicht & Szenario, align=center, title="Absicht & Szenario"]
 image::{dir_assets}/absicht_cm.png[Anmerkung, align=center, title="Anmerkung"]
 image::{dir_assets}/anmerkung_absicht_szenario_cm.png[Anmerkung & Absicht & Szenario align=center, title="Anmerkung & Absicht & Szenario"]
 

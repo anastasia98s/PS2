@@ -47,7 +47,15 @@ Die Projektplanung umfasst die zeitliche und organisatorische Strukturierung des
 - **Abschlussphase**: Dokumentation und Präsentation (2 Wochen).
 
 ==== Meilensteine
-- Meilenstein 1: !!! TODO !!!
-- Meilenstein 2: !!! TODO !!!
+- Meilenstein 1: Codeblöcke im Buch ausprobiert
+- Meilenstein 2: GitHub-Repo analysiert und verstanden
+- Meilenstein 3: KI-Datensatz erstellt und aufbereitet
+- Meilenstein 4: KI-Modelle trainiert, evaluiert und implementiert
+- Meilenstein 5: Intents implementiert
+- Meilenstein 6: Text-to-Speech (TTS) integriert
+- Meilenstein 7: Speech-to-Text (STT) integriert
+- Meilenstein 8: Präsentation vorbereitet
+- Meilenstein 9: Anwendungsdokumentation erstellt
+- Meilenstein 10: Projektbericht verfasst
 
 Die erreichten Meilensteine wurden im Projekt durch eine agile Arbeitsweise schrittweise erarbeitet. Im Gegensatz zum Wasserfallmodell, bei dem alle Meilensteine von Anfang an festgelegt werden, haben sich diese im Laufe des Projekts dynamisch entwickelt. Die Meilensteine leiteten sich aus den definierten Zielen ab, die in regelmäßigen Meetings durch SOLL-IST-Wert-Überprüfungen überprüft und angepasst wurden.

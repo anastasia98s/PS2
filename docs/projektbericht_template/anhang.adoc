@@ -50,3 +50,4 @@
 * Stack Overflow. _Community-gestützte Fragen und Antworten zur Programmierung_. Verfügbar unter: https://stackoverflow.com [Zugriff: November 2024]
 * OpenAI. _ChatGPT_. Verfügbar unter: https://chat.openai.com [Zugriff: November 2024]
 * Medium. _Artikel und Blogbeiträge zu KI, Programmierung und Technologie_. Verfügbar unter: https://medium.com [Zugriff: November 2024]
+* GitHub. _Open-Source-Projekte und Code-Beispiele_. Verfügbar unter: https://github.com [Zugriff: November 2024]
