@@ -28,7 +28,7 @@ Die Assistenten wurden mit 195 verschiedenen Fragen getestet.
 
 Nachfolgend sind die erzielten Ergebnisse dargestellt:
 
-image::{dir_assets}/notenverteilung.png[Notenverteilung, width=50%, align=center, title="Notenverteilung"]
+image::{dir_assets}/notenverteilung.png[Notenverteilung, width=45%, align=center, title="Notenverteilung"]
 
 ===== Beispielausgaben
 [cols="1,1,1,1", options="header"]
@@ -75,10 +75,10 @@ Zur Bewertung der Klassifikationsgenauigkeit des Sprachassistenten wurde eine Ko
 - Nicht-diagonale Werte: Zeigen Fehlklassifikationen an.
 
 ===== Konfusionsmatrix der Textklassifizierungsmodells
-image::{dir_assets}/absicht_cm.png[Absicht, align=center, title="Absicht"]
-image::{dir_assets}/szenario_cm.png[Szenario, align=center, title="Szenario"]
-image::{dir_assets}/absicht_szenario_cm.png[Absicht & Szenario, align=center, title="Absicht & Szenario"]
-image::{dir_assets}/absicht_cm.png[Anmerkung, align=center, title="Anmerkung"]
+image::{dir_assets}/absicht_cm.png[Absicht, width=50%, align=center, title="Absicht"]
+image::{dir_assets}/szenario_cm.png[Szenario, width=50%, align=center, title="Szenario"]
+image::{dir_assets}/absicht_szenario_cm.png[Absicht & Szenario, width=90%, align=center, title="Absicht & Szenario"]
+image::{dir_assets}/absicht_cm.png[Anmerkung, width=50%, align=center, title="Anmerkung"]
 image::{dir_assets}/anmerkung_absicht_szenario_cm.png[Anmerkung & Absicht & Szenario align=center, title="Anmerkung & Absicht & Szenario"]
 
 Die Konfusionsmatrix für das Textklassifizierungsmodell zeigt eine beeindruckende Genauigkeit von über 99%, was darauf hindeutet, dass das Modell in der überwiegenden Mehrheit der Fälle die richtigen Absichten und Szenarien korrekt identifizieren konnte. Dies ist ein hervorragendes Ergebnis und unterstreicht die Effektivität des Modells bei der Verarbeitung von Benutzeranfragen. Allerdings gibt es einige wenige Fehlklassifikationen, die auf bestimmte Herausforderungen zurückzuführen sind.
@@ -91,7 +91,7 @@ Mögliche Ursachen für Fehlklassifikationen
 - **Begrenzte Trainingsdaten**: Obwohl der Datensatz umfangreich ist, könnte es dennoch Lücken geben, insbesondere bei seltenen oder spezifischen Anfragen. Ein begrenzter oder unausgewogener Datensatz kann dazu führen, dass das Modell in bestimmten Szenarien weniger genau arbeitet.
 
 ===== Konfusionsmatrix der Aktivierungswortmodells
-image::{dir_assets}/aktivierung_cm.png[Aktivierungswort, align=center, title="Aktivierungswort"]
+image::{dir_assets}/aktivierung_cm.png[Aktivierungswort, width=60%, align=center, title="Aktivierungswort"]
 
 Das Aktivierungswortmodell, das für die Erkennung des Aktivierungsworts (z.B. "Hey Assistent") verantwortlich ist, hat in den durchgeführten Tests eine perfekte Genauigkeit von 100% erreicht. Dies bedeutet, dass das Modell in allen Testfällen das Aktivierungswort korrekt erkannt hat, ohne falsch positive oder falsch negative Ergebnisse. Dies ist ein herausragendes Ergebnis und unterstreicht die Robustheit und Zuverlässigkeit des Modells.
 
