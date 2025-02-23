@@ -3,7 +3,7 @@
 |===
 | Name         | Studiengang       | Rolle im Team
 
-| Erik Böhme            | Wirtschaftsinformatik | Team Leiter, Suchintent Entwickler
+| Erik Böhme            | Wirtschaftsinformatik | Teamleiter, Suchintent- und Wetterintent-Entwickler
 | Merte Laurentia Korpowski            | Wirtschaftsinformatik | Studienordnungintent Entwickler
 | Tore Lemke             | Wirtschaftsinformatik | Wikipediaintent Entwickler
 | Nathaniel Nathaniel       | Wirtschaftsinformatik | KI-Modelle Entwickler

@@ -14,8 +14,7 @@ Eine zentrale Anforderung an die Architektur bestand darin, einen lokalen Sprach
 - Studienordnung durchsuchen-Intent
 - ToDo-Intent
 - Google-Search-Intent
-- YouTube-Intent (zunächst ein DuckDuckGo-Suchintend)
-- Todo-Intend
+- YouTube-Intent (zunächst ein DuckDuckGo-Suchintent)
 
 Ursprünglich war ein DuckDuckGo-Suchintend geplant, jedoch wurde dieser aufgrund eines Rate-Limits in der DuckDuckGo-API, das die Nutzung stark einschränkte, durch einen YouTube-Suchintend ersetzt. Das Rate-Limit erlaubte nur drei Suchanfragen in kurzer Zeit, was zu erheblichen Einschränkungen und Problemen beim Testen führte. Der Wechsel zu YouTube ermöglichte eine zuverlässigere und effizientere Umsetzung des Suchintends.
 
