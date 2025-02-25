@@ -68,8 +68,8 @@ image::{dir_assets}/notenverteilung.png[Notenverteilung, width=45%, align=center
 
 Die vollständigen Testdaten sind hier verfügbar: https://docs.google.com/spreadsheets/d/1zJPHQHvmXYwavLZ7j3ahHRqCFL6RKynGtpHv14JyRMo
 
-== Fehleranalyse und Optimierungsvorschläge
-=== Analyse der Fehlerquellen
+==== Fehleranalyse und Optimierungsvorschläge
+===== Analyse der Fehlerquellen
 
 - To-Do-Intent weist die höchste Fehlerquote auf, da die Abfragen derzeit nur einfache Anfragen berücksichtigen. Komplexere Interaktionen führen zu Fehlern.
 * **Lösungsvorschlag**: Die Intent-Erkennung für To-Do-Listen weiterentwickeln und eine ausgefeiltere Intent-Logik implementieren.
