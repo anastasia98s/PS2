@@ -66,7 +66,16 @@ image::{dir_assets}/notenverteilung.png[Notenverteilung, width=45%, align=center
 | 5
 |===
 
-- **Fehleranalyse**: Die häufigsten Fehler treten bei den Intents für Wikipedia und die Studienordnung auf.
+Die vollständigen Testdaten sind hier verfügbar: https://docs.google.com/spreadsheets/d/1zJPHQHvmXYwavLZ7j3ahHRqCFL6RKynGtpHv14JyRMo
+
+== Fehleranalyse und Optimierungsvorschläge
+=== Analyse der Fehlerquellen
+
+- To-Do-Intent weist die höchste Fehlerquote auf, da die Abfragen derzeit nur einfache Anfragen berücksichtigen. Komplexere Interaktionen führen zu Fehlern.
+* **Lösungsvorschlag**: Die Intent-Erkennung für To-Do-Listen weiterentwickeln und eine ausgefeiltere Intent-Logik implementieren.
+- Wikipedia- und Studienordnung-Intents zeigen eine hohe Fehlerquote, da bisher nur ein LLM per Prompting genutzt wurde, ohne spezifisches Fine-Tuning.
+* **Problem**: LLM kann lange Texte nicht vollständig lesen und verstehen
+* **Lösungsvorschlag**: Fine-Tuning des LLMs mit umfangreicheren und spezifischen Trainingsdaten, um die Genauigkeit und Relevanz der Antworten zu verbessern. Dafür wird ein umfangreicher Datensatz benötigt.
 
 ==== Konfusionsmatrix
 Zur Bewertung der Klassifikationsgenauigkeit des Sprachassistenten wurde eine Konfusionsmatrix erstellt. Diese zeigt, wie oft die erkannten Sprachbefehle korrekt oder falsch klassifiziert wurden.
@@ -76,9 +85,9 @@ Zur Bewertung der Klassifikationsgenauigkeit des Sprachassistenten wurde eine Ko
 
 ===== Konfusionsmatrix der Textklassifizierungsmodells
 image::{dir_assets}/absicht_cm.png[Absicht, width=55%, align=center, title="Absicht"]
-image::{dir_assets}/szenario_cm.png[Szenario, width=55%, align=center, title="Szenario"]
+image::{dir_assets}/szenario_cm.png[Szenario, width=60%, align=center, title="Szenario"]
 image::{dir_assets}/absicht_szenario_cm.png[Absicht & Szenario, width=80%, align=center, title="Absicht & Szenario"]
-image::{dir_assets}/absicht_cm.png[Anmerkung, width=60%, align=center, title="Anmerkung"]
+image::{dir_assets}/absicht_cm.png[Anmerkung, width=55%, align=center, title="Anmerkung"]
 image::{dir_assets}/anmerkung_absicht_szenario_cm.png[Anmerkung & Absicht & Szenario align=center, title="Anmerkung & Absicht & Szenario"]
 
 Die Konfusionsmatrix für das Textklassifizierungsmodell zeigt eine beeindruckende Genauigkeit von über 99%, was darauf hindeutet, dass das Modell in der überwiegenden Mehrheit der Fälle die richtigen Absichten und Szenarien korrekt identifizieren konnte. Dies ist ein hervorragendes Ergebnis und unterstreicht die Effektivität des Modells bei der Verarbeitung von Benutzeranfragen. Allerdings gibt es einige wenige Fehlklassifikationen, die auf bestimmte Herausforderungen zurückzuführen sind.
@@ -89,6 +98,8 @@ Mögliche Ursachen für Fehlklassifikationen
 - **Komplexe Anfragen**: Komplexe oder mehrdeutige Anfragen, die eine hohe Kontextabhängigkeit erfordern, können zu Fehlklassifikationen führen. Zum Beispiel könnte eine Frage wie "Was muss ich im ersten Semester beachten?" je nach Kontext unterschiedliche Antworten erfordern, was das Modell verwirren könnte.
 - **Fehler im Datensatz**: Da der Datensatz selbst erstellt wurde, könnten möglicherweise Fehler oder Ungenauigkeiten im Datensatz vorhanden sein. Dies könnte beispielsweise falsch annotierte Daten oder unzureichende Variationen in den Trainingsdaten umfassen. Solche Fehler im Datensatz können die Leistung des Modells beeinträchtigen, selbst wenn das Modell an sich gut trainiert ist.
 - **Begrenzte Trainingsdaten**: Obwohl der Datensatz umfangreich ist, könnte es dennoch Lücken geben, insbesondere bei seltenen oder spezifischen Anfragen. Ein begrenzter oder unausgewogener Datensatz kann dazu führen, dass das Modell in bestimmten Szenarien weniger genau arbeitet.
+
+<<<
 
 ===== Konfusionsmatrix der Aktivierungswortmodells
 image::{dir_assets}/aktivierung_cm.png[Aktivierungswort, width=90%, align=center, title="Aktivierungswort"]
