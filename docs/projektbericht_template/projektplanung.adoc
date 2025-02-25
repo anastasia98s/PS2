@@ -25,6 +25,7 @@ Die funktionalen Anforderungen beschreiben, welche Funktionalitäten der lokale 
 - **Datenschutz**: Keine Speicherung oder Übertragung von Benutzerdaten an Dritte.
 - **Benutzerinteraktion**: Feedback an den Benutzer über Sprachausgabe oder visuelle Rückmeldungen.
 
+<<<
 
 === Nicht-funktionale Anforderungen
 Diese Anforderungen definieren, wie das System funktionieren soll:
