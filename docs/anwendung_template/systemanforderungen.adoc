@@ -1,0 +1,22 @@
+== Systemanforderungen
+=== Hardware
+==== Client (empfohlen)
+- Prozessor: Intel Core i3 oder besser
+- GPU: NVIDIA GT 1030 oder besser
+- RAM: 4 GB
+- freier Speicherplatz: 3 GB
+
+==== Server (empfohlen)
+- Prozessor: Intel Core i7 oder besser
+- GPU: NVIDIA RTX 2060 oder besser
+- RAM: 32 GB oder mehr
+- freier Speicherplatz: 25 GB oder mehr
+
+=== Software
+- Betriebssystem: Windows, macOS oder Linux
+- Python: Version 3.11.x (ab Python 3.12 ist TTS nicht kompatibel)
+- Ollama: Für die Integration des LLM-Modells erforderlich
+- Playwright: Ermöglicht Webautomatisierung, z. B. für YouTube- oder Google-Suchen.
+
+=== Empfohlene Softwarepakete
+- Torch (CUDA): Optional für GPU-Beschleunigung; wird für schnellere Verarbeitung bei Modellen empfohlen.

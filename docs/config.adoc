@@ -1,0 +1,19 @@
+:project-name: Lokale KI-Sprachassistent
+
+:toc:
+:toc-title: Inhaltsverzeichnis
+:sectnums:
+
+:dir_assets: assets
+:dir: projektbericht_template
+:dir_anwendung: anwendung_template
+
+:chapter-signifier:
+//:source-highlighter: rouge
+:rouge-style: github
+:figure-caption: Abbildung
+:table-caption: Tabelle
+:listing-caption: Listing
+:xrefstyle: full
+:icons: font
+:doctype: book

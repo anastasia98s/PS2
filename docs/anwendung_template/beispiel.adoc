@@ -1,0 +1,78 @@
+== Aufruf der einzelnen Internetsuchen
+Der Assistent ist derzeit auf folgende Anwendungsmöglichkieten, sogenannte Intents, trainiert:
+
+- Anlegen einer To-Do Liste
+- Abfragen von Einträgen der To-Do Liste
+- Ändern und Löschen der Einträge auf der To-Do Liste
+- Wetterabfragen
+- Uhrzeitabfragen
+- Wikipedia-Abfragen
+- YouTube Videos suchen lassen
+- Abfragen zu einer PDF, hier die Studienordnung, sowie die Prüfungsordnung der HTW Dresden im Wirtschaftsinformatik Bachelor, Version 2010
+- Abfragen über eine Suchmaschine
+
+Im Folgenden findest du einige Beispiele, wie die einzelnen Funktionen aufgerufen werden können. 
+
+=== To-Do-Intent 
+Der To-Do-Intent lässt es zu persönliche To-Dos zu erstellen, ändern, abzufragen und löschen. 
+ 
+To-Do erstellen
+- Trage ein Meeting heute um 12:30 Uhr ein. 
+- Kannst du den Tennisunterricht nächste Woche Donnerstag um 17:00 Uhr eintragen?
+
+To-Do ändern
+- Verschiebe den Meetingtermin von 12:30 Uhr auf 13:00 Uhr.
+- Ändere das Ereignis nächste Woche Donnerstag in Tanzunterricht.
+
+To-Do abfragen
+- Was habe ich nächste Woche Donnerstag vor?
+- Nenne mir alle Termin von heute. 
+
+To-Do löschen
+- Lösche das Meeting heute.
+- Kannst du den Tanzunterricht absagen?
+
+=== Wikipedia-Intent
+Der Wikipedia-Intent ermöglicht es Wikipedia-Artikel zu durchsuchen und zusammenzufassen. 
+
+Beispiel Wikipedia-Abfrage
+- Wer ist Barrack Obama?
+- Was versteht man unter Demokratie?
+- Gib mir Informationen zur Nebelkrähe. 
+
+=== YouTube-Intent
+Der YouTube-Intent ermöglicht das gezielte Suchen von YouTube-Videos, sowie Abspielen dieser.
+
+Beispiel YouTube-Abfrage
+- Finde ein Video über gesunde Ernährung.
+- Suche nach Musik von Beethoven auf YouTube.
+
+=== Studienordnung-Intent
+Der Studienordnung-Intent ermöglicht es Fragen anhand der Studienordnung und Prüfungsordnung des Studiengangs Wirtschaftsinformatik der HTW Dresden zu beantworten.
+Die Informationen beziehen sich auf die Studienordnung und Prüfungsordnung Version 2010.
+
+Beispiel Studienordnung-Intent
+- Wie viel Zeit habe ich für meine Bachelorarbeit?
+- Was ist ein Freiversuch?
+
+=== Wetter-Intent
+Der Wetter-Intent ermöglicht Abfragen zum Wetter
+
+Beispiel Wetter-Intent
+- Wie ist das Wetter am 11.12. um 12 Uhr?
+- Zeig mir das Wetter für heute Abend in New York.
+
+=== Uhrzeit-Intent und Datum-Intent
+Durch das Uhrzeit- und Datums-Intent lassen sich das aktuelle Datum und die Uhrzeit abfragen.
+
+Beispiel Uhrzeit-Intent und Datum-Intent
+- Welche Uhrzeit haben wir?
+- Wie spät ist es?
+- Welches Datum ist morgen?
+
+=== Suchmaschinen-Intent
+Das Suchmaschinen-Intent erlaubt Internetsuchen über DuckDuckGo.
+
+Beispiel Suchmaschinen-Internet
+- Vegane Lasagne Rezept
+- Finde Tickets für das Musical Hamilton in London.

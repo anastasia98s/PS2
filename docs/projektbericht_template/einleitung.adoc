@@ -1,0 +1,8 @@
+== Einleitung
+Die Entwicklung von Sprachassistenten hat in den letzten Jahren erhebliche Fortschritte gemacht und ist zu einem integralen Bestandteil moderner Technologien geworden. Von Smartphones über Smart-Home-Geräte bis hin zu autonomen Fahrzeugen – Sprachassistenten erleichtern die Interaktion zwischen Mensch und Maschine und bieten eine intuitive Bedienung. Lokale KI-Sprachassistenten bieten nicht nur eine schnellere Reaktionszeit, sondern auch verbesserten Datenschutz, da sensible Daten nicht an externe Server übertragen werden müssen.
+
+=== Hintergrund und Motivation
+Die Motivation für dieses Projekt liegt in der wachsenden Nachfrage nach datenschutzfreundlichen und effizienten Sprachassistenten. Cloud-basierte Lösungen, wie sie von großen Tech-Unternehmen angeboten werden, sind zwar leistungsstark, werfen jedoch Fragen hinsichtlich der Privatsphäre und der Abhängigkeit von Internetverbindungen auf. Ein lokaler KI-Sprachassistent, der auf dem Endgerät des Nutzers arbeitet, kann diese Probleme adressieren und gleichzeitig eine nahtlose Benutzererfahrung bieten.
+
+=== Zielsetzung des Projekts
+Das Ziel dieses Projekts ist die Entwicklung eines lokalen KI-Sprachassistenten, der in der Lage ist, Sprachbefehle zu verstehen, zu verarbeiten und auszuführen, ohne auf externe Cloud-Dienste angewiesen zu sein. Dabei sollen moderne Technologien der Künstlichen Intelligenz (KI) und des Natural Language Processing (NLP) eingesetzt werden, um eine effiziente und sichere Sprachverarbeitung zu gewährleisten. Der Assistent soll modular und erweiterbar sein, um zukünftige Anpassungen und Erweiterungen zu ermöglichen.

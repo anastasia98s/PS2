@@ -1,0 +1,50 @@
+== Fine-Tuning
+=== Aktivierungswort-KI (Client-Seite)
+1. **Starten der Einstellungen**:
+   Führen Sie das Skript `setting.py` aus, um die Konfiguration zu starten.
+
+2. **IP und Port eingeben**:
+   Geben Sie die IP-Adresse und den Port des Hauptservers ein.
+
+3. **Aktivierungswort aufnehmen**:
+   Wählen Sie die Option "Aktivierungswort aufnehmen", um das Aktivierungswort für die KI zu erfassen.
+
+4. **Aktivierungswort-KI Training**:
+   Trainieren Sie die KI mit dem aufgenommenen Aktivierungswort.
+
+5. **Aktivierungswort bereit**:
+   Nach dem Training ist das Aktivierungswort einsatzbereit und kann verwendet werden.
+
+=== Textklassifizierung-KI (Server-Seite)
+1. **Starten der Einstellungen**:
+   Führen Sie das Skript `setting.py` mit den Parametern `--main_server_ip <main_server_ip>` und `--main_server_port <main_server_port>` aus.
+
+2. **Datenkontrolle**:
+   Überprüfen und verwalten Sie die Daten, die für das Training der Textklassifizierung verwendet werden.
+
+3. **KI-Training**:
+   Trainieren Sie die KI mit den vorbereiteten Daten.
+
+4. **Textklassifizierung bereit**:
+   Nach dem Training ist die Textklassifizierung einsatzbereit und kann verwendet werden.
+
+==== Verwendung der GUI für Datenkontrolle
+
+1. **Datensatz eingeben**:
+   Geben Sie einen Satz oder Text als Datensatz ein.
+
+2. **Text aufteilen**:
+   Verwenden Sie die Funktion "Split", um den Text in kleinere Einheiten zu unterteilen.
+
+3. **Anmerkung hinzufügen**:
+   Fügen Sie die passende Anmerkung zum Datensatz hinzu.
+
+4. **Absicht und Szenario eingeben**:
+   Geben Sie die entsprechende Absicht und das Szenario ein, die zum Datensatz passen.
+
+5. **Hochladen**:
+   Laden Sie den bearbeiteten Datensatz hoch.
+
+===== Hinweis
+- Sie können bereits hochgeladene Daten aktualisieren.
+- Die Absichten, Anmerkungen oder Szenarien auf Seite 2 der GUI anpassen.

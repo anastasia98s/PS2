@@ -1,0 +1,1 @@
+SICHERE_LÖSCHUNG = True

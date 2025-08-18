@@ -1,0 +1,24 @@
+== FAQ
+=== Kann der Assistent auf Rückfragen antworten?
+Nein, der Assistent ist derzeit nicht darauf ausgelegt, auch Rückfragen zu antworten. Der Nutzer muss für weitere Anfragen erneut das Aktivierungswort nutzen.
+
+=== Kann ich Einträge in meiner To-Do-Liste ändern oder müssen diese erneut angelegt werden?
+Deine KI ist aktuell nicht darauf trainiert, Einträge in der To-Do-Liste zu ändern. Sie unterstützt nur das Hinzufügen, Löschen und Abfragen von Einträgen. Wenn du etwas ändern möchtest, musst du den alten Eintrag löschen und einen neuen hinzufügen.
+
+=== Warum braucht der Assistent so lange, um meine Anfrage zu beantworten?
+- **Hardware**: Die Verarbeitung auf einer CPU ist langsamer als auf einer leistungsstarken GPU.
+- **Netzwerk**: Wenn der Assistent über eine API oder einen entfernten Server läuft, kann die Antwortzeit durch die Netzwerkverbindung beeinflusst werden.
+
+=== Wie kann ich ein anderes Aktivierungswort auswählen?
+Um ein neues Aktivierungswort festzulegen, muss zunächst die Datei aktivierungswort.pth gelöscht werden. Anschließend ist die settings.py auf der Client-Seite zu öffnen, um eine neue Aktivierungsstimme aufzunehmen und das Modell entsprechend neu zu trainieren.
+
+=== Benötige ich eine Internetverbindung?
+Nein, prinzipiell benötigst du keine Internetverbindung, um den Assistenten zu nutzen, da dieser für den lokalen Betrieb ausgelegt ist. 
+Für einige Funktionen wie Wikipedia und YouTube-Suchen, benötigst du jedoch eine Internetverbindung.
+
+=== Warum bekomme ich falsche Antworten?
+Der Assistent kann nur auf Basis der vorhandenen Daten antworten. Sind die Daten nicht vollständig oder korrekt, 
+so liegt dies vermutlich an den Trainingsdaten und diese müssen angepasst werden. Ein weiterer möglicher Grund könnte 
+sein, dass das Speech-to-Text-Modul fehlerhafte Eingaben hat, wenn die gesprochene Sprache nicht korrekt erkannt wurde. 
+Dies kann durch die Limitationen von Whisper bedingt sein, welches in bestimmten Akzenten oder Umgebungsgeräuschen 
+nicht immer präzise arbeitet.

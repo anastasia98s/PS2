@@ -1,0 +1,78 @@
+== Client Setup
+=== Repository klonen
+Dieser Schritt kann übersprungen werden, wenn Server und Client auf demselben Gerät laufen
+[source,cmd]
+----
+git clone -b Nathaniel https://github.com/anastasia98s/PS2.git assistant_ai
+----
+
+=== Virtuelle Umgebung für den Client erstellen und aktivieren
+In das Client Verzeichnis wechseln
+[source,cmd]
+----
+cd assistant_ai\client
+----
+Virtuelle Umgebung erstellen
+[source,cmd]
+----
+python -m venv assistant_ai_client
+----
+Virtuelle Umgebung aktivieren
+[source,cmd]
+----
+assistant_ai_client\Scripts\activate
+----
+
+=== Installation aller Pakete
+
+Alle erforderlichen Pakete sind in der requirements.txt fetsgehalten und werden mithilfe dieser manuell installiert.
+[source,cmd]
+----
+pip install -r requirements.txt
+----
+
+==== Installation von Playwright
+
+Playwright ist ein Open-Source-Tool zur Webautomatisierung. Es wird vom KI-Sprachassistenten verwendet, um effizient Webseiten wie YouTube oder Wikipedia zu durchsuchen.
+
+==== Installation
+[source,cmd]
+----
+playwright install
+----
+
+=== Optionale Installation von Torch
+
+Torch ist eine leistungsstarke Machine-Learning-Bibliothek, die vom KI-Sprachassistenten für KI-Modelle genutzt wird. Sie ermöglicht GPU-Unterstützung und beschleunigt die Verarbeitung großer Modelle. Die Installation von Torch ist optional, wird aber empfohlen, wenn dein System eine dedizierte GPU besitzt.
+
+==== Installation
+Um Torch mit GPU-Unterstützung (CUDA) zu installieren, führen Sie den folgenden Befehl aus (Windows):
+
+[source,cmd]
+----
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+----
+
+- Die Installation von Torch mit GPU-Unterstützung ist optional, ermöglicht jedoch eine deutlich schnellere Verarbeitung, falls eine Nvidia-GPU verfügbar ist.
+- Falls keine GPU vorhanden ist, verwendet Torch automatisch die CPU. Dies kann jedoch zu deutlich längeren Verarbeitungszeiten führen.
+
+=== Starte das Engine-Skript:
+[source,cmd]
+----
+python engine.py
+----
+
+Geben Sie anschließend die **IP-Adresse** und den **Port** des Main-Server-Services ein, wenn Sie dazu aufgefordert werden.
+
+==== Assistenten aufrufen
+Nun kann der Assistent nach belieben aufgerufen werden
+
+Standardaktivierungswort: `Tim`
+
+1. Benutzer: Hey Tim
+2. Assistent: Ja
+3. Benutzer: `Befehl eingeben`
+
+==== Hinweis
+- Falls die Spracherkennung zu empfindlich ist, können Sie den Wert `AUDIO_THRESHOLD` in der Datei `config.json` anpassen. Je höher der Wert, desto weniger empfindlich reagiert das System.  
+- Sollte das Standardaktivierungswort nicht zuverlässig erkannt werden, können Sie das Aktivierungswort-Modell in der Datei `setting.py` mit Ihrer eigenen Stimme finetunen, um die Erkennungsgenauigkeit zu verbessern.

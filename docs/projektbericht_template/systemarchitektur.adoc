@@ -1,0 +1,63 @@
+== Systemarchitektur
+=== Microservice-Architektur
+Eine zentrale Anforderung an die Architektur bestand darin, einen lokalen Sprachassistenten mit einem leichtgewichtigen Client im Frontend zu entwickeln. Im Backend sollten zahlreiche Mikroservices implementiert werden. Zu den geplanten Mikroservices gehörten unter anderem:
+
+- Main-Server
+- Accountverwaltung
+- Textklassifizierung
+- Speech-to-Text
+- Text-to-Speech
+- Datum-Intent
+- Uhrzeit-Intent
+- Wetter-Intent
+- Wikipedia-Intent
+- Studienordnung durchsuchen-Intent
+- ToDo-Intent
+- Google-Search-Intent
+- YouTube-Intent (zunächst ein DuckDuckGo-Suchintent)
+
+Ursprünglich war ein DuckDuckGo-Suchintend geplant, jedoch wurde dieser aufgrund eines Rate-Limits in der DuckDuckGo-API, das die Nutzung stark einschränkte, durch einen YouTube-Suchintend ersetzt. Das Rate-Limit erlaubte nur drei Suchanfragen in kurzer Zeit, was zu erheblichen Einschränkungen und Problemen beim Testen führte. Der Wechsel zu YouTube ermöglichte eine zuverlässigere und effizientere Umsetzung des Suchintends.
+
+=== Threading
+image::{dir_assets}/thread.drawio.png[Threading, align=center, title="Threading"]
+
+Das Multithreading in Python stellt kein echtes Multithreading dar, da es lediglich zwischen verschiedenen Prozessen wechselt. Dieser Wechsel erfolgt jedoch so schnell, dass er für den normalen Nutzer nicht wahrnehmbar ist. In diesem Projekt wurde Multithreading eingesetzt, um eine benutzerfreundliche Erfahrung zu ermöglichen. Der lokale Sprachassistent kann eine laufende Ausgabe unterbrechen, sobald ein Aktivierungswort erkannt wird, und sofort die neue Anfrage bearbeiten, sodass der Nutzer nicht auf das Ende des vorherigen Befehls warten muss, um einen neuen Befehl einzugeben.
+
+=== Datenfluss und Verarbeitung
+image::{dir_assets}/aktivitätsdiagramm.drawio.png[Aktivitätsdiagramm, align=center, title="Aktivitätsdiagramm"]
+
+Das Aktivierungswort dient dazu, den Benutzer zu erkennen. Dieser Prozess findet clientseitig statt. Zunächst wird der Client authentifiziert und sendet eine Sprachaufnahme an den Mikroservice der Accountverwaltung. Dieser prüft mithilfe der Authentifizierungs-KI, ob der Sprecher erkannt wurde, und antwortet mit der Benutzer-ID, falls die Erkennung erfolgreich war.
+
+Nach der Sprechererkennung wird der Sprachbefehl (die Anfrage an den Sprachassistenten) mithilfe von Whisper von Speech-to-Text in Text umgewandelt. Anschließend klassifiziert BERT den Text, um den passenden Intent zu ermitteln. Der Intent-Parser ruft den entsprechenden Mikroservice über einen API-Request auf und empfängt die Antwort. Diese Antwort wird durch Text-to-Speech (TTS) in Sprache umgewandelt und als Sprachantwort an den Nutzer zurückgegeben.
+
+=== Datenbanken
+Im Rahmen des Projekts zur Entwicklung eines lokalen KI-Sprachassistenten wurden drei Datenbanken angelegt, um die erforderlichen Daten effizient zu speichern und zu verwalten. Jede Datenbank erfüllt spezifische Anforderungen und unterstützt die Funktionalitäten des Systems. Für die Implementierung wurde SQLite3 als Datenbankmanagementsystem gewählt, da es leichtgewichtig, einfach zu integrieren und ideal für lokale Anwendungen geeignet ist. Im Folgenden wird die Struktur und der Zweck jeder Datenbank beschrieben.
+
+==== Benutzerdatenbank
+Diese Datenbank dient der Speicherung von Informationen, die für die Authentifizierung und Personalisierung der Nutzer erforderlich sind. Sie enthält Daten wie die Merkmale der Stimme des Nutzers, die für die Authentifizierung durch die KI verwendet werden. Zusätzlich werden hier die persönlichen Daten der Nutzer, wie z.B. der Name, sowie ihre individuellen To-Do-Listen gespeichert. Diese Datenbank ist zentral für die Benutzerverwaltung und die Bereitstellung personalisierter Dienste.
+
+===== Schema
+image::{dir_assets}/benutzerprofil.png[Benutzerdatenbank, align=center, title="Benutzerdatenbank"]
+
+//===== Inhaltsbeispiel
+//image::{dir_assets}/ex_data_benutzer_db.png[Benutzerdatenbankinhalt, align=center, title="Benutzerdatenbankinhalt"]
+
+==== Aktivierungswortdatenbank
+In dieser Datenbank werden die Merkmale der Stimme gespeichert, die für die Erkennung des Aktivierungsworts durch die KI erforderlich sind. Das Aktivierungswort ist ein Schlüsselelement des Systems, da es den Sprachassistenten aktiviert und die Interaktion einleitet. Die gespeicherten Daten dienen als Trainingsgrundlage für die KI, um das Aktivierungswort zuverlässig und sicher zu erkennen.
+
+===== Schema
+image::{dir_assets}/aktivierungswort.png[Aktivierungswortdatenbank, align=center, title="Aktivierungswortdatenbank"]
+
+//===== Inhaltsbeispiel
+//image::{dir_assets}/ex_data_aktivierungswort_db.png[Aktivierungswortdatenbankinhalt, align=center, title="Aktivierungswortdatenbankinhalt"]
+
+<<<
+
+==== Textklassifizierungsdatenbank
+Diese Datenbank ist für die Speicherung von Daten zur Textklassifizierung vorgesehen. Sie enthält Sätze, Wörter, Entitäten, Szenarien, Absichten und Anmerkungen, die für das Training der KI zur Textverarbeitung und -analyse verwendet werden. Die Datenbank unterstützt die KI dabei, die Absichten der Nutzer zu verstehen, Kontexte zu erkennen und entsprechende Aktionen abzuleiten. Sie ist ein zentraler Bestandteil für die natürliche Sprachverarbeitung (NLP) des Systems.
+
+===== Schema
+image::{dir_assets}/textklassifizierung.png[Textklassifizierungsdatenbank, align=center, title="Textklassifizierungsdatenbank"]
+
+===== Inhaltsbeispiel
+image::{dir_assets}/ex_data_textklassifizierung_db.png[Textklassifizierungsdatenbankinhalt, align=center, title="Textklassifizierungsdatenbankinhalt"]

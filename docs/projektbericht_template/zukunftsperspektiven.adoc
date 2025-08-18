@@ -1,0 +1,17 @@
+== Zukunftsperspektiven
+Das Projekt des lokalen KI-Sprachassistenten hat bereits vielversprechende Ergebnisse geliefert, jedoch gibt es zahlreiche Möglichkeiten zur Weiterentwicklung und Verbesserung. Im Folgenden werden die zukünftigen Perspektiven und Erweiterungsmöglichkeiten beschrieben:
+
+=== Unterstützung für mehrere Benutzer
+Aktuell ist der Sprachassistent nur für einen einzelnen Benutzer ausgelegt. Die gleichzeitige Nutzung durch mehrere Benutzer kann zu Konflikten führen, insbesondere bei der Spracherkennung und der Verarbeitung von Anfragen. Zukünftig könnte das System um eine Benutzerverwaltung erweitert werden, die es ermöglicht, mehrere Nutzer zu unterscheiden und personalisierte Antworten bereitzustellen. Dies könnte durch die Integration von Benutzerprofilen und einer robusten Konfliktlösungsstrategie erreicht werden.
+
+=== Verbesserte Spracherkennung
+Derzeit basiert die Spracherkennung (Speech-to-Text) und Sprachsynthese (Text-to-Speech) auf Open-Source-Lösungen wie Coqui TTS und Whisper. Obwohl diese Technologien leistungsfähig sind, gibt es noch Verbesserungspotenzial in Bezug auf Robustheit, Genauigkeit und Latenz. Zukünftig könnten fortschrittlichere Modelle oder ein Fine-Tuning der bestehenden Systeme eingesetzt werden, um die Sprachverarbeitung in lauten Umgebungen oder bei Akzenten zu optimieren.
+
+=== Bessere Informationsanalyse
+Um die Qualität der Antworten zu verbessern, könnte ein Fine-Tuning von Large Language Models (LLMs) für spezifische Intents wie "WikipediaIntent" oder "StudienordnungIntent" durchgeführt werden. Dies würde es dem Assistenten ermöglichen, präzisere und kontextbezogene Antworten zu liefern, insbesondere bei komplexen Anfragen. Durch das Training auf spezialisierten Datensätzen könnte der Assistent besser auf akademische oder informatorische Anfragen reagieren.
+
+=== Implementierung von LLMs
+Die Integration von modernen LLMs könnte die Qualität der generierten Antworten erheblich steigern. Diese Modelle könnten nicht nur für die Beantwortung von Fragen, sondern auch für die Generierung von natürlich klingenden Dialogen und die Bereitstellung von detaillierten Erklärungen genutzt werden. Dies würde die Benutzererfahrung deutlich verbessern.
+
+=== Erweiterung der Intents
+Derzeit unterstützt der Sprachassistent eine begrenzte Anzahl von Intents. Zukünftig könnten weitere Intents hinzugefügt werden, um den Funktionsumfang zu erweitern. Beispielsweise könnten Intents für die Steuerung von IoT-Geräten (z. B. Smart Home-Geräte) implementiert werden.

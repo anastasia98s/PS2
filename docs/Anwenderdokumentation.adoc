@@ -1,0 +1,29 @@
+include::config.adoc[]
+:toclevels: 2
+= Anwenderdokumentation: {project-name}
+
+include::{dir_anwendung}/einleitung.adoc[]
+
+<<<
+
+include::{dir_anwendung}/systemanforderungen.adoc[]
+
+<<<
+
+include::{dir_anwendung}/server.adoc[]
+
+<<<
+
+include::{dir_anwendung}/client.adoc[]
+
+<<<
+
+include::{dir_anwendung}/beispiel.adoc[]
+
+<<<
+
+include::{dir_anwendung}/finetuning.adoc[]
+
+<<<
+
+include::{dir_anwendung}/faq.adoc[]

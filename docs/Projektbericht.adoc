@@ -1,0 +1,33 @@
+include::config.adoc[]
+:toclevels: 3
+= Projektbericht: {project-name}
+
+include::{dir}/einleitung.adoc[]
+
+<<<
+
+include::{dir}/projektplanung.adoc[]
+
+<<<
+
+include::{dir}/technologien.adoc[]
+
+<<<
+
+include::{dir}/systemarchitektur.adoc[]
+
+<<<
+
+include::{dir}/testing.adoc[]
+
+<<<
+
+include::{dir}/zukunftsperspektiven.adoc[]
+
+<<<
+
+include::{dir}/fazit.adoc[]
+
+<<<
+
+include::{dir}/anhang.adoc[]

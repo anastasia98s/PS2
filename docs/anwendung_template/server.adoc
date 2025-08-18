@@ -1,0 +1,135 @@
+== Installation des Servers
+Bei dem Sprachassistenten handelt es sich um eine Konsolenanwendung. Das heißt alle in der folgenden Anleitung
+genannten Befehle müssen im Terminal aufgerufen werden. 
+
+=== Repository klonen
+[source,cmd]
+----
+git clone -b Nathaniel https://github.com/anastasia98s/PS2.git assistant_ai
+----
+
+=== Virtuelle Umgebung für den Server erstellen und aktivieren
+In das Server Verzeichnis wechseln
+[source,cmd]
+----
+cd assistant_ai\server
+----
+
+Virtuelle Umgebung erstellen
+[source,cmd]
+----
+python -m venv assistant_ai_server
+----
+
+Hinweis: Es tritt keine Bestätigung auf, dass die Virtuelle Umgebung erstellt wurde.
+
+Virtuelle Umgebung aktivieren
+[source,cmd]
+----
+assistant_ai_server\Scripts\activate
+----
+Hinweis: Bei korrekter Aktivierung steht nun "(assistant_ai_server)" vor dem Eingabe-Prompt.
+
+=== Installation aller Pakete
+Alle erforderlichen Pakete sind in der `requirements.txt` festgehalten und können manuell installiert werden.
+
+[source,cmd]
+----
+pip install -r requirements.txt
+----
+
+<<<
+
+### Download der trainierten Modelle
+1. **Textklassifizierungsmodell**:
+   - Laden Sie die Datei `textklassifizierung_modell.zip` von https://drive.google.com/drive/folders/1I27FN5USWLdT6kTXWMWGypINOeeF8oru herunter.
+   - Extrahieren Sie die Datei und legen Sie den Ordner `data` im Verzeichnis `server/system/textklassifizierung` ab.
+
+2. **Text-to-Speech-Modell**:
+   - Laden Sie die Datei `text_to_speech_modell.zip` von https://drive.google.com/drive/folders/1I27FN5USWLdT6kTXWMWGypINOeeF8oru herunter.
+   - Extrahieren Sie die Datei und legen Sie den Ordner `data` im Verzeichnis `server/system/text_to_speech` ab.
+
+=== Installation von Playwright
+Playwright ist ein Open-Source-Tool zur Webautomatisierung. Es wird vom KI-Sprachassistenten verwendet, um effizient Webseiten wie YouTube oder Wikipedia zu durchsuchen.
+
+==== Installation
+Nach der Paketinstallation muss Playwright manuell mit folgendem Befehl installiert werden:
+
+[source,cmd]
+----
+playwright install
+----
+
+=== Installation von Ollama
+Ollama ist ein Tool zur Verwaltung von Large Language Models (LLMs). Es ermöglicht den Zugriff auf und die Nutzung von LLM-Modellen, die für die Verarbeitung von Anfragen im Sprachassistenten erforderlich sind.
+
+==== Installation
+1. Lade Ollama von https://ollama.com/download herunter.
+2. Folge den Installationsanweisungen auf der Website, um das Tool auf deinem Betriebssystem zu installieren.
+
+==== Modellinstallation
+Nachdem Ollama installiert ist, musst du das LLM-Modell `llama3.2:latest` hinzufügen, um die gewünschten Funktionalitäten des Sprachassistenten zu ermöglichen.
+
+[source,cmd]
+----
+ollama pull llama3.2:latest
+----
+
+==== Überprüfung der Installation
+Überprüfe, ob Ollama korrekt installiert wurde, indem du folgenden Befehl in der Kommandozeile ausführst:
+[source,cmd]
+----
+ollama -v
+----
+Bei korrekter Installation wird die aktuelle Version angezeigt.
+
+=== Optionale Installation von Torch
+
+Torch ist eine leistungsstarke Machine-Learning-Bibliothek, die vom KI-Sprachassistenten für KI-Modelle genutzt wird. Sie ermöglicht GPU-Unterstützung und beschleunigt die Verarbeitung großer Modelle. Die Installation von Torch ist optional, wird aber empfohlen, wenn dein System eine dedizierte GPU besitzt.
+
+==== Installation
+Um Torch mit GPU-Unterstützung (CUDA) zu installieren, führen Sie den folgenden Befehl aus (Windows):
+
+[source,cmd]
+----
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+----
+
+- Die Installation von Torch mit GPU-Unterstützung ist optional, ermöglicht jedoch eine deutlich schnellere Verarbeitung, falls eine Nvidia-GPU verfügbar ist.
+- Falls keine GPU vorhanden ist, verwendet Torch automatisch die CPU. Dies kann jedoch zu deutlich längeren Verarbeitungszeiten führen.
+
+<<<
+
+=== Mikroservices starten
+==== Main-Server-Service
+
+Zuerst muss der Main-Server-Service gestartet werden. Dazu wechseln Sie in das Verzeichnis `main_server`, in dem sich die Datei `main.py` befindet.
+
+[source,cmd]
+----
+python main.py ^
+  --main_server_ip <main_server_ip> --main_server_port <main_server_port> ^
+  --kontoverwaltung_ip <kontoverwaltung_ip> --kontoverwaltung_port <kontoverwaltung_port> ^
+  --textklassifizierung_ip <textklassifizierung_ip> --textklassifizierung_port <textklassifizierung_port> ^
+  --speech_to_text_ip <speech_to_text_ip> --speech_to_text_port <speech_to_text_port> ^
+  --text_to_speech_ip <text_to_speech_ip> --text_to_speech_port <text_to_speech_port> ^
+  --datum_intent_ip <datum_intent_ip> --datum_intent_port <datum_intent_port> ^
+  --uhrzeit_intent_ip <uhrzeit_intent_ip> --uhrzeit_intent_port <uhrzeit_intent_port> ^
+  --wetter_intent_ip <wetter_intent_ip> --wetter_intent_port <wetter_intent_port> ^
+  --wikipedia_intent_ip <wikipedia_intent_ip> --wikipedia_intent_port <wikipedia_intent_port> ^
+  --studienordnung_intent_ip <studienordnung_intent_ip> --studienordnung_intent_port <studienordnung_intent_port> ^
+  --todolist_intent_ip <todolist_intent_ip> --todolist_intent_port <todolist_intent_port> ^
+  --search_engine_intent_ip <search_engine_intent_ip> --search_engine_intent_port <search_engine_intent_port> ^
+  --youtube_intent_ip <youtube_intent_ip> --youtube_intent_port <youtube_intent_port>
+----
+==== Weitere Services (außer dem Main-Server)
+[source,cmd]
+----
+python main.py --main_server_ip <main_server_ip> --main_server_port <main_server_port>
+----
+
+==== Hinweis:
+- Es gibt 13 Microservice.
+- Der erste Microservice, der gestartet werden muss, ist der Main-Server-Service.
+- Der zweite Microservice, der gestartet werden muss, ist der Kontoverwaltung-Service.
+- Um alle Microservices einfacher zu starten, können Sie die Datei `start.bat` ausführen. Diese startet die Services auf den Ports *8000* bis *8012* auf *localhost*.

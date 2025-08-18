@@ -1,0 +1,53 @@
+== Anhang
+=== Glossar
+- **KI (Künstliche Intelligenz)**: Technologie, die es Maschinen ermöglicht, menschenähnliche Intelligenz zu zeigen.
+- **NLP (Natural Language Processing)**: Teilgebiet der KI, das sich mit der Interaktion zwischen Computern und menschlicher Sprache befasst.
+- **Lokale Verarbeitung**: Datenverarbeitung auf dem Gerät des Benutzers, ohne Cloud-Dienste zu nutzen.
+- **API (Application Programming Interface)**: Schnittstelle zur Integration von Softwarekomponenten.
+- **Open Source**: Software, deren Quellcode öffentlich zugänglich ist und frei modifiziert werden kann.
+
+
+- **Absicht**: Die vom Benutzer gewünschte Aktion, die aus einer Sprach- oder Texteingabe extrahiert wird. Beispiele für Absichten sind Verben wie löschen, abfragen, hinzufügen oder bearbeiten.
+- **Szenario**: Der Kontext oder das Thema, in dem die Absicht ausgedrückt wird. Beispiele für Szenarien sind Todo-Liste, Wetter, Wikipedia, Kalender oder Musikwiedergabe.
+- **Anmerkung/Entität**: Ein spezifisches Datenelement, das aus einer Benutzereingabe extrahiert wird (z. B. Datum, Ort, Name).
+- **Intent**: Die Kombination aus Szenario und Absicht, die die vollständige Bedeutung einer Benutzereingabe beschreibt. Beispiel: "Füge einen Termin hinzu" (Szenario: Kalender, Absicht: hinzufügen).
+
+== Literaturverzeichnis
+
+=== Allgemeine Quellen zu KI
+* Jurafsky, D., & Martin, J. H. (3rd ed.). _Speech and Language Processing_. Stanford University. Verfügbar unter: https://web.stanford.edu/~jurafsky/slp3/ [Zugriff: November 2024]
+* Goodfellow, I., Bengio, Y., & Courville, A. _Deep Learning_. MIT Press. Verfügbar unter: https://www.deeplearningbook.org/ [Zugriff: November 2024]
+* Chollet, F. _Deep Learning with Python_ (2nd ed.). Manning Publications. Verfügbar unter: https://www.manning.com/books/deep-learning-with-python-second-edition [Zugriff: November 2024]
+* Freiknecht, Jonas. _KI-Sprachassistenten mit Python entwickeln: Datenbewusst, Open Source und modular_. Hanser.
+
+=== Audioverarbeitung und Feature-Extraktion
+* MasazI. _Audio Classification and Feature Extraction_. Verfügbar unter: https://github.com/MasazI/audio_classification/blob/master/features.py [Zugriff: November 2024]
+* Librosa. _Audio and Music Analysis in Python_. Verfügbar unter: https://librosa.org/ [Zugriff: November 2024]
+
+=== Microservices und Threading
+* Richardson, C. _Microservices Patterns: With Examples in Java_. Manning Publications. Verfügbar unter: https://www.manning.com/books/microservices-patterns [Zugriff: November 2024]
+* Python Threading Documentation. _concurrent.futures — Asynchronous Execution_. Verfügbar unter: https://docs.python.org/3/library/concurrent.futures.html [Zugriff: November 2024]
+
+=== Open-Source-Projekte
+* Thorsten-Voice. _Open-Source Voice Assistant_. Verfügbar unter: https://github.com/thorstenMueller/Thorsten-Voice [Zugriff: November 2024]
+* OpenAI Whisper. _Robust Speech Recognition via Large-Scale Weak Supervision_. Verfügbar unter: https://github.com/openai/whisper [Zugriff: November 2024]
+* Coqui TTS. _Text-to-Speech Library_. Verfügbar unter: https://github.com/coqui-ai/TTS [Zugriff: November 2024]
+* Hugging Face. _BERT_. _Transformers Documentation_. Hugging Face. Verfügbar unter: https://huggingface.co/docs/transformers/model_doc/bert [Zugriff: November 2024]
+
+=== Frameworks und Tools
+* PyTorch. _Deep Learning Framework_. Verfügbar unter: https://pytorch.org/docs/stable/index.html [Zugriff: November 2024]
+* CNN Explainer. _Visualization of Convolutional Neural Networks_. Verfügbar unter: https://poloclub.github.io/cnn-explainer/ [Zugriff: November 2024]
+
+=== Datenschutz und Sicherheit
+* GDPR. _General Data Protection Regulation_. Verfügbar unter: https://gdpr-info.eu/ [Zugriff: November 2024]
+* NIST. _Cybersecurity Framework_. Verfügbar unter: https://www.nist.gov/cyberframework [Zugriff: November 2024]
+
+=== Hochschulbezogene Quellen
+* HTW Dresden. _Ordnungen und Satzungen_. Verfügbar unter: https://www.htw-dresden.de/studium/im-studium/ordnungen-und-satzungen [Zugriff: November 2024]
+
+=== Sonstige Quellen
+* YouTube. _Verschiedene Tutorials und Erklärvideos_. Verfügbar unter: https://www.youtube.com [Zugriff: November 2024]
+* Stack Overflow. _Community-gestützte Fragen und Antworten zur Programmierung_. Verfügbar unter: https://stackoverflow.com [Zugriff: November 2024]
+* OpenAI. _ChatGPT_. Verfügbar unter: https://chat.openai.com [Zugriff: November 2024]
+* Medium. _Artikel und Blogbeiträge zu KI, Programmierung und Technologie_. Verfügbar unter: https://medium.com [Zugriff: November 2024]
+* GitHub. _Open-Source-Projekte und Code-Beispiele_. Verfügbar unter: https://github.com [Zugriff: November 2024]
